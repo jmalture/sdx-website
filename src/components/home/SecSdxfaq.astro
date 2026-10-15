@@ -1,0 +1,122 @@
+---
+import { dict } from '../../i18n';
+import data from '../../i18n/home.json';
+const { lang } = Astro.props;
+const t = dict(data, lang);
+---
+<div class="elementor-element elementor-element-sdxfaq e-con-full e-flex e-con e-parent" data-id="sdxfaq">
+<div class="elementor-element elementor-element-sdxfaqw elementor-widget elementor-widget-html" data-id="sdxfaqw">
+<section class="sdxt sdxq" id="faq">
+<i class="sdxt-fold q1" aria-hidden="true" style="--c:#2A73FF;--s:64px;--r:-10deg;left:9%;top:150px;--d:6.4s;--p:0.22"></i>
+<i class="sdxt-fold q2" aria-hidden="true" style="--c:#FFA600;--s:52px;--r:12deg;right:10%;top:230px;--d:7.2s;--p:0.3"></i>
+<i class="sdxt-fold q3" aria-hidden="true" style="--c:#C800FF;--s:44px;--r:8deg;left:13%;top:56%;--d:6.8s;--p:0.26"></i>
+<i class="sdxt-fold q4" aria-hidden="true" style="--c:#22C55E;--s:58px;--r:-8deg;right:8%;top:60%;--d:7.6s;--p:0.2"></i>
+<i class="sdxt-fold q5" aria-hidden="true" style="--c:#00BFFF;--s:36px;--r:-14deg;left:6%;bottom:12%;--d:6.2s;--p:0.34"></i>
+<div class="sdxt-wrap">
+<div class="sdxq-head">
+<p class="sdxt-eyebrow">{t.sdxfaq_t1}</p>
+<h2 class="sdxt-h">{t.sdxfaq_t2} <span class="sdxt-blue">{t.sdxfaq_t3}</span></h2>
+<p class="sdxt-lead">{t.sdxfaq_t4} <a href="#kontakt">{t.sdxfaq_t5}</a></p>
+</div>
+<div class="sdxq-chips" role="group" aria-label={t.sdxfaq_a6}>
+<button type="button" data-cat="all" aria-pressed="true">{t.sdxfaq_t7}</button>
+<button type="button" data-cat="start" aria-pressed="false"><i style="background:#2A73FF"></i>{t.sdxfaq_t8}</button>
+<button type="button" data-cat="sec" aria-pressed="false"><i style="background:#0062FF"></i>{t.sdxfaq_t9}</button>
+<button type="button" data-cat="ctrl" aria-pressed="false"><i style="background:#FFBB00"></i>{t.sdxfaq_t10}</button>
+<button type="button" data-cat="share" aria-pressed="false"><i style="background:#00AAFF"></i>{t.sdxfaq_t11}</button>
+<button type="button" data-cat="custom" aria-pressed="false"><i style="background:#C800FF"></i>{t.sdxfaq_t12}</button>
+</div>
+<ul class="sdxq-list">
+<li class="sdxq-item" data-cat="start"><h3><button type="button" class="sdxq-q" aria-expanded="false" aria-controls="sdxq-a1" id="sdxq-q1"><span>{t.sdxfaq_t13}</span><b class="sdxq-ic" aria-hidden="true"></b></button></h3><div class="sdxq-a" id="sdxq-a1" role="region" aria-labelledby="sdxq-q1"><div><p>{t.sdxfaq_t14}</p></div></div></li>
+<li class="sdxq-item" data-cat="start"><h3><button type="button" class="sdxq-q" aria-expanded="false" aria-controls="sdxq-a2" id="sdxq-q2"><span>{t.sdxfaq_t15}</span><b class="sdxq-ic" aria-hidden="true"></b></button></h3><div class="sdxq-a" id="sdxq-a2" role="region" aria-labelledby="sdxq-q2"><div><p>{t.sdxfaq_t16}</p></div></div></li>
+<li class="sdxq-item" data-cat="start"><h3><button type="button" class="sdxq-q" aria-expanded="false" aria-controls="sdxq-a3" id="sdxq-q3"><span>{t.sdxfaq_t17}</span><b class="sdxq-ic" aria-hidden="true"></b></button></h3><div class="sdxq-a" id="sdxq-a3" role="region" aria-labelledby="sdxq-q3"><div><p>{t.sdxfaq_t18}</p></div></div></li>
+<li class="sdxq-item" data-cat="sec"><h3><button type="button" class="sdxq-q" aria-expanded="false" aria-controls="sdxq-a4" id="sdxq-q4"><span>{t.sdxfaq_t19}</span><b class="sdxq-ic" aria-hidden="true"></b></button></h3><div class="sdxq-a" id="sdxq-a4" role="region" aria-labelledby="sdxq-q4"><div><p>{t.sdxfaq_t20}</p></div></div></li>
+<li class="sdxq-item" data-cat="sec"><h3><button type="button" class="sdxq-q" aria-expanded="false" aria-controls="sdxq-a5" id="sdxq-q5"><span>{t.sdxfaq_t21}</span><b class="sdxq-ic" aria-hidden="true"></b></button></h3><div class="sdxq-a" id="sdxq-a5" role="region" aria-labelledby="sdxq-q5"><div><p>{t.sdxfaq_t22}</p></div></div></li>
+<li class="sdxq-item" data-cat="ctrl"><h3><button type="button" class="sdxq-q" aria-expanded="false" aria-controls="sdxq-a6" id="sdxq-q6"><span>{t.sdxfaq_t23}</span><b class="sdxq-ic" aria-hidden="true"></b></button></h3><div class="sdxq-a" id="sdxq-a6" role="region" aria-labelledby="sdxq-q6"><div><p>{t.sdxfaq_t24} <a href="/audits/">{t.sdxfaq_t25}</a></p></div></div></li>
+<li class="sdxq-item" data-cat="ctrl"><h3><button type="button" class="sdxq-q" aria-expanded="false" aria-controls="sdxq-a7" id="sdxq-q7"><span>{t.sdxfaq_t26}</span><b class="sdxq-ic" aria-hidden="true"></b></button></h3><div class="sdxq-a" id="sdxq-a7" role="region" aria-labelledby="sdxq-q7"><div><p>{t.sdxfaq_t27}</p></div></div></li>
+<li class="sdxq-item" data-cat="share"><h3><button type="button" class="sdxq-q" aria-expanded="false" aria-controls="sdxq-a8" id="sdxq-q8"><span>{t.sdxfaq_t28}</span><b class="sdxq-ic" aria-hidden="true"></b></button></h3><div class="sdxq-a" id="sdxq-a8" role="region" aria-labelledby="sdxq-q8"><div><p>{t.sdxfaq_t29}</p></div></div></li>
+<li class="sdxq-item" data-cat="share"><h3><button type="button" class="sdxq-q" aria-expanded="false" aria-controls="sdxq-a9" id="sdxq-q9"><span>{t.sdxfaq_t30}</span><b class="sdxq-ic" aria-hidden="true"></b></button></h3><div class="sdxq-a" id="sdxq-a9" role="region" aria-labelledby="sdxq-q9"><div><p>{t.sdxfaq_t31} <a href={t.sdxfaq_a32}>{t.sdxfaq_t33}</a></p></div></div></li>
+<li class="sdxq-item" data-cat="share"><h3><button type="button" class="sdxq-q" aria-expanded="false" aria-controls="sdxq-a10" id="sdxq-q10"><span>{t.sdxfaq_t34}</span><b class="sdxq-ic" aria-hidden="true"></b></button></h3><div class="sdxq-a" id="sdxq-a10" role="region" aria-labelledby="sdxq-q10"><div><p>{t.sdxfaq_t35}</p></div></div></li>
+<li class="sdxq-item" data-cat="share"><h3><button type="button" class="sdxq-q" aria-expanded="false" aria-controls="sdxq-a11" id="sdxq-q11"><span>{t.sdxfaq_t36}</span><b class="sdxq-ic" aria-hidden="true"></b></button></h3><div class="sdxq-a" id="sdxq-a11" role="region" aria-labelledby="sdxq-q11"><div><p>{t.sdxfaq_t37}</p></div></div></li>
+<li class="sdxq-item" data-cat="share"><h3><button type="button" class="sdxq-q" aria-expanded="false" aria-controls="sdxq-a12" id="sdxq-q12"><span>{t.sdxfaq_t38}</span><b class="sdxq-ic" aria-hidden="true"></b></button></h3><div class="sdxq-a" id="sdxq-a12" role="region" aria-labelledby="sdxq-q12"><div><p>{t.sdxfaq_t39}</p></div></div></li>
+<li class="sdxq-item" data-cat="custom"><h3><button type="button" class="sdxq-q" aria-expanded="false" aria-controls="sdxq-a13" id="sdxq-q13"><span>{t.sdxfaq_t40}</span><b class="sdxq-ic" aria-hidden="true"></b></button></h3><div class="sdxq-a" id="sdxq-a13" role="region" aria-labelledby="sdxq-q13"><div><p>{t.sdxfaq_t41}</p></div></div></li>
+<li class="sdxq-item" data-cat="custom"><h3><button type="button" class="sdxq-q" aria-expanded="false" aria-controls="sdxq-a14" id="sdxq-q14"><span>{t.sdxfaq_t42}</span><b class="sdxq-ic" aria-hidden="true"></b></button></h3><div class="sdxq-a" id="sdxq-a14" role="region" aria-labelledby="sdxq-q14"><div><p>{t.sdxfaq_t43}</p></div></div></li>
+<li class="sdxq-item" data-cat="custom"><h3><button type="button" class="sdxq-q" aria-expanded="false" aria-controls="sdxq-a15" id="sdxq-q15"><span>{t.sdxfaq_t44}</span><b class="sdxq-ic" aria-hidden="true"></b></button></h3><div class="sdxq-a" id="sdxq-a15" role="region" aria-labelledby="sdxq-q15"><div><p>{t.sdxfaq_t45}</p></div></div></li>
+</ul>
+<div class="sdxq-more-wrap" hidden><button type="button" class="sdxq-more" aria-controls="faq" aria-expanded="false" data-more={t.sdxfaq_a46} data-less={t.sdxfaq_a47}><span>{t.sdxfaq_a46}</span> <em>10</em></button></div>
+</div>
+</section>
+<script is:inline type="application/ld+json" set:html={t.sdxfaq_raw48} />
+<style is:global>
+/* FAQ section (2026-10-06) */
+.sdxq{padding:0;background:transparent;}
+.sdxq-head{max-width:760px;margin:0 auto;text-align:center;}
+.sdxq-head .sdxt-lead a,.sdxq-a p a{color:#2A73FF;font-weight:600;text-decoration:none;border-bottom:1.5px solid rgba(42,115,255,.35);}
+.sdxq-head .sdxt-lead a:hover,.sdxq-a p a:hover{border-bottom-color:#2A73FF;}
+.sdxq-chips{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin:32px auto 0;max-width:760px;}
+.sdxq-chips button{display:inline-flex;align-items:center;gap:8px;padding:9px 16px;border-radius:999px;background:#fff;border:1px solid #E3E8F0;font:600 14px/1.2 Inter,sans-serif;color:#0F1B2D;cursor:pointer;box-shadow:0 4px 12px rgba(18,37,92,.06);transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease,background .2s ease,color .2s ease;}
+.sdxq-chips button i{width:12px;height:12px;border-radius:4px;flex:none;}
+.sdxq-chips button:hover{transform:translateY(-2px);border-color:#2A73FF;box-shadow:0 8px 18px rgba(42,115,255,.18);}
+.sdxq-chips button:focus-visible{outline:2px solid #2A73FF;outline-offset:2px;}
+.sdxq-chips button[aria-pressed="true"]{background:#2A73FF;border-color:#2A73FF;color:#fff;box-shadow:0 8px 18px rgba(42,115,255,.28);}
+.sdxq-chips button[aria-pressed="true"] i{box-shadow:0 0 0 2px #fff;}
+.sdxq-list{list-style:none;max-width:820px;margin:36px auto 0;padding:0;display:flex;flex-direction:column;gap:12px;}
+.sdxq-item{margin:0;border-radius:18px;background:#F3F7FF;border:1px solid transparent;transition:background .25s ease,border-color .25s ease,box-shadow .25s ease;}
+.sdxq-item[hidden]{display:none;}
+.sdxq-item:hover{background:#E6EFFF;}
+.sdxq-item.is-open{background:#fff;border-color:#E3E8F0;box-shadow:0 14px 34px rgba(18,37,92,.10);}
+.sdxq-item h3{margin:0;font-size:inherit;line-height:inherit;}
+.sdxq-q{display:flex;align-items:center;gap:16px;width:100%;margin:0;padding:20px 20px 20px 26px;border:0;background:none;border-radius:18px;text-align:left;cursor:pointer;font:600 18px/1.35 Inter,sans-serif;letter-spacing:-.01em;color:#0F1B2D;}
+.sdxq-q:focus-visible{outline:2px solid #2A73FF;outline-offset:2px;}
+.sdxq-q span{flex:1;min-width:0;white-space:normal;}
+.sdxq-ic{position:relative;flex:none;width:34px;height:34px;border-radius:50%;background:#fff;box-shadow:0 4px 12px rgba(18,37,92,.08);transition:background .25s ease,transform .3s ease;}
+.sdxq-ic::before,.sdxq-ic::after{content:"";position:absolute;left:50%;top:50%;width:12px;height:2px;margin:-1px 0 0 -6px;border-radius:2px;background:#2A73FF;transition:background .25s ease;}
+.sdxq-ic::after{transform:rotate(90deg);}
+.sdxq-item.is-open .sdxq-ic{background:#2A73FF;transform:rotate(45deg);}
+.sdxq-item.is-open .sdxq-ic::before,.sdxq-item.is-open .sdxq-ic::after{background:#fff;}
+.sdxq-a{display:grid;grid-template-rows:0fr;visibility:hidden;transition:grid-template-rows .35s ease,visibility 0s linear .35s;}
+.sdxq-item.is-open .sdxq-a{grid-template-rows:1fr;visibility:visible;transition:grid-template-rows .35s ease,visibility 0s;}
+.sdxq-a > div{overflow:hidden;}
+.sdxq-a p{margin:0;padding:0 76px 24px 26px;font-size:16px;line-height:1.6;color:#4A5568;}
+/* question-mark folders */
+.sdxq .sdxt-fold::after{inset:21%;}
+.sdxq .sdxt-fold::before{content:"?";position:absolute;z-index:1;left:0;right:0;top:40%;text-align:center;font:800 calc(var(--s)*.3)/1 Inter,sans-serif;color:var(--c);}
+.sdxq .q5{opacity:.55;filter:blur(1px);}
+@media (max-width:1340px){.sdxq .q1{left:3% !important;--s:52px !important;} .sdxq .q2{right:3% !important;--s:44px !important;} .sdxq .q3{left:4% !important;--s:38px !important;} .sdxq .q4{right:3% !important;--s:46px !important;} .sdxq .q5{display:none;}}
+@media (max-width:1180px){.sdxq .q3,.sdxq .q4{display:none;}}
+@media (max-width:1024px){.sdxq{padding-top:70px;} .sdxq .sdxt-fold{transform:rotate(var(--r)) !important;} .sdxq .q1{left:4% !important;top:16px !important;--s:40px !important;} .sdxq .q2{right:4% !important;top:22px !important;--s:34px !important;}}
+@media (max-width:767px){.sdxq-chips{gap:8px;margin-top:26px;} .sdxq-chips button{padding:8px 13px;font-size:13px;} .sdxq-list{margin-top:28px;gap:10px;} .sdxq-q{padding:16px 14px 16px 18px;font-size:16px;gap:12px;} .sdxq-ic{width:30px;height:30px;} .sdxq-a p{padding:0 18px 18px;font-size:15px;} .sdxq .q1{top:14px !important;--s:36px !important;} .sdxq .q2{top:22px !important;--s:30px !important;}}
+/* neutralise theme button hover/focus (pink) */
+.sdxq-q:hover,.sdxq-q:focus,.sdxq-q:active{background:transparent !important;color:#0F1B2D !important;}
+.sdxq-chips button:hover,.sdxq-chips button:focus,.sdxq-chips button:active{background:#fff !important;color:#0F1B2D !important;}
+.sdxq-chips button[aria-pressed="true"],.sdxq-chips button[aria-pressed="true"]:hover,.sdxq-chips button[aria-pressed="true"]:focus{background:#2A73FF !important;color:#fff !important;}
+/* load more (2026-10-07); bottom padding keeps the hover shadow inside the overflow:hidden section */
+.sdxq-more-wrap{text-align:center;margin-top:24px;padding-bottom:30px;}
+.sdxq-more-wrap[hidden]{display:none;}
+.sdxq-more{display:inline-flex;align-items:center;gap:10px;padding:13px 24px;border-radius:16px;background:#fff !important;border:1px solid #D8E1EE !important;color:#0F1B2D !important;font:600 15px/1.3 Inter,sans-serif;cursor:pointer;box-shadow:none;transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease;}
+.sdxq-more:hover,.sdxq-more:focus{background:#fff !important;color:#0F1B2D !important;border-color:#2A73FF !important;transform:translateY(-2px);box-shadow:0 10px 20px rgba(18,37,92,.10);}
+.sdxq-more em{color:#2A73FF;}
+.sdxq-more em[hidden]{display:none;}
+.sdxq-more::after{border-color:#2A73FF !important;transition:transform .3s ease;}
+.sdxq-more.is-less::after{transform:rotate(-135deg);margin-top:4px;}
+.sdxq-more:focus-visible{outline:2px solid #2A73FF;outline-offset:2px;}
+.sdxq-more em{font-style:normal;min-width:24px;padding:3px 8px;border-radius:999px;background:#EEF4FF;font-size:13px;}
+.sdxq-more::after{content:"";width:7px;height:7px;margin:-3px 2px 0 2px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(45deg);}
+.sdxq-item.sdxq-new{animation:sdxqIn .45s ease both;}
+@keyframes sdxqIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:none;}}
+@media (max-width:767px){.sdxq-more-wrap{margin-top:20px;padding-bottom:26px;} .sdxq-more{font-size:14px;padding:12px 18px;}}
+</style>
+<script is:inline>
+(function(){var root=document.getElementById('faq');if(!root||root.__sdxq)return;root.__sdxq=1;
+var LIMIT=5,expanded=false,cat='all';
+var items=[].slice.call(root.querySelectorAll('.sdxq-item'));var more=root.querySelector('.sdxq-more');
+function apply(){var n=0,rest=0,tot=0;items.forEach(function(it){var match=cat==='all'||it.getAttribute('data-cat')===cat;var show=match&&(expanded||cat!=='all'||n<LIMIT);if(match){n++;tot++;}if(match&&!show)rest++;it.hidden=!show;});if(more){var less=expanded&&cat==='all'&&tot>LIMIT;more.parentNode.hidden=!rest&&!less;more.classList.toggle('is-less',less);more.setAttribute('aria-expanded',less?'true':'false');var l=more.querySelector('span');if(l)l.textContent=more.getAttribute(less?'data-less':'data-more');var c=more.querySelector('em');if(c){c.textContent=rest;c.hidden=less;}}}
+items.forEach(function(it){var b=it.querySelector('.sdxq-q');b.addEventListener('click',function(){var o=!it.classList.contains('is-open');it.classList.toggle('is-open',o);b.setAttribute('aria-expanded',o?'true':'false');});});
+var chips=[].slice.call(root.querySelectorAll('.sdxq-chips button'));
+chips.forEach(function(ch){ch.addEventListener('click',function(){cat=ch.getAttribute('data-cat');chips.forEach(function(x){x.setAttribute('aria-pressed',x===ch?'true':'false');});apply();});});
+if(more){more.addEventListener('click',function(){if(expanded){var y=more.getBoundingClientRect().top;expanded=false;apply();var dy=more.getBoundingClientRect().top-y;if(dy)window.scrollBy({top:dy,behavior:'instant'});return;}var before=items.filter(function(it){return it.hidden;});expanded=true;apply();var d=0;before.forEach(function(it){if(!it.hidden){it.classList.add('sdxq-new');it.style.animationDelay=(d++*60)+'ms';}});var first=before.filter(function(it){return !it.hidden;})[0];if(first){first.querySelector('.sdxq-q').focus({preventScroll:true});}});}
+apply();
+})();
+</script>
+</div>
+</div>

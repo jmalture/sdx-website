@@ -1,0 +1,57 @@
+---
+import { dict } from '../../i18n';
+import data from '../../i18n/home.json';
+const { lang } = Astro.props;
+const t = dict(data, lang);
+---
+<div class="elementor-element elementor-element-sdxt06 e-con-full e-flex e-con e-parent" data-id="sdxt06">
+<div class="elementor-element elementor-element-sdxt06w elementor-widget elementor-widget-html" data-id="sdxt06w">
+<section class="sdxt sdxt-brand" id="raum-branding">
+<div class="sdxt-glowm" aria-hidden="true"></div>
+<div class="sdxt-wrap sdxt-split">
+<div class="sdxt-text">
+<p class="sdxt-eyebrow">Branding</p>
+<h2 class="sdxt-h">{t.sdxt06_t1} <span class="sdxt-blue">{t.sdxt06_t2}</span></h2>
+<p class="sdxt-lead">{t.sdxt06_t3}</p>
+<div class="sdxt-steps">
+<ol><li>{t.sdxt06_t4}</li><li>{t.sdxt06_t5}</li><li>{t.sdxt06_t6}</li></ol>
+</div>
+</div>
+<div class="sdxt-visual">
+<div class="sdxt-font" aria-hidden="true" style="--d:6.8s;--p:.24"><b>Aa</b><span>Asap</span></div>
+<div class="sdxt-tab"><div class="sdxt-tab-in">
+<video class="sdxt-vid" src="/media/sdx-brand-demo.mp4" poster="/media/sdx-brand-poster.jpg" muted loop playsinline preload="none" aria-label={t.sdxt06_a7}></video>
+</div></div>
+<div class="sdxt-swatches" aria-hidden="true" style="--p:.3">
+<span style="--c:#616161;--r:-14deg"><i></i>#616161</span>
+<span style="--c:#2180F2;--r:-5deg"><i></i>#2180F2</span>
+<span style="--c:#0069FF;--r:5deg"><i></i>#0069FF</span>
+</div>
+</div>
+</div>
+</section>
+<style is:global>
+/* room: branding */
+.sdxt-brand{padding:130px 32px;background:#fff;}
+.sdxt-brand .sdxt-glowm{position:absolute;inset:0;pointer-events:none;background:radial-gradient(40% 55% at 72% 50%,rgba(200,0,255,.10),transparent 70%),radial-gradient(28% 40% at 92% 12%,rgba(255,166,0,.10),transparent 70%);}
+.sdxt-brand .sdxt-split{grid-template-columns:minmax(0,1fr) minmax(0,1.45fr);}
+.sdxt-font{position:absolute;z-index:2;right:-26px;top:-38px;display:flex;flex-direction:column;align-items:center;justify-content:center;width:96px;height:96px;border-radius:22px;background:#0F1B2D;color:#fff;box-shadow:0 16px 34px rgba(15,27,45,.28);transform:translate3d(0,var(--py,0px),0) rotate(6deg);}
+.sdxt-font b{font-family:Asap,Inter,sans-serif;font-size:38px;line-height:1;font-weight:600;}
+.sdxt-font span{margin-top:4px;font-size:12px;color:rgba(255,255,255,.65);letter-spacing:.04em;}
+.sdxt-swatches{position:absolute;z-index:2;left:-44px;bottom:-46px;width:220px;height:150px;transform:translate3d(0,var(--py,0px),0);}
+.sdxt-swatches span{position:absolute;left:0;bottom:0;width:104px;padding:8px 8px 10px;border-radius:14px;background:#fff;box-shadow:0 12px 28px rgba(18,37,92,.16);font-size:12px;font-weight:600;color:#0F1B2D;transform-origin:20% 100%;transform:rotate(var(--r));}
+.sdxt-swatches span:nth-child(2){left:44px;} .sdxt-swatches span:nth-child(3){left:88px;}
+.sdxt-swatches i{display:block;height:64px;border-radius:9px;background:var(--c);margin-bottom:8px;}
+@media all{.sdxt-font{animation:sdxtBob 6.8s ease-in-out infinite alternate;} .sdxt-swatches span{transition:transform .5s ease;} .sdxt-brand:hover .sdxt-swatches span:nth-child(1){transform:rotate(-20deg);} .sdxt-brand:hover .sdxt-swatches span:nth-child(3){transform:rotate(11deg);}}
+@media (max-width:1340px){.sdxt-swatches{left:-14px;} .sdxt-font{right:-8px;}}
+@media (max-width:1024px){
+  .sdxt-brand{padding:96px 24px 110px;}
+  .sdxt-brand .sdxt-split{grid-template-columns:1fr;}
+  .sdxt-brand .sdxt-visual{order:-1;max-width:720px;margin:0 auto;width:100%;}
+  .sdxt-font{display:none;}
+  .sdxt-swatches{left:-6px;bottom:-40px;transform:scale(.8);transform-origin:0 100%;}
+}
+@media (max-width:767px){.sdxt-brand{padding:76px 18px 96px;} .sdxt-swatches{transform:scale(.62);bottom:-34px;}}
+</style>
+</div>
+</div>

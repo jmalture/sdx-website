@@ -1,0 +1,107 @@
+---
+import { dict } from '../../i18n';
+import data from '../../i18n/home.json';
+const { lang } = Astro.props;
+const t = dict(data, lang);
+---
+<div class="elementor-element elementor-element-sdxt04 e-con-full e-flex e-con e-parent" data-id="sdxt04">
+<div class="elementor-element elementor-element-sdxt04w elementor-widget elementor-widget-html" data-id="sdxt04w">
+<section class="sdxt sdxt-share" id="raum-teilen">
+<div class="sdxt-band" aria-hidden="true"></div>
+<div class="sdxt-wrap">
+<div class="sdxt-head">
+<p class="sdxt-eyebrow">{t.sdxt04_t1}</p>
+<h2 class="sdxt-h">{t.sdxt04_t2} <span class="sdxt-blue">{t.sdxt04_t3}</span></h2>
+<p class="sdxt-lead">{t.sdxt04_t4}</p>
+</div>
+<div class="sdxt-visual">
+<div class="sdxt-env" aria-hidden="true" style="--d:7.2s;--p:.22">
+<span class="sdxt-env-ic"><svg viewbox="0 0 24 24" width="18" height="18" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="m3 7 9 6 9-6"></path></svg></span>
+<strong>{t.sdxt04_t5}</strong>
+<span class="sdxt-env-row"><svg viewbox="0 0 24 24" width="14" height="14" fill="none" stroke="#2A73FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="10" rx="2"></rect><path d="M8 11V7a4 4 0 0 1 8 0v4"></path></svg>{t.sdxt04_t6}</span>
+<span class="sdxt-env-row"><svg viewbox="0 0 24 24" width="14" height="14" fill="none" stroke="#2A73FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg>{t.sdxt04_t7}</span>
+</div>
+<div class="sdxt-tab"><div class="sdxt-tab-in">
+<video class="sdxt-vid" src="/media/sdx-collab-demo.mp4" poster="/media/sdx-collab-poster.jpg" muted loop playsinline preload="none" aria-label={t.sdxt04_a8}></video>
+</div></div>
+<span class="sdxt-pill sdxt-up" aria-hidden="true" style="--d:6.4s;--p:.3"><b style="background:#22C55E"><svg viewbox="0 0 24 24" width="15" height="15" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5L20 7"></path></svg></b>{t.sdxt04_t9}</span>
+</div>
+<ul class="sdxs-tiles">
+<li><a class="sdxs-t" href={t.sdxt04_a10} style="--c:#2A73FF">
+<span class="sdxs-v sdxs-att" aria-hidden="true"><i>{t.sdxt04_t11}</i><i>{t.sdxt04_t12}</i><i>{t.sdxt04_t13}</i><b><svg viewbox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"></path><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"></path></svg>{t.sdxt04_t14}</b></span>
+<strong>{t.sdxt04_t15}</strong><span class="sdxs-d">{t.sdxt04_t16}</span></a></li>
+<li><a class="sdxs-t" href={t.sdxt04_a17} style="--c:#C800FF">
+<span class="sdxs-v sdxs-look" aria-hidden="true"><span class="pg"><span class="cd"><i class="lg"></i><i></i><i class="s"></i></span></span></span>
+<strong>{t.sdxt04_t18}</strong><span class="sdxs-d">{t.sdxt04_t19}</span></a></li>
+<li><a class="sdxs-t" href={t.sdxt04_a20} style="--c:#F59000">
+<span class="sdxs-v sdxs-bell" aria-hidden="true"><b><svg viewbox="0 0 24 24" width="20" height="20" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9M10.3 21a1.94 1.94 0 0 0 3.4 0"></path></svg></b><span class="ts">{t.sdxt04_t21}</span></span>
+<strong>{t.sdxt04_t22}</strong><span class="sdxs-d">{t.sdxt04_t23}</span></a></li>
+<li><a class="sdxs-t" href={t.sdxt04_a24} style="--c:#22C55E">
+<span class="sdxs-v sdxs-web" aria-hidden="true"><span class="rw"><i></i>{t.sdxt04_t25}<em><u>v1</u><u>v2</u></em></span><span class="rw"><i></i>{t.sdxt04_t26}</span></span>
+<strong>{t.sdxt04_t27}</strong><span class="sdxs-d">{t.sdxt04_t28}</span></a></li>
+</ul>
+<p class="sdxs-cta"><a class="sdxt-btn" href={t.sdxt04_a29}>{t.sdxt04_t30} <svg viewbox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></a></p>
+</div>
+</section>
+<style is:global>
+/* room: sharing (centred) */
+.sdxt-share{padding:130px 32px 120px;background:#fff;}
+.sdxt-share .sdxt-band{position:absolute;left:0;right:0;top:46%;bottom:0;background:linear-gradient(180deg,#EEF4FF,#F6F9FF);pointer-events:none;}
+.sdxt-share .sdxt-head{max-width:780px;margin:0 auto;text-align:center;}
+.sdxt-share .sdxt-visual{position:relative;max-width:980px;margin:56px auto 0;}
+.sdxt-env{position:absolute;z-index:2;left:-120px;top:22%;width:230px;display:flex;flex-direction:column;gap:6px;padding:16px 18px 16px;border-radius:18px;background:#fff;box-shadow:0 18px 40px rgba(18,37,92,.16);font-size:13px;color:#4A5568;transform:translate3d(0,var(--py,0px),0) rotate(-3deg);}
+.sdxt-env strong{font-size:15px;font-weight:700;color:#0F1B2D;margin:6px 0 2px;}
+.sdxt-env-ic{width:36px;height:36px;border-radius:10px;background:#2A73FF;display:flex;align-items:center;justify-content:center;}
+.sdxt-env-row{display:flex;align-items:center;gap:7px;}
+.sdxt-share .sdxt-up{z-index:2;right:-70px;bottom:18%;font-size:14px;font-weight:600;color:#0F1B2D;}
+@media all{.sdxt-env{animation:sdxtBob var(--d,6s) ease-in-out infinite alternate;}}
+/* feature tiles (2026-10-09) */
+.sdxs-tiles{list-style:none;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px;max-width:1180px;margin:64px auto 0;padding:0;}
+.sdxs-tiles li{margin:0;}
+.sdxs-t,.sdxs-t:visited{display:flex;flex-direction:column;height:100%;padding:18px 18px 22px;border-radius:22px;background:#fff;border:1px solid #E3E8F0;box-shadow:0 10px 30px -16px rgba(18,37,92,.22);text-decoration:none;color:#0F1B2D;transition:transform .25s ease,box-shadow .25s ease,border-color .25s ease;}
+.sdxs-t:hover,.sdxs-t:focus-visible{transform:translateY(-5px);border-color:color-mix(in srgb,var(--c) 45%,#fff);box-shadow:0 24px 44px -18px color-mix(in srgb,var(--c) 55%,transparent);color:#0F1B2D;}
+.sdxs-t:focus-visible{outline:2px solid #2A73FF;outline-offset:3px;}
+.sdxs-t strong{display:block;margin:18px 0 6px;font-size:17px;line-height:1.3;font-weight:700;}
+.sdxs-d{font-size:14.5px;line-height:1.5;color:#5B6475;}
+.sdxs-v{position:relative;display:flex;align-items:center;justify-content:center;height:112px;border-radius:16px;background:color-mix(in srgb,var(--c) 10%,#fff);overflow:hidden;}
+/* a: attachments collapse into one link */
+.sdxs-att i{position:absolute;padding:5px 9px;border-radius:8px;background:#fff;border:1px solid #E3E8F0;font-style:normal;font-size:11px;font-weight:600;color:#3D4555;box-shadow:0 4px 10px rgba(18,37,92,.08);animation:sdxsAtt 4.8s ease-in-out infinite;}
+.sdxs-att i:nth-child(1){--x:-46px;--y:-26px;--r:-6deg;} .sdxs-att i:nth-child(2){--x:40px;--y:-6px;--r:5deg;animation-delay:.1s;} .sdxs-att i:nth-child(3){--x:-30px;--y:26px;--r:3deg;animation-delay:.2s;}
+.sdxs-att b{display:inline-flex;align-items:center;gap:6px;padding:8px 13px;border-radius:999px;background:#2A73FF;color:#fff;font-size:13px;font-weight:700;box-shadow:0 10px 20px -8px rgba(42,115,255,.7);animation:sdxsLink 4.8s ease-in-out infinite;}
+@keyframes sdxsAtt{0%,30%{transform:translate(var(--x),var(--y)) rotate(var(--r));opacity:1;}50%,85%{transform:translate(0,0) scale(.4);opacity:0;}100%{transform:translate(var(--x),var(--y)) rotate(var(--r));opacity:1;}}
+@keyframes sdxsLink{0%,38%{transform:scale(0);opacity:0;}52%{transform:scale(1.12);opacity:1;}60%,85%{transform:scale(1);opacity:1;}95%,100%{transform:scale(0);opacity:0;}}
+/* b: share page cycles through looks */
+.sdxs-look .pg{display:flex;align-items:center;justify-content:center;width:78%;height:78%;border-radius:12px;animation:sdxsBg 6s steps(1) infinite;}
+.sdxs-look .cd{display:flex;flex-direction:column;gap:5px;width:58%;padding:9px;border-radius:9px;background:#fff;box-shadow:0 8px 16px -6px rgba(0,0,0,.3);animation:sdxsPop 1.5s cubic-bezier(.34,1.56,.64,1) infinite;}
+.sdxs-look .cd i{display:block;height:5px;border-radius:3px;background:#E3E8F0;}
+.sdxs-look .cd i.lg{width:40%;height:8px;animation:sdxsBg 6s steps(1) infinite;}
+.sdxs-look .cd i.s{width:70%;}
+@keyframes sdxsBg{0%{background:#2A73FF;}25%{background:#FFBB00;}50%{background:#C800FF;}75%{background:#22C55E;}}
+@keyframes sdxsPop{0%{transform:scale(.94);}30%{transform:scale(1.03);}50%,100%{transform:none;}}
+/* c: bell rings, toast slides in */
+.sdxs-bell{flex-direction:column;gap:10px;}
+.sdxs-bell b{display:flex;align-items:center;justify-content:center;width:42px;height:42px;border-radius:13px;background:#F59000;box-shadow:0 10px 20px -8px rgba(245,144,0,.8);transform-origin:50% 0;animation:sdxsRing 3s ease-in-out infinite;}
+.sdxs-bell .ts{padding:6px 11px;border-radius:999px;background:#0F1B2D;color:#fff;font-size:12px;font-weight:600;animation:sdxsToast 3s ease-in-out infinite;}
+@keyframes sdxsRing{0%,55%,100%{transform:none;}60%{transform:rotate(14deg);}66%{transform:rotate(-12deg);}72%{transform:rotate(8deg);}78%{transform:rotate(-4deg);}84%{transform:none;}}
+@keyframes sdxsToast{0%,58%{opacity:0;transform:translateY(8px);}66%,92%{opacity:1;transform:none;}100%{opacity:0;transform:translateY(-4px);}}
+/* d: file list swaps version */
+.sdxs-web{flex-direction:column;gap:6px;padding:0 14px;}
+.sdxs-web .rw{display:flex;align-items:center;gap:8px;width:100%;padding:7px 10px;border-radius:9px;background:#fff;font-size:12px;font-weight:600;color:#0F1B2D;box-shadow:0 4px 10px rgba(18,37,92,.06);}
+.sdxs-web .rw i{width:14px;height:14px;border-radius:4px;background:#22C55E;flex:none;}
+.sdxs-web .rw:nth-child(2) i{background:#FFBB00;}
+.sdxs-web em{position:relative;margin-left:auto;width:24px;height:18px;font-style:normal;}
+.sdxs-web u{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;border-radius:999px;text-decoration:none;font-size:10.5px;font-weight:700;background:#EEF1F6;color:#5B6475;animation:sdxsV1 4s ease-in-out infinite;}
+.sdxs-web u+u{background:#22C55E;color:#fff;animation-name:sdxsV2;}
+.sdxs-web .rw:first-child{animation:sdxsRow 4s ease-in-out infinite;}
+@keyframes sdxsV1{0%,45%{opacity:1;transform:none;}55%,95%{opacity:0;transform:translateY(-8px);}100%{opacity:1;transform:none;}}
+@keyframes sdxsV2{0%,45%{opacity:0;transform:translateY(8px);}55%,95%{opacity:1;transform:none;}100%{opacity:0;}}
+@keyframes sdxsRow{0%,45%,100%{background:#fff;}55%,80%{background:#FFF6D6;}}
+.sdxs-cta{margin:6px 0 0;text-align:center;}
+@media (prefers-reduced-motion:reduce){.sdxs-tiles *{animation:none !important;} .sdxs-att i{display:none;} .sdxs-att b{transform:none;opacity:1;} .sdxs-bell .ts{opacity:1;transform:none;} .sdxs-web u{opacity:0;} .sdxs-web u+u{opacity:1;}}
+@media (max-width:1340px){.sdxt-env{left:-56px;} .sdxt-share .sdxt-up{right:-30px;}}
+@media (max-width:1180px){.sdxt-env{left:-24px;top:auto;bottom:-40px;} .sdxt-share .sdxt-up{right:-10px;bottom:auto;top:-22px;} .sdxs-tiles{grid-template-columns:repeat(2,minmax(0,1fr));max-width:760px;}}
+@media (max-width:1024px){.sdxt-share{padding:96px 24px 96px;} .sdxt-share .sdxt-visual{margin-top:44px;max-width:720px;} .sdxt-env,.sdxt-share .sdxt-up{display:none;} .sdxs-tiles{margin-top:48px;}}
+@media (max-width:767px){.sdxt-share{padding:76px 18px;} .sdxt-share .sdxt-visual{margin-top:36px;} .sdxt-share .sdxt-band{top:38%;} .sdxs-tiles{grid-template-columns:minmax(0,1fr);gap:14px;margin-top:36px;} .sdxs-v{height:96px;}}
+</style>
+</div>
+</div>

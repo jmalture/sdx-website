@@ -1,0 +1,61 @@
+---
+import '../styles/fonts.css';
+import '../styles/legacy.css';
+import '../styles/site.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { LANGS, langInfo, type Lang } from '../i18n';
+
+interface Props {
+  lang: Lang;
+  title: string;
+  description: string;
+  /** Path of this page in every language that has it, e.g. { de: '/', en: '/en/', cs: '/cs/' } */
+  alternates: Partial<Record<Lang, string>>;
+  ogImage?: string;
+  bodyClass?: string;
+}
+const { lang, title, description, alternates, ogImage = '/media/sdx-hero-laptop-scaled.png', bodyClass = '' } = Astro.props;
+const site = Astro.site!;
+const canonical = new URL(alternates[lang] ?? Astro.url.pathname, site).href;
+const info = langInfo(lang);
+---
+<!doctype html>
+<html lang={info.locale}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {LANGS.filter((l) => alternates[l.code]).map((l) => (
+      <link rel="alternate" hreflang={l.locale.slice(0, 2)} href={new URL(alternates[l.code]!, site).href} />
+    ))}
+    {alternates.de && <link rel="alternate" hreflang="x-default" href={new URL(alternates.de, site).href} />}
+    <meta property="og:locale" content={info.og} />
+    {LANGS.filter((l) => l.code !== lang && alternates[l.code]).map((l) => <meta property="og:locale:alternate" content={l.og} />)}
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:site_name" content="SDX" />
+    <meta property="og:image" content={new URL(ogImage, site).href} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="theme-color" content="#ffffff" />
+    <link rel="icon" href="/favicon-512.png" sizes="512x512" type="image/png" />
+    <link rel="apple-touch-icon" href="/favicon-512.png" />
+    <link rel="preload" href="/fonts/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin />
+    <slot name="head" />
+  </head>
+  <body class={`elementor-default elementor-kit-6 elementor-page ${bodyClass}`.trim()}>
+    <a class="skip-link screen-reader-text" href="#content">Skip to content</a>
+    <Header lang={lang} alternates={alternates} />
+    <main id="content">
+      <slot />
+    </main>
+    <Footer lang={lang} />
+    <script>
+      import '../scripts/site.ts';
+    </script>
+  </body>
+</html>

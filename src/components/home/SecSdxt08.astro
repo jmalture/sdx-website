@@ -1,0 +1,53 @@
+---
+import { dict } from '../../i18n';
+import data from '../../i18n/home.json';
+const { lang } = Astro.props;
+const t = dict(data, lang);
+---
+<div class="elementor-element elementor-element-sdxt08 e-con-full e-flex e-con e-parent" data-id="sdxt08">
+<div class="elementor-element elementor-element-sdxt08w elementor-widget elementor-widget-html" data-id="sdxt08w">
+<section class="sdxt sdxt-widg" id="raum-widgets">
+<div class="sdxt-wrap sdxt-split">
+<div class="sdxt-text">
+<p class="sdxt-eyebrow">Widgets</p>
+<h2 class="sdxt-h">{t.sdxt08_t1} <span class="sdxt-blue">{t.sdxt08_t2}</span></h2>
+<p class="sdxt-lead">{t.sdxt08_t3}</p>
+<div class="sdxt-steps">
+<ol><li>{t.sdxt08_t4}</li><li>{t.sdxt08_t5}</li><li>{t.sdxt08_t6}</li></ol>
+</div>
+</div>
+<div class="sdxt-visual">
+<div class="sdxt-blocks" aria-hidden="true">
+<span class="b1" style="--d:6.2s;--p:.2"><i style="background:#2A73FF"></i><i class="w"></i></span>
+<span class="b2" style="--d:7.4s;--p:.32"><i style="background:#FFBB00"></i><i class="w s"></i></span>
+<span class="b3" style="--d:6.8s;--p:.26"><i style="background:#22C55E"></i><i class="w"></i></span>
+</div>
+<div class="sdxt-tab"><div class="sdxt-tab-in">
+<video class="sdxt-vid" src="/media/sdx-bfy-widgets.mp4" poster="/media/sdx-bfy-widgets-poster.jpg" muted loop playsinline preload="none" aria-label={t.sdxt08_a7}></video>
+</div></div>
+<span class="sdxt-pill sdxt-eye" aria-hidden="true" style="--d:7s;--p:.28"><b style="background:#2A73FF"><svg viewbox="0 0 24 24" width="15" height="15" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"></path><circle cx="12" cy="12" r="3"></circle></svg></b>{t.sdxt08_t8}</span>
+</div>
+</div>
+</section>
+<style is:global>
+/* room: widgets */
+.sdxt-widg{padding:130px 32px;background:linear-gradient(180deg,#fff,#F3F7FF);}
+.sdxt-widg .sdxt-split{grid-template-columns:minmax(0,1fr) minmax(0,1.45fr);}
+.sdxt-blocks{position:absolute;z-index:2;right:-34px;top:-44px;width:150px;height:120px;pointer-events:none;}
+.sdxt-blocks span{position:absolute;display:flex;flex-direction:column;gap:7px;padding:11px;border-radius:14px;background:#fff;box-shadow:0 12px 28px rgba(18,37,92,.15);transform:translate3d(0,var(--py,0px),0);}
+.sdxt-blocks i{display:block;height:9px;border-radius:5px;width:64px;}
+.sdxt-blocks i.w{background:#E3E8F0;width:88px;} .sdxt-blocks i.s{width:50px;}
+.sdxt-blocks .b1{right:58px;top:0;} .sdxt-blocks .b2{right:0;top:28px;} .sdxt-blocks .b3{right:40px;top:74px;}
+.sdxt-widg .sdxt-eye{z-index:2;left:-38px;bottom:16%;font-size:14px;font-weight:600;color:#0F1B2D;}
+@media all{.sdxt-blocks span{animation:sdxtBob var(--d,6s) ease-in-out infinite alternate;}}
+@media (max-width:1340px){.sdxt-blocks{right:-8px;} .sdxt-widg .sdxt-eye{left:-14px;}}
+@media (max-width:1024px){
+  .sdxt-widg{padding:96px 24px;}
+  .sdxt-widg .sdxt-split{grid-template-columns:1fr;}
+  .sdxt-widg .sdxt-visual{order:-1;max-width:720px;margin:0 auto;width:100%;}
+  .sdxt-widg .sdxt-eye{display:none;} .sdxt-blocks{right:-6px;top:-38px;transform:scale(.8);transform-origin:100% 0;}
+}
+@media (max-width:767px){.sdxt-widg{padding:76px 18px;} .sdxt-blocks{transform:scale(.6);top:-30px;} .sdxt-blocks .b3{display:none;}}
+</style>
+</div>
+</div>

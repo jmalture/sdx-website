@@ -1,0 +1,121 @@
+---
+import { dict, LANGS } from '../i18n';
+import data from '../i18n/chrome.json';
+const { lang, alternates } = Astro.props;
+const t = dict(data, lang);
+const langs = LANGS.filter((l) => alternates[l.code]);
+---
+<header class="elementor elementor-213 elementor-location-header sx-header">
+<div class="elementor-element elementor-element-11439fc0 e-con-full sdx-header e-flex e-con e-parent" data-id="11439fc0">
+<div class="elementor-element elementor-element-124e0376 sdx-row e-flex e-con-boxed e-con e-child" data-id="124e0376">
+<div class="e-con-inner">
+<div class="elementor-element elementor-element-11bf26b3 sdx-logo elementor-widget elementor-widget-html" data-id="11bf26b3">
+<a href="/" class="sdx-logo-link" aria-label="SDX home"><svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 89 28" role="img" aria-label="SDX — Secure Data eXchange">
+<path d="M 27.297 4.814 L 27.297 16.216 C 27.297 18.889 25.187 21.055 22.584 21.055 L 22.152 21.055 L 22.152 9.054 C 22.152 6.958 20.489 5.252 18.445 5.252 L 6.765 5.252 L 6.765 4.814 C 6.765 2.31 8.618 0.25 10.992 0 L 23.07 0 C 25.445 0.25 27.297 2.31 27.297 4.814 Z" fill="rgb(62,203,251)"></path>
+<path d="M 0 23.186 L 0 11.784 C 0 9.111 2.11 6.945 4.713 6.945 L 5.145 6.945 L 5.145 18.946 C 5.145 21.042 6.808 22.748 8.852 22.748 L 20.531 22.748 L 20.531 23.186 C 20.531 25.69 18.678 27.75 16.303 28 L 4.227 28 C 1.853 27.75 0 25.69 0 23.186 Z" fill="rgb(41,115,255)"></path>
+<path d="M 20.535 9.055 L 20.535 21.055 L 8.844 21.055 C 7.691 21.053 6.756 20.094 6.753 18.91 L 6.753 6.911 L 18.444 6.911 C 18.89 6.911 19.305 7.055 19.644 7.302 C 19.665 7.318 19.686 7.333 19.708 7.349 C 20.229 7.753 20.536 8.386 20.535 9.056 Z" fill="rgb(86,253,185)"></path>
+<path d="M 39.717 24.919 C 38.664 24.919 37.68 24.784 36.768 24.521 C 35.856 24.257 35.04 23.886 34.325 23.404 C 33.61 22.926 33.018 22.391 32.552 21.798 C 32.087 21.21 31.781 20.586 31.644 19.932 L 35.636 18.709 C 35.893 19.401 36.351 19.998 37.006 20.499 C 37.662 20.999 38.485 21.259 39.479 21.278 C 40.533 21.297 41.39 21.064 42.056 20.575 C 42.723 20.085 43.054 19.454 43.054 18.678 C 43.054 18.005 42.79 17.439 42.265 16.981 C 41.74 16.522 41.017 16.17 40.105 15.925 L 37.394 15.191 C 36.381 14.927 35.487 14.526 34.712 13.983 C 33.938 13.444 33.331 12.775 32.895 11.979 C 32.459 11.184 32.24 10.259 32.24 9.2 C 32.24 7.181 32.891 5.609 34.191 4.477 C 35.491 3.346 37.334 2.78 39.717 2.78 C 41.047 2.78 42.216 2.979 43.218 3.376 C 44.22 3.774 45.061 4.34 45.735 5.074 C 46.41 5.808 46.927 6.672 47.285 7.67 L 43.322 8.924 C 43.084 8.232 42.648 7.64 42.011 7.15 C 41.375 6.661 40.57 6.416 39.598 6.416 C 38.626 6.416 37.826 6.649 37.26 7.12 C 36.693 7.59 36.411 8.251 36.411 9.108 C 36.411 9.781 36.634 10.308 37.081 10.699 C 37.528 11.085 38.139 11.383 38.913 11.586 L 41.654 12.289 C 43.442 12.737 44.83 13.543 45.825 14.702 C 46.819 15.864 47.315 17.157 47.315 18.583 C 47.315 19.845 47.016 20.95 46.421 21.898 C 45.825 22.846 44.961 23.584 43.829 24.116 C 42.697 24.643 41.326 24.911 39.717 24.911 Z M 50.854 24.55 L 50.854 3.157 L 54.935 3.157 L 54.935 24.55 Z M 53.211 7.068 L 53.211 3.157 L 57.531 3.157 L 57.531 7.068 Z M 53.211 24.55 L 53.211 20.638 L 57.531 20.638 L 57.531 24.55 L 53.211 24.55 Z M 57.531 24.55 L 57.531 20.638 C 58.484 20.638 59.367 20.466 60.182 20.118 C 60.998 19.77 61.706 19.292 62.312 18.68 C 62.92 18.069 63.389 17.35 63.728 16.524 C 64.066 15.698 64.234 14.807 64.234 13.851 C 64.234 12.895 64.066 12.001 63.728 11.178 C 63.389 10.352 62.92 9.634 62.312 9.022 C 61.706 8.41 60.998 7.932 60.182 7.584 C 59.367 7.236 58.484 7.064 57.531 7.064 L 57.531 3.153 C 59.657 3.153 61.538 3.612 63.176 4.53 C 64.815 5.447 66.096 6.705 67.02 8.303 C 67.943 9.902 68.405 11.752 68.405 13.852 C 68.405 15.95 67.94 17.775 67.005 19.384 C 66.07 20.994 64.789 22.256 63.161 23.173 C 61.53 24.091 59.654 24.55 57.531 24.55 Z M 69.363 24.55 L 77.441 12.846 L 83.999 3.157 L 88.855 3.157 L 80.956 14.284 L 74.279 24.554 L 69.363 24.554 L 69.363 24.55 Z M 84.084 24.55 L 77.407 14.28 L 69.509 3.153 L 74.364 3.153 L 80.923 12.812 L 89 24.546 L 84.084 24.546 Z" fill="currentColor"></path>
+</svg>
+</a> </div>
+<div class="elementor-element elementor-element-5bc366d sdxm-w elementor-widget__width-auto elementor-widget elementor-widget-html" data-id="5bc366d">
+<nav class="sdxm" aria-label="Features">
+<div class="sdxm-item">
+<a class="sdxm-t" href={t.h_features_href}>Features<span class="sdxm-n" aria-hidden="true">2</span></a><button type="button" class="sdxm-c" aria-expanded="false" aria-controls="sdxm-p" aria-label={t.h_menu_open}><svg viewbox="0 0 12 8" width="11" height="7" aria-hidden="true"><path d="M1 1.5 6 6.5 11 1.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path></svg></button>
+<div class="sdxm-p" id="sdxm-p">
+<div class="sdxm-in">
+<ul class="sdxm-grid">
+<li><a class="sdxm-card" href={t.h_share_href} style="--c:#2A73FF;--t:#EAF1FF">
+<span class="sdxm-ic" aria-hidden="true"><svg viewbox="0 0 24 24"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"></path><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"></path></svg></span>
+<span class="sdxm-tx"><strong>External Share</strong><small>{t.h_share_desc}</small></span></a></li>
+<li><a class="sdxm-card" href={t.h_audits_href} style="--c:#0F1B2D;--t:#EEF1F6">
+<span class="sdxm-ic" aria-hidden="true"><svg viewbox="0 0 24 24"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path><path d="M14 3v6h6M8 13h8M8 17h5"></path></svg></span>
+<span class="sdxm-tx"><strong>Audits <em>{t.h_new}</em></strong><small>{t.h_audits_desc}</small></span></a></li>
+</ul>
+<div class="sdxm-ft">
+<a class="sdxm-all" href={t.h_features_href}>{t.h_all} <svg viewbox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></a>
+<span class="sdxm-soon"><i aria-hidden="true"></i><i aria-hidden="true"></i><i aria-hidden="true"></i>{t.h_soon}</span>
+</div>
+</div>
+</div>
+</div>
+</nav>
+<style is:global>
+/* header: Features mega menu (2026-10-09). To add a feature: add an <li> card here and on /features/, bump .sdxm-n */
+.elementor-widget.sdxm-w{width:auto;}
+.sdxm{font-family:Inter,sans-serif;-webkit-font-smoothing:antialiased;}
+.sdxm *{box-sizing:border-box;}
+.sdxm-item{position:relative;display:flex;align-items:center;gap:2px;}
+.sdxm a.sdxm-t,.sdxm a.sdxm-t:visited{display:inline-flex;align-items:center;gap:8px;padding:8px 2px 8px 6px;font-size:15px;line-height:1.5;font-weight:500;color:#787878;text-decoration:none;transition:color .2s ease;}
+.sdxm-n{display:inline-flex;align-items:center;justify-content:center;min-width:20px;height:20px;padding:0 6px;border-radius:999px;background:#EAF1FF;color:#2A73FF;font-size:11.5px;font-weight:700;transition:transform .3s cubic-bezier(.34,1.56,.64,1);}
+.sdxm button.sdxm-c,.sdxm button.sdxm-c:hover,.sdxm button.sdxm-c:focus{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;margin:0;padding:0;border:0;border-radius:8px;background:transparent;color:#787878;cursor:pointer;transition:color .2s ease,background-color .2s ease;}
+.sdxm-c svg{transition:transform .3s ease;}
+.sdxm-item:hover a.sdxm-t,.sdxm-item.is-open a.sdxm-t,.sdxm a.sdxm-t:focus-visible{color:#2A73FF;}
+.sdxm-item:hover .sdxm-n,.sdxm-item.is-open .sdxm-n{transform:scale(1.15) rotate(-8deg);}
+.sdxm-item:hover button.sdxm-c,.sdxm-item.is-open button.sdxm-c{color:#2A73FF;background:#EAF1FF;}
+.sdxm-item:hover .sdxm-c svg,.sdxm-item.is-open .sdxm-c svg{transform:rotate(180deg);}
+.sdxm a:focus-visible,.sdxm button:focus-visible{outline:2px solid #2A73FF;outline-offset:2px;border-radius:8px;}
+/* panel */
+.sdxm-p{position:absolute;z-index:200;top:100%;left:-28px;padding-top:14px;visibility:hidden;opacity:0;transform:translateY(8px) scale(.98);transform-origin:40px 0;transition:opacity .22s ease,transform .3s cubic-bezier(.22,1,.36,1),visibility 0s linear .3s;}
+.sdxm-item:hover .sdxm-p,.sdxm-item.is-open .sdxm-p,.sdxm-item:focus-within .sdxm-p{visibility:visible;opacity:1;transform:none;transition:opacity .22s ease,transform .3s cubic-bezier(.22,1,.36,1),visibility 0s;}
+.sdxm-item.is-closed .sdxm-p{visibility:hidden;opacity:0;}
+.sdxm-in{position:relative;width:620px;padding:12px;border-radius:24px;background:#fff;box-shadow:0 30px 60px -20px rgba(18,37,92,.28),0 0 0 1px rgba(18,37,92,.06);}
+.sdxm-in::before{content:"";position:absolute;top:-6px;left:56px;width:14px;height:14px;border-radius:3px;background:#fff;transform:rotate(45deg);box-shadow:-1px -1px 0 rgba(18,37,92,.06);}
+.sdxm-grid{list-style:none;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:0;padding:0;}
+.sdxm-grid li{margin:0;opacity:0;transform:translateY(6px);transition:opacity .3s ease,transform .35s cubic-bezier(.22,1,.36,1);}
+.sdxm-item:hover .sdxm-grid li,.sdxm-item.is-open .sdxm-grid li,.sdxm-item:focus-within .sdxm-grid li{opacity:1;transform:none;}
+.sdxm-grid li:nth-child(2){transition-delay:.05s;} .sdxm-grid li:nth-child(3){transition-delay:.1s;} .sdxm-grid li:nth-child(4){transition-delay:.15s;}
+.sdxm a.sdxm-card,.sdxm a.sdxm-card:visited{display:flex;align-items:flex-start;gap:14px;height:100%;padding:14px;border-radius:16px;color:#0F1B2D;text-decoration:none;transition:background-color .2s ease;}
+.sdxm a.sdxm-card:hover,.sdxm a.sdxm-card:focus-visible{background:var(--t);color:#0F1B2D;}
+.sdxm-ic{display:flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:13px;background:var(--c);color:#fff;flex:none;box-shadow:0 10px 18px -8px var(--c);transition:transform .35s cubic-bezier(.34,1.56,.64,1);}
+.sdxm-ic svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+.sdxm-card:hover .sdxm-ic{transform:rotate(-10deg) scale(1.08);}
+.sdxm-tx{display:flex;flex-direction:column;gap:4px;min-width:0;}
+.sdxm-tx strong{display:flex;align-items:center;gap:8px;font-size:15.5px;line-height:1.3;font-weight:700;color:#0F1B2D;}
+.sdxm-tx strong em{padding:2px 7px;border-radius:999px;background:#FFBB00;font-style:normal;font-size:10.5px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:#0F1B2D;}
+.sdxm-tx small{font-size:13px;line-height:1.45;color:#5B6475;}
+.sdxm-ft{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:8px;padding:12px 14px 4px;border-top:1px solid #EDF1F7;}
+.sdxm a.sdxm-all,.sdxm a.sdxm-all:visited{display:inline-flex;align-items:center;gap:8px;font-size:14px;font-weight:600;color:#2A73FF;text-decoration:none;}
+.sdxm-all svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;transition:transform .25s ease;}
+.sdxm a.sdxm-all:hover{color:#1F63EB;} .sdxm-all:hover svg{transform:translateX(4px);}
+.sdxm-soon{display:inline-flex;align-items:center;gap:3px;font-size:12.5px;font-weight:500;color:#6B7487;}
+.sdxm-soon i{width:5px;height:5px;margin-right:1px;border-radius:50%;background:#F59000;animation:sdxmDot 1.2s ease-in-out infinite;}
+.sdxm-soon i:nth-child(2){animation-delay:.15s;} .sdxm-soon i:nth-child(3){animation-delay:.3s;margin-right:7px;}
+@keyframes sdxmDot{0%,60%,100%{transform:none;opacity:.45;}30%{transform:translateY(-3px);opacity:1;}}
+@media (prefers-reduced-motion:reduce){.sdxm-p,.sdxm-grid li,.sdxm-ic,.sdxm-n{transition:none;} .sdxm-soon i{animation:none;}}
+@media (max-width:1024px){.sdxm-in{width:560px;}}
+@media (max-width:767px){.elementor-widget.sdxm-w{display:none;}}
+/* Elementor's sticky header leaves a hidden clone (spacer); never show its panel */
+.elementor-sticky__spacer .sdxm-p{display:none !important;}
+</style>
+<script is:inline>
+(function(){var m=[].filter.call(document.querySelectorAll('.sdxm'),function(x){return !x.closest('.elementor-sticky__spacer');})[0];if(!m||m.__sdxm)return;m.__sdxm=1;
+var it=m.querySelector('.sdxm-item'),b=m.querySelector('.sdxm-c');
+function set(o){it.classList.toggle('is-open',o);it.classList.toggle('is-closed',!o);b.setAttribute('aria-expanded',o?'true':'false');}
+b.addEventListener('click',function(e){e.preventDefault();set(!it.classList.contains('is-open'));});
+document.addEventListener('keydown',function(e){if(e.key==='Escape'&&(it.classList.contains('is-open')||it.contains(document.activeElement))){set(false);b.focus();}});
+document.addEventListener('click',function(e){if(!it.contains(e.target)&&it.classList.contains('is-open'))set(false);});
+it.addEventListener('mouseleave',function(){if(it.classList.contains('is-closed'))it.classList.remove('is-closed');});
+it.addEventListener('mouseenter',function(){it.classList.remove('is-closed');});
+})();
+</script>
+</div>
+<div class="elementor-element elementor-element-5a825a28 elementor-widget elementor-widget-wp-widget-polylang" data-id="5a825a28">
+<div class="elementor-widget-container">
+<label class="screen-reader-text" for="sx-lang">{t.h_lang_label}</label><select id="sx-lang" class="pll-switcher-select" data-lang-switch>
+{langs.map((l) => <option value={alternates[l.code]} lang={l.locale} selected={l.code === lang}>{l.name}</option>)}
+</select>
+ </div>
+</div>
+<div class="elementor-element elementor-element-25016d1b elementor-align-right sdx-cta elementor-widget elementor-widget-button" data-id="25016d1b">
+<a class="elementor-button elementor-button-link elementor-size-sm" href={t.h_cta_href}>
+<span class="elementor-button-content-wrapper">
+<span class="elementor-button-text">{t.h_cta}</span>
+</span>
+</a>
+</div>
+<div class="elementor-element elementor-element-7f81335 sdx-burger-wrap elementor-hidden-desktop elementor-hidden-tablet elementor-hidden-mobile elementor-widget elementor-widget-html" data-id="7f81335">
+<button class="sdx-burger" aria-label={t.h_burger} aria-expanded="false"><span></span><span></span></button> </div>
+</div>
+</div>
+</div>
+</header>
