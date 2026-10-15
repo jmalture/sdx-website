@@ -45,28 +45,23 @@ We process this data to ensure a smooth connection and convenient use of the web
 
 If you send us an enquiry through the contact form, we process the data you enter: your e-mail address (required) and, optionally, your phone number and your message. We also store your consent, the page from which the enquiry was sent, the time, your IP address and your browser identifier (user agent) in order to detect misuse.
 
-We use this data solely to handle your enquiry, for example to arrange a demo with you. The enquiry is stored in our website database and forwarded by e-mail to the responsible staff.
+We use this data solely to handle your enquiry, for example to arrange a demo with you. The enquiry is stored on our website's server and then forwarded by e-mail to the responsible staff. Storing it ensures that no enquiry is lost if sending the e-mail temporarily fails.
 
 The legal basis is your consent (Art. 6(1)(a) GDPR), which you give via the checkbox in the form, and, where your enquiry aims at concluding a contract, Art. 6(1)(b) GDPR. You can withdraw your consent at any time with effect for the future (see section 9.6).
 
 We delete your enquiry once it has been fully dealt with, and no later than six months after our last contact [CHECK: set the period], unless statutory retention obligations apply.
 
-To protect against spam, the form contains a field that is invisible to humans. No cookies are set and no data is passed to third parties for this purpose.
+To protect against spam, the form contains a field that is invisible to humans, and the number of enquiries per IP address is limited (see section 6). No cookies are set and no data is passed to third parties for this purpose.
 
 ## 5. Cookies
 
-Cookies are small text files that your browser stores on your device. This website uses **no** cookies for analytics, statistics or advertising and no tracking services.
+Cookies are small text files that your browser stores on your device. This website sets **no** cookies and does not store any other information on your device either (for example in local storage). We use no analytics, statistics, advertising or tracking services.
 
-We only use technically necessary cookies:
+The language of the website follows only from the address you open (for example /en/ for English); no cookie is needed for this.
 
-- **pll\_language**: stores the language you selected for the website (German, English or Czech). Storage period: one year.
-- For logged-in editors of the website, WordPress also sets login cookies. These do not apply to regular visitors.
+## 6. Website security
 
-Storing these cookies is permitted without consent under Section 25(2) No. 2 of the German TDDDG, because it is strictly necessary for the use of the website you requested. The legal basis for the related processing is Art. 6(1)(f) GDPR. You can set your browser to reject cookies or to ask you first; some functions of the website may then be limited.
-
-## 6. Website security (Wordfence)
-
-To protect our website against attacks and misuse, we use the security plugin Wordfence by Defiant Inc., 1700 Westlake Ave N Ste 200, Seattle, WA 98109, USA. The firewall checks requests on our server and processes in particular the IP address, the requested URL, the user agent and the time of access. To compare requests with current threat intelligence, IP addresses may be transferred to Defiant servers in the USA. [CHECK: confirm the transfer mechanism (standard contractual clauses or EU-US Data Privacy Framework).]
+The pages of this website are static files; there is no content management system, no login for visitors and no third-party security plugin. To protect the contact form against misuse, we limit the number of enquiries per IP address (at most five enquiries in ten minutes). For this, the IP address is only kept in the server's memory and discarded after ten minutes at the latest; it is not passed on to third parties.
 
 The legal basis is Art. 6(1)(f) GDPR. Our legitimate interest lies in protecting our website and our visitors’ data.
 

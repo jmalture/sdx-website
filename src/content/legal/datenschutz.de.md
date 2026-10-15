@@ -43,28 +43,23 @@ Die Verarbeitung erfolgt, um einen reibungslosen Verbindungsaufbau und eine komf
 
 Wenn Sie uns über das Kontaktformular eine Anfrage senden, verarbeiten wir die von Ihnen eingegebenen Daten: Ihre E-Mail-Adresse (Pflichtfeld), optional Ihre Telefonnummer und Ihre Nachricht. Zusätzlich speichern wir Ihre Einwilligung, die Seite, von der die Anfrage gesendet wurde, den Zeitpunkt, Ihre IP-Adresse und die Kennung Ihres Browsers (User-Agent), um Missbrauch zu erkennen.
 
-Wir verwenden diese Daten ausschließlich, um Ihre Anfrage zu bearbeiten, zum Beispiel um mit Ihnen eine Demo zu vereinbaren. Die Anfrage wird in der Datenbank unserer Website gespeichert und per E-Mail an die zuständigen Mitarbeiter weitergeleitet.
+Wir verwenden diese Daten ausschließlich, um Ihre Anfrage zu bearbeiten, zum Beispiel um mit Ihnen eine Demo zu vereinbaren. Die Anfrage wird auf dem Server unserer Website gespeichert und anschließend per E-Mail an die zuständigen Mitarbeiter weitergeleitet. Die Speicherung stellt sicher, dass keine Anfrage verloren geht, falls der E-Mail-Versand vorübergehend nicht funktioniert.
 
 Rechtsgrundlage ist Ihre Einwilligung (Art. 6 Abs. 1 S. 1 lit. a DSGVO), die Sie über das Kontrollkästchen im Formular erteilen, sowie, soweit Ihre Anfrage auf einen Vertragsabschluss gerichtet ist, Art. 6 Abs. 1 S. 1 lit. b DSGVO. Ihre Einwilligung können Sie jederzeit mit Wirkung für die Zukunft widerrufen (siehe Ziffer 9.6).
 
 Wir löschen Ihre Anfrage, sobald sie abschließend bearbeitet ist, spätestens jedoch sechs Monate nach dem letzten Kontakt [PRÜFEN: Frist festlegen], sofern keine gesetzlichen Aufbewahrungspflichten entgegenstehen.
 
-Zum Schutz vor Spam enthält das Formular ein für Menschen unsichtbares Feld. Dafür werden weder Cookies gesetzt noch Daten an Dritte übermittelt.
+Zum Schutz vor Spam enthält das Formular ein für Menschen unsichtbares Feld, und die Zahl der Anfragen pro IP-Adresse ist begrenzt (siehe Ziffer 6). Dafür werden weder Cookies gesetzt noch Daten an Dritte übermittelt.
 
 ## 5. Cookies
 
-Cookies sind kleine Textdateien, die Ihr Browser auf Ihrem Endgerät speichert. Diese Website verwendet **keine** Cookies zu Analyse-, Statistik- oder Werbezwecken und keine Tracking-Dienste.
+Cookies sind kleine Textdateien, die Ihr Browser auf Ihrem Endgerät speichert. Diese Website setzt **keine** Cookies und speichert auch sonst keine Informationen auf Ihrem Endgerät (zum Beispiel im Local Storage). Wir verwenden keine Analyse-, Statistik-, Werbe- oder Tracking-Dienste.
 
-Wir setzen nur technisch notwendige Cookies ein:
+Die Sprache der Website ergibt sich allein aus der aufgerufenen Adresse (zum Beispiel /en/ für Englisch); dafür ist kein Cookie nötig.
 
-- **pll\_language**: speichert die von Ihnen gewählte Sprache der Website (Deutsch, Englisch oder Tschechisch). Speicherdauer: ein Jahr.
-- Für angemeldete Redakteure der Website setzt WordPress zusätzlich Anmelde-Cookies. Für normale Besucher fallen diese nicht an.
+## 6. Sicherheit der Website
 
-Die Speicherung dieser Cookies ist nach § 25 Abs. 2 Nr. 2 TDDDG ohne Einwilligung zulässig, weil sie für die von Ihnen gewünschte Nutzung der Website unbedingt erforderlich ist. Rechtsgrundlage für die damit verbundene Verarbeitung ist Art. 6 Abs. 1 S. 1 lit. f DSGVO. Sie können Ihren Browser so einstellen, dass er Cookies ablehnt oder Sie vorher fragt; einzelne Funktionen der Website können dann eingeschränkt sein.
-
-## 6. Sicherheit der Website (Wordfence)
-
-Zum Schutz unserer Website vor Angriffen und Missbrauch setzen wir das Sicherheits-Plugin Wordfence der Defiant Inc., 1700 Westlake Ave N Ste 200, Seattle, WA 98109, USA, ein. Die Firewall prüft Zugriffe auf unserem Server und verarbeitet dafür insbesondere die IP-Adresse, die aufgerufene URL, den User-Agent und den Zeitpunkt des Zugriffs. Zum Abgleich mit aktuellen Bedrohungsinformationen können IP-Adressen an Server von Defiant in den USA übermittelt werden. [PRÜFEN: Übermittlungsgrundlage (Standardvertragsklauseln bzw. EU-US Data Privacy Framework) bestätigen.]
+Die Seiten dieser Website sind statische Dateien; es gibt kein Content-Management-System, keine Anmeldung für Besucher und keine Sicherheits-Plugins von Drittanbietern. Zum Schutz des Kontaktformulars vor Missbrauch begrenzen wir die Zahl der Anfragen pro IP-Adresse (höchstens fünf Anfragen in zehn Minuten). Die IP-Adresse wird dafür nur im Arbeitsspeicher des Servers gehalten und nach spätestens zehn Minuten verworfen; sie wird nicht an Dritte übermittelt.
 
 Rechtsgrundlage ist Art. 6 Abs. 1 S. 1 lit. f DSGVO. Unser berechtigtes Interesse liegt im Schutz unserer Website und der Daten unserer Besucher.
 
