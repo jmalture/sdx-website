@@ -1,0 +1,26 @@
+---
+/**
+ * Features overview (WordPress 759, DE only there). One template for DE/EN/CZ.
+ * Texts: src/i18n/features.json · Title/description: src/i18n/features.meta.json
+ * Sections: src/components/features/ (order in index.astro)
+ */
+import '../styles/legacy-features.css'; // purged Elementor/theme CSS for this page (must load before site.css)
+import Base from '../layouts/Base.astro';
+import Sections from '../components/features/index.astro';
+import meta from '../i18n/features.meta.json';
+import type { Lang } from '../i18n';
+
+const { lang } = Astro.props as { lang: Lang };
+const alternates = { de: '/features/', en: '/en/features/', cs: '/cs/funkce/' };
+const m = meta[lang];
+---
+
+<Base
+  lang={lang}
+  title={m.title}
+  description={m.description}
+  alternates={alternates}
+  bodyClass="page elementor-template-full-width elementor-page elementor-page-759"
+>
+  <Sections lang={lang} />
+</Base>

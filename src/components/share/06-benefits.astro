@@ -1,0 +1,402 @@
+---
+/**
+ * Section "benefits": Warum Unternehmen mit SDX teilen.
+ * Texts: src/i18n/share.json, keys starting with "benefits_" (one entry per language).
+ * Layout and styles of this section are in this file; legacy Elementor classes come from
+ * src/styles/legacy*.css and should be left as they are.
+ */
+import { dict, type Lang } from '../../i18n';
+import data from '../../i18n/share.json';
+const { lang } = Astro.props as { lang: Lang };
+const t = dict(data, lang);
+---
+
+<div class="elementor-element elementor-element-sxf05 e-con-full e-flex e-con e-parent" data-id="sxf05">
+  <div class="elementor-element elementor-element-sxf05w elementor-widget elementor-widget-html" data-id="sxf05w">
+    <style is:global>
+      /* 5 business value hover cards */
+      .sxf-val {
+        padding: 128px 32px;
+        background: #fff;
+      }
+      .sxf-vgrid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 22px;
+        margin-top: 60px;
+      }
+      .sxf-vc {
+        position: relative;
+        min-height: 270px;
+        padding: 32px 30px 30px;
+        border-radius: 24px;
+        background: #fff;
+        border: 1px solid #e3e8f0;
+        box-shadow: 0 2px 6px rgba(18, 37, 92, 0.04);
+        overflow: hidden;
+        outline: none;
+        transition:
+          box-shadow 0.3s ease,
+          transform 0.3s ease,
+          border-color 0.3s ease;
+      }
+      .sxf-vc .ic {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 54px;
+        height: 54px;
+        border-radius: 15px;
+        background: var(--c);
+        color: #fff;
+        box-shadow: 0 12px 24px -10px var(--c);
+      }
+      .sxf-vc .ic svg {
+        width: 26px;
+        height: 26px;
+      }
+      .sxf-vc h3 {
+        margin: 24px 0 10px;
+        font-family: Inter, sans-serif;
+        font-size: 22px;
+        line-height: 1.3;
+        font-weight: 700;
+        letter-spacing: -0.01em;
+        color: #0f1b2d;
+      }
+      .sxf-vc p {
+        margin: 0;
+        font-size: 16px;
+        line-height: 1.55;
+        color: #4a5568;
+      }
+      .sxf-vc .more {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        margin-top: 20px;
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--c);
+      }
+      .sxf-vc .more svg {
+        width: 16px;
+        height: 16px;
+      }
+      .sxf-vc .pf {
+        position: absolute;
+        inset: 0;
+        z-index: 2;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 28px 30px;
+        background: var(--k);
+        color: #fff;
+        clip-path: circle(0 at 57px 59px);
+        transition: clip-path 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+      }
+      .sxf-vc .pf .ic2 {
+        position: absolute;
+        left: 30px;
+        top: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 54px;
+        height: 54px;
+        border-radius: 15px;
+        background: rgba(255, 255, 255, 0.16);
+      }
+      .sxf-vc .pf .ic2 svg {
+        width: 26px;
+        height: 26px;
+      }
+      .sxf-vc .pf b {
+        display: block;
+        margin: 0 0 14px;
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        opacity: 0.8;
+      }
+      .sxf-vc .pf ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: grid;
+        gap: 9px;
+      }
+      .sxf-vc .pf li {
+        display: flex;
+        gap: 10px;
+        margin: 0;
+        font-size: 15px;
+        line-height: 1.45;
+        font-weight: 500;
+      }
+      .sxf-vc .pf li svg {
+        width: 18px;
+        height: 18px;
+        margin-top: 1px;
+        stroke-width: 2.6;
+      }
+      @media (hover: hover) and (pointer: fine) {
+        .sxf-vc:hover,
+        .sxf-vc:focus-visible,
+        .sxf-vc:focus-within {
+          transform: translateY(-4px);
+          box-shadow: 0 26px 50px -18px rgba(18, 37, 92, 0.28);
+          border-color: transparent;
+        }
+        .sxf-vc:hover .pf,
+        .sxf-vc:focus-visible .pf,
+        .sxf-vc:focus-within .pf {
+          clip-path: circle(150% at 57px 59px);
+        }
+      }
+      .sxf-vc:focus-visible {
+        outline: 2px solid #2a73ff;
+        outline-offset: 3px;
+      }
+      @media (hover: none), (pointer: coarse) {
+        .sxf-vc {
+          min-height: 0;
+        }
+        .sxf-vc .more,
+        .sxf-vc .pf .ic2,
+        .sxf-vc .pf b {
+          display: none;
+        }
+        .sxf-vc .pf {
+          position: static;
+          clip-path: none;
+          background: transparent;
+          color: #0f1b2d;
+          padding: 16px 0 0;
+          margin-top: 18px;
+          border-top: 1px solid #eef1f6;
+        }
+        .sxf-vc .pf li {
+          font-size: 14.5px;
+          color: #3d4555;
+        }
+        .sxf-vc .pf li svg {
+          color: var(--c);
+        }
+      }
+      @media (max-width: 1024px) {
+        .sxf-val {
+          padding: 104px 24px;
+        }
+        .sxf-vgrid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          margin-top: 48px;
+        }
+      }
+      @media (max-width: 767px) {
+        .sxf-val {
+          padding: 84px 18px;
+        }
+        .sxf-vgrid {
+          grid-template-columns: minmax(0, 1fr);
+          gap: 16px;
+          margin-top: 40px;
+        }
+        .sxf-vc {
+          padding: 26px 22px;
+        }
+        .sxf-vc h3 {
+          font-size: 20px;
+          margin-top: 20px;
+        }
+      }
+    </style>
+    <section class="sxf sxf-val" id="nutzen" aria-labelledby="sxf-h-val">
+      <div class="sxf-wrap">
+        <div class="sxf-head" data-rv>
+          <p class="sxf-eyebrow">{t.benefits_your_benefits}</p>
+          <h2 class="sxf-h" id="sxf-h-val">
+            {t.benefits_why_companies}
+            <span class="sxf-blue">{t.benefits_share_with_sdx}</span>
+          </h2>
+          <p class="sxf-lead">{t.benefits_six_reasons_that_make}</p>
+        </div>
+        <div class="sxf-vgrid">
+          <article class="sxf-vc" tabindex="0" style="--c:#2A73FF;--k:#1E5BD8;--dl:0.00s" data-rv>
+            <span class="ic" aria-hidden="true"
+              ><svg class="i" viewbox="0 0 24 24" aria-hidden="true"
+                ><path d="M12 3 4 6v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V6z"></path><path d="m9 12 2 2 4-4"></path></svg
+              ></span
+            ><h3>{t.benefits_control}</h3><p>{t.benefits_you_decide_what_is}</p><span class="more" aria-hidden="true"
+              ><svg class="i" viewbox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>{
+                t.benefits_how_it_works
+              }</span
+            ><div class="pf">
+              <b>{t.benefits_how_it_works}</b><ul>
+                <li>
+                  <svg class="i" viewbox="0 0 24 24" aria-hidden="true"><path d="m5 12 5 5L20 7"></path></svg><span
+                    >{t.benefits_permissions_per_share_download}</span
+                  >
+                </li><li>
+                  <svg class="i" viewbox="0 0 24 24" aria-hidden="true"><path d="m5 12 5 5L20 7"></path></svg><span
+                    >{t.benefits_expiry_date_deactivated_automati}</span
+                  >
+                </li><li>
+                  <svg class="i" viewbox="0 0 24 24" aria-hidden="true"><path d="m5 12 5 5L20 7"></path></svg><span
+                    >{t.benefits_edit_or_end_at}</span
+                  >
+                </li>
+              </ul>
+            </div>
+          </article><article class="sxf-vc" tabindex="0" style="--c:#0F1B2D;--k:#0F1B2D;--dl:0.08s" data-rv>
+            <span class="ic" aria-hidden="true"
+              ><svg class="i" viewbox="0 0 24 24" aria-hidden="true"
+                ><rect x="3" y="4" width="18" height="7" rx="2"></rect><rect x="3" y="13" width="18" height="7" rx="2"
+                ></rect><path d="M7 7.5h.01M7 16.5h.01"></path></svg
+              ></span
+            ><h3>{t.benefits_trust}</h3><p>{t.benefits_your_data_stays_in}</p><span class="more" aria-hidden="true"
+              ><svg class="i" viewbox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>{
+                t.benefits_how_it_works
+              }</span
+            ><div class="pf">
+              <b>{t.benefits_how_it_works}</b><ul>
+                <li>
+                  <svg class="i" viewbox="0 0 24 24" aria-hidden="true"><path d="m5 12 5 5L20 7"></path></svg><span
+                    >{t.benefits_hosting_in_germany_or}</span
+                  >
+                </li><li>
+                  <svg class="i" viewbox="0 0 24 24" aria-hidden="true"><path d="m5 12 5 5L20 7"></path></svg><span
+                    >{t.benefits_gdpr_compliant_no_external}</span
+                  >
+                </li><li>
+                  <svg class="i" viewbox="0 0 24 24" aria-hidden="true"><path d="m5 12 5 5L20 7"></path></svg><span
+                    >{t.benefits_password_protection_and_random}</span
+                  >
+                </li>
+              </ul>
+            </div>
+          </article><article class="sxf-vc" tabindex="0" style="--c:#FFA600;--k:#B86A00;--dl:0.16s" data-rv>
+            <span class="ic" aria-hidden="true"
+              ><svg class="i" viewbox="0 0 24 24" aria-hidden="true"><path d="M13 2 4 14h7l-1 8 9-12h-7z"></path></svg
+              ></span
+            ><h3>{t.benefits_efficiency}</h3><p>{t.benefits_provide_once_instead_of}</p><span
+              class="more"
+              aria-hidden="true"
+              ><svg class="i" viewbox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>{
+                t.benefits_how_it_works
+              }</span
+            ><div class="pf">
+              <b>{t.benefits_how_it_works}</b><ul>
+                <li>
+                  <svg class="i" viewbox="0 0 24 24" aria-hidden="true"><path d="m5 12 5 5L20 7"></path></svg><span
+                    >{t.benefits_one_link_for_everyone}</span
+                  >
+                </li><li>
+                  <svg class="i" viewbox="0 0 24 24" aria-hidden="true"><path d="m5 12 5 5L20 7"></path></svg><span
+                    >{t.benefits_shared_folders_stay_up}</span
+                  >
+                </li><li>
+                  <svg class="i" viewbox="0 0 24 24" aria-hidden="true"><path d="m5 12 5 5L20 7"></path></svg><span
+                    >{t.benefits_no_more_mailbox_attachment}</span
+                  >
+                </li>
+              </ul>
+            </div>
+          </article><article class="sxf-vc" tabindex="0" style="--c:#22C55E;--k:#13803F;--dl:0.00s" data-rv>
+            <span class="ic" aria-hidden="true"
+              ><svg class="i" viewbox="0 0 24 24" aria-hidden="true"
+                ><circle cx="9" cy="8" r="3.5"></circle><path d="M2.5 20a6.5 6.5 0 0 1 13 0"></path><path
+                  d="M16 4.5a3.5 3.5 0 0 1 0 7M18 14a6 6 0 0 1 3.5 6"></path></svg
+              ></span
+            ><h3>{t.benefits_collaboration}</h3><p>{t.benefits_collect_files_and_answer}</p><span
+              class="more"
+              aria-hidden="true"
+              ><svg class="i" viewbox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>{
+                t.benefits_how_it_works
+              }</span
+            ><div class="pf">
+              <b>{t.benefits_how_it_works}</b><ul>
+                <li>
+                  <svg class="i" viewbox="0 0 24 24" aria-hidden="true"><path d="m5 12 5 5L20 7"></path></svg><span
+                    >{t.benefits_recipients_upload_files_straight}</span
+                  >
+                </li><li>
+                  <svg class="i" viewbox="0 0 24 24" aria-hidden="true"><path d="m5 12 5 5L20 7"></path></svg><span
+                    >{t.benefits_chat_right_at_the}</span
+                  >
+                </li><li>
+                  <svg class="i" viewbox="0 0 24 24" aria-hidden="true"><path d="m5 12 5 5L20 7"></path></svg><span
+                    >{t.benefits_no_email_ping_pong}</span
+                  >
+                </li>
+              </ul>
+            </div>
+          </article><article class="sxf-vc" tabindex="0" style="--c:#C800FF;--k:#8E10C0;--dl:0.08s" data-rv>
+            <span class="ic" aria-hidden="true"
+              ><svg class="i" viewbox="0 0 24 24" aria-hidden="true"
+                ><circle cx="13.5" cy="6.5" r="1.5"></circle><circle cx="17.5" cy="10.5" r="1.5"></circle><circle
+                  cx="8.5"
+                  cy="7.5"
+                  r="1.5"></circle><circle cx="6.5" cy="12.5" r="1.5"></circle><path
+                  d="M12 2a10 10 0 0 0 0 20c1.1 0 2-.9 2-2 0-.5-.2-1-.5-1.3-.3-.4-.5-.8-.5-1.3 0-1.1.9-2 2-2h2.3A5.7 5.7 0 0 0 22 9.7C22 5.4 17.5 2 12 2z"
+                ></path></svg
+              ></span
+            ><h3>{t.benefits_brand_presence}</h3><p>{t.benefits_every_share_looks_like}</p><span
+              class="more"
+              aria-hidden="true"
+              ><svg class="i" viewbox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>{
+                t.benefits_how_it_works
+              }</span
+            ><div class="pf">
+              <b>{t.benefits_how_it_works}</b><ul>
+                <li>
+                  <svg class="i" viewbox="0 0 24 24" aria-hidden="true"><path d="m5 12 5 5L20 7"></path></svg><span
+                    >{t.benefits_your_own_background_image}</span
+                  >
+                </li><li>
+                  <svg class="i" viewbox="0 0 24 24" aria-hidden="true"><path d="m5 12 5 5L20 7"></path></svg><span
+                    >{t.benefits_qr_code_in_your}</span
+                  >
+                </li><li>
+                  <svg class="i" viewbox="0 0 24 24" aria-hidden="true"><path d="m5 12 5 5L20 7"></path></svg><span
+                    >{t.benefits_set_your_own_email}</span
+                  >
+                </li>
+              </ul>
+            </div>
+          </article><article class="sxf-vc" tabindex="0" style="--c:#00BFFF;--k:#0075B0;--dl:0.16s" data-rv>
+            <span class="ic" aria-hidden="true"
+              ><svg class="i" viewbox="0 0 24 24" aria-hidden="true"
+                ><rect x="6" y="2" width="12" height="20" rx="2.5"></rect><path d="M11 18h2"></path></svg
+              ></span
+            ><h3>{t.benefits_easy_for_recipients}</h3><p>{t.benefits_no_account_no_app}</p><span
+              class="more"
+              aria-hidden="true"
+              ><svg class="i" viewbox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>{
+                t.benefits_how_it_works
+              }</span
+            ><div class="pf">
+              <b>{t.benefits_how_it_works}</b><ul>
+                <li>
+                  <svg class="i" viewbox="0 0 24 24" aria-hidden="true"><path d="m5 12 5 5L20 7"></path></svg><span
+                    >{t.benefits_open_the_link_or}</span
+                  >
+                </li><li>
+                  <svg class="i" viewbox="0 0 24 24" aria-hidden="true"><path d="m5 12 5 5L20 7"></path></svg><span
+                    >{t.benefits_works_on_a_computer}</span
+                  >
+                </li><li>
+                  <svg class="i" viewbox="0 0 24 24" aria-hidden="true"><path d="m5 12 5 5L20 7"></path></svg><span
+                    >{t.benefits_a_clear_page_with}</span
+                  >
+                </li>
+              </ul>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>

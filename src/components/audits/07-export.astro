@@ -1,0 +1,693 @@
+---
+/**
+ * Section "export": Ihre Audit-Daten. In Ihrem Format.
+ * Texts: src/i18n/audits.json, keys starting with "export_" (one entry per language).
+ * Layout and styles of this section are in this file; legacy Elementor classes come from
+ * src/styles/legacy*.css and should be left as they are.
+ */
+import { dict, type Lang } from '../../i18n';
+import data from '../../i18n/audits.json';
+const { lang } = Astro.props as { lang: Lang };
+const t = dict(data, lang);
+---
+
+<div class="elementor-element elementor-element-987bc87 e-flex e-con-full e-con e-parent" data-id="987bc87">
+  <div class="elementor-element elementor-element-1692359 elementor-widget elementor-widget-html" data-id="1692359">
+    <style is:global>
+      /* 7 export dialog */
+      .sxa-exp {
+        padding: 128px 32px;
+        background: #fff;
+      }
+      .sxa-exp .sxf-wrap {
+        display: grid;
+        grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+        gap: 64px;
+        align-items: center;
+      }
+      .sxa-exp .sxf-h {
+        text-align: left;
+      }
+      .sxa-exp .pts {
+        list-style: none;
+        margin: 30px 0 0;
+        padding: 0;
+        display: grid;
+        gap: 12px;
+      }
+      .sxa-exp .pts li {
+        display: flex;
+        gap: 12px;
+        align-items: flex-start;
+        margin: 0;
+        font-size: 15.5px;
+        line-height: 1.5;
+        color: #4a5568;
+      }
+      .sxa-exp .pts li b {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 24px;
+        height: 24px;
+        margin-top: 1px;
+        border-radius: 50%;
+        background: #e9f8ef;
+        color: #16a34a;
+        flex: none;
+      }
+      .sxa-exp .pts li b svg {
+        width: 14px;
+        height: 14px;
+        stroke-width: 3;
+      }
+      .sxa-exp .pts li strong {
+        color: #0f1b2d;
+      }
+      .sxa-exp .dlg {
+        position: relative;
+        border-radius: 24px;
+        background: #fff;
+        box-shadow:
+          0 40px 80px -30px rgba(18, 37, 92, 0.35),
+          0 0 0 1px rgba(18, 37, 92, 0.06);
+      }
+      .sxa-exp .dh {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 18px 22px;
+        border-bottom: 1px solid #edf1f7;
+      }
+      .sxa-exp .dh strong {
+        font-size: 16px;
+        color: #0f1b2d;
+      }
+      .sxa-exp .dh span {
+        font-size: 12.5px;
+        color: #6b7487;
+      }
+      .sxa-exp .dh span b {
+        color: #0f1b2d;
+      }
+      .sxa-exp .db {
+        display: grid;
+        grid-template-columns: 200px minmax(0, 1fr);
+      }
+      .sxa-exp .fs {
+        padding: 16px 18px 18px 22px;
+        border-right: 1px solid #edf1f7;
+      }
+      .sxa-exp .lb {
+        display: block;
+        margin: 0 0 8px;
+        font-size: 11.5px;
+        font-weight: 700;
+        letter-spacing: 0.07em;
+        text-transform: uppercase;
+        color: #6b7487;
+      }
+      .sxf.sxa-exp .ck {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        width: 100%;
+        padding: 7px 4px;
+        border-radius: 8px;
+        font-size: 14px;
+        font-weight: 500;
+        color: #0f1b2d;
+      }
+      .sxa-exp .ck:hover {
+        background: #f7f9fc;
+      }
+      .sxa-exp .ck i {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 18px;
+        height: 18px;
+        border-radius: 5px;
+        border: 1.5px solid #c9d2e0;
+        background: #fff;
+        color: #fff;
+        transition:
+          background-color 0.15s ease,
+          border-color 0.15s ease;
+        flex: none;
+      }
+      .sxa-exp .ck i svg {
+        width: 12px;
+        height: 12px;
+        stroke-width: 3;
+        opacity: 0;
+      }
+      .sxa-exp .ck[aria-checked='true'] i {
+        background: #2a73ff;
+        border-color: #2a73ff;
+      }
+      .sxa-exp .ck[aria-checked='true'] i svg {
+        opacity: 1;
+      }
+      .sxa-exp .lk {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px 14px;
+        margin-top: 10px;
+      }
+      .sxf.sxa-exp .lk button {
+        font-size: 13px;
+        font-weight: 600;
+        color: #2a73ff;
+        white-space: nowrap;
+      }
+      .sxa-exp .lk button:hover {
+        text-decoration: underline;
+      }
+      .sxa-exp .pv {
+        min-width: 0;
+        padding: 16px 22px 22px 18px;
+      }
+      .sxa-exp .seg {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 4px;
+        padding: 4px;
+        border-radius: 14px;
+        background: #fff;
+        border: 1px solid #d8e1ee;
+      }
+      .sxf.sxa-exp .seg button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 8px 6px;
+        border-radius: 10px;
+        font-size: 13.5px;
+        font-weight: 600;
+        color: #0f1b2d;
+        transition:
+          background-color 0.2s ease,
+          color 0.2s ease;
+      }
+      .sxa-exp .seg button:hover {
+        background: #f1f4f9;
+      }
+      .sxa-exp .seg button[aria-pressed='true'] {
+        background: #2a73ff;
+        color: #fff;
+      }
+      .sxa-exp .file {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin: 16px 0 8px;
+        font-size: 12.5px;
+        font-weight: 600;
+        color: #3d4555;
+      }
+      .sxa-exp .file i {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 3px 7px;
+        border-radius: 6px;
+        background: var(--fc, #2a73ff);
+        color: #fff;
+        font-style: normal;
+        font-size: 10.5px;
+        font-weight: 800;
+        letter-spacing: 0.04em;
+      }
+      .sxa-exp .out {
+        height: 212px;
+        border-radius: 14px;
+        background: #0f1b2d;
+        overflow: auto;
+      }
+      .sxa-exp .out pre {
+        margin: 0;
+        padding: 14px 16px;
+        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+        font-size: 12px;
+        line-height: 1.65;
+        color: #e3eaf7;
+        white-space: pre;
+      }
+      .sxa-exp .out pre .h {
+        color: #7fb0ff;
+      }
+      .sxa-exp .out pre .s {
+        color: #86e3a8;
+      }
+      .sxa-exp .out pre .t {
+        color: #ffc163;
+      }
+      .sxa-exp .out.x {
+        background: #fff;
+        border: 1px solid #d9e7dd;
+      }
+      .sxa-exp .out table {
+        border-collapse: collapse;
+        width: max-content;
+        min-width: 100%;
+        font-size: 12px;
+      }
+      .sxa-exp .out th,
+      .sxa-exp .out td {
+        padding: 7px 10px;
+        border: 1px solid #e3ebe6;
+        text-align: left;
+        white-space: nowrap;
+        color: #0f1b2d;
+      }
+      .sxa-exp .out th {
+        background: #eaf6ee;
+        font-weight: 700;
+        color: #13703a;
+      }
+      .sxa-exp .out td.rn,
+      .sxa-exp .out th.rn {
+        background: #f4f6f8;
+        color: #8a94a6;
+        font-weight: 600;
+        text-align: center;
+      }
+      .sxa-exp .ft {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 12px;
+        margin-top: 16px;
+      }
+      .sxa-exp .ft small {
+        margin-right: auto;
+        font-size: 12.5px;
+        color: #6b7487;
+      }
+      .sxa-exp .toast {
+        position: absolute;
+        left: 50%;
+        bottom: -22px;
+        z-index: 3;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 16px 10px 10px;
+        border-radius: 999px;
+        background: #0f1b2d;
+        color: #fff;
+        font-size: 13.5px;
+        font-weight: 600;
+        white-space: nowrap;
+        box-shadow: 0 16px 30px -12px rgba(15, 27, 45, 0.6);
+        opacity: 0;
+        transform: translate(-50%, 12px);
+        transition:
+          opacity 0.3s ease,
+          transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        pointer-events: none;
+      }
+      .sxa-exp .toast b {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 26px;
+        height: 26px;
+        border-radius: 50%;
+        background: #22c55e;
+      }
+      .sxa-exp .toast b svg {
+        width: 14px;
+        height: 14px;
+        stroke-width: 3;
+      }
+      .sxa-exp .toast.on {
+        opacity: 1;
+        transform: translate(-50%, 0);
+      }
+      .sxa-exp .f1 {
+        right: -24px;
+        top: -26px;
+        --s: 52px;
+        --c: #22c55e;
+        --r: 12deg;
+        --d: 6.2s;
+        z-index: 2;
+      }
+      @media (max-width: 1180px) {
+        .sxa-exp .sxf-wrap {
+          gap: 44px;
+        }
+        .sxa-exp .db {
+          grid-template-columns: 170px minmax(0, 1fr);
+        }
+      }
+      @media (max-width: 1024px) {
+        .sxa-exp {
+          padding: 104px 24px;
+        }
+        .sxa-exp .sxf-wrap {
+          grid-template-columns: minmax(0, 1fr);
+          max-width: 680px;
+        }
+        .sxa-exp .sxf-h,
+        .sxa-exp .sxf-text {
+          text-align: center;
+        }
+        .sxa-exp .pts {
+          max-width: 520px;
+          margin-left: auto;
+          margin-right: auto;
+          text-align: left;
+        }
+      }
+      @media (max-width: 767px) {
+        .sxa-exp {
+          padding: 84px 18px;
+        }
+        .sxa-exp .db {
+          grid-template-columns: minmax(0, 1fr);
+        }
+        .sxa-exp .fs {
+          border-right: 0;
+          border-bottom: 1px solid #edf1f7;
+          padding: 14px 16px;
+        }
+        .sxa-exp .fs .cks {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+        }
+        .sxa-exp .pv {
+          padding: 14px 16px 18px;
+        }
+        .sxa-exp .dh {
+          padding: 16px;
+        }
+        .sxa-exp .f1 {
+          right: -8px;
+          --s: 40px;
+        }
+      }
+    </style>
+    <section class="sxf sxa-exp" id="export" aria-labelledby="sxa-h-exp">
+      <div class="sxf-wrap">
+        <div class="sxf-text" data-rv>
+          <p class="sxf-eyebrow">Export</p>
+          <h2 class="sxf-h" id="sxa-h-exp">
+            {t.export_your_audit_data}
+            <span class="sxf-blue">{t.export_in_your_format}</span>
+          </h2>
+          <p class="sxf-lead">{t.export_choose_exactly_the_fields}</p>
+          <ul class="pts">
+            <li>
+              <b><svg class="i" viewbox="0 0 24 24" aria-hidden="true"><path d="m5 12 5 5L20 7"></path></svg></b><span
+                ><strong>{t.export_choose_any_fields}</strong> {t.export_one_by_one_all}</span
+              >
+            </li>
+            <li>
+              <b><svg class="i" viewbox="0 0 24 24" aria-hidden="true"><path d="m5 12 5 5L20 7"></path></svg></b><span
+                ><strong>{t.export_tsv_csv_xlsx_and}</strong> {t.export_for_spreadsheets_reports_and}</span
+              >
+            </li>
+            <li>
+              <b><svg class="i" viewbox="0 0 24 24" aria-hidden="true"><path d="m5 12 5 5L20 7"></path></svg></b><span
+                ><strong>{t.export_filtered_results}</strong> {t.export_can_be_exported_for}</span
+              >
+            </li>
+          </ul>
+        </div>
+        <div class="dlg" data-rv style="--dl:.12s">
+          <span class="sxf-fold f1" aria-hidden="true"></span>
+          <div class="dh">
+            <strong>{t.export_export_audit_data}</strong><span><b>312</b> {t.export_entries_last_7_days}</span>
+          </div>
+          <div class="db">
+            <div class="fs">
+              <span class="lb">{t.export_fields}</span><div
+                class="cks"
+                role="group"
+                aria-label={t.export_aria_label_fields_for_the}
+              >
+              </div><div class="lk">
+                <button type="button" class="sxf-b all">{t.export_select_all}</button><button
+                  type="button"
+                  class="sxf-b none">{t.export_reset}</button
+                >
+              </div>
+            </div>
+            <div class="pv">
+              <span class="lb">Format</span>
+              <div class="seg" role="group" aria-label={t.export_aria_label_export_format}>
+                <button type="button" class="sxf-b" data-f="tsv">TSV</button><button
+                  type="button"
+                  class="sxf-b"
+                  data-f="csv"
+                  aria-pressed="true">CSV</button
+                ><button type="button" class="sxf-b" data-f="xlsx">XLSX</button><button
+                  type="button"
+                  class="sxf-b"
+                  data-f="json">JSON</button
+                >
+              </div>
+              <p class="file"><i>CSV</i><span class="fn">audits_2026-10-15.csv</span></p>
+              <div class="out" aria-live="polite" tabindex="0" aria-label={t.export_aria_label_preview_of_the}></div>
+              <div class="ft">
+                <small class="nf">{t.export_4_fields_selected}</small><button
+                  type="button"
+                  class="sxf-b sxf-btn sxf-btn-p go"
+                  ><svg class="i" viewbox="0 0 24 24" aria-hidden="true"
+                    ><path d="M12 4v12M7 11l5 5 5-5M4 20h16"></path></svg
+                  >{t.export_export}</button
+                >
+              </div>
+            </div>
+          </div>
+          <div class="toast" role="status">
+            <b><svg class="i" viewbox="0 0 24 24" aria-hidden="true"><path d="m5 12 5 5L20 7"></path></svg></b><span
+              class="tt">{t.export_audits_2026_10_15}</span
+            >
+          </div>
+        </div>
+      </div>
+    </section>
+    <script
+      define:vars={{
+        T: {
+          projects: t.export_js_projects,
+          sales: t.export_js_sales,
+          field: t.export_js_field,
+          fields: t.export_js_fields,
+          selected: t.export_js_selected,
+          noFieldSelected: t.export_js_no_field_selected,
+          pleaseSelectAt: t.export_js_please_select_at,
+          ready312Entries: t.export_js_ready_312_entries,
+        },
+      }}
+    >
+      (function () {
+        var F = [
+          ['created', 'Created', 1],
+          ['who', 'Who', 1],
+          ['action', 'Action', 1],
+          ['summary', 'Summary', 1],
+          ['entity', 'Entity ID', 0],
+          ['portal', 'Portal', 0],
+          ['custom', 'Custom Data', 0],
+        ];
+        var D = [
+          {
+            created: '2026-10-15 16:42',
+            who: 'm.weber',
+            action: 'Delete content',
+            summary: 'User m.weber deleted content Vertrag_Nordwerk_v3.pdf',
+            entity: '48213',
+            portal: T.projects,
+            custom: '{"version":3}',
+          },
+          {
+            created: '2026-10-15 16:31',
+            who: 'a.mueller',
+            action: 'Preview content',
+            summary: 'User a.mueller previewed content Angebot_Q4.pdf',
+            entity: '47990',
+            portal: T.sales,
+            custom: '{"pages":12}',
+          },
+          {
+            created: '2026-10-15 14:05',
+            who: 'l.braun',
+            action: 'Create external sharing',
+            summary: 'User l.braun created external sharing Pressematerial',
+            entity: '50112',
+            portal: 'Marketing',
+            custom: '{"recipients":2}',
+          },
+        ];
+        var FC = { tsv: '#6B7487', csv: '#2A73FF', xlsx: '#16A34A', json: '#F59000' };
+        function esc(v) {
+          return String(v).replace(/[&<>"]/g, function (c) {
+            return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c];
+          });
+        }
+        function init(s) {
+          if (s.__sxa) return;
+          s.__sxa = 1;
+          var cks = s.querySelector('.cks'),
+            out = s.querySelector('.out'),
+            fmt = 'csv',
+            sel = {},
+            bs = [],
+            fi = s.querySelector('.file i'),
+            fn = s.querySelector('.fn'),
+            nf = s.querySelector('.nf'),
+            toast = s.querySelector('.toast'),
+            tt = s.querySelector('.tt'),
+            tm;
+          F.forEach(function (f) {
+            sel[f[0]] = !!f[2];
+            var b = document.createElement('button');
+            b.type = 'button';
+            b.className = 'sxf-b ck';
+            b.setAttribute('role', 'checkbox');
+            b.innerHTML =
+              '<i><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 5 5L20 7"/></svg></i>' + f[1];
+            b.addEventListener('click', function () {
+              sel[f[0]] = !sel[f[0]];
+              draw();
+            });
+            cks.appendChild(b);
+            bs.push(b);
+          });
+          function cols() {
+            return F.filter(function (f) {
+              return sel[f[0]];
+            });
+          }
+          function draw() {
+            var c = cols(),
+              h = '';
+            F.forEach(function (f, i) {
+              bs[i].setAttribute('aria-checked', sel[f[0]] ? 'true' : 'false');
+            });
+            [].forEach.call(s.querySelectorAll('.seg button'), function (b) {
+              b.setAttribute('aria-pressed', b.getAttribute('data-f') === fmt ? 'true' : 'false');
+            });
+            fi.textContent = fmt.toUpperCase();
+            fi.style.setProperty('--fc', FC[fmt]);
+            fn.textContent = 'audits_2026-10-15.' + fmt;
+            nf.textContent = c.length
+              ? c.length + (c.length === 1 ? T.field : T.fields) + T.selected
+              : T.noFieldSelected;
+            out.classList.toggle('x', fmt === 'xlsx');
+            if (!c.length) {
+              out.innerHTML = T.pleaseSelectAt;
+              return;
+            }
+            if (fmt === 'xlsx') {
+              h =
+                '<table><tr><th class="rn"></th>' +
+                c
+                  .map(function (f, i) {
+                    return '<th>' + String.fromCharCode(65 + i) + ' · ' + f[1] + '</th>';
+                  })
+                  .join('') +
+                '</tr>';
+              D.forEach(function (r, k) {
+                h +=
+                  '<tr><td class="rn">' +
+                  (k + 1) +
+                  '</td>' +
+                  c
+                    .map(function (f) {
+                      return '<td>' + esc(r[f[0]]) + '</td>';
+                    })
+                    .join('') +
+                  '</tr>';
+              });
+              out.innerHTML = h + '</table>';
+              return;
+            }
+            if (fmt === 'json') {
+              h =
+                '[\n' +
+                D.map(function (r) {
+                  return (
+                    '  {\n' +
+                    c
+                      .map(function (f) {
+                        return (
+                          '    <span class="h">"' +
+                          f[0] +
+                          '"</span>: <span class="s">"' +
+                          esc(r[f[0]]).replace(/&quot;/g, '\\"') +
+                          '"</span>'
+                        );
+                      })
+                      .join(',\n') +
+                    '\n  }'
+                  );
+                }).join(',\n') +
+                '\n]';
+              out.innerHTML = '<pre>' + h + '</pre>';
+              return;
+            }
+            h =
+              '<span class="h">' +
+              c
+                .map(function (f) {
+                  return f[1];
+                })
+                .join(fmt === 'csv' ? ',' : '\t') +
+              '</span>\n';
+            D.forEach(function (r) {
+              h +=
+                c
+                  .map(function (f) {
+                    var v = esc(r[f[0]]);
+                    return fmt === 'csv' && /[,"]|&quot;/.test(v)
+                      ? '"' + v.replace(/&quot;/g, '&quot;&quot;') + '"'
+                      : v;
+                  })
+                  .join(fmt === 'csv' ? ',' : '\t') + '\n';
+            });
+            out.innerHTML = '<pre>' + h + '</pre>';
+          }
+          [].forEach.call(s.querySelectorAll('.seg button'), function (b) {
+            b.addEventListener('click', function () {
+              fmt = b.getAttribute('data-f');
+              draw();
+            });
+          });
+          s.querySelector('.all').addEventListener('click', function () {
+            F.forEach(function (f) {
+              sel[f[0]] = true;
+            });
+            draw();
+          });
+          s.querySelector('.none').addEventListener('click', function () {
+            F.forEach(function (f) {
+              sel[f[0]] = false;
+            });
+            draw();
+          });
+          s.querySelector('.go').addEventListener('click', function () {
+            if (!cols().length) return;
+            tt.textContent = 'audits_2026-10-15.' + fmt + T.ready312Entries;
+            toast.classList.add('on');
+            clearTimeout(tm);
+            tm = setTimeout(function () {
+              toast.classList.remove('on');
+            }, 2600);
+          });
+          draw();
+        }
+        function go() {
+          document.querySelectorAll('.sxa-exp').forEach(init);
+        }
+        if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', go);
+        else go();
+      })();
+    </script>
+  </div>
+</div>

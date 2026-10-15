@@ -6,11 +6,20 @@ import Sections from '../components/home/index.astro';
 import meta from '../i18n/home.meta.json';
 import type { Lang } from '../i18n';
 
-interface Props { lang: Lang }
+interface Props {
+  lang: Lang;
+}
 const { lang } = Astro.props;
 const alternates = { de: '/', en: '/en/', cs: '/cs/' };
 const m = (meta as Record<string, { title: string; description: string }>)[lang];
 ---
-<Base lang={lang} title={m.title} description={m.description} alternates={alternates} bodyClass="home elementor-page-358">
+
+<Base
+  lang={lang}
+  title={m.title}
+  description={m.description}
+  alternates={alternates}
+  bodyClass="home elementor-page elementor-page-358"
+>
   <Sections lang={lang} />
 </Base>

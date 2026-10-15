@@ -1,0 +1,383 @@
+---
+/**
+ * Section "steps": In drei Schritten geteilt.
+ * Texts: src/i18n/share.json, keys starting with "steps_" (one entry per language).
+ * Layout and styles of this section are in this file; legacy Elementor classes come from
+ * src/styles/legacy*.css and should be left as they are.
+ */
+import { dict, type Lang } from '../../i18n';
+import data from '../../i18n/share.json';
+const { lang } = Astro.props as { lang: Lang };
+const t = dict(data, lang);
+---
+
+<div class="elementor-element elementor-element-sxf03 e-con-full e-flex e-con e-parent" data-id="sxf03">
+  <div class="elementor-element elementor-element-sxf03w elementor-widget elementor-widget-html" data-id="sxf03w">
+    <style is:global>
+      /* 3 how it works */
+      .sxf-how {
+        padding: 128px 32px 128px;
+        background: linear-gradient(180deg, #f3f7ff 0%, #eef4ff 100%);
+      }
+      .sxf-how .sxf-split {
+        display: grid;
+        grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr);
+        gap: 64px;
+        align-items: center;
+        margin-top: 64px;
+      }
+      .sxf-how .sxf-vis {
+        position: relative;
+      }
+      .sxf-how .sxf-tab-in {
+        position: relative;
+        aspect-ratio: 1.5625;
+        overflow: hidden;
+        background: #fff;
+      }
+      .sxf-how .sxf-tab-in img {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        opacity: 0;
+        transform: scale(1.015);
+        transition:
+          opacity 0.6s ease,
+          transform 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+      }
+      .sxf-how .sxf-tab-in img.is-on {
+        opacity: 1;
+        transform: none;
+      }
+      .sxf-how .f1 {
+        left: -30px;
+        top: -34px;
+        --s: 64px;
+        --c: #ffa600;
+        --r: -10deg;
+        --d: 6.2s;
+        z-index: 2;
+      }
+      .sxf-how .p1 {
+        right: -26px;
+        bottom: -20px;
+        --d: 5.6s;
+        font-weight: 600;
+        color: #0f1b2d;
+      }
+      .sxf-steps {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: grid;
+        gap: 12px;
+        counter-reset: none;
+      }
+      .sxf-steps li {
+        margin: 0;
+        padding: 0;
+      }
+      .sxf .sxf-step {
+        position: relative;
+        display: grid;
+        grid-template-columns: 44px minmax(0, 1fr);
+        gap: 18px;
+        width: 100%;
+        padding: 22px 22px 24px;
+        border-radius: 20px;
+        background: transparent;
+        opacity: 0.62;
+        transition:
+          background-color 0.3s ease,
+          box-shadow 0.3s ease,
+          opacity 0.3s ease;
+        overflow: hidden;
+      }
+      .sxf .sxf-step:hover {
+        opacity: 0.9;
+        background: rgba(255, 255, 255, 0.5);
+      }
+      .sxf .sxf-step.is-on {
+        opacity: 1;
+        background: #fff;
+        box-shadow: 0 16px 40px -12px rgba(18, 37, 92, 0.18);
+      }
+      .sxf .sxf-step .n {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        background: #fff;
+        border: 2px solid #c9d8f5;
+        font-size: 17px;
+        font-weight: 700;
+        color: #2a73ff;
+        transition: all 0.3s ease;
+      }
+      .sxf .sxf-step.is-on .n {
+        background: #2a73ff;
+        border-color: #2a73ff;
+        color: #fff;
+        box-shadow: 0 0 0 6px #e3edff;
+      }
+      .sxf .sxf-step .t {
+        display: block;
+      }
+      .sxf .sxf-step strong {
+        display: block;
+        font-size: 19px;
+        line-height: 1.35;
+        font-weight: 700;
+        color: #0f1b2d;
+        margin: 9px 0 0;
+      }
+      .sxf .sxf-step .d {
+        display: block;
+        margin-top: 8px;
+        font-size: 15.5px;
+        line-height: 1.55;
+        color: #4a5568;
+      }
+      .sxf .sxf-step .bar {
+        position: absolute;
+        left: 22px;
+        right: 22px;
+        bottom: 10px;
+        height: 3px;
+        border-radius: 3px;
+        background: #e6edf8;
+        overflow: hidden;
+        opacity: 0;
+        transition: opacity 0.3s;
+      }
+      .sxf .sxf-step .bar i {
+        display: block;
+        height: 100%;
+        width: 100%;
+        background: #2a73ff;
+        transform-origin: 0 50%;
+        transform: scaleX(0);
+      }
+      .sxf-how.is-auto .sxf-step.is-on .bar {
+        opacity: 1;
+      }
+      .sxf-how.is-auto .sxf-step.is-on .bar i {
+        animation: sxfFill 6.5s linear forwards;
+        animation-play-state: paused;
+      }
+      .sxf-how.is-auto.is-run .sxf-step.is-on .bar i {
+        animation-play-state: running;
+      }
+      .sxf-how.is-auto.is-run .sxf-steps:hover .sxf-step.is-on .bar i,
+      .sxf-how.is-auto.is-run .sxf-steps:focus-within .sxf-step.is-on .bar i {
+        animation-play-state: paused;
+      }
+      @keyframes sxfFill {
+        to {
+          transform: scaleX(1);
+        }
+      }
+      @media (max-width: 1340px) {
+        .sxf-how .f1 {
+          left: -12px;
+        }
+      }
+      @media (max-width: 1240px) {
+        .sxf-how .sxf-split {
+          gap: 44px;
+        }
+      }
+      @media (max-width: 1024px) {
+        .sxf-how {
+          padding: 104px 24px;
+        }
+        .sxf-how .sxf-split {
+          grid-template-columns: minmax(0, 1fr);
+          gap: 40px;
+          margin-top: 48px;
+        }
+        .sxf-how .sxf-vis {
+          max-width: 720px;
+          width: 100%;
+          margin: 0 auto;
+        }
+        .sxf-steps {
+          max-width: 680px;
+          width: 100%;
+          margin: 0 auto;
+        }
+      }
+      @media (max-width: 767px) {
+        .sxf-how {
+          padding: 84px 18px;
+        }
+        .sxf-how .f1 {
+          left: -8px;
+          top: -26px;
+          --s: 44px;
+        }
+        .sxf-how .p1 {
+          right: 4%;
+          bottom: -18px;
+          font-size: 12px;
+        }
+        .sxf .sxf-step {
+          grid-template-columns: 38px minmax(0, 1fr);
+          gap: 14px;
+          padding: 18px 16px 22px;
+        }
+        .sxf .sxf-step .n {
+          width: 38px;
+          height: 38px;
+          font-size: 15px;
+        }
+        .sxf .sxf-step strong {
+          font-size: 17px;
+          margin-top: 7px;
+        }
+        .sxf .sxf-step .d {
+          font-size: 15px;
+        }
+      }
+    </style>
+    <section class="sxf sxf-how" id="so-gehts" aria-labelledby="sxf-h-how">
+      <div class="sxf-wrap">
+        <div class="sxf-head" data-rv>
+          <p class="sxf-eyebrow">{t.steps_how_it_works}</p>
+          <h2 class="sxf-h" id="sxf-h-how">{t.steps_shared_in} <span class="sxf-blue">{t.steps_three_steps}</span></h2>
+          <p class="sxf-lead">{t.steps_straight_from_your_folders}</p>
+        </div>
+        <div class="sxf-split">
+          <div class="sxf-vis" data-rv>
+            <span class="sxf-fold f1" aria-hidden="true"></span>
+            <div class="sxf-browser">
+              <div class="sxf-bar" aria-hidden="true">
+                <i></i><i></i><i></i><span class="sxf-url"
+                  ><svg class="i" viewbox="0 0 24 24" aria-hidden="true"
+                    ><rect x="4" y="11" width="16" height="10" rx="2"></rect><path d="M8 11V7a4 4 0 0 1 8 0v4"
+                    ></path></svg
+                  >{t.steps_your_company_sdx_app}</span
+                >
+              </div><div class="sxf-tab-in" id="sxf-how-shot">
+                <img
+                  loading="lazy"
+                  decoding="async"
+                  src="/media/sxf-step1-menu.webp"
+                  alt={t.steps_alt_context_menu_of}
+                  width="1200"
+                  height="768"
+                  class="is-on"
+                /><img
+                  loading="lazy"
+                  decoding="async"
+                  src="/media/sxf-step2-dialog.webp"
+                  alt={t.steps_alt_share_container_dialog}
+                  width="1200"
+                  height="768"
+                /><img
+                  loading="lazy"
+                  decoding="async"
+                  src="/media/sxf-step3-qr.webp"
+                  alt={t.steps_alt_dialog_after_activation}
+                  width="1200"
+                  height="768"
+                />
+              </div>
+            </div>
+            <span class="sxf-pill p1" aria-hidden="true"
+              ><b style="background:#22C55E"
+                ><svg class="i" viewbox="0 0 24 24" aria-hidden="true"><path d="m5 12 5 5L20 7"></path></svg></b
+              >{t.steps_share_active}</span
+            >
+          </div>
+          <ol class="sxf-steps" data-rv style="--dl:.12s">
+            <li>
+              <button class="sxf-b sxf-step is-on" aria-pressed="true" aria-controls="sxf-how-shot"
+                ><span class="n">1</span><span class="t"
+                  ><strong>{t.steps_pick_folders_or_files}</strong><span class="d">{t.steps_open_the_menu_of}</span
+                  ></span
+                ><span class="bar" aria-hidden="true"><i></i></span></button
+              >
+            </li><li>
+              <button class="sxf-b sxf-step" aria-pressed="false" aria-controls="sxf-how-shot"
+                ><span class="n">2</span><span class="t"
+                  ><strong>{t.steps_set_up_the_share}</strong><span class="d">{t.steps_add_a_subject_message}</span
+                  ></span
+                ><span class="bar" aria-hidden="true"><i></i></span></button
+              >
+            </li><li>
+              <button class="sxf-b sxf-step" aria-pressed="false" aria-controls="sxf-how-shot"
+                ><span class="n">3</span><span class="t"
+                  ><strong>{t.steps_send_by_email_link}</strong><span class="d">{t.steps_sdx_sends_the_invitation}</span
+                  ></span
+                ><span class="bar" aria-hidden="true"><i></i></span></button
+              >
+            </li>
+          </ol>
+        </div>
+      </div>
+    </section>
+    <script is:inline>
+      (function () {
+        function init(s) {
+          if (s.__sxf) return;
+          s.__sxf = 1;
+          var bt = [].slice.call(s.querySelectorAll('.sxf-step')),
+            im = [].slice.call(s.querySelectorAll('.sxf-tab-in img')),
+            cur = 0;
+          var rm = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+          function show(i) {
+            cur = i;
+            bt.forEach(function (b, k) {
+              var on = k === i;
+              b.classList.toggle('is-on', on);
+              b.setAttribute('aria-pressed', on ? 'true' : 'false');
+              var bar = b.querySelector('.bar i');
+              if (bar) {
+                bar.style.animation = 'none';
+                bar.offsetWidth;
+                bar.style.animation = '';
+              }
+            });
+            im.forEach(function (m, k) {
+              m.classList.toggle('is-on', k === i);
+            });
+          }
+          bt.forEach(function (b, k) {
+            b.addEventListener('click', function () {
+              s.classList.remove('is-auto');
+              show(k);
+            });
+            var bar = b.querySelector('.bar i');
+            if (bar)
+              bar.addEventListener('animationend', function () {
+                if (s.classList.contains('is-auto') && k === cur) show((cur + 1) % bt.length);
+              });
+          });
+          if (!rm) {
+            s.classList.add('is-auto');
+            if ('IntersectionObserver' in window) {
+              new IntersectionObserver(
+                function (es) {
+                  s.classList.toggle('is-run', es[0].isIntersecting);
+                },
+                { threshold: 0.35 },
+              ).observe(s.querySelector('.sxf-split'));
+            } else s.classList.add('is-run');
+          }
+          show(0);
+        }
+        function go() {
+          document.querySelectorAll('.sxf-how').forEach(init);
+        }
+        if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', go);
+        else go();
+      })();
+    </script>
+  </div>
+</div>

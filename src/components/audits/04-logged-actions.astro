@@ -1,0 +1,410 @@
+---
+/**
+ * Section "logged_actions": Alles Wichtige im Blick. Ganz automatisch.
+ * Texts: src/i18n/audits.json, keys starting with "logged_actions_" (one entry per language).
+ * Layout and styles of this section are in this file; legacy Elementor classes come from
+ * src/styles/legacy*.css and should be left as they are.
+ */
+import { dict, type Lang } from '../../i18n';
+import data from '../../i18n/audits.json';
+const { lang } = Astro.props as { lang: Lang };
+const t = dict(data, lang);
+---
+
+<div class="elementor-element elementor-element-a26c4de e-flex e-con-full e-con e-parent" data-id="a26c4de">
+  <div class="elementor-element elementor-element-f63ed85 elementor-widget elementor-widget-html" data-id="f63ed85">
+    <style is:global>
+      /* 4 what is logged: action marquee + cards */
+      .sxa-log {
+        padding: 128px 0;
+        background: linear-gradient(180deg, #f3f7ff 0%, #ffffff 100%);
+      }
+      .sxa-log .sxf-head {
+        padding: 0 32px;
+      }
+      .sxa-log .mq {
+        position: relative;
+        margin-top: 56px;
+        display: grid;
+        gap: 14px;
+        -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+        mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+      }
+      /* room below the pills so their shadow is not cut by the mask */
+      .sxa-log .mq {
+        padding: 6px 0 26px;
+        margin-bottom: -20px;
+      }
+      .sxa-log .ln {
+        display: flex;
+        gap: 12px;
+        width: max-content;
+        animation: sxaMq var(--t, 60s) linear infinite;
+      }
+      .sxa-log .ln.r {
+        animation-direction: reverse;
+      }
+      .sxa-log .mq:hover .ln {
+        animation-play-state: paused;
+      }
+      @keyframes sxaMq {
+        to {
+          transform: translateX(-50%);
+        }
+      }
+      .sxa-log .ln span {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 18px 10px 10px;
+        border-radius: 999px;
+        background: #fff;
+        border: 1px solid #e3e8f0;
+        box-shadow: 0 6px 16px rgba(18, 37, 92, 0.06);
+        font-size: 14.5px;
+        font-weight: 600;
+        color: #0f1b2d;
+        white-space: nowrap;
+      }
+      .sxa-log .ln span b {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background: color-mix(in srgb, var(--c) 14%, #fff);
+        color: var(--c);
+      }
+      .sxa-log .ln span b svg {
+        width: 16px;
+        height: 16px;
+      }
+      .sxa-log .cards {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 20px;
+        max-width: 1280px;
+        margin: 56px auto 0;
+        padding: 0 32px;
+      }
+      .sxa-log .cd {
+        position: relative;
+        padding: 28px;
+        border-radius: 24px;
+        background: #fff;
+        border: 1px solid #e3e8f0;
+        box-shadow: 0 2px 6px rgba(18, 37, 92, 0.04);
+      }
+      .sxa-log .cd .ic {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 48px;
+        height: 48px;
+        border-radius: 14px;
+        background: var(--c);
+        color: #fff;
+        box-shadow: 0 12px 22px -10px var(--c);
+      }
+      .sxa-log .cd .ic svg {
+        width: 23px;
+        height: 23px;
+      }
+      .sxa-log .cd h3 {
+        margin: 20px 0 8px;
+        font-family: Inter, sans-serif;
+        font-size: 20px;
+        line-height: 1.3;
+        font-weight: 700;
+        color: #0f1b2d;
+      }
+      .sxa-log .cd p {
+        margin: 0;
+        font-size: 15.5px;
+        line-height: 1.55;
+        color: #4a5568;
+      }
+      .sxa-log .pw {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-top: 18px;
+        padding: 12px 14px;
+        border-radius: 14px;
+        background: #f7f9fc;
+        border: 1px solid #e8edf5;
+      }
+      .sxa-log .pw small {
+        font-size: 12px;
+        font-weight: 600;
+        color: #6b7487;
+      }
+      .sxa-log .pw code {
+        flex: 1;
+        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+        font-size: 15px;
+        letter-spacing: 0.18em;
+        color: #0f1b2d;
+      }
+      .sxa-log .pw em {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        padding: 4px 9px;
+        border-radius: 999px;
+        background: #fff1f1;
+        color: #b42318;
+        font-style: normal;
+        font-size: 11.5px;
+        font-weight: 700;
+        white-space: nowrap;
+      }
+      .sxa-log .pw em svg {
+        width: 12px;
+        height: 12px;
+        stroke-width: 2.6;
+      }
+      .sxa-log .auto {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-top: 18px;
+      }
+      .sxa-log .auto i {
+        position: relative;
+        flex: 1;
+        height: 8px;
+        border-radius: 999px;
+        background: #eaf1ff;
+        overflow: hidden;
+      }
+      .sxa-log .auto i::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        width: 40%;
+        border-radius: 999px;
+        background: #2a73ff;
+        animation: sxaRun 2.4s ease-in-out infinite;
+      }
+      @keyframes sxaRun {
+        0% {
+          transform: translateX(-100%);
+        }
+        100% {
+          transform: translateX(260%);
+        }
+      }
+      .sxa-log .auto small {
+        font-size: 12px;
+        font-weight: 600;
+        color: #2a73ff;
+        white-space: nowrap;
+      }
+      .sxa-log .nt {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-top: 18px;
+        padding: 11px 12px;
+        border-radius: 14px;
+        background: #0f1b2d;
+        color: #fff;
+        font-size: 12.5px;
+        line-height: 1.4;
+      }
+      .sxa-log .nt b {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 28px;
+        height: 28px;
+        border-radius: 9px;
+        background: #f59000;
+        flex: none;
+      }
+      .sxa-log .nt b svg {
+        width: 15px;
+        height: 15px;
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .sxa-log .ln {
+          animation: none;
+          flex-wrap: wrap;
+          width: auto;
+          justify-content: center;
+          padding: 0 24px;
+        }
+        .sxa-log .ln span.d {
+          display: none;
+        }
+        .sxa-log .mq {
+          -webkit-mask-image: none;
+          mask-image: none;
+        }
+        .sxa-log .auto i::after {
+          animation: none;
+          width: 100%;
+        }
+      }
+      @media (max-width: 1024px) {
+        .sxa-log {
+          padding: 104px 0;
+        }
+        .sxa-log .sxf-head {
+          padding: 0 24px;
+        }
+        .sxa-log .cards {
+          grid-template-columns: minmax(0, 1fr);
+          max-width: 620px;
+          padding: 0 24px;
+        }
+      }
+      @media (max-width: 767px) {
+        .sxa-log {
+          padding: 84px 0;
+        }
+        .sxa-log .sxf-head {
+          padding: 0 18px;
+        }
+        .sxa-log .cards {
+          padding: 0 18px;
+          margin-top: 40px;
+        }
+        .sxa-log .ln span {
+          font-size: 13.5px;
+        }
+        .sxa-log .cd {
+          padding: 22px 20px;
+        }
+      }
+    </style>
+    <section class="sxf sxa-log" id="protokoll" aria-labelledby="sxa-h-log">
+      <div class="sxf-head" data-rv>
+        <p class="sxf-eyebrow">{t.logged_actions_what_is_logged}</p>
+        <h2 class="sxf-h" id="sxa-h-log">
+          {t.logged_actions_everything_important_in_view}
+          <span class="sxf-blue">{t.logged_actions_fully_automatic}</span>
+        </h2>
+        <p class="sxf-lead">{t.logged_actions_logins_previews_downloads_upload}</p>
+      </div>
+      <div class="mq" data-rv aria-label={t.logged_actions_aria_label_examples_of_logged}></div>
+      <div class="cards">
+        <article class="cd" data-rv style="--c:#2A73FF">
+          <span class="ic" aria-hidden="true"
+            ><svg class="i" viewbox="0 0 24 24"><path d="M3 12h4l3-8 4 16 3-8h4"></path></svg></span
+          ><h3>{t.logged_actions_recorded_automatically}</h3><p>{t.logged_actions_relevant_system_actions_end}</p><div
+            class="auto"
+            aria-hidden="true"
+          >
+            <i></i><small>{t.logged_actions_always_on}</small>
+          </div>
+        </article>
+        <article class="cd" data-rv style="--c:#0F1B2D;--dl:.08s">
+          <span class="ic" aria-hidden="true"
+            ><svg class="i" viewbox="0 0 24 24"
+              ><rect x="4" y="11" width="16" height="10" rx="2"></rect><path d="M8 11V7a4 4 0 0 1 8 0v4"></path></svg
+            ></span
+          ><h3>{t.logged_actions_no_passwords_in_the}</h3><p>{t.logged_actions_passwords_are_not_logged}</p><div
+            class="pw"
+            aria-hidden="true"
+          >
+            <small>{t.logged_actions_password}</small><code>••••••••</code><em
+              ><svg class="i" viewbox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"></path></svg>{
+                t.logged_actions_never_in_the_log
+              }</em
+            >
+          </div>
+        </article>
+        <article class="cd" data-rv style="--c:#F59000;--dl:.16s">
+          <span class="ic" aria-hidden="true"
+            ><svg class="i" viewbox="0 0 24 24"
+              ><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9M10.3 21a1.94 1.94 0 0 0 3.4 0"></path></svg
+            ></span
+          ><h3>{t.logged_actions_automatic_notifications}</h3><p>{t.logged_actions_get_notified_about_relevant}</p><div
+            class="nt"
+            aria-hidden="true"
+          >
+            <b
+              ><svg class="i" viewbox="0 0 24 24"
+                ><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9M10.3 21a1.94 1.94 0 0 0 3.4 0"></path></svg
+              ></b
+            ><span
+              >{t.logged_actions_new_activity}
+              <strong>Delete content</strong>
+              {t.logged_actions_in_the_projects_space}</span
+            >
+          </div>
+        </article>
+      </div>
+    </section>
+    <script is:inline>
+      (function () {
+        var IC = {
+          li: '<path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4M10 17l5-5-5-5M15 12H3"/>',
+          pv: '<path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>',
+          dl: '<path d="M12 4v12M7 11l5 5 5-5M4 20h16"/>',
+          up: '<path d="M12 16V4M7 9l5-5 5 5M4 20h16"/>',
+          ud: '<path d="M4 20h4L19 9l-4-4L4 16z"/><path d="m13.5 6.5 4 4"/>',
+          de: '<path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/>',
+          nt: '<path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9M10.3 21a1.94 1.94 0 0 0 3.4 0"/>',
+          sh: '<circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.6 13.5 6.8 4M15.4 6.5l-6.8 4"/>',
+          pm: '<path d="M12 3 4 6v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V6z"/>',
+          at: '<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/>',
+          us: '<circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/>',
+        };
+        var R1 = [
+          ['li', 'Login', '#22C55E'],
+          ['pv', 'Preview content', '#A855F7'],
+          ['dl', 'Download content', '#2A73FF'],
+          ['up', 'Upload content', '#F59000'],
+          ['ud', 'Update content', '#00A3D9'],
+          ['de', 'Delete content', '#F04438'],
+        ];
+        var R2 = [
+          ['nt', 'Update notification', '#F59000'],
+          ['sh', 'Create external sharing', '#16A34A'],
+          ['sh', 'Download external sharing', '#2A73FF'],
+          ['pm', 'Update permissions', '#C800FF'],
+          ['us', 'Create user', '#0F1B2D'],
+          ['at', 'Set app attribute', '#8A94A6'],
+        ];
+        function line(r, cl, t) {
+          var d = document.createElement('div');
+          d.className = 'ln' + cl;
+          d.style.setProperty('--t', t);
+          var h = '';
+          for (var k = 0; k < 2; k++) {
+            r.forEach(function (x) {
+              h +=
+                '<span' +
+                (k ? ' class="d" aria-hidden="true"' : '') +
+                ' style="--c:' +
+                x[2] +
+                '"><b><svg class="i" viewBox="0 0 24 24" aria-hidden="true">' +
+                IC[x[0]] +
+                '</svg></b>' +
+                x[1] +
+                '</span>';
+            });
+          }
+          d.innerHTML = h + h.replace(/<span style/g, '<span class="d" aria-hidden="true" style');
+          return d;
+        }
+        function init(s) {
+          if (s.__sxa) return;
+          s.__sxa = 1;
+          var m = s.querySelector('.mq');
+          m.appendChild(line(R1, '', '56s'));
+          m.appendChild(line(R2, ' r', '64s'));
+        }
+        function go() {
+          document.querySelectorAll('.sxa-log').forEach(init);
+        }
+        if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', go);
+        else go();
+      })();
+    </script>
+  </div>
+</div>

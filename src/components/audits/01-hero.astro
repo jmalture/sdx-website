@@ -1,0 +1,957 @@
+---
+/**
+ * Section "hero": Jede Aktion. Lückenlos nachvollziehbar.
+ * Texts: src/i18n/audits.json, keys starting with "hero_" (one entry per language).
+ * Layout and styles of this section are in this file; legacy Elementor classes come from
+ * src/styles/legacy*.css and should be left as they are.
+ */
+import { dict, type Lang } from '../../i18n';
+import data from '../../i18n/audits.json';
+const { lang } = Astro.props as { lang: Lang };
+const t = dict(data, lang);
+---
+
+<div class="elementor-element elementor-element-sxa01 e-con-full e-flex e-con e-parent" data-id="sxa01">
+  <div class="elementor-element elementor-element-sxa01w elementor-widget elementor-widget-html" data-id="sxa01w">
+    <style is:global>
+      /* Audits page: shared base (same system as External Share) */
+      .sxf {
+        position: relative;
+        overflow: hidden;
+        font-family: Inter, sans-serif;
+        box-sizing: border-box;
+        color: #0f1b2d;
+        scroll-margin-top: 90px;
+        -webkit-font-smoothing: antialiased;
+      }
+      .sxf *,
+      .sxf *::before,
+      .sxf *::after {
+        box-sizing: border-box;
+      }
+      .sxf .sxf-wrap {
+        position: relative;
+        z-index: 1;
+        max-width: 1280px;
+        margin: 0 auto;
+      }
+      .sxf .sxf-blue {
+        color: #2a73ff;
+      }
+      .sxf .sxf-eyebrow {
+        margin: 0 0 14px;
+        font-size: 14px;
+        line-height: 1.4;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: #2a73ff;
+      }
+      .sxf .sxf-h {
+        margin: 0;
+        font-family: Inter, sans-serif;
+        font-size: clamp(32px, 4vw, 48px);
+        line-height: 1.12;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        color: #000;
+      }
+      .sxf .sxf-lead {
+        margin: 22px 0 0;
+        font-size: 18px;
+        line-height: 1.6;
+        color: #4a5568;
+      }
+      .sxf .sxf-head {
+        max-width: 780px;
+        margin: 0 auto;
+        text-align: center;
+      }
+      .sxf .sxf-float {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        z-index: 0;
+      }
+      .sxf .sxf-fold {
+        position: absolute;
+        width: var(--s);
+        height: var(--s);
+        border-radius: calc(var(--s) * 0.24);
+        background: var(--c);
+        box-shadow:
+          0 14px 30px -10px color-mix(in srgb, var(--c) 70%, #000 0%),
+          0 2px 6px rgba(15, 27, 45, 0.08);
+        transform: rotate(var(--r, 0deg));
+        animation: sxfBob var(--d, 6s) ease-in-out infinite alternate;
+      }
+      .sxf .sxf-fold::after {
+        content: '';
+        position: absolute;
+        inset: 27%;
+        background: center/contain no-repeat
+          url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23fff'%3E%3Cpath d='M3 6.5A2.5 2.5 0 0 1 5.5 4h4.1l2 2.2h6.9A2.5 2.5 0 0 1 21 8.7v8.8a2.5 2.5 0 0 1-2.5 2.5h-13A2.5 2.5 0 0 1 3 17.5z'/%3E%3C/svg%3E");
+      }
+      .sxf .sxf-pill {
+        position: absolute;
+        z-index: 3;
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        padding: 4px 14px 4px 4px;
+        border-radius: 32px;
+        background: #fff;
+        font-size: 13px;
+        line-height: 1.3;
+        font-weight: 500;
+        color: #5b6475;
+        white-space: nowrap;
+        box-shadow: 0 10px 24px rgba(42, 115, 255, 0.18);
+        animation: sxfBob var(--d, 6s) ease-in-out infinite alternate;
+      }
+      .sxf .sxf-pill b {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        color: #fff;
+        flex: none;
+      }
+      .sxf .sxf-pill b svg {
+        width: 15px;
+        height: 15px;
+      }
+      @keyframes sxfBob {
+        from {
+          translate: 0 -7px;
+        }
+        to {
+          translate: 0 7px;
+        }
+      }
+      .sxf svg.i {
+        width: 1em;
+        height: 1em;
+        fill: none;
+        stroke: currentColor;
+        stroke-width: 2;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        flex: none;
+      }
+      .sxf .sxf-sr {
+        position: absolute !important;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0 0 0 0);
+        white-space: nowrap;
+        border: 0;
+      }
+      /* buttons: neutralise theme button styles (Hello: pink hover) */
+      .sxf .sxf-b {
+        all: unset;
+        box-sizing: border-box;
+        cursor: pointer;
+        -webkit-tap-highlight-color: transparent;
+      }
+      .sxf a.sxf-btn,
+      .sxf .sxf-b.sxf-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        padding: 13px 24px;
+        border-radius: 16px;
+        font-family: Inter, sans-serif;
+        font-size: 15px;
+        line-height: 1.3;
+        font-weight: 600;
+        text-decoration: none;
+        border: 1px solid transparent;
+        transition:
+          transform 0.2s ease,
+          box-shadow 0.2s ease,
+          background-color 0.2s ease,
+          border-color 0.2s ease,
+          color 0.2s ease;
+      }
+      .sxf a.sxf-btn svg,
+      .sxf .sxf-b.sxf-btn svg {
+        width: 18px;
+        height: 18px;
+      }
+      .sxf a.sxf-btn-p,
+      .sxf a.sxf-btn-p:visited,
+      .sxf .sxf-b.sxf-btn-p {
+        background: #2a73ff;
+        color: #fff;
+      }
+      .sxf a.sxf-btn-p:hover,
+      .sxf a.sxf-btn-p:focus-visible,
+      .sxf .sxf-b.sxf-btn-p:hover {
+        background: #1f63eb;
+        color: #fff;
+        transform: translateY(-2px);
+        box-shadow: 0 12px 24px rgba(42, 115, 255, 0.32);
+      }
+      .sxf a.sxf-btn-s,
+      .sxf a.sxf-btn-s:visited,
+      .sxf .sxf-b.sxf-btn-s {
+        background: #fff;
+        color: #0f1b2d;
+        border-color: #d8e1ee;
+      }
+      .sxf a.sxf-btn-s:hover,
+      .sxf a.sxf-btn-s:focus-visible,
+      .sxf .sxf-b.sxf-btn-s:hover {
+        background: #fff;
+        border-color: #2a73ff;
+        color: #0f1b2d;
+        transform: translateY(-2px);
+        box-shadow: 0 10px 20px rgba(18, 37, 92, 0.1);
+      }
+      .sxf a:focus-visible,
+      .sxf .sxf-b:focus-visible,
+      .sxf [tabindex]:focus-visible {
+        outline: 2px solid #2a73ff;
+        outline-offset: 3px;
+        box-shadow: none;
+      }
+      /* action badges used across the page */
+      .sxf .sxa-act {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 3px 9px;
+        border-radius: 999px;
+        background: color-mix(in srgb, var(--c) 13%, #fff);
+        color: color-mix(in srgb, var(--c) 80%, #0f1b2d);
+        font-size: 12px;
+        font-weight: 600;
+        white-space: nowrap;
+      }
+      .sxf .sxa-act::before {
+        content: '';
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: var(--c);
+      }
+      .sxf .sxa-av {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        background: var(--c, #2a73ff);
+        color: #fff;
+        font-size: 10.5px;
+        font-weight: 700;
+        flex: none;
+      }
+      /* reveal on scroll */
+      .sxf-js .sxf [data-rv] {
+        opacity: 0;
+        translate: 0 26px;
+        transition:
+          opacity 0.8s ease var(--dl, 0s),
+          translate 0.9s cubic-bezier(0.22, 1, 0.36, 1) var(--dl, 0s);
+      }
+      .sxf-js .sxf [data-rv].is-in {
+        opacity: 1;
+        translate: 0 0;
+      }
+      body.elementor-editor-active .sxf [data-rv] {
+        opacity: 1 !important;
+        translate: none !important;
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .sxf-js .sxf [data-rv] {
+          translate: none;
+        }
+      }
+      @media (max-width: 767px) {
+        .sxf .sxf-lead {
+          font-size: 17px;
+        }
+      }
+
+      /* 1 hero */
+      .sxf-hero {
+        padding: 84px 32px 128px;
+        background: linear-gradient(180deg, #ffffff 0%, #eaf2fe 62%, #dcebfc 100%);
+      }
+      .sxf-hero .sxf-wrap {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1.22fr);
+        gap: 72px;
+        align-items: center;
+      }
+      .sxf-hero .sxf-crumb {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin: 0 0 26px;
+        font-size: 13px;
+        font-weight: 500;
+        color: #6b7487;
+      }
+      .sxf-hero .sxf-crumb a,
+      .sxf-hero .sxf-crumb a:visited {
+        color: #6b7487;
+        text-decoration: none;
+      }
+      .sxf-hero .sxf-crumb a:hover {
+        color: #2a73ff;
+      }
+      .sxf-hero .sxf-crumb span[aria-current] {
+        color: #0f1b2d;
+      }
+      .sxf-hero h1.sxf-h1 {
+        margin: 0;
+        font-family: Inter, sans-serif;
+        font-size: clamp(40px, 4.7vw, 62px);
+        line-height: 1.04;
+        font-weight: 700;
+        letter-spacing: -0.045em;
+        color: #000;
+      }
+      .sxf-hero .sxf-lead {
+        max-width: 540px;
+        margin-top: 26px;
+      }
+      .sxf-hero .sxf-ctas {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-top: 36px;
+      }
+      .sxf-hero .sxf-trust {
+        list-style: none;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px 22px;
+        margin: 34px 0 0;
+        padding: 0;
+      }
+      .sxf-hero .sxf-trust li {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        margin: 0;
+        font-size: 14px;
+        font-weight: 500;
+        color: #4a5568;
+      }
+      .sxf-hero .sxf-trust li b {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background: #22c55e;
+        color: #fff;
+      }
+      .sxf-hero .sxf-trust li b svg {
+        width: 12px;
+        height: 12px;
+        stroke-width: 3;
+      }
+      .sxf-hero .sxf-vis {
+        position: relative;
+      }
+      .sxf-browser {
+        position: relative;
+        z-index: 1;
+        border-radius: 18px;
+        background: #fff;
+        box-shadow:
+          0 44px 90px -24px rgba(18, 37, 92, 0.34),
+          0 0 0 1px rgba(18, 37, 92, 0.06);
+        overflow: hidden;
+      }
+      .sxf-browser .sxf-bar {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        height: 44px;
+        padding: 0 16px;
+        background: #fff;
+        border-bottom: 1px solid #edf1f7;
+      }
+      .sxf-browser .sxf-bar i {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: #ff5f57;
+        flex: none;
+      }
+      .sxf-browser .sxf-bar i:nth-child(2) {
+        background: #febc2e;
+      }
+      .sxf-browser .sxf-bar i:nth-child(3) {
+        background: #28c840;
+      }
+      .sxf-browser .sxf-url {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        flex: 0 1 380px;
+        min-width: 0;
+        margin: 0 auto;
+        padding: 6px 14px;
+        border-radius: 999px;
+        background: #f1f4f9;
+        font-size: 12.5px;
+        color: #5b6475;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .sxf-browser .sxf-url svg {
+        width: 12px;
+        height: 12px;
+        color: #22a355;
+      }
+      /* live audit table */
+      .sxa-app {
+        padding: 20px 22px 22px;
+        background: #fff;
+      }
+      .sxa-app .top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+      }
+      .sxa-app .top b {
+        font-size: 18px;
+        font-weight: 700;
+        color: #0f1b2d;
+      }
+      .sxa-app .top span {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 6px 12px;
+        border-radius: 10px;
+        border: 1px solid #d8e1ee;
+        font-size: 12.5px;
+        font-weight: 600;
+        color: #0f1b2d;
+      }
+      .sxa-app .top span svg {
+        width: 14px;
+        height: 14px;
+        color: #2a73ff;
+      }
+      .sxa-app .flt {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 8px;
+        margin: 14px 0 14px;
+      }
+      .sxa-app .flt i {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 6px 10px;
+        border-radius: 10px;
+        background: #f1f4f9;
+        font-style: normal;
+        font-size: 12px;
+        font-weight: 600;
+        color: #3d4555;
+      }
+      .sxa-app .flt i svg {
+        width: 13px;
+        height: 13px;
+        color: #6b7487;
+      }
+      .sxa-app .flt em {
+        margin-left: auto;
+        font-style: normal;
+        font-size: 12px;
+        color: #6b7487;
+      }
+      .sxa-app .flt em b {
+        color: #0f1b2d;
+        font-variant-numeric: tabular-nums;
+      }
+      .sxa-app .tb {
+        border: 1px solid #edf1f7;
+        border-radius: 14px;
+        overflow: hidden;
+      }
+      .sxa-app .tr {
+        display: grid;
+        grid-template-columns: 52px 118px 136px minmax(0, 1fr);
+        gap: 10px;
+        align-items: center;
+        padding: 10px 14px;
+        font-size: 12.5px;
+        color: #3d4555;
+        background: #fff;
+      }
+      .sxa-app .tr + .tr {
+        border-top: 1px solid #f0f3f8;
+      }
+      .sxa-app .th {
+        background: #f7f9fc;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        color: #6b7487;
+      }
+      .sxa-app .tr .tm {
+        font-variant-numeric: tabular-nums;
+        color: #6b7487;
+      }
+      .sxa-app .tr .who {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        font-weight: 600;
+        color: #0f1b2d;
+        min-width: 0;
+      }
+      .sxa-app .tr .who span:last-child {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      .sxa-app .tr .sm {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      .sxa-app .tr.new {
+        animation: sxaNew 2.2s ease;
+      }
+      @keyframes sxaNew {
+        0% {
+          background: #fff6d6;
+          transform: translateY(-8px);
+          opacity: 0;
+        }
+        15% {
+          transform: none;
+          opacity: 1;
+        }
+        60% {
+          background: #fff6d6;
+        }
+        100% {
+          background: #fff;
+        }
+      }
+      .sxf-hero .p1 {
+        top: -20px;
+        right: 9%;
+        --d: 6.4s;
+      }
+      .sxf-hero .p2 {
+        left: -30px;
+        bottom: 14%;
+        --d: 5.4s;
+      }
+      .sxf-hero .f1 {
+        left: -34px;
+        top: 12%;
+        --s: 62px;
+        --c: #ffbb00;
+        --r: -12deg;
+        --d: 6.8s;
+        z-index: 2;
+      }
+      .sxf-hero .f3 {
+        right: -22px;
+        top: -34px;
+        --s: 40px;
+        --c: #00bfff;
+        --r: 10deg;
+        --d: 7.2s;
+        z-index: 2;
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .sxa-app .tr.new {
+          animation: none;
+        }
+      }
+      @media (max-width: 1340px) {
+        .sxf-hero .p2 {
+          left: -12px;
+        }
+        .sxf-hero .f1 {
+          left: -18px;
+        }
+      }
+      @media (max-width: 1180px) {
+        .sxf-hero .sxf-wrap {
+          gap: 48px;
+        }
+        .sxa-app .tr {
+          grid-template-columns: 48px 112px 128px minmax(0, 1fr);
+        }
+      }
+      @media (max-width: 1024px) {
+        .sxf-hero {
+          padding: 64px 24px 104px;
+        }
+        .sxf-hero .sxf-wrap {
+          grid-template-columns: minmax(0, 1fr);
+          gap: 64px;
+        }
+        .sxf-hero .sxf-text {
+          max-width: 680px;
+          margin: 0 auto;
+          text-align: center;
+        }
+        .sxf-hero .sxf-crumb,
+        .sxf-hero .sxf-ctas,
+        .sxf-hero .sxf-trust {
+          justify-content: center;
+        }
+        .sxf-hero .sxf-lead {
+          margin-left: auto;
+          margin-right: auto;
+        }
+        .sxf-hero .sxf-vis {
+          max-width: 720px;
+          margin: 0 auto;
+          width: 100%;
+        }
+        .sxf-hero .f3 {
+          display: none;
+        }
+      }
+      @media (max-width: 767px) {
+        .sxf-hero {
+          padding: 48px 18px 84px;
+        }
+        .sxf-hero .sxf-crumb {
+          margin-bottom: 20px;
+        }
+        .sxf-hero .sxf-ctas a.sxf-btn {
+          flex: 1 1 220px;
+        }
+        .sxf-hero .sxf-trust {
+          gap: 10px 16px;
+        }
+        .sxf-hero .sxf-trust li {
+          font-size: 13px;
+        }
+        .sxf-browser {
+          border-radius: 12px;
+        }
+        .sxf-browser .sxf-bar {
+          height: 34px;
+          padding: 0 10px;
+          gap: 5px;
+        }
+        .sxf-browser .sxf-bar i {
+          width: 8px;
+          height: 8px;
+        }
+        .sxf-browser .sxf-url {
+          font-size: 11px;
+          padding: 4px 10px;
+        }
+        .sxa-app {
+          padding: 14px 12px 14px;
+        }
+        .sxa-app .flt i:nth-child(n + 3) {
+          display: none;
+        }
+        .sxa-app .tr {
+          grid-template-columns: 50px minmax(0, 1fr) auto;
+          padding: 9px 10px;
+          font-size: 12px;
+        }
+        .sxa-app .th {
+          font-size: 10px;
+          letter-spacing: 0.03em;
+        }
+        .sxa-app .tr .sm {
+          display: none;
+        }
+        .sxf-hero .p1 {
+          top: -16px;
+          right: 4%;
+          font-size: 12px;
+        }
+        .sxf-hero .p2 {
+          left: 4%;
+          bottom: -18px;
+          font-size: 12px;
+        }
+        .sxf-hero .f1 {
+          left: -10px;
+          top: -24px;
+          --s: 42px;
+        }
+      }
+    </style>
+    <section class="sxf sxf-hero" id="audits" aria-labelledby="sxf-h1">
+      <div class="sxf-wrap">
+        <div class="sxf-text">
+          <nav class="sxf-crumb" aria-label={t.hero_aria_label_breadcrumb}>
+            <a href={t.hero_link_home}>{t.hero_home}</a><span aria-hidden="true">/</span><span aria-current="page"
+              >Audits</span
+            >
+          </nav>
+          <p class="sxf-eyebrow">Audits</p>
+          <h1 class="sxf-h1" id="sxf-h1">
+            {t.hero_every_action}<br /><span class="sxf-blue">{t.hero_fully_traceable}</span>
+          </h1>
+          <p class="sxf-lead">{t.hero_sdx_logs_activities_and}</p>
+          <div class="sxf-ctas">
+            <a class="sxf-btn sxf-btn-p" href={t.hero_link_kontakt}>{t.hero_request_a_demo}</a><a
+              class="sxf-btn sxf-btn-s"
+              href="#so-gehts">{t.hero_how_it_works}</a
+            >
+          </div>
+          <ul class="sxf-trust">
+            <li>
+              <b><svg class="i" viewbox="0 0 24 24" aria-hidden="true"><path d="m5 12 5 5L20 7"></path></svg></b>{
+                t.hero_permanent_audit_trail
+              }
+            </li><li>
+              <b><svg class="i" viewbox="0 0 24 24" aria-hidden="true"><path d="m5 12 5 5L20 7"></path></svg></b>{
+                t.hero_no_passwords_in_the
+              }
+            </li><li>
+              <b><svg class="i" viewbox="0 0 24 24" aria-hidden="true"><path d="m5 12 5 5L20 7"></path></svg></b>{
+                t.hero_hosted_in_germany
+              }
+            </li>
+          </ul>
+        </div>
+        <div class="sxf-vis" aria-hidden="true">
+          <span class="sxf-fold f1"></span><span class="sxf-fold f3"></span>
+          <div class="sxf-browser">
+            <div class="sxf-bar">
+              <i></i><i></i><i></i><span class="sxf-url"
+                ><svg class="i" viewbox="0 0 24 24"
+                  ><rect x="4" y="11" width="16" height="10" rx="2"></rect><path d="M8 11V7a4 4 0 0 1 8 0v4"
+                  ></path></svg
+                >ihre-firma.sdx-app.com/admin/audits</span
+              >
+            </div>
+            <div class="sxa-app">
+              <div class="top">
+                <b>Audits</b><span
+                  ><svg class="i" viewbox="0 0 24 24"><path d="M12 4v12M7 11l5 5 5-5M4 20h16"></path></svg
+                  >Download</span
+                >
+              </div>
+              <div class="flt">
+                <i
+                  ><svg class="i" viewbox="0 0 24 24"
+                    ><rect x="3" y="5" width="18" height="16" rx="2"></rect><path d="M16 3v4M8 3v4M3 10h18"></path></svg
+                  >{t.hero_today}</i
+                ><i
+                  ><svg class="i" viewbox="0 0 24 24"><path d="M4 6h16M7 12h10M10 18h4"></path></svg>{
+                    t.hero_all_actions
+                  }</i
+                ><i
+                  ><svg class="i" viewbox="0 0 24 24"
+                    ><circle cx="12" cy="8" r="4"></circle><path d="M4 21a8 8 0 0 1 16 0"></path></svg
+                  >{t.hero_all_users}</i
+                ><em><b class="cnt">676</b> {t.hero_entries}</em>
+              </div>
+              <div class="tb">
+                <div class="tr th">
+                  <span>Created</span><span>Who</span><span>Action</span><span class="sm">Summary</span>
+                </div>
+                <div class="rows"></div>
+              </div>
+            </div>
+          </div>
+          <span class="sxf-pill p1"
+            ><b style="background:#0F1B2D"
+              ><svg class="i" viewbox="0 0 24 24"
+                ><rect x="4" y="11" width="16" height="10" rx="2"></rect><path d="M8 11V7a4 4 0 0 1 8 0v4"></path></svg
+              ></b
+            >{t.hero_tamper_proof}</span
+          >
+          <span class="sxf-pill p2"
+            ><b style="background:#22C55E"
+              ><svg class="i" viewbox="0 0 24 24"><path d="M12 4v12M7 11l5 5 5-5M4 20h16"></path></svg></b
+            >{t.hero_export_as_csv_xlsx}</span
+          >
+        </div>
+      </div>
+    </section>
+    <script is:inline>
+      (function () {
+        var d = document.documentElement;
+        d.classList.add('sxf-js');
+        function go() {
+          var els = [].slice.call(document.querySelectorAll('.sxf [data-rv]'));
+          if (!('IntersectionObserver' in window) || document.visibilityState === 'hidden') {
+            els.forEach(function (e) {
+              e.classList.add('is-in');
+            });
+            return;
+          }
+          var io = new IntersectionObserver(
+            function (es) {
+              es.forEach(function (en) {
+                if (en.isIntersecting) {
+                  en.target.classList.add('is-in');
+                  io.unobserve(en.target);
+                }
+              });
+            },
+            { rootMargin: '0px 0px -6% 0px', threshold: 0.1 },
+          );
+          els.forEach(function (e) {
+            io.observe(e);
+          });
+          setTimeout(function () {
+            els.forEach(function (e) {
+              var r = e.getBoundingClientRect();
+              if (r.top < innerHeight && r.bottom > 0) e.classList.add('is-in');
+            });
+          }, 1200);
+        }
+        if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', go);
+        else go();
+      })();
+      (function () {
+        var A = {
+          pv: ['Preview content', '#A855F7'],
+          dl: ['Download content', '#2A73FF'],
+          up: ['Upload content', '#F59000'],
+          ud: ['Update content', '#00A3D9'],
+          de: ['Delete content', '#F04438'],
+          li: ['Login', '#22C55E'],
+          sh: ['Create external sharing', '#16A34A'],
+          at: ['Set app attribute', '#8A94A6'],
+        };
+        var U = {
+          'a.mueller': '#C800FF',
+          'm.weber': '#2A73FF',
+          'j.klein': '#F59000',
+          't.schulz': '#22C55E',
+          Administrator: '#0F1B2D',
+          'l.braun': '#00A3D9',
+        };
+        var L = [
+          ['a.mueller', 'pv', 'previewed content Angebot_Q4.pdf'],
+          ['m.weber', 'ud', 'updated content Vertrag_Nordwerk_v3.pdf'],
+          ['j.klein', 'dl', 'downloaded content Preisliste_2026.pdf'],
+          ['t.schulz', 'li', 'logged in'],
+          ['Administrator', 'at', 'Set app attribute default expiry'],
+          ['l.braun', 'up', 'uploaded content Pruefbericht_07.pdf'],
+          ['m.weber', 'sh', 'created external sharing Pressematerial'],
+          ['a.mueller', 'de', 'deleted content Entwurf_alt.docx'],
+          ['j.klein', 'pv', 'previewed content Grundriss_B.dwg'],
+          ['l.braun', 'dl', 'downloaded content Logo-Paket.zip'],
+        ];
+        function ini(u) {
+          return u === 'Administrator'
+            ? 'AD'
+            : u
+                .split('.')
+                .map(function (p) {
+                  return p[0];
+                })
+                .join('')
+                .toUpperCase();
+        }
+        function row(x, t) {
+          var a = A[x[1]],
+            r = document.createElement('div');
+          r.className = 'tr';
+          r.innerHTML =
+            '<span class="tm">' +
+            t +
+            '</span><span class="who"><span class="sxa-av" style="--c:' +
+            U[x[0]] +
+            '">' +
+            ini(x[0]) +
+            '</span><span>' +
+            x[0] +
+            '</span></span><span><span class="sxa-act" style="--c:' +
+            a[1] +
+            '">' +
+            a[0] +
+            '</span></span><span class="sm">' +
+            (x[0] === 'Administrator' ? '' : 'User ' + x[0] + ' ') +
+            x[2] +
+            '</span>';
+          return r;
+        }
+        function init(s) {
+          if (s.__sxa) return;
+          s.__sxa = 1;
+          var box = s.querySelector('.rows'),
+            cnt = s.querySelector('.cnt'),
+            n = 676,
+            i = 0,
+            h = 16,
+            m = 42,
+            tm = null,
+            vis = false;
+          var rm = window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+          function t() {
+            m++;
+            if (m > 59) {
+              m = 0;
+              h++;
+            }
+            return (h < 10 ? '0' : '') + h + ':' + (m < 10 ? '0' : '') + m;
+          }
+          for (var k = 0; k < 5; k++) {
+            box.appendChild(row(L[(k + 5) % L.length], '16:' + (41 - k * 3)));
+          }
+          function push() {
+            var r = row(L[i % L.length], t());
+            i++;
+            r.classList.add('new');
+            box.insertBefore(r, box.firstChild);
+            if (box.children.length > 5) box.removeChild(box.lastChild);
+            n++;
+            cnt.textContent = n;
+          }
+          function loop() {
+            clearTimeout(tm);
+            if (!vis || document.hidden) return;
+            push();
+            tm = setTimeout(loop, 2600);
+          }
+          if (rm) return;
+          if ('IntersectionObserver' in window) {
+            new IntersectionObserver(
+              function (es) {
+                vis = es[0].isIntersecting;
+                if (vis) tm = setTimeout(loop, 900);
+                else clearTimeout(tm);
+              },
+              { threshold: 0.3 },
+            ).observe(s.querySelector('.sxa-app'));
+          }
+          document.addEventListener('visibilitychange', function () {
+            if (!document.hidden && vis) loop();
+          });
+        }
+        function go() {
+          document.querySelectorAll('.sxf-hero').forEach(init);
+        }
+        if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', go);
+        else go();
+      })();
+    </script>
+  </div>
+</div>

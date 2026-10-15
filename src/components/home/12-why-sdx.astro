@@ -1,0 +1,371 @@
+---
+/**
+ * Section "why_sdx": Warum SDX?
+ * Texts: src/i18n/home.json, keys starting with "why_sdx_" (one entry per language).
+ * Layout and styles of this section are in this file; legacy Elementor classes come from
+ * src/styles/legacy*.css and should be left as they are.
+ */
+import { dict, type Lang } from '../../i18n';
+import data from '../../i18n/home.json';
+const { lang } = Astro.props as { lang: Lang };
+const t = dict(data, lang);
+---
+
+<div
+  class="elementor-element elementor-element-afc3cbf sdx-why e-flex e-con-boxed e-con e-parent"
+  data-id="afc3cbf"
+  id="why-sdx"
+>
+  <div class="e-con-inner">
+    <div
+      class="elementor-element elementor-element-64018be sdx-why-h elementor-invisible elementor-widget elementor-widget-heading"
+      data-id="64018be"
+      data-anim="sdxRiseIn"
+      data-anim-delay="0"
+    >
+      <h2 class="elementor-heading-title elementor-size-default">
+        {t.why_sdx_why}
+        <span style="color:#2A73FF">SDX?</span>
+      </h2>
+    </div>
+    <div
+      class="elementor-element elementor-element-b0b09a6 sdx-why-stack-w elementor-invisible elementor-widget elementor-widget-html"
+      data-id="b0b09a6"
+      data-anim="sdxRiseIn"
+      data-anim-delay="120"
+    >
+      <div class="sdx-stack" id="sdx-why-stack">
+        <article class="sdx-card" style="--i:0;--o:-2;--ao:2;--j:-3deg">
+          <div class="sdx-step" aria-hidden="true">
+            <span class="sdx-step-track"></span><span class="sdx-step-n">1</span>
+          </div><h3 class="sdx-card-h">Secure by Design</h3><div class="sdx-card-body">
+            <p class="sdx-card-d">{t.why_sdx_deep_transparent_security_built}</p><ul class="sdx-card-l">
+              <li>
+                <svg
+                  viewbox="0 0 24 24"
+                  width="18"
+                  height="18"
+                  fill="none"
+                  stroke="#23D660"
+                  stroke-width="1.6"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><path d="m9 12 2 2 4-4"></path></svg
+                ><span>{t.why_sdx_https_secured_file_exchange}</span>
+              </li><li>
+                <svg
+                  viewbox="0 0 24 24"
+                  width="18"
+                  height="18"
+                  fill="none"
+                  stroke="#23D660"
+                  stroke-width="1.6"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><path d="m9 12 2 2 4-4"></path></svg
+                ><span>{t.why_sdx_2fa_with_totp}</span>
+              </li><li>
+                <svg
+                  viewbox="0 0 24 24"
+                  width="18"
+                  height="18"
+                  fill="none"
+                  stroke="#23D660"
+                  stroke-width="1.6"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><path d="m9 12 2 2 4-4"></path></svg
+                ><span>{t.why_sdx_german_hosting_or_on}</span>
+              </li><li>
+                <svg
+                  viewbox="0 0 24 24"
+                  width="18"
+                  height="18"
+                  fill="none"
+                  stroke="#23D660"
+                  stroke-width="1.6"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><path d="m9 12 2 2 4-4"></path></svg
+                ><span>{t.why_sdx_transparent_maintainable_archite}</span>
+              </li>
+            </ul>
+          </div>
+        </article><article class="sdx-card" style="--i:1;--o:-1;--ao:1;--j:2deg">
+          <div class="sdx-step" aria-hidden="true">
+            <span class="sdx-step-track"></span><span class="sdx-step-n">2</span>
+          </div><h3 class="sdx-card-h">{t.why_sdx_complete_sharing}</h3><div class="sdx-card-body">
+            <p class="sdx-card-d">{t.why_sdx_a_powerful_external_sharing}</p><ul class="sdx-card-l">
+              <li>
+                <svg
+                  viewbox="0 0 24 24"
+                  width="18"
+                  height="18"
+                  fill="none"
+                  stroke="#23D660"
+                  stroke-width="1.6"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><path d="m9 12 2 2 4-4"></path></svg
+                ><span>{t.why_sdx_share_files_via_email}</span>
+              </li><li>
+                <svg
+                  viewbox="0 0 24 24"
+                  width="18"
+                  height="18"
+                  fill="none"
+                  stroke="#23D660"
+                  stroke-width="1.6"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><path d="m9 12 2 2 4-4"></path></svg
+                ><span>{t.why_sdx_upload_preview_and_edit}</span>
+              </li><li>
+                <svg
+                  viewbox="0 0 24 24"
+                  width="18"
+                  height="18"
+                  fill="none"
+                  stroke="#23D660"
+                  stroke-width="1.6"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><path d="m9 12 2 2 4-4"></path></svg
+                ><span>{t.why_sdx_receive_files_from_external}</span>
+              </li><li>
+                <svg
+                  viewbox="0 0 24 24"
+                  width="18"
+                  height="18"
+                  fill="none"
+                  stroke="#23D660"
+                  stroke-width="1.6"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><path d="m9 12 2 2 4-4"></path></svg
+                ><span>{t.why_sdx_custom_links_access_periods}</span>
+              </li>
+            </ul>
+          </div>
+        </article><article class="sdx-card" style="--i:2;--o:0;--ao:0;--j:-1deg">
+          <div class="sdx-step" aria-hidden="true">
+            <span class="sdx-step-track"></span><span class="sdx-step-n">3</span>
+          </div><h3 class="sdx-card-h">{t.why_sdx_compliant_ai}</h3><div class="sdx-card-body">
+            <p class="sdx-card-d">{t.why_sdx_ai_powered_tools_designed}</p><ul class="sdx-card-l">
+              <li>
+                <svg
+                  viewbox="0 0 24 24"
+                  width="18"
+                  height="18"
+                  fill="none"
+                  stroke="#23D660"
+                  stroke-width="1.6"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><path d="m9 12 2 2 4-4"></path></svg
+                ><span>{t.why_sdx_built_with_compliance_at}</span>
+              </li><li>
+                <svg
+                  viewbox="0 0 24 24"
+                  width="18"
+                  height="18"
+                  fill="none"
+                  stroke="#23D660"
+                  stroke-width="1.6"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><path d="m9 12 2 2 4-4"></path></svg
+                ><span>{t.why_sdx_works_with_existing_permissions}</span>
+              </li><li>
+                <svg
+                  viewbox="0 0 24 24"
+                  width="18"
+                  height="18"
+                  fill="none"
+                  stroke="#23D660"
+                  stroke-width="1.6"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><path d="m9 12 2 2 4-4"></path></svg
+                ><span>{t.why_sdx_transparent_and_vendor_independe}</span>
+              </li><li>
+                <svg
+                  viewbox="0 0 24 24"
+                  width="18"
+                  height="18"
+                  fill="none"
+                  stroke="#23D660"
+                  stroke-width="1.6"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><path d="m9 12 2 2 4-4"></path></svg
+                ><span>{t.why_sdx_create_summarize_and_transform}</span>
+              </li>
+            </ul>
+          </div>
+        </article><article class="sdx-card" style="--i:3;--o:1;--ao:1;--j:3deg">
+          <div class="sdx-step" aria-hidden="true">
+            <span class="sdx-step-track"></span><span class="sdx-step-n">4</span>
+          </div><h3 class="sdx-card-h">{t.why_sdx_fully_customizable}</h3><div class="sdx-card-body">
+            <p class="sdx-card-d">{t.why_sdx_adapt_sdx_to_your}</p><ul class="sdx-card-l">
+              <li>
+                <svg
+                  viewbox="0 0 24 24"
+                  width="18"
+                  height="18"
+                  fill="none"
+                  stroke="#23D660"
+                  stroke-width="1.6"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><path d="m9 12 2 2 4-4"></path></svg
+                ><span>{t.why_sdx_custom_interface_and_corporate}</span>
+              </li><li>
+                <svg
+                  viewbox="0 0 24 24"
+                  width="18"
+                  height="18"
+                  fill="none"
+                  stroke="#23D660"
+                  stroke-width="1.6"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><path d="m9 12 2 2 4-4"></path></svg
+                ><span>{t.why_sdx_branded_sharing_and_emails}</span>
+              </li><li>
+                <svg
+                  viewbox="0 0 24 24"
+                  width="18"
+                  height="18"
+                  fill="none"
+                  stroke="#23D660"
+                  stroke-width="1.6"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><path d="m9 12 2 2 4-4"></path></svg
+                ><span>{t.why_sdx_smart_notifications_and_user}</span>
+              </li><li>
+                <svg
+                  viewbox="0 0 24 24"
+                  width="18"
+                  height="18"
+                  fill="none"
+                  stroke="#23D660"
+                  stroke-width="1.6"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><path d="m9 12 2 2 4-4"></path></svg
+                ><span>{t.why_sdx_flexible_organization_and_user}</span>
+              </li>
+            </ul>
+          </div>
+        </article><article class="sdx-card" style="--i:4;--o:2;--ao:2;--j:-2deg">
+          <div class="sdx-step" aria-hidden="true">
+            <span class="sdx-step-track"></span><span class="sdx-step-n">5</span>
+          </div><h3 class="sdx-card-h">{t.why_sdx_seamless_integration}</h3><div class="sdx-card-body">
+            <p class="sdx-card-d">{t.why_sdx_make_sdx_a_natural}</p><ul class="sdx-card-l">
+              <li>
+                <svg
+                  viewbox="0 0 24 24"
+                  width="18"
+                  height="18"
+                  fill="none"
+                  stroke="#23D660"
+                  stroke-width="1.6"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><path d="m9 12 2 2 4-4"></path></svg
+                ><span>{t.why_sdx_powerful_apis_and_sdks}</span>
+              </li><li>
+                <svg
+                  viewbox="0 0 24 24"
+                  width="18"
+                  height="18"
+                  fill="none"
+                  stroke="#23D660"
+                  stroke-width="1.6"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><path d="m9 12 2 2 4-4"></path></svg
+                ><span>{t.why_sdx_flexible_java_and_typescript}</span>
+              </li><li>
+                <svg
+                  viewbox="0 0 24 24"
+                  width="18"
+                  height="18"
+                  fill="none"
+                  stroke="#23D660"
+                  stroke-width="1.6"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><path d="m9 12 2 2 4-4"></path></svg
+                ><span>{t.why_sdx_extend_and_customize_functionali}</span>
+              </li><li>
+                <svg
+                  viewbox="0 0 24 24"
+                  width="18"
+                  height="18"
+                  fill="none"
+                  stroke="#23D660"
+                  stroke-width="1.6"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><path d="m9 12 2 2 4-4"></path></svg
+                ><span>{t.why_sdx_on_premise_deployment_for}</span>
+              </li>
+            </ul>
+          </div>
+        </article>
+      </div><script is:inline>
+        (function () {
+          var s = document.getElementById('sdx-why-stack');
+          if (!s || !window.matchMedia('(min-width:1025px)').matches) return;
+          s.classList.add('js');
+          var cards = [].slice.call(s.querySelectorAll('.sdx-card'));
+          var STEP = 180;
+          function setHot(i) {
+            cards.forEach(function (c, k) {
+              c.classList.toggle('is-hot', k === i);
+            });
+            s.classList.toggle('has-hot', i >= 0);
+            s.style.setProperty('--h', i >= 0 ? String(i - 2) : '0');
+          }
+          function zone(x) {
+            var r = s.getBoundingClientRect();
+            var o = Math.round((x - (r.left + r.width / 2)) / STEP);
+            return Math.max(-2, Math.min(2, o)) + 2;
+          }
+          s.addEventListener('mousemove', function (e) {
+            setHot(zone(e.clientX));
+          });
+          s.addEventListener('mouseleave', function () {
+            setHot(-1);
+          });
+          s.addEventListener(
+            'touchstart',
+            function (e) {
+              var t = e.touches[0];
+              if (!s.classList.contains('is-open')) {
+                s.classList.add('is-open');
+                setHot(zone(t.clientX));
+              } else {
+                setHot(zone(t.clientX));
+              }
+            },
+            { passive: true },
+          );
+          document.addEventListener(
+            'touchstart',
+            function (e) {
+              if (!s.contains(e.target)) {
+                s.classList.remove('is-open');
+                setHot(-1);
+              }
+            },
+            { passive: true },
+          );
+        })();
+      </script>
+    </div>
+  </div>
+</div>

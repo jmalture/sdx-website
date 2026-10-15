@@ -1,0 +1,623 @@
+---
+/**
+ * Section "website_sync": Ihre Website bleibt von selbst aktuell.
+ * Texts: src/i18n/share.json, keys starting with "website_sync_" (one entry per language).
+ * Layout and styles of this section are in this file; legacy Elementor classes come from
+ * src/styles/legacy*.css and should be left as they are.
+ */
+import { dict, type Lang } from '../../i18n';
+import data from '../../i18n/share.json';
+const { lang } = Astro.props as { lang: Lang };
+const t = dict(data, lang);
+---
+
+<div class="elementor-element elementor-element-1755598 e-flex e-con-full e-con e-parent" data-id="1755598">
+  <div class="elementor-element elementor-element-2de2fde elementor-widget elementor-widget-html" data-id="2de2fde">
+    <style is:global>
+      /* 14 integration: share as live file list on a website */
+      .sxf-emb {
+        padding: 128px 32px;
+        background: linear-gradient(180deg, #ffffff 0%, #f3f7ff 100%);
+      }
+      .sxf-emb .sxf-grid {
+        position: relative;
+        display: grid;
+        grid-template-columns: minmax(0, 0.85fr) 120px minmax(0, 1.15fr);
+        align-items: center;
+        margin-top: 64px;
+      }
+      .sxf-emb .pan {
+        position: relative;
+        z-index: 1;
+        padding: 22px;
+        border-radius: 24px;
+        background: #fff;
+        box-shadow:
+          0 30px 60px -28px rgba(18, 37, 92, 0.3),
+          0 0 0 1px rgba(18, 37, 92, 0.05);
+      }
+      .sxf-emb .pan .lb {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin: 0 0 14px;
+        font-size: 13px;
+        font-weight: 700;
+        color: #0f1b2d;
+      }
+      .sxf-emb .pan .lb i {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 30px;
+        height: 30px;
+        border-radius: 9px;
+        background: #2a73ff;
+        color: #fff;
+        font-style: normal;
+        font-size: 11px;
+        font-weight: 800;
+        letter-spacing: 0.02em;
+      }
+      .sxf-emb .pan .lb small {
+        margin-left: auto;
+        padding: 3px 9px;
+        border-radius: 999px;
+        background: #eaf1ff;
+        color: #2a73ff;
+        font-size: 11.5px;
+        font-weight: 600;
+      }
+      .sxf-emb .fl {
+        border-radius: 16px;
+        border: 1px solid #edf1f7;
+        overflow: hidden;
+      }
+      .sxf-emb .fr {
+        position: relative;
+        display: flex;
+        align-items: center;
+        gap: 11px;
+        padding: 12px 14px;
+        font-size: 14px;
+        font-weight: 600;
+        color: #0f1b2d;
+        transition: background-color 0.6s ease;
+      }
+      .sxf-emb .fr + .fr {
+        border-top: 1px solid #f0f3f8;
+      }
+      .sxf-emb .fr .sq {
+        width: 26px;
+        height: 26px;
+        border-radius: 8px;
+        flex: none;
+      }
+      .sxf-emb .fr .nm {
+        flex: 1;
+        min-width: 0;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .sxf-emb .fr em {
+        font-style: normal;
+        font-size: 12px;
+        font-weight: 500;
+        color: #8a94a6;
+        white-space: nowrap;
+      }
+      .sxf-emb .fr .nw {
+        position: absolute;
+        right: 12px;
+        top: 50%;
+        margin-top: -11px;
+        padding: 3px 8px;
+        border-radius: 999px;
+        background: #22c55e;
+        color: #fff;
+        font-size: 11px;
+        font-weight: 700;
+        opacity: 0;
+        transform: scale(0.4);
+        transition:
+          opacity 0.3s ease,
+          transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      }
+      .sxf-emb .fr.hl {
+        background: #fff6d6;
+      }
+      .sxf-emb .fr.hl .nw {
+        opacity: 1;
+        transform: none;
+      }
+      .sxf-emb .fr.hl em {
+        opacity: 0;
+      }
+      .sxf .sxf-emb .swap,
+      .sxf-emb .swap {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        width: 100%;
+        margin-top: 16px;
+        padding: 13px 24px;
+        border-radius: 16px;
+        background: #2a73ff;
+        color: #fff;
+        font-size: 15px;
+        font-weight: 600;
+        transition:
+          transform 0.2s ease,
+          box-shadow 0.2s ease,
+          background-color 0.2s ease;
+      }
+      .sxf-emb .swap svg {
+        width: 18px;
+        height: 18px;
+        transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+      }
+      .sxf-emb .swap:hover {
+        background: #1f63eb;
+        transform: translateY(-2px);
+        box-shadow: 0 12px 24px rgba(42, 115, 255, 0.32);
+      }
+      .sxf-emb .swap:hover svg {
+        transform: rotate(180deg);
+      }
+      .sxf-emb .swap[disabled] {
+        opacity: 0.7;
+        cursor: default;
+        transform: none;
+        box-shadow: none;
+      }
+      .sxf-emb .lnk {
+        position: relative;
+        height: 120px;
+      }
+      .sxf-emb .lnk svg.path {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        overflow: visible;
+      }
+      .sxf-emb .lnk svg.path path {
+        fill: none;
+        stroke: #2a73ff;
+        stroke-width: 2.5;
+        stroke-dasharray: 6 8;
+        stroke-linecap: round;
+        animation: sxfDash 1.2s linear infinite;
+      }
+      @keyframes sxfDash {
+        to {
+          stroke-dashoffset: -28;
+        }
+      }
+      .sxf-emb .tok {
+        position: absolute;
+        left: 0;
+        top: 50%;
+        z-index: 3;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 44px;
+        height: 44px;
+        margin: -22px 0 0 -22px;
+        border-radius: 13px;
+        background: #ffbb00;
+        color: #fff;
+        box-shadow: 0 12px 22px -8px rgba(217, 154, 0, 0.8);
+        opacity: 0;
+      }
+      .sxf-emb .tok svg {
+        width: 22px;
+        height: 22px;
+      }
+      .sxf-emb .tok.fly {
+        animation: sxfFly 0.9s cubic-bezier(0.45, 0, 0.2, 1) forwards;
+      }
+      @keyframes sxfFly {
+        0% {
+          left: 0;
+          opacity: 0;
+          transform: translateY(0) scale(0.5) rotate(-20deg);
+        }
+        15% {
+          opacity: 1;
+          transform: translateY(-34px) scale(1) rotate(-8deg);
+        }
+        50% {
+          transform: translateY(-52px) scale(1.08) rotate(6deg);
+        }
+        85% {
+          opacity: 1;
+          transform: translateY(-20px) scale(1) rotate(0);
+        }
+        100% {
+          left: 100%;
+          opacity: 0;
+          transform: translateY(0) scale(0.5);
+        }
+      }
+      .sxf-emb .site .sxf-pg {
+        padding: 22px 26px 26px;
+        background: #fff;
+      }
+      .sxf-emb .nav {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding-bottom: 16px;
+        border-bottom: 1px solid #edf1f7;
+      }
+      .sxf-emb .nav .lg {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        font-size: 13px;
+        font-weight: 800;
+        letter-spacing: 0.06em;
+        color: #0f1b2d;
+      }
+      .sxf-emb .nav .lg i {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 26px;
+        height: 26px;
+        border-radius: 8px;
+        background: #16a34a;
+        color: #fff;
+        font-style: normal;
+        font-size: 13px;
+      }
+      .sxf-emb .nav span.m {
+        margin-left: auto;
+        display: flex;
+        gap: 14px;
+        font-size: 12px;
+        font-weight: 600;
+        color: #8a94a6;
+      }
+      .sxf-emb .nav span.m b {
+        color: #0f1b2d;
+        font-weight: 600;
+      }
+      .sxf-emb .site h4 {
+        margin: 20px 0 4px;
+        font-family: Inter, sans-serif;
+        font-size: 22px;
+        line-height: 1.2;
+        font-weight: 700;
+        color: #0f1b2d;
+      }
+      .sxf-emb .site .sub {
+        margin: 0 0 14px;
+        font-size: 13.5px;
+        color: #5b6475;
+      }
+      .sxf-emb .site .fl {
+        border-color: #e3ebdd;
+      }
+      .sxf-emb .site .by {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        margin-top: 10px;
+        font-size: 11.5px;
+        font-weight: 600;
+        color: #8a94a6;
+      }
+      .sxf-emb .site .by i {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: #22c55e;
+      }
+      .sxf-emb .stat {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 12px;
+        margin-top: 40px;
+      }
+      .sxf-emb .stat span {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 18px 10px 10px;
+        border-radius: 999px;
+        background: #fff;
+        border: 1px solid #e3e8f0;
+        box-shadow: 0 6px 16px rgba(18, 37, 92, 0.06);
+        font-size: 14.5px;
+        font-weight: 500;
+        color: #0f1b2d;
+      }
+      .sxf-emb .stat b {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 32px;
+        height: 32px;
+        padding: 0 8px;
+        border-radius: 999px;
+        background: var(--c);
+        color: #fff;
+        font-size: 14px;
+      }
+      .sxf-emb .stat b.bump {
+        animation: sxfBump 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      }
+      @keyframes sxfBump {
+        50% {
+          transform: scale(1.35);
+        }
+      }
+      .sxf-emb .f1 {
+        left: -26px;
+        top: -30px;
+        --s: 52px;
+        --c: #00bfff;
+        --r: -10deg;
+        --d: 6s;
+        z-index: 2;
+      }
+      .sxf-emb .f2 {
+        right: -24px;
+        bottom: -26px;
+        --s: 46px;
+        --c: #ffbb00;
+        --r: 12deg;
+        --d: 5.4s;
+        z-index: 2;
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .sxf-emb .lnk svg.path path {
+          animation: none;
+        }
+        .sxf-emb .tok.fly {
+          animation: none;
+        }
+      }
+      @media (max-width: 1024px) {
+        .sxf-emb {
+          padding: 104px 24px;
+        }
+        .sxf-emb .sxf-grid {
+          grid-template-columns: minmax(0, 1fr);
+          max-width: 620px;
+          margin: 48px auto 0;
+        }
+        .sxf-emb .lnk {
+          height: 90px;
+        }
+        .sxf-emb .lnk svg.path {
+          transform: rotate(90deg) scale(0.75);
+        }
+        .sxf-emb .tok.fly {
+          animation-name: sxfFlyV;
+        }
+        @keyframes sxfFlyV {
+          0% {
+            left: 50%;
+            top: 0;
+            opacity: 0;
+            transform: scale(0.5);
+          }
+          20% {
+            opacity: 1;
+            transform: scale(1);
+          }
+          80% {
+            opacity: 1;
+          }
+          100% {
+            left: 50%;
+            top: 100%;
+            opacity: 0;
+            transform: scale(0.5);
+          }
+        }
+      }
+      @media (max-width: 767px) {
+        .sxf-emb {
+          padding: 84px 18px;
+        }
+        .sxf-emb .pan {
+          padding: 16px;
+          border-radius: 20px;
+        }
+        .sxf-emb .site .sxf-pg {
+          padding: 16px;
+        }
+        .sxf-emb .nav span.m {
+          display: none;
+        }
+        .sxf-emb .fr {
+          padding: 11px 12px;
+          font-size: 13px;
+        }
+        .sxf-emb .f1 {
+          left: -6px;
+        }
+        .sxf-emb .f2 {
+          right: -6px;
+        }
+      }
+    </style>
+    <section class="sxf sxf-emb" id="website" aria-labelledby="sxf-h-emb">
+      <div class="sxf-wrap">
+        <div class="sxf-head" data-rv>
+          <p class="sxf-eyebrow">Integration</p>
+          <h2 class="sxf-h" id="sxf-h-emb">
+            {t.website_sync_your_website_stays}
+            <span class="sxf-blue">{t.website_sync_up_to_date_on}</span>
+          </h2>
+          <p class="sxf-lead">{t.website_sync_embed_a_share_as}</p>
+        </div>
+        <div class="sxf-grid">
+          <div class="pan" data-rv>
+            <span class="sxf-fold f1" aria-hidden="true"></span>
+            <p class="lb"><i>SDX</i>{t.website_sync_share_press_kit}<small>Global</small></p>
+            <div class="fl src">
+              <div class="fr">
+                <span class="sq" style="background:#2A73FF"></span><span class="nm"
+                  >{t.website_sync_press_release_oct_pdf}</span
+                ><em>v1</em><span class="nw">v2</span>
+              </div>
+              <div class="fr">
+                <span class="sq" style="background:#C800FF"></span><span class="nm"
+                  >{t.website_sync_press_photos_2026_zip}</span
+                ><em>48 MB</em>
+              </div>
+              <div class="fr">
+                <span class="sq" style="background:#FFBB00"></span><span class="nm">{t.website_sync_logo_pack_zip}</span
+                ><em>6 MB</em>
+              </div>
+            </div>
+            <button type="button" class="sxf-b swap"
+              ><svg class="i" viewbox="0 0 24 24" aria-hidden="true"><path d="M4 7h13l-3-3M20 17H7l3 3"></path></svg>{
+                t.website_sync_replace_file
+              }</button
+            >
+          </div>
+          <div class="lnk" aria-hidden="true">
+            <svg class="path" viewbox="0 0 120 120" preserveaspectratio="none"
+              ><path d="M0 60 C 40 10, 80 110, 120 60"></path></svg
+            >
+            <span class="tok"
+              ><svg class="i" viewbox="0 0 24 24"
+                ><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path><path d="M14 3v6h6"
+                ></path></svg
+              ></span
+            >
+          </div>
+          <div class="site" data-rv style="--dl:.12s">
+            <div class="sxf-browser">
+              <div class="sxf-bar" aria-hidden="true">
+                <i></i><i></i><i></i><span class="sxf-url"
+                  ><svg class="i" viewbox="0 0 24 24" aria-hidden="true"
+                    ><rect x="4" y="11" width="16" height="10" rx="2"></rect><path d="M8 11V7a4 4 0 0 1 8 0v4"
+                    ></path></svg
+                  >{t.website_sync_nordwerk_com_press}</span
+                >
+              </div>
+              <div class="sxf-pg">
+                <div class="nav" aria-hidden="true">
+                  <span class="lg"><i>N</i>NORDWERK</span><span class="m"
+                    ><span>{t.website_sync_services}</span><span>{t.website_sync_projects}</span><b
+                      >{t.website_sync_press}</b
+                    ><span>{t.website_sync_contact}</span></span
+                  >
+                </div>
+                <h4>{t.website_sync_press_kit}</h4>
+                <p class="sub">{t.website_sync_current_materials_for_editors}</p>
+                <div class="fl dst" aria-live="polite">
+                  <div class="fr">
+                    <span class="sq" style="background:#2A73FF"></span><span class="nm"
+                      >{t.website_sync_press_release_oct_pdf}</span
+                    ><em>{t.website_sync_12_oct}</em><span class="nw">{t.website_sync_new}</span>
+                  </div>
+                  <div class="fr">
+                    <span class="sq" style="background:#C800FF"></span><span class="nm"
+                      >{t.website_sync_press_photos_2026_zip}</span
+                    ><em>48 MB</em>
+                  </div>
+                  <div class="fr">
+                    <span class="sq" style="background:#FFBB00"></span><span class="nm"
+                      >{t.website_sync_logo_pack_zip}</span
+                    ><em>6 MB</em>
+                  </div>
+                </div>
+                <p class="by"><i></i>{t.website_sync_file_list_from_sdx}</p>
+              </div>
+            </div>
+            <span class="sxf-fold f2" aria-hidden="true"></span>
+          </div>
+        </div>
+        <div class="stat" data-rv>
+          <span><b style="--c:#2A73FF" class="c1">0</b>{t.website_sync_files_replaced}</span>
+          <span><b style="--c:#22C55E">0</b>{t.website_sync_website_edits_needed}</span>
+        </div>
+      </div>
+    </section>
+    <script
+      define:vars={{
+        T: {
+          pressReleaseNov: t.website_sync_js_press_release_nov,
+          pressReleaseDec: t.website_sync_js_press_release_dec,
+          annualReport2026: t.website_sync_js_annual_report_2026,
+          pressReleaseOct: t.website_sync_js_press_release_oct,
+          t3Nov: t.website_sync_js_3_nov,
+          t1Dec: t.website_sync_js_1_dec,
+          t15Jan: t.website_sync_js_15_jan,
+          t12Oct: t.website_sync_js_12_oct,
+        },
+      }}
+    >
+      (function () {
+        var V = [T.pressReleaseNov, T.pressReleaseDec, T.annualReport2026, T.pressReleaseOct];
+        var D = [T.t3Nov, T.t1Dec, T.t15Jan, T.t12Oct];
+        function init(s) {
+          if (s.__sxf) return;
+          s.__sxf = 1;
+          var btn = s.querySelector('.swap'),
+            tok = s.querySelector('.tok'),
+            src = s.querySelector('.src .fr'),
+            dst = s.querySelector('.dst .fr'),
+            c1 = s.querySelector('.c1'),
+            i = 0,
+            n = 0,
+            v = 1;
+          var rm = window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+          btn.addEventListener('click', function () {
+            btn.disabled = true;
+            var name = V[i % V.length],
+              dt = D[i % D.length];
+            i++;
+            v++;
+            src.querySelector('.nm').textContent = name;
+            src.querySelector('.nw').textContent = 'v' + v;
+            src.classList.add('hl');
+            tok.classList.remove('fly');
+            void tok.offsetWidth;
+            if (!rm) tok.classList.add('fly');
+            setTimeout(
+              function () {
+                dst.querySelector('.nm').textContent = name;
+                dst.querySelector('em').textContent = dt;
+                dst.classList.add('hl');
+                n++;
+                c1.textContent = n;
+                c1.classList.remove('bump');
+                void c1.offsetWidth;
+                c1.classList.add('bump');
+              },
+              rm ? 0 : 780,
+            );
+            setTimeout(function () {
+              src.classList.remove('hl');
+            }, 1100);
+            setTimeout(
+              function () {
+                dst.classList.remove('hl');
+                btn.disabled = false;
+              },
+              rm ? 600 : 2200,
+            );
+          });
+        }
+        function go() {
+          document.querySelectorAll('.sxf-emb').forEach(init);
+        }
+        if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', go);
+        else go();
+      })();
+    </script>
+  </div>
+</div>

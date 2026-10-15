@@ -1,0 +1,477 @@
+---
+/**
+ * Section "details": Jeder Eintrag. Bis ins Detail.
+ * Texts: src/i18n/audits.json, keys starting with "details_" (one entry per language).
+ * Layout and styles of this section are in this file; legacy Elementor classes come from
+ * src/styles/legacy*.css and should be left as they are.
+ */
+import { dict, type Lang } from '../../i18n';
+import data from '../../i18n/audits.json';
+const { lang } = Astro.props as { lang: Lang };
+const t = dict(data, lang);
+---
+
+<div class="elementor-element elementor-element-6f178da e-flex e-con-full e-con e-parent" data-id="6f178da">
+  <div class="elementor-element elementor-element-53c1d17 elementor-widget elementor-widget-html" data-id="53c1d17">
+    <style is:global>
+      /* 3 audit details inspector */
+      .sxa-det {
+        padding: 128px 32px;
+        background: #fff;
+      }
+      .sxa-det .grid {
+        display: grid;
+        grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+        gap: 40px;
+        align-items: start;
+        margin-top: 64px;
+      }
+      .sxa-det .lst {
+        display: grid;
+        gap: 10px;
+      }
+      .sxf.sxa-det .en {
+        display: grid;
+        grid-template-columns: auto minmax(0, 1fr);
+        gap: 12px;
+        align-items: center;
+        width: 100%;
+        padding: 14px 16px;
+        border-radius: 16px;
+        background: #f7f9fc;
+        border: 1px solid #e8edf5;
+        transition:
+          background-color 0.2s ease,
+          border-color 0.2s ease,
+          box-shadow 0.2s ease,
+          transform 0.2s ease;
+      }
+      .sxa-det .en:hover {
+        background: #fff;
+        border-color: #d6e3fa;
+        transform: translateY(-2px);
+      }
+      .sxa-det .en[aria-pressed='true'] {
+        background: #fff;
+        border-color: #2a73ff;
+        box-shadow:
+          inset 0 0 0 1px #2a73ff,
+          0 14px 28px -16px rgba(42, 115, 255, 0.5);
+      }
+      .sxa-det .en .t {
+        display: block;
+        min-width: 0;
+      }
+      .sxa-det .en .t b {
+        display: block;
+        font-size: 14.5px;
+        font-weight: 600;
+        color: #0f1b2d;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .sxa-det .en .t small {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-top: 5px;
+        font-size: 12.5px;
+        color: #6b7487;
+      }
+      .sxa-det .card {
+        position: relative;
+        border-radius: 24px;
+        background: #fff;
+        box-shadow:
+          0 30px 60px -28px rgba(18, 37, 92, 0.3),
+          0 0 0 1px rgba(18, 37, 92, 0.06);
+        overflow: hidden;
+      }
+      .sxa-det .ch {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 18px 22px;
+        border-bottom: 1px solid #edf1f7;
+      }
+      .sxa-det .ch strong {
+        display: inline-flex;
+        align-items: center;
+        gap: 9px;
+        font-size: 16px;
+        color: #0f1b2d;
+      }
+      .sxa-det .ch strong svg {
+        width: 18px;
+        height: 18px;
+        color: #2a73ff;
+      }
+      .sxa-det .ch span {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 12px;
+        font-weight: 600;
+        color: #6b7487;
+      }
+      .sxa-det .ch span svg {
+        width: 13px;
+        height: 13px;
+      }
+      .sxa-det dl {
+        display: grid;
+        grid-template-columns: 120px minmax(0, 1fr);
+        margin: 0;
+        padding: 8px 22px;
+      }
+      .sxa-det dt,
+      .sxa-det dd {
+        margin: 0;
+        padding: 10px 0;
+        border-bottom: 1px solid #f0f3f8;
+        font-size: 13.5px;
+        line-height: 1.45;
+      }
+      .sxa-det dt {
+        font-weight: 600;
+        color: #6b7487;
+      }
+      .sxa-det dd {
+        color: #0f1b2d;
+        word-break: break-word;
+      }
+      .sxa-det dd code {
+        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+        font-size: 12.5px;
+      }
+      .sxa-det .js {
+        position: relative;
+        margin: 4px 22px 22px;
+        border-radius: 16px;
+        background: #0f1b2d;
+      }
+      .sxa-det .js .jh {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px 14px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        font-size: 12px;
+        font-weight: 600;
+        color: rgba(255, 255, 255, 0.7);
+      }
+      .sxf.sxa-det .cp {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 5px 10px;
+        border-radius: 9px;
+        background: rgba(255, 255, 255, 0.1);
+        color: #fff;
+        font-size: 12px;
+        font-weight: 600;
+        transition: background-color 0.2s ease;
+      }
+      .sxa-det .cp:hover {
+        background: rgba(255, 255, 255, 0.18);
+      }
+      .sxa-det .cp svg {
+        width: 13px;
+        height: 13px;
+      }
+      .sxa-det pre {
+        margin: 0;
+        padding: 14px 16px 16px;
+        overflow-x: auto;
+        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+        font-size: 12.5px;
+        line-height: 1.6;
+        color: #e3eaf7;
+        white-space: pre;
+      }
+      .sxa-det pre .k {
+        color: #7fb0ff;
+      }
+      .sxa-det pre .s {
+        color: #86e3a8;
+      }
+      .sxa-det pre .n {
+        color: #ffc163;
+      }
+      .sxa-det .body {
+        transition: opacity 0.25s ease;
+      }
+      .sxa-det .body.sw {
+        opacity: 0;
+      }
+      .sxa-det .f1 {
+        left: -26px;
+        bottom: -24px;
+        --s: 50px;
+        --c: #00bfff;
+        --r: -12deg;
+        --d: 6s;
+        z-index: 2;
+      }
+      .sxa-det .cw {
+        position: relative;
+      }
+      @media (max-width: 1024px) {
+        .sxa-det {
+          padding: 104px 24px;
+        }
+        .sxa-det .grid {
+          grid-template-columns: minmax(0, 1fr);
+          gap: 28px;
+          max-width: 680px;
+          margin: 48px auto 0;
+        }
+      }
+      @media (max-width: 767px) {
+        .sxa-det {
+          padding: 84px 18px;
+        }
+        .sxa-det dl {
+          grid-template-columns: 96px minmax(0, 1fr);
+          padding: 6px 16px;
+        }
+        .sxa-det .js {
+          margin: 4px 12px 14px;
+        }
+        .sxa-det .ch {
+          padding: 16px;
+        }
+        .sxa-det .f1 {
+          left: -8px;
+          --s: 40px;
+        }
+      }
+    </style>
+    <section class="sxf sxa-det" id="details" aria-labelledby="sxa-h-det">
+      <div class="sxf-wrap">
+        <div class="sxf-head" data-rv>
+          <p class="sxf-eyebrow">{t.details_audit_details}</p>
+          <h2 class="sxf-h" id="sxa-h-det">
+            {t.details_every_entry}
+            <span class="sxf-blue">{t.details_down_to_the_detail}</span>
+          </h2>
+          <p class="sxf-lead">{t.details_one_click_on_an}</p>
+        </div>
+        <div class="grid">
+          <div class="lst" role="group" aria-label={t.details_aria_label_audit_entries} data-rv></div>
+          <div class="cw" data-rv style="--dl:.12s">
+            <span class="sxf-fold f1" aria-hidden="true"></span>
+            <div class="card" aria-live="polite">
+              <div class="ch">
+                <strong
+                  ><svg class="i" viewbox="0 0 24 24" aria-hidden="true"
+                    ><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path><path
+                      d="M14 3v6h6M8 13h8M8 17h5"></path></svg
+                  >{t.details_audit_details}</strong
+                ><span
+                  ><svg class="i" viewbox="0 0 24 24" aria-hidden="true"
+                    ><rect x="4" y="11" width="16" height="10" rx="2"></rect><path d="M8 11V7a4 4 0 0 1 8 0v4"
+                    ></path></svg
+                  >{t.details_read_only}</span
+                >
+              </div>
+              <div class="body">
+                <dl></dl>
+                <div class="js">
+                  <div class="jh">
+                    <span>Custom Data (JSON)</span><button type="button" class="sxf-b cp"
+                      ><svg class="i" viewbox="0 0 24 24" aria-hidden="true"
+                        ><rect x="9" y="9" width="12" height="12" rx="2"></rect><path d="M5 15V5a2 2 0 0 1 2-2h10"
+                        ></path></svg
+                      ><span>{t.details_copy}</span></button
+                    >
+                  </div><pre></pre>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <script
+      define:vars={{
+        T: {
+          projects: t.details_js_projects,
+          nordwerkContracts: t.details_js_nordwerk_contracts,
+          sales: t.details_js_sales,
+          copied: t.details_js_copied,
+          copy: t.details_js_copy,
+        },
+      }}
+    >
+      (function () {
+        var E = [
+          {
+            a: ['Delete content', '#F04438'],
+            u: 'm.weber',
+            c: '#2A73FF',
+            t: '15.10.2026, 16:42:07',
+            s: 'User m.weber deleted content Vertrag_Nordwerk_v3.pdf',
+            e: '48213',
+            id: 'a81f2c90-6d1e-4b7a-9c35-0e4f1d2b7a11',
+            ch: '15.10.2026, 16:42:07',
+            j: {
+              space: T.projects,
+              folder: T.nordwerkContracts,
+              file: 'Vertrag_Nordwerk_v3.pdf',
+              size: 1834221,
+              version: 3,
+              trash: true,
+            },
+          },
+          {
+            a: ['Preview content', '#A855F7'],
+            u: 'a.mueller',
+            c: '#C800FF',
+            t: '15.10.2026, 16:31:52',
+            s: 'User a.mueller previewed content Angebot_Q4.pdf',
+            e: '47990',
+            id: '5c0e7b14-2a9f-4f61-8d02-b7e3a9c4d556',
+            ch: '15.10.2026, 16:31:52',
+            j: { space: T.sales, file: 'Angebot_Q4.pdf', pages: 12, client: 'web' },
+          },
+          {
+            a: ['Create external sharing', '#16A34A'],
+            u: 'l.braun',
+            c: '#00A3D9',
+            t: '15.10.2026, 14:05:31',
+            s: 'User l.braun created external sharing Pressematerial',
+            e: '50112',
+            id: 'e3b7a6d2-91c4-4c8e-a7f0-24d65b1e9f38',
+            ch: '15.10.2026, 14:05:31',
+            j: { type: 'folder', password: 'set', expires: '2026-10-29', rights: ['download', 'chat'], recipients: 2 },
+          },
+          {
+            a: ['Update content', '#00A3D9'],
+            u: 'j.klein',
+            c: '#F59000',
+            t: '15.10.2026, 11:17:04',
+            s: 'User j.klein updated content Preisliste_2026.pdf',
+            e: '46018',
+            id: '9d4c1f27-b85e-43a0-9e6d-c1f8a05b3e72',
+            ch: '15.10.2026, 11:17:04',
+            j: {
+              file: 'Preisliste_2026.pdf',
+              version: { from: 4, to: 5 },
+              changed: ['content', 'metadata.valid_until'],
+            },
+          },
+        ];
+        function esc(v) {
+          return String(v).replace(/[&<>]/g, function (c) {
+            return { '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c];
+          });
+        }
+        function hl(o) {
+          return esc(JSON.stringify(o, null, 2))
+            .replace(/(&quot;|")([^"]+)\1(?=:)/g, '<span class="k">"$2"</span>')
+            .replace(/: "([^"]*)"/g, ': <span class="s">"$1"</span>')
+            .replace(/(\[|, |\n\s+)"([^"]*)"(?=[,\n\]])/g, '$1<span class="s">"$2"</span>')
+            .replace(/: (-?\d+(\.\d+)?|true|false)/g, ': <span class="n">$1</span>');
+        }
+        function init(s) {
+          if (s.__sxa) return;
+          s.__sxa = 1;
+          var lst = s.querySelector('.lst'),
+            dl = s.querySelector('dl'),
+            pre = s.querySelector('pre'),
+            body = s.querySelector('.body'),
+            cp = s.querySelector('.cp'),
+            cur = 0,
+            bs = [];
+          E.forEach(function (x, i) {
+            var b = document.createElement('button');
+            b.type = 'button';
+            b.className = 'sxf-b en';
+            b.innerHTML =
+              '<span class="sxa-av" style="--c:' +
+              x.c +
+              '">' +
+              x.u
+                .split('.')
+                .map(function (p) {
+                  return p[0];
+                })
+                .join('')
+                .toUpperCase() +
+              '</span><span class="t"><b>' +
+              esc(x.s.replace('User ' + x.u + ' ', '')) +
+              '</b><small><span class="sxa-act" style="--c:' +
+              x.a[1] +
+              '">' +
+              x.a[0] +
+              '</span>' +
+              x.t.split(', ')[1].slice(0, 5) +
+              ' · ' +
+              x.u +
+              '</small></span>';
+            b.addEventListener('click', function () {
+              show(i);
+            });
+            lst.appendChild(b);
+            bs.push(b);
+          });
+          function fill(i) {
+            var x = E[i];
+            dl.innerHTML =
+              '<dt>Created</dt><dd>' +
+              x.t +
+              '</dd><dt>Action</dt><dd><span class="sxa-act" style="--c:' +
+              x.a[1] +
+              '">' +
+              x.a[0] +
+              '</span></dd><dt>User</dt><dd>' +
+              x.u +
+              '</dd><dt>Summary</dt><dd>' +
+              esc(x.s) +
+              '</dd><dt>Entity ID</dt><dd><code>' +
+              x.e +
+              '</code></dd><dt>ID</dt><dd><code>' +
+              x.id +
+              '</code></dd><dt>Changed</dt><dd>' +
+              x.ch +
+              '</dd>';
+            pre.innerHTML = hl(x.j);
+          }
+          function show(i) {
+            cur = i;
+            bs.forEach(function (b, k) {
+              b.setAttribute('aria-pressed', k === i ? 'true' : 'false');
+            });
+            body.classList.add('sw');
+            setTimeout(function () {
+              fill(i);
+              body.classList.remove('sw');
+            }, 180);
+          }
+          cp.addEventListener('click', function () {
+            var t = JSON.stringify(E[cur].j, null, 2),
+              l = cp.querySelector('span');
+            function ok() {
+              l.textContent = T.copied;
+              setTimeout(function () {
+                l.textContent = T.copy;
+              }, 1600);
+            }
+            if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(t).then(ok, ok);
+            else ok();
+          });
+          bs[0].setAttribute('aria-pressed', 'true');
+          fill(0);
+        }
+        function go() {
+          document.querySelectorAll('.sxa-det').forEach(init);
+        }
+        if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', go);
+        else go();
+      })();
+    </script>
+  </div>
+</div>

@@ -1,0 +1,644 @@
+---
+/**
+ * Section "feature_list": External Share
+ * Texts: src/i18n/features.json, keys starting with "feature_list_" (one entry per language).
+ * Layout and styles of this section are in this file; legacy Elementor classes come from
+ * src/styles/legacy*.css and should be left as they are.
+ */
+import { dict, type Lang } from '../../i18n';
+import data from '../../i18n/features.json';
+const { lang } = Astro.props as { lang: Lang };
+const t = dict(data, lang);
+---
+
+<div class="elementor-element elementor-element-sfx02 e-con-full e-flex e-con e-parent" data-id="sfx02">
+  <div class="elementor-element elementor-element-sfx02w elementor-widget elementor-widget-html" data-id="sfx02w">
+    <style is:global>
+      /* 2 feature cards (pseudo archive). To add a feature: copy one <li class="sfx-item"> block, keep data-live. */
+      .sfx-all {
+        padding: 40px 32px 128px;
+        background: linear-gradient(180deg, #e3eefd 0%, #ffffff 260px);
+      }
+      .sfx-grid {
+        list-style: none;
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 24px;
+        margin: 0;
+        padding: 0;
+      }
+      .sfx-item {
+        margin: 0;
+        perspective: 1200px;
+      }
+      .sxf a.sfx-card,
+      .sxf a.sfx-card:visited,
+      .sxf .sfx-card {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        padding: 14px 14px 26px;
+        border-radius: 28px;
+        background: #fff;
+        border: 1px solid #e3e8f0;
+        box-shadow: 0 18px 40px -24px rgba(18, 37, 92, 0.28);
+        color: #0f1b2d;
+        text-decoration: none;
+        transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) translateY(var(--ty, 0px));
+        transition:
+          transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+          box-shadow 0.35s ease,
+          border-color 0.3s ease;
+        will-change: transform;
+      }
+      .sxf a.sfx-card:hover,
+      .sxf a.sfx-card:focus-visible {
+        --ty: -8px;
+        border-color: color-mix(in srgb, var(--c) 40%, #fff);
+        box-shadow: 0 34px 60px -26px color-mix(in srgb, var(--c) 60%, transparent);
+        color: #0f1b2d;
+      }
+      .sfx-v {
+        position: relative;
+        height: 230px;
+        border-radius: 20px;
+        background: var(--bg);
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .sfx-v::before,
+      .sfx-v::after {
+        content: '';
+        position: absolute;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.14);
+        transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+      }
+      .sfx-v::before {
+        width: 220px;
+        height: 220px;
+        left: -70px;
+        top: -90px;
+      }
+      .sfx-v::after {
+        width: 170px;
+        height: 170px;
+        right: -50px;
+        bottom: -70px;
+      }
+      .sfx-card:hover .sfx-v::before {
+        transform: scale(1.25) translate(10px, 8px);
+      }
+      .sfx-card:hover .sfx-v::after {
+        transform: scale(1.2) translate(-8px, -6px);
+      }
+      .sfx-tag {
+        position: absolute;
+        z-index: 3;
+        top: 14px;
+        left: 14px;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 5px 11px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.92);
+        font-size: 12px;
+        font-weight: 700;
+        color: #0f1b2d;
+      }
+      .sfx-tag i {
+        width: 8px;
+        height: 8px;
+        border-radius: 3px;
+        background: var(--c);
+      }
+      .sfx-new {
+        position: absolute;
+        z-index: 3;
+        top: 14px;
+        right: 14px;
+        padding: 5px 11px;
+        border-radius: 999px;
+        background: #ffbb00;
+        color: #0f1b2d;
+        font-size: 12px;
+        font-weight: 800;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        transform: rotate(4deg);
+        animation: sfxWob 3.2s ease-in-out infinite;
+      }
+      @keyframes sfxWob {
+        0%,
+        100% {
+          transform: rotate(4deg);
+        }
+        50% {
+          transform: rotate(-3deg) scale(1.06);
+        }
+      }
+      .sfx-b {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        padding: 22px 12px 0;
+      }
+      .sfx-b h2 {
+        margin: 0;
+        font-family: Inter, sans-serif;
+        font-size: 26px;
+        line-height: 1.2;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        color: #000;
+      }
+      .sfx-b p {
+        margin: 10px 0 0;
+        font-size: 15.5px;
+        line-height: 1.55;
+        color: #4a5568;
+      }
+      .sfx-chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin: 18px 0 0;
+        padding: 0;
+        list-style: none;
+      }
+      .sfx-chips li {
+        margin: 0;
+        padding: 6px 11px;
+        border-radius: 10px;
+        background: #f1f4f9;
+        font-size: 13px;
+        font-weight: 600;
+        color: #3d4555;
+      }
+      .sfx-go {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        margin-top: auto;
+        padding-top: 22px;
+        font-size: 15px;
+        font-weight: 600;
+        color: #2a73ff;
+      }
+      .sfx-go svg {
+        width: 18px;
+        height: 18px;
+        transition: transform 0.25s ease;
+      }
+      .sfx-card:hover .sfx-go svg {
+        transform: translateX(5px);
+      }
+      /* visual: External Share (attachments collapse into one link) */
+      .sfx-att {
+        position: relative;
+        z-index: 1;
+        width: 100%;
+        height: 100%;
+      }
+      .sfx-att i {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        padding: 8px 13px;
+        border-radius: 11px;
+        background: #fff;
+        font-style: normal;
+        font-size: 13px;
+        font-weight: 600;
+        color: #3d4555;
+        box-shadow: 0 10px 22px -8px rgba(0, 0, 0, 0.3);
+        white-space: nowrap;
+        animation: sfxAtt 5s ease-in-out infinite;
+      }
+      .sfx-att i:nth-child(1) {
+        --x: -160px;
+        --y: -62px;
+        --r: -7deg;
+      }
+      .sfx-att i:nth-child(2) {
+        --x: 30px;
+        --y: -52px;
+        --r: 6deg;
+        animation-delay: 0.08s;
+      }
+      .sfx-att i:nth-child(3) {
+        --x: -150px;
+        --y: 26px;
+        --r: 4deg;
+        animation-delay: 0.16s;
+      }
+      .sfx-att i:nth-child(4) {
+        --x: 38px;
+        --y: 34px;
+        --r: -5deg;
+        animation-delay: 0.24s;
+      }
+      .sfx-att b {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 12px 18px;
+        border-radius: 999px;
+        background: #fff;
+        color: #2a73ff;
+        font-size: 15px;
+        font-weight: 800;
+        box-shadow: 0 16px 30px -10px rgba(0, 0, 0, 0.4);
+        translate: -50% -50%;
+        animation: sfxLink 5s ease-in-out infinite;
+      }
+      .sfx-att b svg {
+        width: 18px;
+        height: 18px;
+      }
+      @keyframes sfxAtt {
+        0%,
+        28% {
+          transform: translate(var(--x), var(--y)) rotate(var(--r));
+          opacity: 1;
+        }
+        48%,
+        86% {
+          transform: translate(-50%, -50%) scale(0.3);
+          opacity: 0;
+        }
+        100% {
+          transform: translate(var(--x), var(--y)) rotate(var(--r));
+          opacity: 1;
+        }
+      }
+      @keyframes sfxLink {
+        0%,
+        36% {
+          transform: scale(0);
+          opacity: 0;
+        }
+        50% {
+          transform: scale(1.15);
+          opacity: 1;
+        }
+        58%,
+        86% {
+          transform: scale(1);
+          opacity: 1;
+        }
+        96%,
+        100% {
+          transform: scale(0);
+          opacity: 0;
+        }
+      }
+      /* visual: Audits (live log rows) */
+      .sfx-log {
+        position: relative;
+        z-index: 1;
+        width: 78%;
+        display: grid;
+        gap: 8px;
+      }
+      .sfx-log span {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        padding: 9px 12px;
+        border-radius: 12px;
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        font-size: 12.5px;
+        font-weight: 600;
+        color: #fff;
+        white-space: nowrap;
+        overflow: hidden;
+        animation: sfxRow 6s ease-in-out infinite;
+      }
+      .sfx-log span i {
+        width: 9px;
+        height: 9px;
+        border-radius: 50%;
+        background: var(--k);
+        flex: none;
+      }
+      .sfx-log span em {
+        margin-left: auto;
+        font-style: normal;
+        font-weight: 500;
+        color: rgba(255, 255, 255, 0.5);
+      }
+      .sfx-log span:nth-child(2) {
+        animation-delay: 0.2s;
+      }
+      .sfx-log span:nth-child(3) {
+        animation-delay: 0.4s;
+      }
+      @keyframes sfxRow {
+        0% {
+          opacity: 0;
+          transform: translateY(14px);
+        }
+        10%,
+        80% {
+          opacity: 1;
+          transform: none;
+        }
+        92%,
+        100% {
+          opacity: 0;
+          transform: translateY(-10px);
+        }
+      }
+      .sfx-lock {
+        position: absolute;
+        z-index: 2;
+        right: 16px;
+        bottom: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 44px;
+        height: 44px;
+        border-radius: 14px;
+        background: #2a73ff;
+        color: #fff;
+        box-shadow: 0 12px 24px -8px rgba(42, 115, 255, 0.8);
+        animation: sfxShake 6s ease-in-out infinite;
+      }
+      .sfx-lock svg {
+        width: 22px;
+        height: 22px;
+      }
+      @keyframes sfxShake {
+        0%,
+        70%,
+        100% {
+          transform: none;
+        }
+        74% {
+          transform: rotate(-12deg);
+        }
+        78% {
+          transform: rotate(10deg);
+        }
+        82% {
+          transform: rotate(-6deg);
+        }
+        86% {
+          transform: none;
+        }
+      }
+      /* visual: coming soon */
+      .sxf .sfx-card.sfx-soon {
+        border: 2px dashed #c9d6ea;
+        background: #fafcff;
+        box-shadow: none;
+      }
+      .sfx-soon .sfx-v {
+        background: repeating-linear-gradient(135deg, #f1f5fc 0 14px, #eaf0fa 14px 28px);
+      }
+      .sfx-soon .sfx-q {
+        position: relative;
+        z-index: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 92px;
+        height: 92px;
+        border-radius: 26px;
+        background: #fff;
+        box-shadow: 0 18px 34px -14px rgba(18, 37, 92, 0.35);
+        font-size: 44px;
+        font-weight: 800;
+        color: #2a73ff;
+        animation: sfxFloat 3.4s ease-in-out infinite alternate;
+      }
+      .sfx-soon .sfx-q::after {
+        content: '';
+        position: absolute;
+        right: -10px;
+        top: -10px;
+        width: 26px;
+        height: 26px;
+        border-radius: 9px;
+        background: #c800ff;
+        transform: rotate(12deg);
+      }
+      @keyframes sfxFloat {
+        from {
+          transform: translateY(-8px) rotate(-4deg);
+        }
+        to {
+          transform: translateY(8px) rotate(4deg);
+        }
+      }
+      .sfx-soon .sfx-type {
+        display: inline-flex;
+        gap: 4px;
+        margin-left: 6px;
+        vertical-align: middle;
+      }
+      .sfx-soon .sfx-type i {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: #2a73ff;
+        animation: sfxDot2 1.2s ease-in-out infinite;
+      }
+      .sfx-soon .sfx-type i:nth-child(2) {
+        animation-delay: 0.15s;
+      }
+      .sfx-soon .sfx-type i:nth-child(3) {
+        animation-delay: 0.3s;
+      }
+      @keyframes sfxDot2 {
+        0%,
+        60%,
+        100% {
+          transform: none;
+          opacity: 0.4;
+        }
+        30% {
+          transform: translateY(-4px);
+          opacity: 1;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .sfx-all * {
+          animation: none !important;
+        }
+        .sfx-att i {
+          display: none;
+        }
+        .sfx-att b {
+          transform: none;
+          opacity: 1;
+        }
+        .sfx-log span {
+          opacity: 1;
+        }
+        .sxf a.sfx-card {
+          transform: none !important;
+        }
+      }
+      @media (max-width: 1100px) {
+        .sfx-grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+      }
+      @media (max-width: 1024px) {
+        .sfx-all {
+          padding: 32px 24px 104px;
+        }
+      }
+      @media (max-width: 767px) {
+        .sfx-all {
+          padding: 24px 18px 84px;
+        }
+        .sfx-grid {
+          grid-template-columns: minmax(0, 1fr);
+          gap: 18px;
+        }
+        .sfx-v {
+          height: 200px;
+        }
+        .sfx-b h2 {
+          font-size: 23px;
+        }
+      }
+    </style>
+    <section class="sxf sfx-all" id="alle" aria-label={t.feature_list_aria_label_all_features}>
+      <div class="sxf-wrap">
+        <ul class="sfx-grid">
+          <li class="sfx-item" data-rv>
+            <a
+              class="sfx-card"
+              data-live
+              href={t.feature_list_link_external_sharing}
+              style="--c:#2A73FF;--bg:linear-gradient(135deg,#2A73FF,#00BFFF)"
+            >
+              <div class="sfx-v" aria-hidden="true">
+                <span class="sfx-tag"><i></i>{t.feature_list_share}</span>
+                <div class="sfx-att">
+                  <i>{t.feature_list_contract_pdf}</i><i>{t.feature_list_plans_zip}</i><i
+                    >{t.feature_list_offer_v3_pdf}</i
+                  ><i>{t.feature_list_photos_zip}</i><b
+                    ><svg class="i" viewbox="0 0 24 24"
+                      ><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"></path><path
+                        d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"></path></svg
+                    >{t.feature_list_1_link}</b
+                  >
+                </div>
+              </div>
+              <div class="sfx-b">
+                <h2>External Share</h2>
+                <p>{t.feature_list_share_files_and_folders}</p>
+                <ul class="sfx-chips">
+                  <li>Custom Layouts</li><li>{t.feature_list_notifications}</li><li>
+                    {t.feature_list_website_embedding}
+                  </li>
+                </ul>
+                <span class="sfx-go"
+                  >{t.feature_list_explore_the_feature}
+                  <svg class="i" viewbox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg
+                  ></span
+                >
+              </div>
+            </a>
+          </li>
+          <li class="sfx-item" data-rv style="--dl:.1s">
+            <a
+              class="sfx-card"
+              data-live
+              href={t.feature_list_link_audits}
+              style="--c:#0F1B2D;--bg:linear-gradient(135deg,#0F1B2D,#22365C)"
+            >
+              <div class="sfx-v" aria-hidden="true">
+                <span class="sfx-tag"><i style="background:#2A73FF"></i>{t.feature_list_security}</span><span
+                  class="sfx-new">{t.feature_list_new}</span
+                >
+                <div class="sfx-log">
+                  <span style="--k:#22C55E">Login<em>09:41</em></span><span style="--k:#A855F7"
+                    >Preview content<em>09:43</em></span
+                  ><span style="--k:#F04438">Delete content<em>10:15</em></span>
+                </div>
+                <span class="sfx-lock"
+                  ><svg class="i" viewbox="0 0 24 24"
+                    ><rect x="4" y="11" width="16" height="10" rx="2"></rect><path d="M8 11V7a4 4 0 0 1 8 0v4"
+                    ></path></svg
+                  ></span
+                >
+              </div>
+              <div class="sfx-b">
+                <h2>Audits</h2>
+                <p>{t.feature_list_the_permanent_audit_trail}</p>
+                <ul class="sfx-chips">
+                  <li>{t.feature_list_filters_details}</li><li>{t.feature_list_tamper_proof}</li><li>Export</li>
+                </ul>
+                <span class="sfx-go"
+                  >{t.feature_list_explore_the_feature}
+                  <svg class="i" viewbox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg
+                  ></span
+                >
+              </div>
+            </a>
+          </li>
+          <li class="sfx-item" data-rv style="--dl:.2s">
+            <a class="sfx-card sfx-soon" href={t.feature_list_link_kontakt} style="--c:#2A73FF">
+              <div class="sfx-v" aria-hidden="true"><span class="sfx-q">?</span></div>
+              <div class="sfx-b">
+                <h2>
+                  {t.feature_list_the_next_feature}<span class="sfx-type" aria-hidden="true"><i></i><i></i><i></i></span
+                  >
+                </h2>
+                <p>{t.feature_list_we_keep_developing_sdx}</p>
+                <span class="sfx-go"
+                  >{t.feature_list_suggest_a_feature}
+                  <svg class="i" viewbox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg
+                  ></span
+                >
+              </div>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </section>
+    <script is:inline>
+      (function () {
+        /* playful tilt that follows the pointer (desktop only) */
+        if (
+          !window.matchMedia ||
+          !matchMedia('(hover:hover) and (pointer:fine)').matches ||
+          matchMedia('(prefers-reduced-motion:reduce)').matches
+        )
+          return;
+        function init() {
+          [].forEach.call(document.querySelectorAll('.sfx-card'), function (c) {
+            c.addEventListener('pointermove', function (e) {
+              var r = c.getBoundingClientRect(),
+                x = (e.clientX - r.left) / r.width - 0.5,
+                y = (e.clientY - r.top) / r.height - 0.5;
+              c.style.setProperty('--ry', (x * 7).toFixed(2) + 'deg');
+              c.style.setProperty('--rx', (-y * 7).toFixed(2) + 'deg');
+            });
+            c.addEventListener('pointerleave', function () {
+              c.style.setProperty('--ry', '0deg');
+              c.style.setProperty('--rx', '0deg');
+            });
+          });
+        }
+        if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+        else init();
+      })();
+    </script>
+  </div>
+</div>

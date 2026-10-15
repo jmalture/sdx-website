@@ -1,33 +1,36 @@
 ---
-import SecSxf01 from './SecSxf01.astro';
-import SecSxf02 from './SecSxf02.astro';
-import SecSxf03 from './SecSxf03.astro';
-import SecSxf04 from './SecSxf04.astro';
-import Sec87b25a2 from './Sec87b25a2.astro';
-import SecSxf05 from './SecSxf05.astro';
-import SecSxf06 from './SecSxf06.astro';
-import Sec1755598 from './Sec1755598.astro';
-import SecSxf07 from './SecSxf07.astro';
-import Sec6a75109 from './Sec6a75109.astro';
-import Sec8243135 from './Sec8243135.astro';
-import SecSxf08 from './SecSxf08.astro';
-import SecSxf10 from './SecSxf10.astro';
-import SecSxf11 from './SecSxf11.astro';
-const { lang } = Astro.props;
+/** All sections of the share page, in order. To reorder or remove a section, edit the list below. */
+import type { Lang } from '../../i18n';
+import Hero from './01-hero.astro';
+import Comparison from './02-comparison.astro';
+import Steps from './03-steps.astro';
+import SharePage from './04-share-page.astro';
+import CustomLayouts from './05-custom-layouts.astro';
+import Benefits from './06-benefits.astro';
+import UseCases from './07-use-cases.astro';
+import WebsiteSync from './08-website-sync.astro';
+import Features from './09-features.astro';
+import Visibility from './10-visibility.astro';
+import Notifications from './11-notifications.astro';
+import Security from './12-security.astro';
+import Faq from './13-faq.astro';
+import Cta from './14-cta.astro';
+const { lang } = Astro.props as { lang: Lang };
 ---
+
 <div class="elementor elementor-610">
-  <SecSxf01 lang={lang} />
-  <SecSxf02 lang={lang} />
-  <SecSxf03 lang={lang} />
-  <SecSxf04 lang={lang} />
-  <Sec87b25a2 lang={lang} />
-  <SecSxf05 lang={lang} />
-  <SecSxf06 lang={lang} />
-  <Sec1755598 lang={lang} />
-  <SecSxf07 lang={lang} />
-  <Sec6a75109 lang={lang} />
-  <Sec8243135 lang={lang} />
-  <SecSxf08 lang={lang} />
-  <SecSxf10 lang={lang} />
-  <SecSxf11 lang={lang} />
+  <Hero lang={lang} />
+  <Comparison lang={lang} />
+  <Steps lang={lang} />
+  <SharePage lang={lang} />
+  <CustomLayouts lang={lang} />
+  <Benefits lang={lang} />
+  <UseCases lang={lang} />
+  <WebsiteSync lang={lang} />
+  <Features lang={lang} />
+  <Visibility lang={lang} />
+  <Notifications lang={lang} />
+  <Security lang={lang} />
+  <Faq lang={lang} />
+  <Cta lang={lang} />
 </div>

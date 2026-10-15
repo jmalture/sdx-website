@@ -12,13 +12,25 @@ interface Props {
   /** Path of this page in every language that has it, e.g. { de: '/', en: '/en/', cs: '/cs/' } */
   alternates: Partial<Record<Lang, string>>;
   ogImage?: string;
+  /** Extra body classes; Elementor pages pass "elementor-page elementor-page-<id>" for the legacy CSS. */
   bodyClass?: string;
+  /** Classes for <main>, e.g. "site-main" on the plain text pages. */
+  mainClass?: string;
 }
-const { lang, title, description, alternates, ogImage = '/media/sdx-hero-laptop-scaled.png', bodyClass = '' } = Astro.props;
+const {
+  lang,
+  title,
+  description,
+  alternates,
+  ogImage = '/media/sdx-hero-laptop-scaled.png',
+  bodyClass = '',
+  mainClass,
+} = Astro.props;
 const site = Astro.site!;
 const canonical = new URL(alternates[lang] ?? Astro.url.pathname, site).href;
 const info = langInfo(lang);
 ---
+
 <!doctype html>
 <html lang={info.locale}>
   <head>
@@ -27,12 +39,18 @@ const info = langInfo(lang);
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
-    {LANGS.filter((l) => alternates[l.code]).map((l) => (
-      <link rel="alternate" hreflang={l.locale.slice(0, 2)} href={new URL(alternates[l.code]!, site).href} />
-    ))}
+    {
+      LANGS.filter((l) => alternates[l.code]).map((l) => (
+        <link rel="alternate" hreflang={l.locale.slice(0, 2)} href={new URL(alternates[l.code]!, site).href} />
+      ))
+    }
     {alternates.de && <link rel="alternate" hreflang="x-default" href={new URL(alternates.de, site).href} />}
     <meta property="og:locale" content={info.og} />
-    {LANGS.filter((l) => l.code !== lang && alternates[l.code]).map((l) => <meta property="og:locale:alternate" content={l.og} />)}
+    {
+      LANGS.filter((l) => l.code !== lang && alternates[l.code]).map((l) => (
+        <meta property="og:locale:alternate" content={l.og} />
+      ))
+    }
     <meta property="og:type" content="website" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
@@ -46,10 +64,10 @@ const info = langInfo(lang);
     <link rel="preload" href="/fonts/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin />
     <slot name="head" />
   </head>
-  <body class={`elementor-default elementor-kit-6 elementor-page ${bodyClass}`.trim()}>
+  <body class={`elementor-default elementor-kit-6 ${bodyClass}`.trim()}>
     <a class="skip-link screen-reader-text" href="#content">Skip to content</a>
     <Header lang={lang} alternates={alternates} />
-    <main id="content">
+    <main id="content" class={mainClass}>
       <slot />
     </main>
     <Footer lang={lang} />

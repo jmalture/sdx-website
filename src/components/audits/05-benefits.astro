@@ -1,0 +1,380 @@
+---
+/**
+ * Section "benefits": Warum ein Audit Trail sich rechnet.
+ * Texts: src/i18n/audits.json, keys starting with "benefits_" (one entry per language).
+ * Layout and styles of this section are in this file; legacy Elementor classes come from
+ * src/styles/legacy*.css and should be left as they are.
+ */
+import { dict, type Lang } from '../../i18n';
+import data from '../../i18n/audits.json';
+const { lang } = Astro.props as { lang: Lang };
+const t = dict(data, lang);
+---
+
+<div class="elementor-element elementor-element-a576d67 e-flex e-con-full e-con e-parent" data-id="a576d67">
+  <div class="elementor-element elementor-element-879ac56 elementor-widget elementor-widget-html" data-id="879ac56">
+    <style is:global>
+      /* 5 business value hover cards */
+      .sxf-val {
+        padding: 128px 32px;
+        background: #fff;
+      }
+      .sxf-vgrid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 22px;
+        margin-top: 60px;
+      }
+      .sxf-vc {
+        position: relative;
+        min-height: 270px;
+        padding: 32px 30px 30px;
+        border-radius: 24px;
+        background: #fff;
+        border: 1px solid #e3e8f0;
+        box-shadow: 0 2px 6px rgba(18, 37, 92, 0.04);
+        overflow: hidden;
+        outline: none;
+        transition:
+          box-shadow 0.3s ease,
+          transform 0.3s ease,
+          border-color 0.3s ease;
+      }
+      .sxf-vc .ic {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 54px;
+        height: 54px;
+        border-radius: 15px;
+        background: var(--c);
+        color: #fff;
+        box-shadow: 0 12px 24px -10px var(--c);
+      }
+      .sxf-vc .ic svg {
+        width: 26px;
+        height: 26px;
+      }
+      .sxf-vc h3 {
+        margin: 24px 0 10px;
+        font-family: Inter, sans-serif;
+        font-size: 22px;
+        line-height: 1.3;
+        font-weight: 700;
+        letter-spacing: -0.01em;
+        color: #0f1b2d;
+      }
+      .sxf-vc p {
+        margin: 0;
+        font-size: 16px;
+        line-height: 1.55;
+        color: #4a5568;
+      }
+      .sxf-vc .more {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        margin-top: 20px;
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--c);
+      }
+      .sxf-vc .more svg {
+        width: 16px;
+        height: 16px;
+      }
+      .sxf-vc .pf {
+        position: absolute;
+        inset: 0;
+        z-index: 2;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 28px 30px;
+        background: var(--k);
+        color: #fff;
+        clip-path: circle(0 at 57px 59px);
+        transition: clip-path 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+      }
+      .sxf-vc .pf b {
+        display: block;
+        margin: 0 0 14px;
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        opacity: 0.8;
+      }
+      .sxf-vc .pf ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: grid;
+        gap: 9px;
+      }
+      .sxf-vc .pf li {
+        display: flex;
+        gap: 10px;
+        margin: 0;
+        font-size: 15px;
+        line-height: 1.45;
+        font-weight: 500;
+      }
+      .sxf-vc .pf li svg {
+        width: 18px;
+        height: 18px;
+        margin-top: 1px;
+        stroke-width: 2.6;
+      }
+      @media (hover: hover) and (pointer: fine) {
+        .sxf-vc:hover,
+        .sxf-vc:focus-visible,
+        .sxf-vc:focus-within {
+          transform: translateY(-4px);
+          box-shadow: 0 26px 50px -18px rgba(18, 37, 92, 0.28);
+          border-color: transparent;
+        }
+        .sxf-vc:hover .pf,
+        .sxf-vc:focus-visible .pf,
+        .sxf-vc:focus-within .pf {
+          clip-path: circle(150% at 57px 59px);
+        }
+      }
+      .sxf-vc:focus-visible {
+        outline: 2px solid #2a73ff;
+        outline-offset: 3px;
+      }
+      @media (hover: none), (pointer: coarse) {
+        .sxf-vc {
+          min-height: 0;
+        }
+        .sxf-vc .more,
+        .sxf-vc .pf b {
+          display: none;
+        }
+        .sxf-vc .pf {
+          position: static;
+          clip-path: none;
+          background: transparent;
+          color: #0f1b2d;
+          padding: 16px 0 0;
+          margin-top: 18px;
+          border-top: 1px solid #eef1f6;
+        }
+        .sxf-vc .pf li {
+          font-size: 14.5px;
+          color: #3d4555;
+        }
+        .sxf-vc .pf li svg {
+          color: var(--c);
+        }
+      }
+      @media (max-width: 1024px) {
+        .sxf-val {
+          padding: 104px 24px;
+        }
+        .sxf-vgrid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          margin-top: 48px;
+        }
+      }
+      @media (max-width: 767px) {
+        .sxf-val {
+          padding: 84px 18px;
+        }
+        .sxf-vgrid {
+          grid-template-columns: minmax(0, 1fr);
+          gap: 16px;
+          margin-top: 40px;
+        }
+        .sxf-vc {
+          padding: 26px 22px;
+        }
+        .sxf-vc h3 {
+          font-size: 20px;
+          margin-top: 20px;
+        }
+      }
+    </style>
+    <section class="sxf sxf-val" id="nutzen" aria-labelledby="sxf-h-val">
+      <div class="sxf-wrap">
+        <div class="sxf-head" data-rv>
+          <p class="sxf-eyebrow">{t.benefits_your_benefits}</p>
+          <h2 class="sxf-h" id="sxf-h-val">
+            {t.benefits_why_an_audit_trail}
+            <span class="sxf-blue">{t.benefits_pays_off}</span>
+          </h2>
+          <p class="sxf-lead">{t.benefits_six_reasons_why_compliance}</p>
+        </div>
+        <div class="sxf-vgrid">
+          <article class="sxf-vc" tabindex="0" style="--c:#2A73FF;--k:#1E5BD8;--dl:0.00s" data-rv>
+            <span class="ic" aria-hidden="true"
+              ><svg class="i" viewbox="0 0 24 24" aria-hidden="true"
+                ><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><path
+                  d="M8 13h8"></path></svg
+              ></span
+            ><h3>{t.benefits_resources}</h3><p>{t.benefits_one_central_place_for}</p><span
+              class="more"
+              aria-hidden="true"
+              ><svg class="i" viewbox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>{
+                t.benefits_how_it_works
+              }</span
+            ><div class="pf">
+              <b>{t.benefits_how_it_works}</b><ul>
+                <li>
+                  <svg class="i" viewbox="0 0 24 24" aria-hidden="true"><path d="m5 12 5 5L20 7"></path></svg><span
+                    >{t.benefits_central_traceability_of_all}</span
+                  >
+                </li><li>
+                  <svg class="i" viewbox="0 0 24 24" aria-hidden="true"><path d="m5 12 5 5L20 7"></path></svg><span
+                    >{t.benefits_prepare_audits_faster}</span
+                  >
+                </li><li>
+                  <svg class="i" viewbox="0 0 24 24" aria-hidden="true"><path d="m5 12 5 5L20 7"></path></svg><span
+                    >{t.benefits_answer_external_auditors_questio}</span
+                  >
+                </li>
+              </ul>
+            </div>
+          </article><article class="sxf-vc" tabindex="0" style="--c:#22C55E;--k:#13803F;--dl:0.08s" data-rv>
+            <span class="ic" aria-hidden="true"
+              ><svg class="i" viewbox="0 0 24 24" aria-hidden="true"
+                ><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg
+              ></span
+            ><h3>{t.benefits_costs}</h3><p>{t.benefits_less_manual_effort_for}</p><span class="more" aria-hidden="true"
+              ><svg class="i" viewbox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>{
+                t.benefits_how_it_works
+              }</span
+            ><div class="pf">
+              <b>{t.benefits_how_it_works}</b><ul>
+                <li>
+                  <svg class="i" viewbox="0 0 24 24" aria-hidden="true"><path d="m5 12 5 5L20 7"></path></svg><span
+                    >{t.benefits_filters_instead_of_manual}</span
+                  >
+                </li><li>
+                  <svg class="i" viewbox="0 0 24 24" aria-hidden="true"><path d="m5 12 5 5L20 7"></path></svg><span
+                    >{t.benefits_export_straight_into_the}</span
+                  >
+                </li><li>
+                  <svg class="i" viewbox="0 0 24 24" aria-hidden="true"><path d="m5 12 5 5L20 7"></path></svg><span
+                    >{t.benefits_analysis_right_in_sdx}</span
+                  >
+                </li>
+              </ul>
+            </div>
+          </article><article class="sxf-vc" tabindex="0" style="--c:#0F1B2D;--k:#0F1B2D;--dl:0.16s" data-rv>
+            <span class="ic" aria-hidden="true"
+              ><svg class="i" viewbox="0 0 24 24" aria-hidden="true"
+                ><path d="M12 3 4 6v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V6z"></path><path d="m9 12 2 2 4-4"></path></svg
+              ></span
+            ><h3>{t.benefits_security}</h3><p>{t.benefits_a_permanent_audit_trail}</p><span
+              class="more"
+              aria-hidden="true"
+              ><svg class="i" viewbox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>{
+                t.benefits_how_it_works
+              }</span
+            ><div class="pf">
+              <b>{t.benefits_how_it_works}</b><ul>
+                <li>
+                  <svg class="i" viewbox="0 0 24 24" aria-hidden="true"><path d="m5 12 5 5L20 7"></path></svg><span
+                    >{t.benefits_entries_cannot_be_edited}</span
+                  >
+                </li><li>
+                  <svg class="i" viewbox="0 0 24 24" aria-hidden="true"><path d="m5 12 5 5L20 7"></path></svg><span
+                    >{t.benefits_passwords_are_never_logged}</span
+                  >
+                </li><li>
+                  <svg class="i" viewbox="0 0 24 24" aria-hidden="true"><path d="m5 12 5 5L20 7"></path></svg><span
+                    >{t.benefits_evidence_for_control_and}</span
+                  >
+                </li>
+              </ul>
+            </div>
+          </article><article class="sxf-vc" tabindex="0" style="--c:#C800FF;--k:#8E10C0;--dl:0.00s" data-rv>
+            <span class="ic" aria-hidden="true"
+              ><svg class="i" viewbox="0 0 24 24" aria-hidden="true"
+                ><path d="M7 11l3 3 7-7"></path><path d="M21 12a9 9 0 1 1-6.2-8.6"></path></svg
+              ></span
+            ><h3>{t.benefits_trust}</h3><p>{t.benefits_transparent_evidence_of_activity}</p><span
+              class="more"
+              aria-hidden="true"
+              ><svg class="i" viewbox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>{
+                t.benefits_how_it_works
+              }</span
+            ><div class="pf">
+              <b>{t.benefits_how_it_works}</b><ul>
+                <li>
+                  <svg class="i" viewbox="0 0 24 24" aria-hidden="true"><path d="m5 12 5 5L20 7"></path></svg><span
+                    >{t.benefits_every_entry_with_time}</span
+                  >
+                </li><li>
+                  <svg class="i" viewbox="0 0 24 24" aria-hidden="true"><path d="m5 12 5 5L20 7"></path></svg><span
+                    >{t.benefits_details_including_additional_tec}</span
+                  >
+                </li><li>
+                  <svg class="i" viewbox="0 0 24 24" aria-hidden="true"><path d="m5 12 5 5L20 7"></path></svg><span
+                    >{t.benefits_data_in_germany_or}</span
+                  >
+                </li>
+              </ul>
+            </div>
+          </article><article class="sxf-vc" tabindex="0" style="--c:#F04438;--k:#C0261B;--dl:0.08s" data-rv>
+            <span class="ic" aria-hidden="true"
+              ><svg class="i" viewbox="0 0 24 24" aria-hidden="true"
+                ><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"></path><path
+                  d="M12 9v4M12 17h.01"></path></svg
+              ></span
+            ><h3>{t.benefits_risk}</h3><p>{t.benefits_trace_changes_deletions_and}</p><span
+              class="more"
+              aria-hidden="true"
+              ><svg class="i" viewbox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>{
+                t.benefits_how_it_works
+              }</span
+            ><div class="pf">
+              <b>{t.benefits_how_it_works}</b><ul>
+                <li>
+                  <svg class="i" viewbox="0 0 24 24" aria-hidden="true"><path d="m5 12 5 5L20 7"></path></svg><span
+                    >{t.benefits_insight_and_control_through}</span
+                  >
+                </li><li>
+                  <svg class="i" viewbox="0 0 24 24" aria-hidden="true"><path d="m5 12 5 5L20 7"></path></svg><span
+                    >{t.benefits_attribute_deletions_to_a}</span
+                  >
+                </li><li>
+                  <svg class="i" viewbox="0 0 24 24" aria-hidden="true"><path d="m5 12 5 5L20 7"></path></svg><span
+                    >{t.benefits_check_access_to_sensitive}</span
+                  >
+                </li>
+              </ul>
+            </div>
+          </article><article class="sxf-vc" tabindex="0" style="--c:#F59000;--k:#B86A00;--dl:0.16s" data-rv>
+            <span class="ic" aria-hidden="true"
+              ><svg class="i" viewbox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M7 12h10M10 18h4"></path></svg
+              ></span
+            ><h3>Enablement</h3><p>{t.benefits_targeted_analysis_with_filters}</p><span class="more" aria-hidden="true"
+              ><svg class="i" viewbox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>{
+                t.benefits_how_it_works
+              }</span
+            ><div class="pf">
+              <b>{t.benefits_how_it_works}</b><ul>
+                <li>
+                  <svg class="i" viewbox="0 0 24 24" aria-hidden="true"><path d="m5 12 5 5L20 7"></path></svg><span
+                    >{t.benefits_filter_by_period_action}</span
+                  >
+                </li><li>
+                  <svg class="i" viewbox="0 0 24 24" aria-hidden="true"><path d="m5 12 5 5L20 7"></path></svg><span
+                    >{t.benefits_custom_data_json_for}</span
+                  >
+                </li><li>
+                  <svg class="i" viewbox="0 0 24 24" aria-hidden="true"><path d="m5 12 5 5L20 7"></path></svg><span
+                    >{t.benefits_export_as_tsv_csv}</span
+                  >
+                </li>
+              </ul>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>

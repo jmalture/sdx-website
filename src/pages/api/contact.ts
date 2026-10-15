@@ -35,7 +35,8 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
   if (!form) return json({ ok: false, message: msg('form_error', lang) }, 400);
 
   // Honeypot: bots fill the hidden field. Pretend success, store nothing.
-  if (String(form.get('form_fields[website_hp]') ?? '').trim() !== '') return json({ ok: true, message: msg('form_ok', lang) });
+  if (String(form.get('form_fields[website_hp]') ?? '').trim() !== '')
+    return json({ ok: true, message: msg('form_ok', lang) });
 
   const ip = clientAddress || request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || 'unknown';
   const now = Date.now();
@@ -44,9 +45,15 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
   recent.push(now);
   hits.set(ip, recent);
 
-  const email = String(form.get('form_fields[email]') ?? '').trim().slice(0, 200);
-  const phone = String(form.get('form_fields[phone]') ?? '').trim().slice(0, 50);
-  const message = String(form.get('form_fields[message]') ?? '').trim().slice(0, 5000);
+  const email = String(form.get('form_fields[email]') ?? '')
+    .trim()
+    .slice(0, 200);
+  const phone = String(form.get('form_fields[phone]') ?? '')
+    .trim()
+    .slice(0, 50);
+  const message = String(form.get('form_fields[message]') ?? '')
+    .trim()
+    .slice(0, 5000);
   const consent = form.get('form_fields[consent]') != null;
   const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email);
   if (!emailOk || !consent || (phone && !/^[0-9()#&+*\-=. ]+$/.test(phone))) {
@@ -86,7 +93,10 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
       subject: `Neue Demo-Anfrage über sdx-app.com (${lang.toUpperCase()})`,
       text: `E-Mail: ${email}\nTelefon: ${phone || '-'}\nSprache: ${lang}\nSeite: ${entry.page}\n\n${message || '(keine Nachricht)'}\n`,
     });
-    await appendFile(path.join(dir, `${entry.at.slice(0, 7)}.jsonl`), JSON.stringify({ at: entry.at, mail: 'sent' }) + '\n').catch(() => {});
+    await appendFile(
+      path.join(dir, `${entry.at.slice(0, 7)}.jsonl`),
+      JSON.stringify({ at: entry.at, mail: 'sent' }) + '\n',
+    ).catch(() => {});
   } catch (e) {
     console.error('[contact] mail failed', e);
     // the enquiry is stored; still tell the visitor it arrived

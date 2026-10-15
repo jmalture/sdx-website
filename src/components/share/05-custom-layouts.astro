@@ -1,0 +1,793 @@
+---
+/**
+ * Section "custom_layouts": Jede Freigabe wird zur eigenen Landingpage.
+ * Texts: src/i18n/share.json, keys starting with "custom_layouts_" (one entry per language).
+ * Layout and styles of this section are in this file; legacy Elementor classes come from
+ * src/styles/legacy*.css and should be left as they are.
+ */
+import { dict, type Lang } from '../../i18n';
+import data from '../../i18n/share.json';
+const { lang } = Astro.props as { lang: Lang };
+const t = dict(data, lang);
+---
+
+<div class="elementor-element elementor-element-87b25a2 e-flex e-con-full e-con e-parent" data-id="87b25a2">
+  <div class="elementor-element elementor-element-29490ae elementor-widget elementor-widget-html" data-id="29490ae">
+    <style is:global>
+      /* 12 custom layouts: live share page builder */
+      .sxf-lay {
+        padding: 128px 32px;
+        background: linear-gradient(180deg, #f3f7ff 0%, #eef4ff 100%);
+      }
+      .sxf-lay .sxf-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 0.82fr) minmax(0, 1.18fr);
+        gap: 56px;
+        align-items: center;
+        margin-top: 64px;
+      }
+      .sxf-lay .sxf-ctl {
+        position: relative;
+        z-index: 2;
+        padding: 30px;
+        border-radius: 28px;
+        background: #fff;
+        box-shadow:
+          0 30px 60px -28px rgba(18, 37, 92, 0.28),
+          0 0 0 1px rgba(18, 37, 92, 0.05);
+      }
+      .sxf-lay .grp + .grp {
+        margin-top: 24px;
+      }
+      .sxf-lay .grp h3 {
+        margin: 0 0 12px;
+        font-family: Inter, sans-serif;
+        font-size: 12.5px;
+        line-height: 1.3;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: #6b7487;
+      }
+      .sxf-lay .row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+      .sxf .sxf-lay .pre,
+      .sxf-lay .pre {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        padding: 8px 18px 8px 8px;
+        border-radius: 16px;
+        background: #fff;
+        border: 1px solid #d8e1ee;
+        color: #0f1b2d;
+        font-size: 15px;
+        font-weight: 600;
+        transition:
+          transform 0.2s ease,
+          box-shadow 0.2s ease,
+          border-color 0.2s ease,
+          background-color 0.2s ease;
+      }
+      .sxf-lay .pre b {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 30px;
+        height: 30px;
+        border-radius: 10px;
+        background: var(--c);
+        color: #fff;
+      }
+      .sxf-lay .pre b svg {
+        width: 17px;
+        height: 17px;
+      }
+      .sxf-lay .pre:hover {
+        border-color: #2a73ff;
+        transform: translateY(-2px);
+        box-shadow: 0 10px 20px rgba(18, 37, 92, 0.1);
+      }
+      .sxf-lay .pre[aria-pressed='true'] {
+        border-color: #2a73ff;
+        background: #eaf1ff;
+        box-shadow: inset 0 0 0 1px #2a73ff;
+      }
+      .sxf-lay .sw {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: var(--g);
+        box-shadow:
+          inset 0 0 0 3px #fff,
+          0 0 0 2px #e3e8f0;
+        transition:
+          transform 0.2s ease,
+          box-shadow 0.2s ease;
+      }
+      .sxf-lay .sw:hover {
+        transform: scale(1.08);
+      }
+      .sxf-lay .sw[aria-pressed='true'] {
+        box-shadow:
+          inset 0 0 0 3px #fff,
+          0 0 0 3px #2a73ff;
+        transform: scale(1.1);
+      }
+      .sxf-lay .chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 14px;
+        border-radius: 12px;
+        background: #f1f4f9;
+        color: #3d4555;
+        font-size: 14px;
+        font-weight: 600;
+        transition:
+          background-color 0.2s ease,
+          color 0.2s ease,
+          transform 0.15s ease;
+      }
+      .sxf-lay .chip:hover {
+        transform: translateY(-1px);
+      }
+      .sxf-lay .chip[aria-pressed='true'] {
+        background: #2a73ff;
+        color: #fff;
+      }
+      .sxf-lay .chip .ck {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 18px;
+        height: 18px;
+        border-radius: 6px;
+        background: #fff;
+        color: #2a73ff;
+      }
+      .sxf-lay .chip .ck svg {
+        width: 12px;
+        height: 12px;
+        stroke-width: 3;
+        opacity: 0;
+        transition: opacity 0.2s ease;
+      }
+      .sxf-lay .chip[aria-pressed='true'] .ck svg {
+        opacity: 1;
+      }
+      .sxf-lay .chip.fn {
+        font-size: 15px;
+      }
+      .sxf-lay .dice {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        width: 100%;
+        margin-top: 28px;
+        padding: 13px 24px;
+        border-radius: 16px;
+        background: #2a73ff;
+        color: #fff;
+        font-size: 15px;
+        font-weight: 600;
+        transition:
+          transform 0.2s ease,
+          box-shadow 0.2s ease,
+          background-color 0.2s ease;
+      }
+      .sxf-lay .dice svg {
+        width: 18px;
+        height: 18px;
+        transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+      }
+      .sxf-lay .dice:hover {
+        background: #1f63eb;
+        transform: translateY(-2px);
+        box-shadow: 0 12px 24px rgba(42, 115, 255, 0.32);
+      }
+      .sxf-lay .dice:hover svg {
+        transform: rotate(200deg);
+      }
+      /* stage */
+      .sxf-lay .sxf-stage {
+        position: relative;
+      }
+      .sxf-lay .sxf-browser .sxf-pg {
+        position: relative;
+        min-height: 470px;
+        padding: 34px;
+        background: var(--bg, #2a73ff);
+        transition: background 0.6s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+      }
+      .sxf-lay .sxf-pg::before,
+      .sxf-lay .sxf-pg::after {
+        content: '';
+        position: absolute;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.16);
+        transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+      }
+      .sxf-lay .sxf-pg::before {
+        width: 300px;
+        height: 300px;
+        left: -90px;
+        top: -110px;
+        transform: scale(var(--blob, 1));
+      }
+      .sxf-lay .sxf-pg::after {
+        width: 220px;
+        height: 220px;
+        right: -60px;
+        bottom: -80px;
+        transform: scale(calc(2 - var(--blob, 1)));
+      }
+      .sxf-lay .card {
+        position: relative;
+        z-index: 1;
+        width: 100%;
+        max-width: 440px;
+        padding: 24px;
+        border-radius: 20px;
+        background: #fff;
+        box-shadow: 0 24px 50px -18px rgba(0, 0, 0, 0.35);
+        font-family: var(--ff, Inter), sans-serif;
+        color: #0f1b2d;
+        overflow: hidden;
+        transition: height 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+      }
+      .sxf-lay .card .top {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .sxf-lay .card .logo {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-family: Inter, sans-serif;
+        font-size: 13px;
+        font-weight: 800;
+        letter-spacing: 0.06em;
+        color: #0f1b2d;
+        max-width: 0;
+        overflow: hidden;
+        opacity: 0;
+        white-space: nowrap;
+        transition:
+          max-width 0.5s ease,
+          opacity 0.4s ease;
+      }
+      .sxf-lay .card .logo i {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 30px;
+        height: 30px;
+        border-radius: 9px;
+        background: var(--acc, #2a73ff);
+        color: #fff;
+        font-style: normal;
+        font-size: 15px;
+        flex: none;
+        transition: background-color 0.6s ease;
+      }
+      .sxf-lay .card.has-logo .logo {
+        max-width: 200px;
+        opacity: 1;
+      }
+      .sxf-lay .card .qr {
+        margin-left: auto;
+        width: 38px;
+        height: 38px;
+        border-radius: 9px;
+        background: #f1f4f9;
+        color: var(--acc, #2a73ff);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex: none;
+        transition: color 0.6s ease;
+      }
+      .sxf-lay .card .qr svg {
+        width: 24px;
+        height: 24px;
+      }
+      .sxf-lay .card h4 {
+        margin: 16px 0 6px;
+        font-family: var(--ff, Inter), sans-serif;
+        font-size: 23px;
+        line-height: 1.2;
+        font-weight: 700;
+        letter-spacing: -0.01em;
+        color: #0f1b2d;
+      }
+      .sxf-lay .card .ds {
+        margin: 0;
+        font-size: 14px;
+        line-height: 1.5;
+        color: #5b6475;
+      }
+      .sxf-lay .files {
+        margin-top: 16px;
+        border-radius: 14px;
+        border: 1px solid #edf1f7;
+      }
+      .sxf-lay .files div {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 9px 12px;
+        font-family: Inter, sans-serif;
+        font-size: 13px;
+        font-weight: 600;
+      }
+      .sxf-lay .files div + div {
+        border-top: 1px solid #f0f3f8;
+      }
+      .sxf-lay .files span {
+        width: 22px;
+        height: 22px;
+        border-radius: 6px;
+        flex: none;
+      }
+      .sxf-lay .files em {
+        margin-left: auto;
+        font-style: normal;
+        font-size: 11.5px;
+        font-weight: 500;
+        color: #8a94a6;
+      }
+      .sxf-lay .wd {
+        display: grid;
+        grid-template-rows: 0fr;
+        opacity: 0;
+        transform: scale(0.92);
+        transition:
+          grid-template-rows 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+          opacity 0.3s ease,
+          transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1),
+          margin 0.45s ease;
+        margin-top: 0;
+      }
+      .sxf-lay .wd > div {
+        overflow: hidden;
+        min-height: 0;
+      }
+      .sxf-lay .wd.on {
+        grid-template-rows: 1fr;
+        opacity: 1;
+        transform: none;
+        margin-top: 12px;
+      }
+      .sxf-lay .calc {
+        padding: 14px;
+        border-radius: 14px;
+        background: color-mix(in srgb, var(--acc, #2a73ff) 9%, #fff);
+        font-family: Inter, sans-serif;
+      }
+      .sxf-lay .calc .hd {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        color: #5b6475;
+      }
+      .sxf-lay .calc .hd b {
+        font-size: 20px;
+        letter-spacing: -0.01em;
+        text-transform: none;
+        color: #0f1b2d;
+      }
+      .sxf-lay .calc input {
+        width: 100%;
+        margin: 10px 0 2px;
+        accent-color: var(--acc, #2a73ff);
+      }
+      .sxf-lay .calc small {
+        font-size: 12px;
+        color: #5b6475;
+      }
+      .sxf-lay .up {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        padding: 14px;
+        border-radius: 14px;
+        border: 2px dashed color-mix(in srgb, var(--acc, #2a73ff) 45%, #fff);
+        font-family: Inter, sans-serif;
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--acc, #2a73ff);
+      }
+      .sxf-lay .up svg {
+        width: 18px;
+        height: 18px;
+      }
+      .sxf-lay .chat {
+        display: flex;
+        gap: 10px;
+        align-items: flex-end;
+        font-family: Inter, sans-serif;
+      }
+      .sxf-lay .chat i {
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        background: #ffbb00;
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-style: normal;
+        font-size: 12px;
+        font-weight: 700;
+        flex: none;
+      }
+      .sxf-lay .chat p {
+        margin: 0;
+        padding: 10px 13px;
+        border-radius: 14px 14px 14px 4px;
+        background: #f1f4f9;
+        font-size: 13px;
+        line-height: 1.45;
+        color: #0f1b2d;
+      }
+      .sxf-lay .cap {
+        max-width: 560px;
+        margin: 20px auto 0;
+        text-align: center;
+        font-size: 16px;
+        line-height: 1.55;
+        color: #4a5568;
+      }
+      .sxf-lay .cap b {
+        color: #0f1b2d;
+      }
+      .sxf-lay .p1 {
+        left: -26px;
+        top: 22%;
+        --d: 5.6s;
+      }
+      .sxf-lay .f1 {
+        right: -26px;
+        top: -28px;
+        --s: 56px;
+        --c: #ffbb00;
+        --r: 12deg;
+        --d: 6.4s;
+        z-index: 2;
+      }
+      .sxf-lay .f2 {
+        left: -30px;
+        bottom: -26px;
+        --s: 48px;
+        --c: #c800ff;
+        --r: -14deg;
+        --d: 5.8s;
+        z-index: 2;
+      }
+      .sxf-lay .sxf-pg.pop .card {
+        animation: sxfPop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+      }
+      @keyframes sxfPop {
+        0% {
+          transform: scale(0.96) rotate(-1deg);
+        }
+        60% {
+          transform: scale(1.02) rotate(0.5deg);
+        }
+        100% {
+          transform: none;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .sxf-lay .sxf-pg.pop .card {
+          animation: none;
+        }
+        .sxf-lay .card {
+          transition: none;
+        }
+      }
+      @media (max-width: 1024px) {
+        .sxf-lay {
+          padding: 104px 24px;
+        }
+        .sxf-lay .sxf-grid {
+          grid-template-columns: minmax(0, 1fr);
+          gap: 40px;
+          margin-top: 48px;
+          max-width: 720px;
+          margin-left: auto;
+          margin-right: auto;
+        }
+        .sxf-lay .sxf-stage {
+          order: -1;
+        }
+      }
+      @media (max-width: 767px) {
+        .sxf-lay {
+          padding: 84px 18px;
+        }
+        .sxf-lay .sxf-ctl {
+          padding: 22px 18px;
+          border-radius: 22px;
+        }
+        .sxf-lay .sxf-browser .sxf-pg {
+          min-height: 0;
+          padding: 22px 14px;
+        }
+        .sxf-lay .card {
+          padding: 18px;
+        }
+        .sxf-lay .card h4 {
+          font-size: 20px;
+        }
+        .sxf-lay .p1 {
+          left: 8px;
+          top: -16px;
+        }
+        .sxf-lay .f1 {
+          right: -8px;
+          top: -22px;
+          --s: 42px;
+        }
+        .sxf-lay .f2 {
+          display: none;
+        }
+      }
+    </style>
+    <section class="sxf sxf-lay" id="layout" aria-labelledby="sxf-h-lay">
+      <div class="sxf-wrap">
+        <div class="sxf-head" data-rv>
+          <p class="sxf-eyebrow">{t.custom_layouts_custom_layouts}</p>
+          <h2 class="sxf-h" id="sxf-h-lay">
+            {t.custom_layouts_every_share_becomes}
+            <span class="sxf-blue">{t.custom_layouts_its_own_landing_page}</span>
+          </h2>
+          <p class="sxf-lead">{t.custom_layouts_title_description_background_fon}</p>
+        </div>
+        <div class="sxf-grid">
+          <div class="sxf-ctl" data-rv>
+            <div class="grp">
+              <h3>{t.custom_layouts_choose_a_template}</h3><div class="row">
+                <button
+                  type="button"
+                  class="sxf-b pre"
+                  data-p="0"
+                  aria-pressed="true"
+                  style="--c:#2A73FF;--t:#EAF1FF;--k:#B9CFFB"
+                  ><b
+                    ><svg class="i" viewbox="0 0 24 24" aria-hidden="true"
+                      ><rect x="3" y="7" width="18" height="13" rx="2"></rect><path
+                        d="M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"></path></svg
+                    ></b
+                  >{t.custom_layouts_offer}</button
+                >
+                <button
+                  type="button"
+                  class="sxf-b pre"
+                  data-p="1"
+                  aria-pressed="false"
+                  style="--c:#F59000;--t:#FFF4DF;--k:#F6D59A"
+                  ><b
+                    ><svg class="i" viewbox="0 0 24 24" aria-hidden="true"
+                      ><rect x="3" y="3" width="7" height="7" rx="1"></rect><rect
+                        x="14"
+                        y="3"
+                        width="7"
+                        height="7"
+                        rx="1"></rect><rect x="3" y="14" width="7" height="7" rx="1"></rect><path
+                        d="M14 14h3v3h-3zM20 14v.01M14 20h.01M17 17h3v3"></path></svg
+                    ></b
+                  >{t.custom_layouts_trade_fair}</button
+                >
+                <button
+                  type="button"
+                  class="sxf-b pre"
+                  data-p="2"
+                  aria-pressed="false"
+                  style="--c:#A21CE0;--t:#F6EBFF;--k:#DDB8F5"
+                  ><b
+                    ><svg class="i" viewbox="0 0 24 24" aria-hidden="true"
+                      ><path d="M4 8h3l2-3h6l2 3h3a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1z"
+                      ></path><circle cx="12" cy="14" r="3.5"></circle></svg
+                    ></b
+                  >Event</button
+                >
+              </div>
+            </div>
+            <div class="grp">
+              <h3>{t.custom_layouts_background}</h3><div
+                class="row"
+                role="group"
+                aria-label={t.custom_layouts_aria_label_background}
+              >
+                <button
+                  type="button"
+                  class="sxf-b sw"
+                  data-bg="0"
+                  aria-label={t.custom_layouts_aria_label_blue}
+                  style="--g:linear-gradient(135deg,#2A73FF,#00BFFF)"></button>
+                <button
+                  type="button"
+                  class="sxf-b sw"
+                  data-bg="1"
+                  aria-label={t.custom_layouts_aria_label_sun}
+                  style="--g:linear-gradient(135deg,#FFBB00,#FF7A00)"></button>
+                <button
+                  type="button"
+                  class="sxf-b sw"
+                  data-bg="2"
+                  aria-label={t.custom_layouts_aria_label_violet}
+                  style="--g:linear-gradient(135deg,#C800FF,#6B2BFF)"></button>
+                <button
+                  type="button"
+                  class="sxf-b sw"
+                  data-bg="3"
+                  aria-label="Mint"
+                  style="--g:linear-gradient(135deg,#22C55E,#00BFA6)"></button>
+                <button
+                  type="button"
+                  class="sxf-b sw"
+                  data-bg="4"
+                  aria-label={t.custom_layouts_aria_label_night}
+                  style="--g:linear-gradient(135deg,#0F1B2D,#2D3E63)"></button>
+              </div>
+            </div>
+            <div class="grp">
+              <h3>{t.custom_layouts_font}</h3><div
+                class="row"
+                role="group"
+                aria-label={t.custom_layouts_aria_label_font}
+              >
+                <button type="button" class="sxf-b chip fn" data-f="0" style="font-family:Inter,sans-serif"
+                  >Aa Modern</button
+                >
+                <button type="button" class="sxf-b chip fn" data-f="1" style="font-family:Georgia,serif"
+                  >{t.custom_layouts_aa_classic}</button
+                >
+                <button type="button" class="sxf-b chip fn" data-f="2" style="font-family:'Trebuchet MS',sans-serif"
+                  >{t.custom_layouts_aa_playful}</button
+                >
+              </div>
+            </div>
+            <div class="grp">
+              <h3>{t.custom_layouts_logo_and_widgets}</h3><div class="row">
+                <button type="button" class="sxf-b chip" data-t="logo"
+                  ><span class="ck"
+                    ><svg class="i" viewbox="0 0 24 24" aria-hidden="true"><path d="m5 12 5 5L20 7"></path></svg></span
+                  >{t.custom_layouts_company_logo}</button
+                >
+                <button type="button" class="sxf-b chip" data-t="calc"
+                  ><span class="ck"
+                    ><svg class="i" viewbox="0 0 24 24" aria-hidden="true"><path d="m5 12 5 5L20 7"></path></svg></span
+                  >{t.custom_layouts_cost_calculator}</button
+                >
+                <button type="button" class="sxf-b chip" data-t="up"
+                  ><span class="ck"
+                    ><svg class="i" viewbox="0 0 24 24" aria-hidden="true"><path d="m5 12 5 5L20 7"></path></svg></span
+                  >{t.custom_layouts_upload}</button
+                >
+                <button type="button" class="sxf-b chip" data-t="chat"
+                  ><span class="ck"
+                    ><svg class="i" viewbox="0 0 24 24" aria-hidden="true"><path d="m5 12 5 5L20 7"></path></svg></span
+                  >Chat</button
+                >
+              </div>
+            </div>
+            <button type="button" class="sxf-b dice"
+              ><svg class="i" viewbox="0 0 24 24" aria-hidden="true"
+                ><rect x="3" y="3" width="18" height="18" rx="4"></rect><circle
+                  cx="8.5"
+                  cy="8.5"
+                  r="1.2"
+                  fill="currentColor"></circle><circle cx="15.5" cy="15.5" r="1.2" fill="currentColor"></circle><circle
+                  cx="12"
+                  cy="12"
+                  r="1.2"
+                  fill="currentColor"></circle></svg
+              >{t.custom_layouts_surprise_me}</button
+            >
+          </div>
+          <div class="sxf-stage" data-rv style="--dl:.12s">
+            <span class="sxf-fold f1" aria-hidden="true"></span><span class="sxf-fold f2" aria-hidden="true"></span>
+            <div class="sxf-browser">
+              <div class="sxf-bar" aria-hidden="true">
+                <i></i><i></i><i></i><span class="sxf-url"
+                  ><svg class="i" viewbox="0 0 24 24" aria-hidden="true"
+                    ><rect x="4" y="11" width="16" height="10" rx="2"></rect><path d="M8 11V7a4 4 0 0 1 8 0v4"
+                    ></path></svg
+                  >{t.custom_layouts_share_your_company_com}</span
+                >
+              </div>
+              <div class="sxf-pg" aria-live="polite">
+                <div class="card">
+                  <div class="top">
+                    <span class="logo"><i>N</i>NORDWERK</span><span class="qr" aria-hidden="true"
+                      ><svg viewbox="0 0 24 24" fill="currentColor" aria-hidden="true"
+                        ><path
+                          d="M3 3h8v8H3zm2 2v4h4V5zm8-2h8v8h-8zm2 2v4h4V5zM3 13h8v8H3zm2 2v4h4v-4zm8-2h3v3h-3zm5 0h3v3h-3zm-5 5h3v3h-3zm5 0h3v3h-3z"
+                        ></path></svg
+                      ></span
+                    >
+                  </div>
+                  <h4 class="ti">{t.custom_layouts_your_offer_new_production}</h4>
+                  <p class="ds">{t.custom_layouts_all_documents_for_our}</p>
+                  <div class="files" aria-hidden="true">
+                    <div>
+                      <span style="background:#2A73FF"></span>{t.custom_layouts_offer_new_hall_pdf}<em
+                        >{t.custom_layouts_2_4_mb}</em
+                      >
+                    </div><div>
+                      <span style="background:#FFBB00"></span>{t.custom_layouts_references_2026_pdf}<em
+                        >{t.custom_layouts_8_1_mb}</em
+                      >
+                    </div><div>
+                      <span style="background:#C800FF"></span>{t.custom_layouts_floor_plan_option_b}<em>14 MB</em>
+                    </div>
+                  </div>
+                  <div class="wd" data-w="calc">
+                    <div>
+                      <div class="calc">
+                        <div class="hd">
+                          {t.custom_layouts_cost_calculator}<b class="out">{t.custom_layouts_approx_144_000}</b>
+                        </div><input
+                          type="range"
+                          min="40"
+                          max="600"
+                          step="10"
+                          value="120"
+                          aria-label={t.custom_layouts_aria_label_hall_area_in}
+                        /><small
+                          >{t.custom_layouts_hall_area}
+                          <span class="m2">120</span>
+                          {t.custom_layouts_m2_sample_calculation}</small
+                        >
+                      </div>
+                    </div>
+                  </div>
+                  <div class="wd" data-w="up">
+                    <div>
+                      <div class="up">
+                        <svg class="i" viewbox="0 0 24 24" aria-hidden="true"
+                          ><path d="M12 16V4M7 9l5-5 5 5M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3"></path></svg
+                        >{t.custom_layouts_drop_files_here}
+                      </div>
+                    </div>
+                  </div>
+                  <div class="wd" data-w="chat">
+                    <div><div class="chat"><i>JK</i><p>{t.custom_layouts_does_option_b_also}</p></div></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <p class="cap"><b>{t.custom_layouts_example}</b> {t.custom_layouts_for_illustration_purposes_only}</p>
+            <span class="sxf-pill p1" aria-hidden="true"
+              ><b style="background:#FF4D8D"
+                ><svg class="i" viewbox="0 0 24 24" aria-hidden="true"
+                  ><path
+                    d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1"
+                  ></path></svg
+                ></b
+              >{t.custom_layouts_live_preview}</span
+            >
+          </div>
+        </div>
+      </div>
+    </section>
+    <script is:inline set:html={t.custom_layouts_script} />
+  </div>
+</div>

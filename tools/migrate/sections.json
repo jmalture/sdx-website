@@ -1,0 +1,53 @@
+{
+  "home": {
+    "sdxhero0": "hero",
+    "sdxsec2": "logos",
+    "sdxt01": "welcome",
+    "sdxt02": "files",
+    "sdxt03": "audit_log",
+    "sdxt04": "sharing",
+    "sdxt05": "integrations",
+    "sdxt06": "branding",
+    "sdxt07": "workflows",
+    "sdxt08": "dashboards",
+    "sdxt09": "portal",
+    "afc3cbf": "why_sdx",
+    "sdxsec4": "mobile",
+    "sdxfaq": "faq",
+    "sdxt10": "contact"
+  },
+  "share": {
+    "sxf01": "hero",
+    "sxf02": "comparison",
+    "sxf03": "steps",
+    "sxf04": "share_page",
+    "87b25a2": "custom_layouts",
+    "sxf05": "benefits",
+    "sxf06": "use_cases",
+    "1755598": "website_sync",
+    "sxf07": "features",
+    "6a75109": "visibility",
+    "8243135": "notifications",
+    "sxf08": "security",
+    "sxf10": "faq",
+    "sxf11": "cta"
+  },
+  "features": {
+    "sfx01": "hero",
+    "sfx02": "feature_list",
+    "sfx03": "cta"
+  },
+  "audits": {
+    "sxa01": "hero",
+    "8d0391d": "filters",
+    "6f178da": "details",
+    "a26c4de": "logged_actions",
+    "a576d67": "benefits",
+    "3ea285a": "use_cases",
+    "987bc87": "export",
+    "3f29535": "immutable",
+    "30f99b9": "functions",
+    "a43b984": "faq",
+    "8a532b3": "cta"
+  }
+}

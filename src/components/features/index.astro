@@ -1,0 +1,14 @@
+---
+/** All sections of the features page, in order. To reorder or remove a section, edit the list below. */
+import type { Lang } from '../../i18n';
+import Hero from './01-hero.astro';
+import FeatureList from './02-feature-list.astro';
+import Cta from './03-cta.astro';
+const { lang } = Astro.props as { lang: Lang };
+---
+
+<div class="elementor elementor-759">
+  <Hero lang={lang} />
+  <FeatureList lang={lang} />
+  <Cta lang={lang} />
+</div>

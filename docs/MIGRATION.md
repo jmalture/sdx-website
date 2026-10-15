@@ -39,10 +39,10 @@ are set with the `SRC` and `SITE` environment variables.
 | # | Package | Status |
 |---|---|---|
 | 1 | Project setup: repo, Astro, fonts, base layout, header with mega menu + language switch, footer | done (v0.1) |
-| 2 | i18n: one template per page, dictionaries de/en/cs, hreflang, canonical, switcher | done (homepage, External Share) |
+| 2 | i18n: one template per page, dictionaries de/en/cs, hreflang, canonical, switcher | done for all pages |
 | 3 | Homepage port (all 15 sections, DE/EN/CZ) | done (v0.1), visual check against live pending |
-| 4 | Features overview, External Share (DE/EN), Audits | External Share DE/EN done (v0.2), others open |
-| 5 | Impressum, Datenschutz (DE/EN) | open (texts approved first, see D26-1527) |
+| 4 | Features overview, External Share (DE/EN), Audits | done: External Share DE/EN, Features and Audits DE/EN/CZ (EN/CZ translated, review pending) |
+| 5 | Impressum, Datenschutz (DE/EN) | done as Markdown (live text + Impressum fixes: e-mail, DDG); Datenschutz [PRÜFEN] points and Wordfence/WordPress parts to be updated before launch |
 | 6 | Media: AVIF/WebP with srcset for all images, posters, OG image | open |
 | 7 | Contact form endpoint + SMTP | done (code), SMTP account and recipient pending |
 | 8 | SEO: meta per page, JSON-LD, sitemap, robots.txt, 301 redirects from WordPress URLs | partly (meta, hreflang, sitemap) |
@@ -55,10 +55,16 @@ Homepage DE: mobile 78 (LCP 5.3 s: hero PNG), desktop 98; accessibility 93, best
 Next steps for 100: AVIF/WebP hero with correct `sizes`, gzip/brotli on the server, smaller
 inlined CSS (section cleanup), contrast fixes flagged by Lighthouse.
 
+## Readable code
+
+After porting, `tools/migrate/tidy.py` gives every section a file name and every text a readable key
+(`hero_share_files` instead of `sxf01_t3`) and formats the code. How to edit: `docs/EDITING.md`.
+
 ## Open points
 
 - Form recipient and SMTP mailbox (the WordPress form still sends to hostinger@alture.io).
 - Header: DE has the Features mega menu, EN/CZ headers in WordPress still had older menus. The new
   site uses the mega menu in all languages (EN/CZ texts translated, links to DE pages where no
   translation exists yet).
-- Content editing after launch: in git (developer/Claude) for now.
+- Content editing after launch: in git (developer/Claude) for now; a Git-based admin UI (Keystatic) can be added later.
+- Datenschutz: the Wordfence section and other WordPress-specific parts no longer apply on the new site; contact form storage changed (JSON file before e-mail). Update before launch.

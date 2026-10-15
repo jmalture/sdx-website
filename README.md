@@ -11,7 +11,7 @@ Node endpoint for the contact form. Replaces the WordPress/Elementor site (Jira 
   missing keys fall back to German.
 - **Language switch** = link to the same template in the other language (`/`, `/en/`, `/cs/`), so
   every language is real, indexable HTML with `hreflang` and canonical tags.
-- **Sections** are components in `src/components/<page>/`. Each one carries its own CSS and the small
+- **Sections** are components in `src/components/<page>/NN-<name>.astro`. Each one carries its own CSS and the small
   vanilla scripts it needs (copied from the former Elementor HTML widgets).
 - `src/styles/legacy.css` holds the Elementor/theme CSS the ported markup still relies on, reduced to
   the rules that match (see `tools/migrate/purge_css.py`). It shrinks as sections are cleaned up.
@@ -27,6 +27,7 @@ npm install
 npm run dev       # http://localhost:4321
 npm run build     # static pages in dist/client, server in dist/server
 npm start         # serves dist (needs a build first)
+npm run format    # Prettier
 ```
 
 ## Deployment (Hostinger Node.js app)
@@ -43,4 +44,5 @@ npm start         # serves dist (needs a build first)
 - One LCP image per page with `fetchpriority="high"`; everything else lazy; videos `preload="none"`.
 - Target: 100 in PageSpeed (mobile and desktop) on every page and language.
 
-See `docs/MIGRATION.md` for the plan, work packages and status.
+How to change texts, sections and pages: `docs/EDITING.md`. Plan and status of the migration:
+`docs/MIGRATION.md`.

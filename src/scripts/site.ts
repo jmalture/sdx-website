@@ -42,12 +42,16 @@ function initStickyHeader() {
     const offset = mq.matches ? 8 : 388;
     bar.classList.toggle('elementor-sticky--effects', window.scrollY > offset);
   };
-  window.addEventListener('scroll', () => {
-    if (!ticking) {
-      ticking = true;
-      requestAnimationFrame(update);
-    }
-  }, { passive: true });
+  window.addEventListener(
+    'scroll',
+    () => {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(update);
+      }
+    },
+    { passive: true },
+  );
   update();
 }
 
@@ -108,7 +112,10 @@ function initFaqFolds() {
     const expanded = () => !!sec.querySelector('.sdxq-item.is-open, .sdxq-more.is-less');
     const orig = folds.map((f) => [f.style.top, f.style.bottom]);
     const pin = () => {
-      folds.forEach((f, i) => { f.style.top = orig[i][0]; f.style.bottom = orig[i][1]; });
+      folds.forEach((f, i) => {
+        f.style.top = orig[i][0];
+        f.style.bottom = orig[i][1];
+      });
       const tops = folds.map((f) => f.offsetTop); // offsetTop ignores the bob/rotate transforms
       folds.forEach((f, i) => {
         f.style.setProperty('top', `${tops[i]}px`, 'important');

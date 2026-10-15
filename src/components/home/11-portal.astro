@@ -1,0 +1,160 @@
+---
+/**
+ * Section "portal": Aus Workflows und Widgets wird Ihr Portal.
+ * Texts: src/i18n/home.json, keys starting with "portal_" (one entry per language).
+ * Layout and styles of this section are in this file; legacy Elementor classes come from
+ * src/styles/legacy*.css and should be left as they are.
+ */
+import { dict, type Lang } from '../../i18n';
+import data from '../../i18n/home.json';
+const { lang } = Astro.props as { lang: Lang };
+const t = dict(data, lang);
+---
+
+<div class="elementor-element elementor-element-sdxt09 e-con-full e-flex e-con e-parent" data-id="sdxt09">
+  <div class="elementor-element elementor-element-sdxt09w elementor-widget elementor-widget-html" data-id="sdxt09w">
+    <section class="sdxt sdxt-portal" id="raum-portal">
+      <div class="sdxt-pglow" aria-hidden="true"></div>
+      <i
+        class="sdxt-fold pf1"
+        aria-hidden="true"
+        style="--c:#FFBB00;--s:58px;--r:-10deg;left:6%;top:14%;--d:6.4s;--p:.2"></i>
+      <i class="sdxt-fold pf2" aria-hidden="true" style="--c:#00BFFF;--s:46px;--r:9deg;right:7%;top:20%;--d:7.2s;--p:.3"
+      ></i>
+      <div class="sdxt-wrap">
+        <div class="sdxt-head">
+          <p class="sdxt-eyebrow">{t.portal_your_portal}</p>
+          <h2 class="sdxt-h">{t.portal_workflows_and_widgets_become}</h2>
+          <div class="sdxt-eq" aria-hidden="true">
+            <span><i style="background:#FFA600"></i>Workflows</span><b>+</b><span
+              ><i style="background:#22C55E"></i>Widgets</span
+            ><b>=</b><span class="you"><i style="background:#fff"></i>{t.portal_your_portal}</span>
+          </div>
+          <p class="sdxt-lead">{t.portal_workflows_decide_what_happens}</p>
+        </div>
+        <div class="sdxt-visual">
+          <div class="sdxt-tab">
+            <div class="sdxt-tab-in">
+              <video
+                class="sdxt-vid"
+                src="/media/sdx-bfy-portals.mp4"
+                poster="/media/sdx-bfy-portals-poster.jpg"
+                muted
+                loop
+                playsinline
+                preload="none"
+                aria-label={t.portal_aria_label_video_different_portals}></video>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <style is:global>
+      /* room: portal (finale, brand blue) */
+      .sdxt-portal {
+        padding: 130px 32px 140px;
+        background: #2a73ff;
+        color: #fff;
+      }
+      .sdxt-portal .sdxt-pglow {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        background:
+          radial-gradient(50% 45% at 50% 100%, rgba(255, 255, 255, 0.22), transparent 70%),
+          radial-gradient(35% 45% at 0% 0%, rgba(0, 191, 255, 0.35), transparent 70%),
+          radial-gradient(35% 45% at 100% 10%, rgba(200, 0, 255, 0.22), transparent 70%);
+      }
+      .sdxt-portal .sdxt-head {
+        max-width: 820px;
+        margin: 0 auto;
+        text-align: center;
+      }
+      .sdxt-portal .sdxt-eyebrow {
+        color: rgba(255, 255, 255, 0.8);
+      }
+      .sdxt-portal .sdxt-h {
+        color: #fff;
+      }
+      .sdxt-portal .sdxt-lead {
+        color: rgba(255, 255, 255, 0.88);
+      }
+      .sdxt-eq {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        margin: 26px 0 0;
+      }
+      .sdxt-eq span {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 9px 16px 9px 12px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.14);
+        border: 1px solid rgba(255, 255, 255, 0.28);
+        font-size: 15px;
+        font-weight: 600;
+        color: #fff;
+      }
+      .sdxt-eq span i {
+        width: 10px;
+        height: 10px;
+        border-radius: 3px;
+      }
+      .sdxt-eq span.you {
+        background: #fff;
+        color: #2a73ff;
+        border-color: #fff;
+      }
+      .sdxt-eq span.you i {
+        background: #2a73ff !important;
+      }
+      .sdxt-eq b {
+        font-size: 22px;
+        font-weight: 600;
+        color: rgba(255, 255, 255, 0.75);
+      }
+      .sdxt-portal .sdxt-visual {
+        position: relative;
+        max-width: 1000px;
+        margin: 56px auto 0;
+      }
+      .sdxt-portal .sdxt-tab {
+        background: rgba(255, 255, 255, 0.35);
+        box-shadow:
+          0 40px 90px rgba(10, 30, 90, 0.45),
+          inset 0 0 0 1px rgba(255, 255, 255, 0.4);
+      }
+      @media (max-width: 1240px) {
+        .sdxt-portal .pf1,
+        .sdxt-portal .pf2 {
+          display: none;
+        }
+      }
+      @media (max-width: 1024px) {
+        .sdxt-portal {
+          padding: 96px 24px 110px;
+        }
+        .sdxt-portal .sdxt-visual {
+          margin-top: 44px;
+          max-width: 720px;
+        }
+      }
+      @media (max-width: 767px) {
+        .sdxt-portal {
+          padding: 76px 18px 88px;
+        }
+        .sdxt-eq span {
+          font-size: 13px;
+          padding: 7px 12px 7px 10px;
+        }
+        .sdxt-eq b {
+          font-size: 18px;
+        }
+      }
+    </style>
+  </div>
+</div>

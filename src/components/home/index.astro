@@ -1,35 +1,38 @@
 ---
-import SecSdxhero0 from './SecSdxhero0.astro';
-import SecSdxsec2 from './SecSdxsec2.astro';
-import SecSdxt01 from './SecSdxt01.astro';
-import SecSdxt02 from './SecSdxt02.astro';
-import SecSdxt03 from './SecSdxt03.astro';
-import SecSdxt04 from './SecSdxt04.astro';
-import SecSdxt05 from './SecSdxt05.astro';
-import SecSdxt06 from './SecSdxt06.astro';
-import SecSdxt07 from './SecSdxt07.astro';
-import SecSdxt08 from './SecSdxt08.astro';
-import SecSdxt09 from './SecSdxt09.astro';
-import SecAfc3cbf from './SecAfc3cbf.astro';
-import SecSdxsec4 from './SecSdxsec4.astro';
-import SecSdxfaq from './SecSdxfaq.astro';
-import SecSdxt10 from './SecSdxt10.astro';
-const { lang } = Astro.props;
+/** All sections of the home page, in order. To reorder or remove a section, edit the list below. */
+import type { Lang } from '../../i18n';
+import Hero from './01-hero.astro';
+import Logos from './02-logos.astro';
+import Welcome from './03-welcome.astro';
+import Files from './04-files.astro';
+import AuditLog from './05-audit-log.astro';
+import Sharing from './06-sharing.astro';
+import Integrations from './07-integrations.astro';
+import Branding from './08-branding.astro';
+import Workflows from './09-workflows.astro';
+import Dashboards from './10-dashboards.astro';
+import Portal from './11-portal.astro';
+import WhySdx from './12-why-sdx.astro';
+import Mobile from './13-mobile.astro';
+import Faq from './14-faq.astro';
+import Contact from './15-contact.astro';
+const { lang } = Astro.props as { lang: Lang };
 ---
+
 <div class="elementor elementor-358">
-  <SecSdxhero0 lang={lang} />
-  <SecSdxsec2 lang={lang} />
-  <SecSdxt01 lang={lang} />
-  <SecSdxt02 lang={lang} />
-  <SecSdxt03 lang={lang} />
-  <SecSdxt04 lang={lang} />
-  <SecSdxt05 lang={lang} />
-  <SecSdxt06 lang={lang} />
-  <SecSdxt07 lang={lang} />
-  <SecSdxt08 lang={lang} />
-  <SecSdxt09 lang={lang} />
-  <SecAfc3cbf lang={lang} />
-  <SecSdxsec4 lang={lang} />
-  <SecSdxfaq lang={lang} />
-  <SecSdxt10 lang={lang} />
+  <Hero lang={lang} />
+  <Logos lang={lang} />
+  <Welcome lang={lang} />
+  <Files lang={lang} />
+  <AuditLog lang={lang} />
+  <Sharing lang={lang} />
+  <Integrations lang={lang} />
+  <Branding lang={lang} />
+  <Workflows lang={lang} />
+  <Dashboards lang={lang} />
+  <Portal lang={lang} />
+  <WhySdx lang={lang} />
+  <Mobile lang={lang} />
+  <Faq lang={lang} />
+  <Contact lang={lang} />
 </div>

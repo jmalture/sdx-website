@@ -1,0 +1,26 @@
+---
+/**
+ * Audits feature page (WordPress 696, DE only there). One template for DE/EN/CZ.
+ * Texts: src/i18n/audits.json · Title/description: src/i18n/audits.meta.json
+ * Sections: src/components/audits/ (order in index.astro)
+ */
+import '../styles/legacy-audits.css'; // purged Elementor/theme CSS for this page (must load before site.css)
+import Base from '../layouts/Base.astro';
+import Sections from '../components/audits/index.astro';
+import meta from '../i18n/audits.meta.json';
+import type { Lang } from '../i18n';
+
+const { lang } = Astro.props as { lang: Lang };
+const alternates = { de: '/audits/', en: '/en/audits/', cs: '/cs/audity/' };
+const m = meta[lang];
+---
+
+<Base
+  lang={lang}
+  title={m.title}
+  description={m.description}
+  alternates={alternates}
+  bodyClass="page elementor-template-full-width elementor-page elementor-page-696"
+>
+  <Sections lang={lang} />
+</Base>

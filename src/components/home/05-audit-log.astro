@@ -1,0 +1,325 @@
+---
+/**
+ * Section "audit_log": Jeder Schritt. Nachvollziehbar.
+ * Texts: src/i18n/home.json, keys starting with "audit_log_" (one entry per language).
+ * Layout and styles of this section are in this file; legacy Elementor classes come from
+ * src/styles/legacy*.css and should be left as they are.
+ */
+import { dict, type Lang } from '../../i18n';
+import data from '../../i18n/home.json';
+const { lang } = Astro.props as { lang: Lang };
+const t = dict(data, lang);
+---
+
+<div class="elementor-element elementor-element-sdxt03 e-con-full e-flex e-con e-parent" data-id="sdxt03">
+  <div class="elementor-element elementor-element-sdxt03w elementor-widget elementor-widget-html" data-id="sdxt03w">
+    <section class="sdxt sdxt-secure" id="raum-sicherheit">
+      <div class="sdxt-glow" aria-hidden="true"></div>
+      <div class="sdxt-wrap sdxt-split">
+        <div class="sdxt-text">
+          <span class="sdxt-pill sdxt-gdpr" aria-hidden="true" style="--d:7s"
+            ><b style="background:#22C55E"
+              ><svg
+                viewbox="0 0 24 24"
+                width="15"
+                height="15"
+                fill="none"
+                stroke="#fff"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                ><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path><path d="m9 12 2 2 4-4"></path></svg
+              ></b
+            >{t.audit_log_gdpr_compliant}</span
+          >
+          <p class="sdxt-eyebrow">{t.audit_log_security_audits}</p>
+          <h2 class="sdxt-h">{t.audit_log_every_step} <span class="sdxt-blue">{t.audit_log_fully_traceable}</span></h2>
+          <p class="sdxt-lead">{t.audit_log_the_audit_log_shows}</p>
+          <div class="sdxt-steps">
+            <ol>
+              <li>{t.audit_log_filter_by_time_period}</li><li>{t.audit_log_open_any_entry_in}</li><li>
+                {t.audit_log_export_as_csv_tsv}
+              </li>
+            </ol>
+          </div>
+          <p class="sdxt-sec-cta">
+            <a class="sdxt-btn" href="/audits/"
+              >{t.audit_log_explore_audits}
+              <svg
+                viewbox="0 0 24 24"
+                width="18"
+                height="18"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.2"
+                stroke-linecap="round"
+                stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"></path></svg
+              ></a
+            >
+          </p>
+        </div>
+        <div class="sdxt-visual">
+          <div class="sdxt-feed" aria-hidden="true">
+            <span class="sdxt-log l1" style="--dl:0s"
+              ><i style="background:#22C55E"></i>{t.audit_log_login_successful}<em>09:41</em></span
+            >
+            <span class="sdxt-log l2" style="--dl:1.4s"
+              ><i style="background:#2A73FF"></i>{t.audit_log_share_created}<em>09:43</em></span
+            >
+            <span class="sdxt-log l4" style="--dl:4.2s"
+              ><i style="background:#C800FF"></i>{t.audit_log_audit_log_exported}<em>10:15</em></span
+            >
+          </div>
+          <div class="sdxt-tab">
+            <div class="sdxt-tab-in">
+              <video
+                class="sdxt-vid"
+                src="/media/sdx-secure-demo-v2.mp4"
+                poster="/media/sdx-secure-poster-v2.jpg"
+                muted
+                loop
+                playsinline
+                preload="none"
+                aria-label={t.audit_log_aria_label_video_filtering_actions}></video>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <style is:global>
+      /* room: security (navy) */
+      .sdxt-secure {
+        padding: 130px 32px;
+        background: #0f1b2d;
+        color: #fff;
+      }
+      .sdxt-secure .sdxt-glow {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        background:
+          radial-gradient(45% 60% at 78% 45%, rgba(42, 115, 255, 0.38), transparent 70%),
+          radial-gradient(30% 40% at 8% 95%, rgba(0, 191, 255, 0.16), transparent 70%);
+      }
+      .sdxt-secure .sdxt-split {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1.45fr);
+      }
+      .sdxt-secure .sdxt-text {
+        position: relative;
+      }
+      .sdxt-secure .sdxt-eyebrow {
+        color: #7fb0ff;
+      }
+      .sdxt-secure .sdxt-h {
+        color: #fff;
+      }
+      .sdxt-secure .sdxt-blue {
+        color: #7fb0ff;
+      }
+      .sdxt-secure .sdxt-lead {
+        color: rgba(255, 255, 255, 0.74);
+      }
+      .sdxt-secure .sdxt-steps {
+        border-top-color: rgba(255, 255, 255, 0.14);
+      }
+      .sdxt-secure .sdxt-steps-t {
+        color: rgba(255, 255, 255, 0.5);
+      }
+      .sdxt-secure .sdxt-steps li {
+        color: #fff;
+      }
+      .sdxt-sec-cta {
+        margin: 0;
+      }
+      /* site-wide button style (16px radius, flat, same as .sxf-btn-p and the header buttons) */
+      .sdxt a.sdxt-btn,
+      .sdxt a.sdxt-btn:visited {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        padding: 13px 24px;
+        border-radius: 16px;
+        background: #2a73ff;
+        color: #fff !important;
+        font-family: Inter, sans-serif;
+        font-size: 15px;
+        line-height: 1.3;
+        font-weight: 600;
+        text-decoration: none;
+        border: 1px solid transparent;
+        box-shadow: none;
+        transition:
+          transform 0.2s ease,
+          box-shadow 0.2s ease,
+          background-color 0.2s ease;
+      }
+      .sdxt a.sdxt-btn:hover,
+      .sdxt a.sdxt-btn:focus-visible {
+        background: #1f63eb;
+        color: #fff !important;
+        transform: translateY(-2px);
+        box-shadow: 0 12px 24px rgba(42, 115, 255, 0.32);
+      }
+      .sdxt a.sdxt-btn svg {
+        width: 18px;
+        height: 18px;
+      }
+      .sdxt-secure .sdxt-tab {
+        background: #dde3ec;
+        box-shadow:
+          0 30px 80px rgba(0, 0, 0, 0.45),
+          0 0 0 1px rgba(255, 255, 255, 0.08),
+          0 0 90px rgba(42, 115, 255, 0.25);
+      }
+      .sdxt-secure .sdxt-gdpr {
+        position: absolute;
+        top: -56px;
+        right: 0;
+        font-size: 13px;
+        color: #0f1b2d;
+        box-shadow: 0 10px 24px rgba(0, 0, 0, 0.3);
+      }
+      .sdxt-feed {
+        position: absolute;
+        inset: -60px -24px -50px -10px;
+        pointer-events: none;
+        z-index: 0;
+      }
+      .sdxt-log {
+        position: absolute;
+        display: inline-flex;
+        align-items: center;
+        gap: 9px;
+        padding: 8px 14px 8px 10px;
+        border-radius: 12px;
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        backdrop-filter: blur(6px);
+        font-size: 13px;
+        font-weight: 500;
+        color: #fff;
+        white-space: nowrap;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+      }
+      .sdxt-log i {
+        width: 9px;
+        height: 9px;
+        border-radius: 50%;
+        flex: none;
+        box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.08);
+      }
+      .sdxt-log em {
+        font-style: normal;
+        font-size: 12px;
+        color: rgba(255, 255, 255, 0.5);
+        margin-left: 4px;
+      }
+      .sdxt-log.l1 {
+        top: 0;
+        right: 12%;
+      }
+      .sdxt-log.l2 {
+        top: 22%;
+        right: -8px;
+      }
+      .sdxt-log.l3 {
+        bottom: 0;
+        left: 16%;
+      }
+      .sdxt-log.l4 {
+        top: 60%;
+        right: 4%;
+      }
+      .sdxt-log.l5 {
+        bottom: 12%;
+        right: 2%;
+      }
+      .sdxt-secure .sdxt-tab {
+        z-index: 1;
+      }
+      .sdxt-secure .sdxt-log.l2,
+      .sdxt-secure .sdxt-log.l4,
+      .sdxt-secure .sdxt-log.l5 {
+        z-index: 2;
+      }
+      @media all {
+        .sdxt-log {
+          opacity: 0;
+          animation: sdxtFeed 7s ease-in-out var(--dl, 0s) infinite;
+        }
+        @keyframes sdxtFeed {
+          0% {
+            opacity: 0;
+            translate: 0 22px;
+          }
+          14% {
+            opacity: 1;
+            translate: 0 0;
+          }
+          78% {
+            opacity: 1;
+            translate: 0 -14px;
+          }
+          100% {
+            opacity: 0;
+            translate: 0 -30px;
+          }
+        }
+      }
+      @media (max-width: 1340px) {
+        .sdxt-feed {
+          inset: -56px -6px -46px -10px;
+        }
+      }
+      @media (max-width: 1024px) {
+        .sdxt-secure {
+          padding: 96px 24px;
+        }
+        .sdxt-secure .sdxt-split {
+          grid-template-columns: 1fr;
+        }
+        .sdxt-secure .sdxt-visual {
+          order: -1;
+          max-width: 720px;
+          margin: 0 auto;
+          width: 100%;
+        }
+        .sdxt-secure .sdxt-gdpr,
+        .sdxt-log.l3,
+        .sdxt-log.l4,
+        .sdxt-log.l5 {
+          display: none;
+        }
+        .sdxt-feed {
+          inset: -44px -8px -40px -8px;
+        }
+        .sdxt-log.l1 {
+          top: 0;
+          right: 6%;
+        }
+        .sdxt-log.l2 {
+          top: auto;
+          bottom: 0;
+          left: 6%;
+          right: auto;
+        }
+      }
+      @media (max-width: 767px) {
+        .sdxt-secure {
+          padding: 76px 18px;
+        }
+        .sdxt-log {
+          font-size: 12px;
+          padding: 6px 11px 6px 9px;
+        }
+        .sdxt-log em {
+          display: none;
+        }
+        .sdxt-feed {
+          inset: -36px -4px -34px -4px;
+        }
+      }
+    </style>
+  </div>
+</div>

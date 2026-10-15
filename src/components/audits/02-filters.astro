@@ -1,0 +1,646 @@
+---
+/**
+ * Section "filters": Drei Filter. Eine Antwort.
+ * Texts: src/i18n/audits.json, keys starting with "filters_" (one entry per language).
+ * Layout and styles of this section are in this file; legacy Elementor classes come from
+ * src/styles/legacy*.css and should be left as they are.
+ */
+import { dict, type Lang } from '../../i18n';
+import data from '../../i18n/audits.json';
+const { lang } = Astro.props as { lang: Lang };
+const t = dict(data, lang);
+---
+
+<div class="elementor-element elementor-element-8d0391d e-flex e-con-full e-con e-parent" data-id="8d0391d">
+  <div class="elementor-element elementor-element-5671a6a elementor-widget elementor-widget-html" data-id="5671a6a">
+    <style is:global>
+      /* 2 so geht's: interactive filter hunt */
+      .sxa-hunt {
+        padding: 128px 32px;
+        background: linear-gradient(180deg, #f3f7ff 0%, #eef4ff 100%);
+      }
+      .sxa-hunt .grid {
+        display: grid;
+        grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+        gap: 56px;
+        align-items: start;
+        margin-top: 64px;
+      }
+      .sxa-hunt .case {
+        padding: 28px;
+        border-radius: 28px;
+        background: #fff;
+        box-shadow:
+          0 30px 60px -28px rgba(18, 37, 92, 0.28),
+          0 0 0 1px rgba(18, 37, 92, 0.05);
+      }
+      .sxa-hunt .q {
+        display: flex;
+        gap: 14px;
+        align-items: flex-start;
+        margin: 0 0 22px;
+        padding: 16px 18px;
+        border-radius: 18px;
+        background: #fff4df;
+      }
+      .sxa-hunt .q b {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        border-radius: 12px;
+        background: #f59000;
+        color: #fff;
+        flex: none;
+      }
+      .sxa-hunt .q b svg {
+        width: 20px;
+        height: 20px;
+      }
+      .sxa-hunt .q strong {
+        display: block;
+        font-size: 17px;
+        line-height: 1.35;
+        color: #0f1b2d;
+      }
+      .sxa-hunt .q span {
+        display: block;
+        margin-top: 3px;
+        font-size: 14px;
+        color: #6b5a3a;
+      }
+      .sxa-hunt ol {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: grid;
+        gap: 10px;
+      }
+      .sxa-hunt li {
+        margin: 0;
+      }
+      .sxf.sxa-hunt .st {
+        display: grid;
+        grid-template-columns: 36px minmax(0, 1fr) auto;
+        gap: 14px;
+        align-items: center;
+        width: 100%;
+        padding: 12px 16px 12px 12px;
+        border-radius: 16px;
+        background: #fff;
+        border: 1px solid #d8e1ee;
+        transition:
+          transform 0.2s ease,
+          box-shadow 0.2s ease,
+          border-color 0.2s ease,
+          background-color 0.2s ease,
+          opacity 0.2s ease;
+      }
+      .sxa-hunt .st .n {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background: #eaf1ff;
+        color: #2a73ff;
+        font-size: 15px;
+        font-weight: 700;
+        transition:
+          background-color 0.2s ease,
+          color 0.2s ease;
+      }
+      .sxa-hunt .st .l {
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: #6b7487;
+      }
+      .sxa-hunt .st .v {
+        display: block;
+        margin-top: 2px;
+        font-size: 15px;
+        font-weight: 600;
+        color: #0f1b2d;
+      }
+      .sxa-hunt .st .go {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 7px 12px;
+        border-radius: 10px;
+        background: #2a73ff;
+        color: #fff;
+        font-size: 13px;
+        font-weight: 600;
+      }
+      .sxa-hunt .st .go svg {
+        width: 15px;
+        height: 15px;
+      }
+      .sxa-hunt .st:hover:not([disabled]) {
+        border-color: #2a73ff;
+        transform: translateY(-2px);
+        box-shadow: 0 10px 20px rgba(18, 37, 92, 0.1);
+      }
+      .sxa-hunt .st[disabled] {
+        opacity: 0.5;
+        cursor: default;
+      }
+      .sxa-hunt .st[disabled] .go {
+        background: #c9d2e0;
+      }
+      .sxa-hunt .st.done {
+        background: #eaf1ff;
+        border-color: #bcd3fb;
+      }
+      .sxa-hunt .st.done .n {
+        background: #2a73ff;
+        color: #fff;
+      }
+      .sxa-hunt .st.done .go {
+        background: #22c55e;
+      }
+      .sxf.sxa-hunt .rst {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        margin-top: 16px;
+        font-size: 14px;
+        font-weight: 600;
+        color: #6b7487;
+      }
+      .sxf.sxa-hunt .rst:hover {
+        color: #2a73ff;
+      }
+      .sxa-hunt .rst svg {
+        width: 16px;
+        height: 16px;
+      }
+      .sxa-hunt .res {
+        border-radius: 24px;
+        background: #fff;
+        box-shadow:
+          0 30px 60px -28px rgba(18, 37, 92, 0.28),
+          0 0 0 1px rgba(18, 37, 92, 0.05);
+        overflow: hidden;
+      }
+      .sxa-hunt .rh {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 14px;
+        padding: 18px 22px;
+        border-bottom: 1px solid #edf1f7;
+      }
+      .sxa-hunt .rh strong {
+        font-size: 15px;
+        color: #0f1b2d;
+      }
+      .sxa-hunt .rh .c {
+        display: inline-flex;
+        align-items: baseline;
+        gap: 6px;
+        font-size: 13px;
+        color: #6b7487;
+      }
+      .sxa-hunt .rh .c b {
+        font-size: 28px;
+        line-height: 1;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        color: #2a73ff;
+        font-variant-numeric: tabular-nums;
+        transition: color 0.3s ease;
+      }
+      .sxa-hunt .res.found .rh .c b {
+        color: #22c55e;
+      }
+      .sxa-hunt .chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        min-height: 0;
+        padding: 0 22px;
+      }
+      .sxa-hunt .chips span {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        margin-top: 12px;
+        padding: 5px 10px;
+        border-radius: 999px;
+        background: #eaf1ff;
+        color: #2a73ff;
+        font-size: 12px;
+        font-weight: 600;
+        animation: sxaPop 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+      }
+      @keyframes sxaPop {
+        from {
+          transform: scale(0.6);
+          opacity: 0;
+        }
+        to {
+          transform: none;
+          opacity: 1;
+        }
+      }
+      .sxa-hunt .list {
+        padding: 12px 14px 14px;
+      }
+      .sxa-hunt .it {
+        display: grid;
+        grid-template-rows: 1fr;
+        transition:
+          grid-template-rows 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+          opacity 0.3s ease,
+          margin 0.45s ease;
+      }
+      .sxa-hunt .it > div {
+        overflow: hidden;
+        min-height: 0;
+      }
+      .sxa-hunt .it.out {
+        grid-template-rows: 0fr;
+        opacity: 0;
+      }
+      .sxa-hunt .row {
+        display: grid;
+        grid-template-columns: 86px minmax(0, 1fr) auto;
+        gap: 12px;
+        align-items: center;
+        margin: 4px 0;
+        padding: 11px 12px;
+        border-radius: 12px;
+        font-size: 13px;
+        color: #3d4555;
+        transition:
+          background-color 0.4s ease,
+          box-shadow 0.4s ease;
+      }
+      .sxa-hunt .row .tm {
+        font-variant-numeric: tabular-nums;
+        color: #6b7487;
+        font-size: 12.5px;
+      }
+      .sxa-hunt .row .sm {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        min-width: 0;
+      }
+      .sxa-hunt .row .sm span:last-child {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      .sxa-hunt .row .sm b {
+        font-weight: 600;
+        color: #0f1b2d;
+      }
+      .sxa-hunt .res.found .it:not(.out) .row {
+        background: #e9f8ef;
+        box-shadow: inset 0 0 0 1px #a7e3bd;
+      }
+      .sxa-hunt .ans {
+        display: grid;
+        grid-template-rows: 0fr;
+        transition: grid-template-rows 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+      }
+      .sxa-hunt .ans > div {
+        overflow: hidden;
+        min-height: 0;
+      }
+      .sxa-hunt .res.found .ans {
+        grid-template-rows: 1fr;
+      }
+      .sxa-hunt .ans p {
+        margin: 0 22px 20px;
+        padding: 14px 16px;
+        border-radius: 14px;
+        background: #0f1b2d;
+        color: #fff;
+        font-size: 14.5px;
+        line-height: 1.5;
+      }
+      .sxa-hunt .ans p a,
+      .sxa-hunt .ans p a:visited {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        margin-top: 6px;
+        color: #7fb0ff;
+        font-weight: 600;
+        text-decoration: none;
+      }
+      .sxa-hunt .ans p a:hover {
+        color: #fff;
+      }
+      .sxa-hunt .ans p a svg {
+        width: 15px;
+        height: 15px;
+      }
+      .sxa-hunt .f1 {
+        right: -24px;
+        top: -26px;
+        --s: 50px;
+        --c: #ffbb00;
+        --r: 12deg;
+        --d: 6.2s;
+        z-index: 2;
+      }
+      .sxa-hunt .resw {
+        position: relative;
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .sxa-hunt .it,
+        .sxa-hunt .ans {
+          transition: none;
+        }
+        .sxa-hunt .chips span {
+          animation: none;
+        }
+      }
+      @media (max-width: 1024px) {
+        .sxa-hunt {
+          padding: 104px 24px;
+        }
+        .sxa-hunt .grid {
+          grid-template-columns: minmax(0, 1fr);
+          gap: 32px;
+          max-width: 680px;
+          margin: 48px auto 0;
+        }
+      }
+      @media (max-width: 767px) {
+        .sxa-hunt {
+          padding: 84px 18px;
+        }
+        .sxa-hunt .case {
+          padding: 18px;
+          border-radius: 22px;
+        }
+        .sxa-hunt .row {
+          grid-template-columns: minmax(0, 1fr) auto;
+        }
+        .sxa-hunt .row .tm {
+          grid-column: 1/-1;
+          margin-bottom: -6px;
+        }
+        .sxa-hunt .rh {
+          padding: 16px;
+        }
+        .sxa-hunt .list {
+          padding: 10px;
+        }
+        .sxa-hunt .f1 {
+          right: -8px;
+          --s: 40px;
+        }
+      }
+    </style>
+    <section class="sxf sxa-hunt" id="so-gehts" aria-labelledby="sxa-h-hunt">
+      <div class="sxf-wrap">
+        <div class="sxf-head" data-rv>
+          <p class="sxf-eyebrow">{t.filters_how_it_works}</p>
+          <h2 class="sxf-h" id="sxa-h-hunt">
+            {t.filters_three_filters}
+            <span class="sxf-blue">{t.filters_one_answer}</span>
+          </h2>
+          <p class="sxf-lead">{t.filters_a_contract_has_disappeared}</p>
+        </div>
+        <div class="grid">
+          <div class="case" data-rv>
+            <p class="q">
+              <b
+                ><svg class="i" viewbox="0 0 24 24" aria-hidden="true"
+                  ><circle cx="11" cy="11" r="7"></circle><path d="m20 20-4-4"></path></svg
+                ></b
+              ><span
+                ><strong>{t.filters_who_deleted_the_contract}</strong><span>{t.filters_vertrag_nordwerk_v3_pdf}</span
+                ></span
+              >
+            </p>
+            <ol>
+              <li>
+                <button type="button" class="sxf-b st" data-s="1"
+                  ><span class="n">1</span><span
+                    ><span class="l">{t.filters_period}</span><span class="v">{t.filters_last_7_days}</span></span
+                  ><span class="go"
+                    ><svg class="i" viewbox="0 0 24 24" aria-hidden="true"
+                      ><path d="M4 6h16M7 12h10M10 18h4"></path></svg
+                    >{t.filters_filter}</span
+                  ></button
+                >
+              </li>
+              <li>
+                <button type="button" class="sxf-b st" data-s="2" disabled
+                  ><span class="n">2</span><span
+                    ><span class="l">{t.filters_action}</span><span class="v">Delete content</span></span
+                  ><span class="go"
+                    ><svg class="i" viewbox="0 0 24 24" aria-hidden="true"
+                      ><path d="M4 6h16M7 12h10M10 18h4"></path></svg
+                    >{t.filters_filter}</span
+                  ></button
+                >
+              </li>
+              <li>
+                <button type="button" class="sxf-b st" data-s="3" disabled
+                  ><span class="n">3</span><span
+                    ><span class="l">Entity ID</span><span class="v">#48213 · Vertrag_Nordwerk_v3.pdf</span></span
+                  ><span class="go"
+                    ><svg class="i" viewbox="0 0 24 24" aria-hidden="true"
+                      ><path d="M4 6h16M7 12h10M10 18h4"></path></svg
+                    >{t.filters_filter}</span
+                  ></button
+                >
+              </li>
+            </ol>
+            <button type="button" class="sxf-b rst"
+              ><svg class="i" viewbox="0 0 24 24" aria-hidden="true"
+                ><path d="M3 12a9 9 0 1 0 3-6.7L3 8"></path><path d="M3 3v5h5"></path></svg
+              >{t.filters_reset_filters}</button
+            >
+          </div>
+          <div class="resw" data-rv style="--dl:.12s">
+            <span class="sxf-fold f1" aria-hidden="true"></span>
+            <div class="res" aria-live="polite">
+              <div class="rh">
+                <strong>{t.filters_audit_entries}</strong><span class="c"
+                  ><b class="cnt">2.418</b>{t.filters_results}</span
+                >
+              </div>
+              <div class="chips"></div>
+              <div class="list">
+                <div class="it" data-k="7d del ent">
+                  <div>
+                    <div class="row">
+                      <span class="tm">15.10. 16:42</span><span class="sm"
+                        ><span class="sxa-av" style="--c:#2A73FF">MW</span><span
+                          ><b>m.weber</b> deleted content Vertrag_Nordwerk_v3.pdf</span
+                        ></span
+                      ><span class="sxa-act" style="--c:#F04438">Delete content</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="it" data-k="7d">
+                  <div>
+                    <div class="row">
+                      <span class="tm">15.10. 16:40</span><span class="sm"
+                        ><span class="sxa-av" style="--c:#2A73FF">MW</span><span
+                          ><b>m.weber</b> previewed content Vertrag_Nordwerk_v3.pdf</span
+                        ></span
+                      ><span class="sxa-act" style="--c:#A855F7">Preview content</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="it" data-k="7d del">
+                  <div>
+                    <div class="row">
+                      <span class="tm">14.10. 09:12</span><span class="sm"
+                        ><span class="sxa-av" style="--c:#C800FF">AM</span><span
+                          ><b>a.mueller</b> deleted content Entwurf_alt.docx</span
+                        ></span
+                      ><span class="sxa-act" style="--c:#F04438">Delete content</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="it" data-k="7d">
+                  <div>
+                    <div class="row">
+                      <span class="tm">12.10. 11:05</span><span class="sm"
+                        ><span class="sxa-av" style="--c:#F59000">JK</span><span
+                          ><b>j.klein</b> downloaded content Preisliste_2026.pdf</span
+                        ></span
+                      ><span class="sxa-act" style="--c:#2A73FF">Download content</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="it" data-k="del">
+                  <div>
+                    <div class="row">
+                      <span class="tm">02.09. 08:30</span><span class="sm"
+                        ><span class="sxa-av" style="--c:#22C55E">TS</span><span
+                          ><b>t.schulz</b> deleted content Notizen.txt</span
+                        ></span
+                      ><span class="sxa-act" style="--c:#F04438">Delete content</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="it" data-k>
+                  <div>
+                    <div class="row">
+                      <span class="tm">28.08. 14:22</span><span class="sm"
+                        ><span class="sxa-av" style="--c:#0F1B2D">AD</span><span
+                          ><b>Administrator</b> Set app attribute default expiry</span
+                        ></span
+                      ><span class="sxa-act" style="--c:#8A94A6">Set app attribute</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="ans">
+                <div>
+                  <p>
+                    <b>{t.filters_found}</b>
+                    {t.filters_m_weber_deleted_vertrag}<br /><a href="#details"
+                      >{t.filters_view_the_entry_in}
+                      <svg class="i" viewbox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M6 13l6 6 6-6"></path></svg
+                      ></a
+                    >
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <script define:vars={{ T: { last7Days: t.filters_js_last_7_days } }}>
+      (function () {
+        var C = ['2.418', '312', '7', '1'],
+          K = ['', '7d', 'del', 'ent'],
+          CH = ['', T.last7Days, 'Delete content', '#48213'];
+        function init(s) {
+          if (s.__sxa) return;
+          s.__sxa = 1;
+          var st = [].slice.call(s.querySelectorAll('.st')),
+            it = [].slice.call(s.querySelectorAll('.it')),
+            cnt = s.querySelector('.cnt'),
+            chips = s.querySelector('.chips'),
+            res = s.querySelector('.res'),
+            lv = 0;
+          var rm = window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+          // numbers in the page language (2.418 / 2,418)
+          var loc = document.documentElement.lang || 'de-DE';
+          function fmt(v) {
+            return parseInt(String(v).replace(/\D/g, ''), 10).toLocaleString(loc);
+          }
+          cnt.textContent = fmt(cnt.textContent);
+          function num(a, b) {
+            if (rm) {
+              cnt.textContent = fmt(C[b]);
+              return;
+            }
+            var x = parseInt(C[a].replace('.', ''), 10),
+              y = parseInt(C[b].replace('.', ''), 10),
+              t0 = null;
+            function f(ts) {
+              if (!t0) t0 = ts;
+              var k = Math.min(1, (ts - t0) / 600);
+              k = 1 - Math.pow(1 - k, 3);
+              var v = Math.round(x + (y - x) * k);
+              cnt.textContent = v.toLocaleString(loc);
+              if (k < 1) requestAnimationFrame(f);
+            }
+            requestAnimationFrame(f);
+          }
+          function set(n) {
+            var o = lv;
+            lv = n;
+            st.forEach(function (b, i) {
+              var k = i + 1;
+              b.classList.toggle('done', k <= n);
+              b.disabled = k > n + 1;
+              b.setAttribute('aria-pressed', k <= n ? 'true' : 'false');
+            });
+            it.forEach(function (e) {
+              var ks = e.getAttribute('data-k').split(' '),
+                ok = true;
+              for (var j = 1; j <= n; j++) {
+                if (ks.indexOf(K[j]) < 0) ok = false;
+              }
+              e.classList.toggle('out', !ok);
+            });
+            chips.innerHTML = '';
+            for (var j = 1; j <= n; j++) {
+              var c = document.createElement('span');
+              c.textContent = CH[j];
+              chips.appendChild(c);
+            }
+            res.classList.toggle('found', n === 3);
+            if (o !== n) num(o, n);
+          }
+          st.forEach(function (b, i) {
+            b.addEventListener('click', function () {
+              if (!b.disabled && lv === i) set(i + 1);
+            });
+          });
+          s.querySelector('.rst').addEventListener('click', function () {
+            set(0);
+          });
+          set(0);
+        }
+        function go() {
+          document.querySelectorAll('.sxa-hunt').forEach(init);
+        }
+        if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', go);
+        else go();
+      })();
+    </script>
+  </div>
+</div>

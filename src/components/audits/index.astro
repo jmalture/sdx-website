@@ -1,0 +1,30 @@
+---
+/** All sections of the audits page, in order. To reorder or remove a section, edit the list below. */
+import type { Lang } from '../../i18n';
+import Hero from './01-hero.astro';
+import Filters from './02-filters.astro';
+import Details from './03-details.astro';
+import LoggedActions from './04-logged-actions.astro';
+import Benefits from './05-benefits.astro';
+import UseCases from './06-use-cases.astro';
+import Export from './07-export.astro';
+import Immutable from './08-immutable.astro';
+import Functions from './09-functions.astro';
+import Faq from './10-faq.astro';
+import Cta from './11-cta.astro';
+const { lang } = Astro.props as { lang: Lang };
+---
+
+<div class="elementor elementor-696">
+  <Hero lang={lang} />
+  <Filters lang={lang} />
+  <Details lang={lang} />
+  <LoggedActions lang={lang} />
+  <Benefits lang={lang} />
+  <UseCases lang={lang} />
+  <Export lang={lang} />
+  <Immutable lang={lang} />
+  <Functions lang={lang} />
+  <Faq lang={lang} />
+  <Cta lang={lang} />
+</div>

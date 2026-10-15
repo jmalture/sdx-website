@@ -1,0 +1,522 @@
+---
+/**
+ * Section "hero": Alles, was SDX kann. Feature für Feature.
+ * Texts: src/i18n/features.json, keys starting with "hero_" (one entry per language).
+ * Layout and styles of this section are in this file; legacy Elementor classes come from
+ * src/styles/legacy*.css and should be left as they are.
+ */
+import { dict, type Lang } from '../../i18n';
+import data from '../../i18n/features.json';
+const { lang } = Astro.props as { lang: Lang };
+const t = dict(data, lang);
+---
+
+<div class="elementor-element elementor-element-sfx01 e-con-full e-flex e-con e-parent" data-id="sfx01">
+  <div class="elementor-element elementor-element-sfx01w elementor-widget elementor-widget-html" data-id="sfx01w">
+    <style is:global>
+      /* Features overview: shared base (same system as the feature pages) */
+      .sxf {
+        position: relative;
+        overflow: hidden;
+        font-family: Inter, sans-serif;
+        box-sizing: border-box;
+        color: #0f1b2d;
+        scroll-margin-top: 90px;
+        -webkit-font-smoothing: antialiased;
+      }
+      .sxf *,
+      .sxf *::before,
+      .sxf *::after {
+        box-sizing: border-box;
+      }
+      .sxf .sxf-wrap {
+        position: relative;
+        z-index: 1;
+        max-width: 1280px;
+        margin: 0 auto;
+      }
+      .sxf .sxf-blue {
+        color: #2a73ff;
+      }
+      .sxf .sxf-eyebrow {
+        margin: 0 0 14px;
+        font-size: 14px;
+        line-height: 1.4;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: #2a73ff;
+      }
+      .sxf .sxf-h {
+        margin: 0;
+        font-family: Inter, sans-serif;
+        font-size: clamp(32px, 4vw, 48px);
+        line-height: 1.12;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        color: #000;
+      }
+      .sxf .sxf-lead {
+        margin: 22px 0 0;
+        font-size: 18px;
+        line-height: 1.6;
+        color: #4a5568;
+      }
+      .sxf .sxf-head {
+        max-width: 780px;
+        margin: 0 auto;
+        text-align: center;
+      }
+      .sxf .sxf-float {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        z-index: 0;
+      }
+      .sxf .sxf-fold {
+        position: absolute;
+        width: var(--s);
+        height: var(--s);
+        border-radius: calc(var(--s) * 0.24);
+        background: var(--c);
+        box-shadow:
+          0 14px 30px -10px color-mix(in srgb, var(--c) 70%, #000 0%),
+          0 2px 6px rgba(15, 27, 45, 0.08);
+        transform: rotate(var(--r, 0deg));
+        animation: sxfBob var(--d, 6s) ease-in-out infinite alternate;
+      }
+      .sxf .sxf-fold::after {
+        content: '';
+        position: absolute;
+        inset: 27%;
+        background: center/contain no-repeat
+          url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23fff'%3E%3Cpath d='M3 6.5A2.5 2.5 0 0 1 5.5 4h4.1l2 2.2h6.9A2.5 2.5 0 0 1 21 8.7v8.8a2.5 2.5 0 0 1-2.5 2.5h-13A2.5 2.5 0 0 1 3 17.5z'/%3E%3C/svg%3E");
+      }
+      .sxf .sxf-pill {
+        position: absolute;
+        z-index: 3;
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        padding: 4px 14px 4px 4px;
+        border-radius: 32px;
+        background: #fff;
+        font-size: 13px;
+        line-height: 1.3;
+        font-weight: 500;
+        color: #5b6475;
+        white-space: nowrap;
+        box-shadow: 0 10px 24px rgba(42, 115, 255, 0.18);
+        animation: sxfBob var(--d, 6s) ease-in-out infinite alternate;
+      }
+      .sxf .sxf-pill b {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        color: #fff;
+        flex: none;
+      }
+      .sxf .sxf-pill b svg {
+        width: 15px;
+        height: 15px;
+      }
+      @keyframes sxfBob {
+        from {
+          translate: 0 -7px;
+        }
+        to {
+          translate: 0 7px;
+        }
+      }
+      .sxf svg.i {
+        width: 1em;
+        height: 1em;
+        fill: none;
+        stroke: currentColor;
+        stroke-width: 2;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        flex: none;
+      }
+      .sxf .sxf-sr {
+        position: absolute !important;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0 0 0 0);
+        white-space: nowrap;
+        border: 0;
+      }
+      /* buttons: neutralise theme button styles (Hello: pink hover) */
+      .sxf .sxf-b {
+        all: unset;
+        box-sizing: border-box;
+        cursor: pointer;
+        -webkit-tap-highlight-color: transparent;
+      }
+      .sxf a.sxf-btn,
+      .sxf .sxf-b.sxf-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        padding: 13px 24px;
+        border-radius: 16px;
+        font-family: Inter, sans-serif;
+        font-size: 15px;
+        line-height: 1.3;
+        font-weight: 600;
+        text-decoration: none;
+        border: 1px solid transparent;
+        transition:
+          transform 0.2s ease,
+          box-shadow 0.2s ease,
+          background-color 0.2s ease,
+          border-color 0.2s ease,
+          color 0.2s ease;
+      }
+      .sxf a.sxf-btn svg,
+      .sxf .sxf-b.sxf-btn svg {
+        width: 18px;
+        height: 18px;
+      }
+      .sxf a.sxf-btn-p,
+      .sxf a.sxf-btn-p:visited,
+      .sxf .sxf-b.sxf-btn-p {
+        background: #2a73ff;
+        color: #fff;
+      }
+      .sxf a.sxf-btn-p:hover,
+      .sxf a.sxf-btn-p:focus-visible,
+      .sxf .sxf-b.sxf-btn-p:hover {
+        background: #1f63eb;
+        color: #fff;
+        transform: translateY(-2px);
+        box-shadow: 0 12px 24px rgba(42, 115, 255, 0.32);
+      }
+      .sxf a.sxf-btn-s,
+      .sxf a.sxf-btn-s:visited,
+      .sxf .sxf-b.sxf-btn-s {
+        background: #fff;
+        color: #0f1b2d;
+        border-color: #d8e1ee;
+      }
+      .sxf a.sxf-btn-s:hover,
+      .sxf a.sxf-btn-s:focus-visible,
+      .sxf .sxf-b.sxf-btn-s:hover {
+        background: #fff;
+        border-color: #2a73ff;
+        color: #0f1b2d;
+        transform: translateY(-2px);
+        box-shadow: 0 10px 20px rgba(18, 37, 92, 0.1);
+      }
+      .sxf a:focus-visible,
+      .sxf .sxf-b:focus-visible,
+      .sxf [tabindex]:focus-visible {
+        outline: 2px solid #2a73ff;
+        outline-offset: 3px;
+        box-shadow: none;
+      }
+      /* reveal on scroll */
+      .sxf-js .sxf [data-rv] {
+        opacity: 0;
+        translate: 0 26px;
+        transition:
+          opacity 0.8s ease var(--dl, 0s),
+          translate 0.9s cubic-bezier(0.22, 1, 0.36, 1) var(--dl, 0s);
+      }
+      .sxf-js .sxf [data-rv].is-in {
+        opacity: 1;
+        translate: 0 0;
+      }
+      body.elementor-editor-active .sxf [data-rv] {
+        opacity: 1 !important;
+        translate: none !important;
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .sxf-js .sxf [data-rv] {
+          translate: none;
+        }
+      }
+      @media (max-width: 767px) {
+        .sxf .sxf-lead {
+          font-size: 17px;
+        }
+      }
+      /* 1 hero (features overview) */
+      .sfx-hero {
+        padding: 84px 32px 96px;
+        background: linear-gradient(180deg, #ffffff 0%, #eaf2fe 70%, #e3eefd 100%);
+        text-align: center;
+      }
+      .sfx-hero .sxf-crumb {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 8px;
+        margin: 0 0 26px;
+        font-size: 13px;
+        font-weight: 500;
+        color: #6b7487;
+      }
+      .sfx-hero .sxf-crumb a,
+      .sfx-hero .sxf-crumb a:visited {
+        color: #6b7487;
+        text-decoration: none;
+      }
+      .sfx-hero .sxf-crumb a:hover {
+        color: #2a73ff;
+      }
+      .sfx-hero .sxf-crumb span[aria-current] {
+        color: #0f1b2d;
+      }
+      .sfx-hero h1.sxf-h1 {
+        max-width: 900px;
+        margin: 0 auto;
+        font-family: Inter, sans-serif;
+        font-size: clamp(40px, 5vw, 66px);
+        line-height: 1.04;
+        font-weight: 700;
+        letter-spacing: -0.045em;
+        color: #000;
+      }
+      .sfx-hero .sxf-lead {
+        max-width: 640px;
+        margin: 26px auto 0;
+      }
+      .sfx-hero .sfx-stat {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 12px;
+        margin: 34px 0 0;
+        padding: 0;
+        list-style: none;
+      }
+      .sfx-hero .sfx-stat li {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        margin: 0;
+        padding: 9px 16px 9px 12px;
+        border-radius: 999px;
+        background: #fff;
+        box-shadow: 0 10px 24px rgba(42, 115, 255, 0.14);
+        font-size: 14px;
+        font-weight: 600;
+        color: #0f1b2d;
+      }
+      .sfx-hero .sfx-stat .live {
+        position: relative;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: #22c55e;
+      }
+      .sfx-hero .sfx-stat .live::after {
+        content: '';
+        position: absolute;
+        inset: -5px;
+        border-radius: 50%;
+        border: 2px solid #22c55e;
+        opacity: 0;
+        animation: sfxPing 1.8s ease-out infinite;
+      }
+      @keyframes sfxPing {
+        0% {
+          transform: scale(0.4);
+          opacity: 0.9;
+        }
+        100% {
+          transform: scale(1.4);
+          opacity: 0;
+        }
+      }
+      .sfx-hero .sfx-stat .dots {
+        display: inline-flex;
+        gap: 3px;
+      }
+      .sfx-hero .sfx-stat .dots i {
+        width: 5px;
+        height: 5px;
+        border-radius: 50%;
+        background: #f59000;
+        animation: sfxDot 1.2s ease-in-out infinite;
+      }
+      .sfx-hero .sfx-stat .dots i:nth-child(2) {
+        animation-delay: 0.15s;
+      }
+      .sfx-hero .sfx-stat .dots i:nth-child(3) {
+        animation-delay: 0.3s;
+      }
+      @keyframes sfxDot {
+        0%,
+        60%,
+        100% {
+          transform: none;
+          opacity: 0.45;
+        }
+        30% {
+          transform: translateY(-4px);
+          opacity: 1;
+        }
+      }
+      .sfx-hero .f1 {
+        left: 8%;
+        top: 22%;
+        --s: 64px;
+        --c: #2a73ff;
+        --r: -12deg;
+        --d: 6.4s;
+      }
+      .sfx-hero .f2 {
+        right: 9%;
+        top: 16%;
+        --s: 54px;
+        --c: #ffbb00;
+        --r: 10deg;
+        --d: 7s;
+      }
+      .sfx-hero .f3 {
+        left: 15%;
+        bottom: 12%;
+        --s: 42px;
+        --c: #c800ff;
+        --r: 8deg;
+        --d: 5.8s;
+      }
+      .sfx-hero .f4 {
+        right: 14%;
+        bottom: 16%;
+        --s: 48px;
+        --c: #22c55e;
+        --r: -8deg;
+        --d: 6.8s;
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .sfx-hero .sfx-stat .live::after,
+        .sfx-hero .sfx-stat .dots i {
+          animation: none;
+        }
+      }
+      @media (max-width: 1240px) {
+        .sfx-hero .f1 {
+          left: 3%;
+        }
+        .sfx-hero .f2 {
+          right: 3%;
+        }
+        .sfx-hero .f3 {
+          left: 5%;
+        }
+        .sfx-hero .f4 {
+          right: 5%;
+        }
+      }
+      @media (max-width: 1024px) {
+        .sfx-hero {
+          padding: 72px 24px 80px;
+        }
+        .sfx-hero .f3,
+        .sfx-hero .f4 {
+          display: none;
+        }
+        .sfx-hero .f1 {
+          top: 8%;
+          --s: 44px;
+        }
+        .sfx-hero .f2 {
+          top: 6%;
+          --s: 38px;
+        }
+      }
+      @media (max-width: 767px) {
+        .sfx-hero {
+          padding: 48px 18px 64px;
+        }
+        .sfx-hero .f1 {
+          left: -8px;
+          top: 14px;
+          --s: 36px;
+        }
+        .sfx-hero .f2 {
+          right: -6px;
+          top: 20px;
+          --s: 30px;
+        }
+      }
+    </style>
+    <section class="sxf sfx-hero" id="features" aria-labelledby="sfx-h1">
+      <div class="sxf-float" aria-hidden="true">
+        <span class="sxf-fold f1"></span><span class="sxf-fold f2"></span><span class="sxf-fold f3"></span><span
+          class="sxf-fold f4"></span>
+      </div>
+      <div class="sxf-wrap">
+        <nav class="sxf-crumb" aria-label={t.hero_aria_label_breadcrumb} data-rv>
+          <a href={t.hero_link_home}>{t.hero_home}</a><span aria-hidden="true">/</span><span aria-current="page"
+            >Features</span
+          >
+        </nav>
+        <p class="sxf-eyebrow" data-rv>Features</p>
+        <h1 class="sxf-h1" id="sfx-h1" data-rv>
+          {t.hero_everything_sdx_can_do}<br />
+          <span class="sxf-blue">{t.hero_feature_by_feature}</span>
+        </h1>
+        <p class="sxf-lead" data-rv style="--dl:.08s">{t.hero_every_feature_has_its}</p>
+        <ul class="sfx-stat" data-rv style="--dl:.16s">
+          <li><span class="live" aria-hidden="true"></span><span class="sfx-n">2</span> {t.hero_features_online}</li><li
+          >
+            <span class="dots" aria-hidden="true"><i></i><i></i><i></i></span>{t.hero_more_in_the_works}
+          </li>
+        </ul>
+      </div>
+    </section>
+    <script is:inline>
+      (function () {
+        var d = document.documentElement;
+        d.classList.add('sxf-js');
+        function go() {
+          var els = [].slice.call(document.querySelectorAll('.sxf [data-rv]'));
+          if (!('IntersectionObserver' in window) || document.visibilityState === 'hidden') {
+            els.forEach(function (e) {
+              e.classList.add('is-in');
+            });
+            return;
+          }
+          var io = new IntersectionObserver(
+            function (es) {
+              es.forEach(function (en) {
+                if (en.isIntersecting) {
+                  en.target.classList.add('is-in');
+                  io.unobserve(en.target);
+                }
+              });
+            },
+            { rootMargin: '0px 0px -6% 0px', threshold: 0.1 },
+          );
+          els.forEach(function (e) {
+            io.observe(e);
+          });
+          setTimeout(function () {
+            els.forEach(function (e) {
+              var r = e.getBoundingClientRect();
+              if (r.top < innerHeight && r.bottom > 0) e.classList.add('is-in');
+            });
+          }, 1200);
+          /* feature count = number of live feature cards on the page */
+          var n = document.querySelectorAll('.sfx-card[data-live]').length;
+          [].forEach.call(document.querySelectorAll('.sfx-n'), function (e) {
+            if (n) e.textContent = n;
+          });
+        }
+        if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', go);
+        else go();
+      })();
+    </script>
+  </div>
+</div>

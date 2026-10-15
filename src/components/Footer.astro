@@ -1,141 +1,331 @@
 ---
+/**
+ * Site footer (all pages)
+ * Texts: src/i18n/chrome.json, keys starting with "footer_" (header texts: "h_") (one entry per language).
+ * Layout and styles of this section are in this file; legacy Elementor classes come from
+ * src/styles/legacy*.css and should be left as they are.
+ */
 import { dict } from '../i18n';
 import data from '../i18n/chrome.json';
-const { lang } = Astro.props;
+const { lang } = Astro.props as { lang: Lang };
 const t = dict(data, lang);
 ---
+
 <footer class="elementor elementor-444 elementor-location-footer">
-<div class="elementor-element elementor-element-7092b3ba sdxf e-flex e-con-boxed e-con e-parent" data-id={t.f_a1}>
-<div class="e-con-inner">
-<div class="elementor-element elementor-element-34c9462f e-con-full sdxf-top e-flex e-con e-child" data-id={t.f_a2}>
-<div class="elementor-element elementor-element-20555e17 e-con-full e-flex e-con e-child" data-id={t.f_a3}>
-<div class="elementor-element elementor-element-67698842 sdxf-logo-w elementor-widget elementor-widget-html" data-id={t.f_a4}>
-<a class="sdxf-logo" href={t.f_a5} aria-label={t.f_a6}><span class="sdxf-logo-txt">SDX</span></a>
-<script is:inline>(function(){function go(){var a=document.querySelectorAll('.sdxf-logo');var s=document.querySelector('[data-elementor-type=header] svg[aria-label^="SDX"]');if(!s)return;a.forEach(function(x){var c=s.cloneNode(true);c.removeAttribute('role');c.setAttribute('aria-hidden','true');x.innerHTML='';x.appendChild(c);});}
-if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',go);else go();})();</script> </div>
-<div class="elementor-element elementor-element-4be220d2 sdxf-tag elementor-widget elementor-widget-text-editor" data-id={t.f_a7}>
-<p>{t.f_t8}</p> </div>
-<div class="elementor-element elementor-element-1c48ea28 elementor-icon-list--layout-inline sdxf-badges elementor-list-item-link-full_width elementor-widget elementor-widget-icon-list" data-id={t.f_a9}>
-<ul class="elementor-icon-list-items elementor-inline-items">
-<li class="elementor-icon-list-item elementor-inline-item">
-<span class="elementor-icon-list-icon">
-<svg aria-hidden="true" class="e-font-icon-svg e-fas-map-marker-alt" viewbox="0 0 384 512" xmlns="http://www.w3.org/2000/svg"><path d="M172.268 501.67C26.97 291.031 0 269.413 0 192 0 85.961 85.961 0 192 0s192 85.961 192 192c0 77.413-26.97 99.031-172.268 309.67-9.535 13.774-29.93 13.773-39.464 0zM192 272c44.183 0 80-35.817 80-80s-35.817-80-80-80-80 35.817-80 80 35.817 80 80 80z"></path></svg> </span>
-<span class="elementor-icon-list-text">{t.f_t10}</span>
-</li>
-<li class="elementor-icon-list-item elementor-inline-item">
-<span class="elementor-icon-list-icon">
-<svg aria-hidden="true" class="e-font-icon-svg e-fas-shield-alt" viewbox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><path d="M466.5 83.7l-192-80a48.15 48.15 0 0 0-36.9 0l-192 80C27.7 91.1 16 108.6 16 128c0 198.5 114.5 335.7 221.5 380.3 11.8 4.9 25.1 4.9 36.9 0C360.1 472.6 496 349.3 496 128c0-19.4-11.7-36.9-29.5-44.3zM256.1 446.3l-.1-381 175.9 73.3c-3.3 151.4-82.1 261.1-175.8 307.7z"></path></svg> </span>
-<span class="elementor-icon-list-text">{t.f_t11}</span>
-</li>
-</ul>
-</div>
-</div>
-<div class="elementor-element elementor-element-6d42736b e-con-full e-flex e-con e-child" data-id={t.f_a12}>
-<div class="elementor-element elementor-element-2c1703aa sdxf-h elementor-widget elementor-widget-heading" data-id={t.f_a13}>
-<p class="elementor-heading-title elementor-size-default">{t.f_t14}</p> </div>
-<div class="elementor-element elementor-element-586479d0 sdxf-tour elementor-icon-list--layout-traditional elementor-list-item-link-full_width elementor-widget elementor-widget-icon-list" data-id={t.f_a15}>
-<ul class="elementor-icon-list-items">
-<li class="elementor-icon-list-item">
-<a href={t.f_a16}>
-<span class="elementor-icon-list-icon">
-<svg aria-hidden="true" class="e-font-icon-svg e-fas-square" viewbox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><path d="M400 32H48C21.5 32 0 53.5 0 80v352c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48V80c0-26.5-21.5-48-48-48z"></path></svg> </span>
-<span class="elementor-icon-list-text">{t.f_t17}</span>
-</a>
-</li>
-<li class="elementor-icon-list-item">
-<a href={t.f_a18}>
-<span class="elementor-icon-list-icon">
-<svg aria-hidden="true" class="e-font-icon-svg e-fas-square" viewbox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><path d="M400 32H48C21.5 32 0 53.5 0 80v352c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48V80c0-26.5-21.5-48-48-48z"></path></svg> </span>
-<span class="elementor-icon-list-text">{t.f_t19}</span>
-</a>
-</li>
-<li class="elementor-icon-list-item">
-<a href={t.f_a20}>
-<span class="elementor-icon-list-icon">
-<svg aria-hidden="true" class="e-font-icon-svg e-fas-square" viewbox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><path d="M400 32H48C21.5 32 0 53.5 0 80v352c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48V80c0-26.5-21.5-48-48-48z"></path></svg> </span>
-<span class="elementor-icon-list-text">{t.f_t21}</span>
-</a>
-</li>
-<li class="elementor-icon-list-item">
-<a href={t.f_a22}>
-<span class="elementor-icon-list-icon">
-<svg aria-hidden="true" class="e-font-icon-svg e-fas-square" viewbox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><path d="M400 32H48C21.5 32 0 53.5 0 80v352c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48V80c0-26.5-21.5-48-48-48z"></path></svg> </span>
-<span class="elementor-icon-list-text">{t.f_t23}</span>
-</a>
-</li>
-<li class="elementor-icon-list-item">
-<a href={t.f_a24}>
-<span class="elementor-icon-list-icon">
-<svg aria-hidden="true" class="e-font-icon-svg e-fas-square" viewbox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><path d="M400 32H48C21.5 32 0 53.5 0 80v352c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48V80c0-26.5-21.5-48-48-48z"></path></svg> </span>
-<span class="elementor-icon-list-text">Branding</span>
-</a>
-</li>
-<li class="elementor-icon-list-item">
-<a href={t.f_a25}>
-<span class="elementor-icon-list-icon">
-<svg aria-hidden="true" class="e-font-icon-svg e-fas-square" viewbox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><path d="M400 32H48C21.5 32 0 53.5 0 80v352c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48V80c0-26.5-21.5-48-48-48z"></path></svg> </span>
-<span class="elementor-icon-list-text">Workflows</span>
-</a>
-</li>
-<li class="elementor-icon-list-item">
-<a href={t.f_a26}>
-<span class="elementor-icon-list-icon">
-<svg aria-hidden="true" class="e-font-icon-svg e-fas-square" viewbox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><path d="M400 32H48C21.5 32 0 53.5 0 80v352c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48V80c0-26.5-21.5-48-48-48z"></path></svg> </span>
-<span class="elementor-icon-list-text">{t.f_t27}</span>
-</a>
-</li>
-<li class="elementor-icon-list-item">
-<a href={t.f_a28}>
-<span class="elementor-icon-list-icon">
-<svg aria-hidden="true" class="e-font-icon-svg e-fas-square" viewbox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><path d="M400 32H48C21.5 32 0 53.5 0 80v352c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48V80c0-26.5-21.5-48-48-48z"></path></svg> </span>
-<span class="elementor-icon-list-text">{t.f_t29}</span>
-</a>
-</li>
-</ul>
-</div>
-</div>
-<div class="elementor-element elementor-element-90908cf e-con-full e-flex e-con e-child" data-id={t.f_a30}>
-<div class="elementor-element elementor-element-287a78a8 sdxf-h elementor-widget elementor-widget-heading" data-id={t.f_a31}>
-<p class="elementor-heading-title elementor-size-default">{t.f_t32}</p> </div>
-<div class="elementor-element elementor-element-152cfafe sdxf-legal elementor-icon-list--layout-traditional elementor-list-item-link-full_width elementor-widget elementor-widget-icon-list" data-id={t.f_a33}>
-<ul class="elementor-icon-list-items">
-<li class="elementor-icon-list-item">
-<a href={t.f_a34}>
-<span class="elementor-icon-list-text">{t.f_t35}</span>
-</a>
-</li>
-</ul>
-</div>
-</div>
-<div class="elementor-element elementor-element-7993a987 e-con-full e-flex e-con e-child" data-id={t.f_a36}>
-<div class="elementor-element elementor-element-378f60f0 sdxf-h elementor-widget elementor-widget-heading" data-id={t.f_a37}>
-<p class="elementor-heading-title elementor-size-default">{t.f_t38}</p> </div>
-<div class="elementor-element elementor-element-888370d elementor-widget elementor-widget-text-editor" data-id={t.f_a39}>
-<p>{t.f_t40}</p> </div>
-<div class="elementor-element elementor-element-1d315513 elementor-align-left sdxf-btn elementor-widget elementor-widget-button" data-id={t.f_a41}>
-<a class="elementor-button elementor-button-link elementor-size-sm" href={t.f_a42}>
-<span class="elementor-button-content-wrapper">
-<span class="elementor-button-icon">
-<svg aria-hidden="true" class="e-font-icon-svg e-fas-arrow-right" viewbox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><path d="M190.5 66.9l22.2-22.2c9.4-9.4 24.6-9.4 33.9 0L441 239c9.4 9.4 9.4 24.6 0 33.9L246.6 467.3c-9.4 9.4-24.6 9.4-33.9 0l-22.2-22.2c-9.5-9.5-9.3-25 .4-34.3L311.4 296H24c-13.3 0-24-10.7-24-24v-32c0-13.3 10.7-24 24-24h287.4L190.9 101.2c-9.8-9.3-10-24.8-.4-34.3z"></path></svg> </span>
-<span class="elementor-button-text">{t.f_t43}</span>
-</span>
-</a>
-</div>
-</div>
-</div>
-<div class="elementor-element elementor-element-5c755aeb e-con-full sdxf-bottom e-flex e-con e-child" data-id={t.f_a44}>
-<div class="elementor-element elementor-element-69a49a04 elementor-widget elementor-widget-text-editor" data-id={t.f_a45}>
-<p>{t.f_t46} <a href="https://www.jenomics.de/" target="_blank" rel="noopener">Jenomics GmbH</a></p> </div>
-<div class="elementor-element elementor-element-61fdbe44 sdxf-up elementor-widget elementor-widget-button" data-id={t.f_a47}>
-<a class="elementor-button elementor-button-link elementor-size-sm" href="#">
-<span class="elementor-button-content-wrapper">
-<span class="elementor-button-icon">
-<svg aria-hidden="true" class="e-font-icon-svg e-fas-arrow-up" viewbox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><path d="M34.9 289.5l-22.2-22.2c-9.4-9.4-9.4-24.6 0-33.9L207 39c9.4-9.4 24.6-9.4 33.9 0l194.3 194.3c9.4 9.4 9.4 24.6 0 33.9L413 289.4c-9.5 9.5-25 9.3-34.3-.4L264 168.6V456c0 13.3-10.7 24-24 24h-32c-13.3 0-24-10.7-24-24V168.6L69.2 289.1c-9.3 9.8-24.8 10-34.3.4z"></path></svg> </span>
-<span class="elementor-button-text">{t.f_t48}</span>
-</span>
-</a>
-</div>
-</div>
-</div>
-</div>
+  <div class="elementor-element elementor-element-7092b3ba sdxf e-flex e-con-boxed e-con e-parent" data-id="7092b3ba">
+    <div class="e-con-inner">
+      <div
+        class="elementor-element elementor-element-34c9462f e-con-full sdxf-top e-flex e-con e-child"
+        data-id="34c9462f"
+      >
+        <div class="elementor-element elementor-element-20555e17 e-con-full e-flex e-con e-child" data-id="20555e17">
+          <div
+            class="elementor-element elementor-element-67698842 sdxf-logo-w elementor-widget elementor-widget-html"
+            data-id="67698842"
+          >
+            <a class="sdxf-logo" href={t.footer_link_home} aria-label={t.footer_aria_label_sdx_home}
+              ><span class="sdxf-logo-txt">SDX</span></a
+            >
+            <script is:inline>
+              (function () {
+                function go() {
+                  var a = document.querySelectorAll('.sdxf-logo');
+                  var s = document.querySelector('[data-elementor-type=header] svg[aria-label^="SDX"]');
+                  if (!s) return;
+                  a.forEach(function (x) {
+                    var c = s.cloneNode(true);
+                    c.removeAttribute('role');
+                    c.setAttribute('aria-hidden', 'true');
+                    x.innerHTML = '';
+                    x.appendChild(c);
+                  });
+                }
+                if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', go);
+                else go();
+              })();
+            </script>
+          </div>
+          <div
+            class="elementor-element elementor-element-4be220d2 sdxf-tag elementor-widget elementor-widget-text-editor"
+            data-id="4be220d2"
+          >
+            <p>{t.footer_the_secure_platform_where}</p>
+          </div>
+          <div
+            class="elementor-element elementor-element-1c48ea28 elementor-icon-list--layout-inline sdxf-badges elementor-list-item-link-full_width elementor-widget elementor-widget-icon-list"
+            data-id="1c48ea28"
+          >
+            <ul class="elementor-icon-list-items elementor-inline-items">
+              <li class="elementor-icon-list-item elementor-inline-item">
+                <span class="elementor-icon-list-icon">
+                  <svg
+                    aria-hidden="true"
+                    class="e-font-icon-svg e-fas-map-marker-alt"
+                    viewbox="0 0 384 512"
+                    xmlns="http://www.w3.org/2000/svg"
+                    ><path
+                      d="M172.268 501.67C26.97 291.031 0 269.413 0 192 0 85.961 85.961 0 192 0s192 85.961 192 192c0 77.413-26.97 99.031-172.268 309.67-9.535 13.774-29.93 13.773-39.464 0zM192 272c44.183 0 80-35.817 80-80s-35.817-80-80-80-80 35.817-80 80 35.817 80 80 80z"
+                    ></path></svg
+                  >
+                </span>
+                <span class="elementor-icon-list-text">{t.footer_hosted_in_germany}</span>
+              </li>
+              <li class="elementor-icon-list-item elementor-inline-item">
+                <span class="elementor-icon-list-icon">
+                  <svg
+                    aria-hidden="true"
+                    class="e-font-icon-svg e-fas-shield-alt"
+                    viewbox="0 0 512 512"
+                    xmlns="http://www.w3.org/2000/svg"
+                    ><path
+                      d="M466.5 83.7l-192-80a48.15 48.15 0 0 0-36.9 0l-192 80C27.7 91.1 16 108.6 16 128c0 198.5 114.5 335.7 221.5 380.3 11.8 4.9 25.1 4.9 36.9 0C360.1 472.6 496 349.3 496 128c0-19.4-11.7-36.9-29.5-44.3zM256.1 446.3l-.1-381 175.9 73.3c-3.3 151.4-82.1 261.1-175.8 307.7z"
+                    ></path></svg
+                  >
+                </span>
+                <span class="elementor-icon-list-text">{t.footer_gdpr_compliant}</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="elementor-element elementor-element-6d42736b e-con-full e-flex e-con e-child" data-id="6d42736b">
+          <div
+            class="elementor-element elementor-element-2c1703aa sdxf-h elementor-widget elementor-widget-heading"
+            data-id="2c1703aa"
+          >
+            <p class="elementor-heading-title elementor-size-default">{t.footer_tour}</p>
+          </div>
+          <div
+            class="elementor-element elementor-element-586479d0 sdxf-tour elementor-icon-list--layout-traditional elementor-list-item-link-full_width elementor-widget elementor-widget-icon-list"
+            data-id="586479d0"
+          >
+            <ul class="elementor-icon-list-items">
+              <li class="elementor-icon-list-item">
+                <a href={t.footer_link_raum_dateien}>
+                  <span class="elementor-icon-list-icon">
+                    <svg
+                      aria-hidden="true"
+                      class="e-font-icon-svg e-fas-square"
+                      viewbox="0 0 448 512"
+                      xmlns="http://www.w3.org/2000/svg"
+                      ><path
+                        d="M400 32H48C21.5 32 0 53.5 0 80v352c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48V80c0-26.5-21.5-48-48-48z"
+                      ></path></svg
+                    >
+                  </span>
+                  <span class="elementor-icon-list-text">{t.footer_files_permissions}</span>
+                </a>
+              </li>
+              <li class="elementor-icon-list-item">
+                <a href={t.footer_link_audits}>
+                  <span class="elementor-icon-list-icon">
+                    <svg
+                      aria-hidden="true"
+                      class="e-font-icon-svg e-fas-square"
+                      viewbox="0 0 448 512"
+                      xmlns="http://www.w3.org/2000/svg"
+                      ><path
+                        d="M400 32H48C21.5 32 0 53.5 0 80v352c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48V80c0-26.5-21.5-48-48-48z"
+                      ></path></svg
+                    >
+                  </span>
+                  <span class="elementor-icon-list-text">{t.footer_audits}</span>
+                </a>
+              </li>
+              <li class="elementor-icon-list-item">
+                <a href={t.footer_link_external_sharing}>
+                  <span class="elementor-icon-list-icon">
+                    <svg
+                      aria-hidden="true"
+                      class="e-font-icon-svg e-fas-square"
+                      viewbox="0 0 448 512"
+                      xmlns="http://www.w3.org/2000/svg"
+                      ><path
+                        d="M400 32H48C21.5 32 0 53.5 0 80v352c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48V80c0-26.5-21.5-48-48-48z"
+                      ></path></svg
+                    >
+                  </span>
+                  <span class="elementor-icon-list-text">{t.footer_external_share}</span>
+                </a>
+              </li>
+              <li class="elementor-icon-list-item">
+                <a href={t.footer_link_raum_integrieren}>
+                  <span class="elementor-icon-list-icon">
+                    <svg
+                      aria-hidden="true"
+                      class="e-font-icon-svg e-fas-square"
+                      viewbox="0 0 448 512"
+                      xmlns="http://www.w3.org/2000/svg"
+                      ><path
+                        d="M400 32H48C21.5 32 0 53.5 0 80v352c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48V80c0-26.5-21.5-48-48-48z"
+                      ></path></svg
+                    >
+                  </span>
+                  <span class="elementor-icon-list-text">{t.footer_integration}</span>
+                </a>
+              </li>
+              <li class="elementor-icon-list-item">
+                <a href={t.footer_link_raum_branding}>
+                  <span class="elementor-icon-list-icon">
+                    <svg
+                      aria-hidden="true"
+                      class="e-font-icon-svg e-fas-square"
+                      viewbox="0 0 448 512"
+                      xmlns="http://www.w3.org/2000/svg"
+                      ><path
+                        d="M400 32H48C21.5 32 0 53.5 0 80v352c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48V80c0-26.5-21.5-48-48-48z"
+                      ></path></svg
+                    >
+                  </span>
+                  <span class="elementor-icon-list-text">Branding</span>
+                </a>
+              </li>
+              <li class="elementor-icon-list-item">
+                <a href={t.footer_link_raum_workflows}>
+                  <span class="elementor-icon-list-icon">
+                    <svg
+                      aria-hidden="true"
+                      class="e-font-icon-svg e-fas-square"
+                      viewbox="0 0 448 512"
+                      xmlns="http://www.w3.org/2000/svg"
+                      ><path
+                        d="M400 32H48C21.5 32 0 53.5 0 80v352c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48V80c0-26.5-21.5-48-48-48z"
+                      ></path></svg
+                    >
+                  </span>
+                  <span class="elementor-icon-list-text">Workflows</span>
+                </a>
+              </li>
+              <li class="elementor-icon-list-item">
+                <a href={t.footer_link_raum_widgets}>
+                  <span class="elementor-icon-list-icon">
+                    <svg
+                      aria-hidden="true"
+                      class="e-font-icon-svg e-fas-square"
+                      viewbox="0 0 448 512"
+                      xmlns="http://www.w3.org/2000/svg"
+                      ><path
+                        d="M400 32H48C21.5 32 0 53.5 0 80v352c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48V80c0-26.5-21.5-48-48-48z"
+                      ></path></svg
+                    >
+                  </span>
+                  <span class="elementor-icon-list-text">{t.footer_widgets}</span>
+                </a>
+              </li>
+              <li class="elementor-icon-list-item">
+                <a href={t.footer_link_raum_portal}>
+                  <span class="elementor-icon-list-icon">
+                    <svg
+                      aria-hidden="true"
+                      class="e-font-icon-svg e-fas-square"
+                      viewbox="0 0 448 512"
+                      xmlns="http://www.w3.org/2000/svg"
+                      ><path
+                        d="M400 32H48C21.5 32 0 53.5 0 80v352c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48V80c0-26.5-21.5-48-48-48z"
+                      ></path></svg
+                    >
+                  </span>
+                  <span class="elementor-icon-list-text">{t.footer_your_portal}</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="elementor-element elementor-element-90908cf e-con-full e-flex e-con e-child" data-id="90908cf">
+          <div
+            class="elementor-element elementor-element-287a78a8 sdxf-h elementor-widget elementor-widget-heading"
+            data-id="287a78a8"
+          >
+            <p class="elementor-heading-title elementor-size-default">{t.footer_legal}</p>
+          </div>
+          <div
+            class="elementor-element elementor-element-152cfafe sdxf-legal elementor-icon-list--layout-traditional elementor-list-item-link-full_width elementor-widget elementor-widget-icon-list"
+            data-id="152cfafe"
+          >
+            <ul class="elementor-icon-list-items">
+              <li class="elementor-icon-list-item">
+                <a href={t.footer_link_legal_notice}>
+                  <span class="elementor-icon-list-text">{t.footer_legal_notice}</span>
+                </a>
+              </li>
+              <li class="elementor-icon-list-item">
+                <a href={t.footer_link_privacy}>
+                  <span class="elementor-icon-list-text">{t.footer_privacy}</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="elementor-element elementor-element-7993a987 e-con-full e-flex e-con e-child" data-id="7993a987">
+          <div
+            class="elementor-element elementor-element-378f60f0 sdxf-h elementor-widget elementor-widget-heading"
+            data-id="378f60f0"
+          >
+            <p class="elementor-heading-title elementor-size-default">{t.footer_contact}</p>
+          </div>
+          <div
+            class="elementor-element elementor-element-888370d elementor-widget elementor-widget-text-editor"
+            data-id="888370d"
+          >
+            <p>{t.footer_want_to_see_sdx}</p>
+          </div>
+          <div
+            class="elementor-element elementor-element-1d315513 elementor-align-left sdxf-btn elementor-widget elementor-widget-button"
+            data-id="1d315513"
+          >
+            <a class="elementor-button elementor-button-link elementor-size-sm" href={t.footer_link_kontakt}>
+              <span class="elementor-button-content-wrapper">
+                <span class="elementor-button-icon">
+                  <svg
+                    aria-hidden="true"
+                    class="e-font-icon-svg e-fas-arrow-right"
+                    viewbox="0 0 448 512"
+                    xmlns="http://www.w3.org/2000/svg"
+                    ><path
+                      d="M190.5 66.9l22.2-22.2c9.4-9.4 24.6-9.4 33.9 0L441 239c9.4 9.4 9.4 24.6 0 33.9L246.6 467.3c-9.4 9.4-24.6 9.4-33.9 0l-22.2-22.2c-9.5-9.5-9.3-25 .4-34.3L311.4 296H24c-13.3 0-24-10.7-24-24v-32c0-13.3 10.7-24 24-24h287.4L190.9 101.2c-9.8-9.3-10-24.8-.4-34.3z"
+                    ></path></svg
+                  >
+                </span>
+                <span class="elementor-button-text">{t.footer_request_a_demo}</span>
+              </span>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div
+        class="elementor-element elementor-element-5c755aeb e-con-full sdxf-bottom e-flex e-con e-child"
+        data-id="5c755aeb"
+      >
+        <div
+          class="elementor-element elementor-element-69a49a04 elementor-widget elementor-widget-text-editor"
+          data-id="69a49a04"
+        >
+          <p>
+            {t.footer_2026_secure_data_exchange}
+            <a href="https://www.jenomics.de/" target="_blank" rel="noopener">Jenomics GmbH</a>
+          </p>
+        </div>
+        <div
+          class="elementor-element elementor-element-61fdbe44 sdxf-up elementor-widget elementor-widget-button"
+          data-id="61fdbe44"
+        >
+          <a class="elementor-button elementor-button-link elementor-size-sm" href="#">
+            <span class="elementor-button-content-wrapper">
+              <span class="elementor-button-icon">
+                <svg
+                  aria-hidden="true"
+                  class="e-font-icon-svg e-fas-arrow-up"
+                  viewbox="0 0 448 512"
+                  xmlns="http://www.w3.org/2000/svg"
+                  ><path
+                    d="M34.9 289.5l-22.2-22.2c-9.4-9.4-9.4-24.6 0-33.9L207 39c9.4-9.4 24.6-9.4 33.9 0l194.3 194.3c9.4 9.4 9.4 24.6 0 33.9L413 289.4c-9.5 9.5-25 9.3-34.3-.4L264 168.6V456c0 13.3-10.7 24-24 24h-32c-13.3 0-24-10.7-24-24V168.6L69.2 289.1c-9.3 9.8-24.8 10-34.3.4z"
+                  ></path></svg
+                >
+              </span>
+              <span class="elementor-button-text">{t.footer_back_to_top}</span>
+            </span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
 </footer>

@@ -1,0 +1,174 @@
+---
+/**
+ * Section "workflows": Ihre Abläufe. Automatisch.
+ * Texts: src/i18n/home.json, keys starting with "workflows_" (one entry per language).
+ * Layout and styles of this section are in this file; legacy Elementor classes come from
+ * src/styles/legacy*.css and should be left as they are.
+ */
+import { dict, type Lang } from '../../i18n';
+import data from '../../i18n/home.json';
+const { lang } = Astro.props as { lang: Lang };
+const t = dict(data, lang);
+---
+
+<div class="elementor-element elementor-element-sdxt07 e-con-full e-flex e-con e-parent" data-id="sdxt07">
+  <div class="elementor-element elementor-element-sdxt07w elementor-widget elementor-widget-html" data-id="sdxt07w">
+    <section class="sdxt sdxt-flow" id="raum-workflows">
+      <div class="sdxt-grid" aria-hidden="true"></div>
+      <div class="sdxt-wrap sdxt-split">
+        <div class="sdxt-visual">
+          <div class="sdxt-chain" aria-hidden="true">
+            <span class="sdxt-nd" style="--k:#7C3AED"><i></i>{t.workflows_file_uploaded}</span><em></em>
+            <span class="sdxt-nd" style="--k:#FFA600"><i></i>{t.workflows_condition}</span><em></em>
+            <span class="sdxt-nd" style="--k:#C800FF"><i></i>{t.workflows_ai}</span><em></em>
+            <span class="sdxt-nd ok" style="--k:#22C55E"><i></i>{t.workflows_saved}</span>
+          </div>
+          <div class="sdxt-tab">
+            <div class="sdxt-tab-in">
+              <video
+                class="sdxt-vid"
+                src="/media/sdx-bfy-workflows.mp4"
+                poster="/media/sdx-bfy-workflows-poster.jpg"
+                muted
+                loop
+                playsinline
+                preload="none"
+                aria-label={t.workflows_aria_label_video_a_workflow}></video>
+            </div>
+          </div>
+        </div>
+        <div class="sdxt-text">
+          <p class="sdxt-eyebrow">Workflows</p>
+          <h2 class="sdxt-h">{t.workflows_your_processes} <span class="sdxt-blue">{t.workflows_on_autopilot}</span></h2>
+          <p class="sdxt-lead">{t.workflows_workflows_teach_sdx_what}</p>
+          <div class="sdxt-steps">
+            <ol>
+              <li>{t.workflows_react_to_events_like}</li><li>{t.workflows_define_conditions_and_branches}</li><li>
+                {t.workflows_add_ai_steps_and}
+              </li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </section>
+    <style is:global>
+      /* room: workflows (canvas grid) */
+      .sdxt-flow {
+        padding: 130px 32px;
+        background: #f7f9fc;
+      }
+      .sdxt-flow .sdxt-grid {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        background-image:
+          linear-gradient(rgba(15, 27, 45, 0.05) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(15, 27, 45, 0.05) 1px, transparent 1px);
+        background-size: 28px 28px;
+        -webkit-mask-image: radial-gradient(70% 80% at 35% 50%, #000 40%, transparent 100%);
+        mask-image: radial-gradient(70% 80% at 35% 50%, #000 40%, transparent 100%);
+      }
+      .sdxt-chain {
+        position: relative;
+        z-index: 2;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 0 22px;
+      }
+      .sdxt-nd {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 13px 8px 10px;
+        border-radius: 12px;
+        background: #fff;
+        border: 1px solid #e3e8f0;
+        border-left: 3px solid var(--k);
+        box-shadow: 0 8px 20px rgba(18, 37, 92, 0.08);
+        font-size: 13px;
+        font-weight: 600;
+        color: #0f1b2d;
+        white-space: nowrap;
+      }
+      .sdxt-nd i {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--k);
+      }
+      .sdxt-chain em {
+        flex: 0 1 34px;
+        min-width: 14px;
+        height: 2px;
+        background: repeating-linear-gradient(90deg, #9db8ec 0 5px, transparent 5px 9px);
+      }
+      @media all {
+        .sdxt-nd {
+          animation: sdxtLit 6s ease-in-out infinite;
+        }
+        .sdxt-nd:nth-of-type(2) {
+          animation-delay: 0.8s;
+        }
+        .sdxt-nd:nth-of-type(3) {
+          animation-delay: 1.6s;
+        }
+        .sdxt-nd:nth-of-type(4) {
+          animation-delay: 2.4s;
+        }
+        @keyframes sdxtLit {
+          0%,
+          8% {
+            box-shadow: 0 8px 20px rgba(18, 37, 92, 0.08);
+            border-color: #e3e8f0;
+          }
+          14%,
+          60% {
+            box-shadow:
+              0 0 0 4px rgba(34, 197, 94, 0.18),
+              0 8px 20px rgba(18, 37, 92, 0.08);
+            border-color: #22c55e;
+          }
+          100% {
+            box-shadow: 0 8px 20px rgba(18, 37, 92, 0.08);
+            border-color: #e3e8f0;
+          }
+        }
+      }
+      @media (max-width: 1240px) {
+        .sdxt-nd {
+          font-size: 12px;
+          padding: 7px 10px 7px 8px;
+        }
+      }
+      @media (max-width: 1024px) {
+        .sdxt-flow {
+          padding: 96px 24px;
+        }
+        .sdxt-flow .sdxt-split {
+          grid-template-columns: 1fr;
+        }
+        .sdxt-flow .sdxt-visual {
+          max-width: 720px;
+          margin: 0 auto;
+          width: 100%;
+        }
+      }
+      @media (max-width: 767px) {
+        .sdxt-flow {
+          padding: 76px 18px;
+        }
+        .sdxt-chain {
+          flex-wrap: wrap;
+          gap: 8px;
+        }
+        .sdxt-chain em {
+          display: none;
+        }
+        .sdxt-nd:nth-of-type(3) {
+          display: none;
+        }
+      }
+    </style>
+  </div>
+</div>

@@ -1,0 +1,14 @@
+{
+  "de": {
+    "title": "Audits: lückenloser Audit Trail für Compliance | SDX",
+    "description": "SDX protokolliert jede Aktion automatisch und unveränderbar. Filtern bis zur Entity ID, Details als JSON, Export als CSV, TSV, XLSX oder JSON."
+  },
+  "en": {
+    "title": "Audits: a complete audit trail for compliance | SDX",
+    "description": "SDX logs every action automatically and tamper-proof. Filter down to the entity ID, see details as JSON, export as CSV, TSV, XLSX or JSON."
+  },
+  "cs": {
+    "title": "Audits: úplný auditní záznam pro compliance | SDX",
+    "description": "SDX automaticky a neměnně zaznamenává každou akci. Filtrování až na Entity ID, detaily jako JSON, export do CSV, TSV, XLSX nebo JSON."
+  }
+}

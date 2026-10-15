@@ -1,0 +1,411 @@
+---
+/**
+ * Section "security": Sicher geteilt. Ohne Kompromisse.
+ * Texts: src/i18n/share.json, keys starting with "security_" (one entry per language).
+ * Layout and styles of this section are in this file; legacy Elementor classes come from
+ * src/styles/legacy*.css and should be left as they are.
+ */
+import { dict, type Lang } from '../../i18n';
+import data from '../../i18n/share.json';
+const { lang } = Astro.props as { lang: Lang };
+const t = dict(data, lang);
+---
+
+<div class="elementor-element elementor-element-sxf08 e-con-full e-flex e-con e-parent" data-id="sxf08">
+  <div class="elementor-element elementor-element-sxf08w elementor-widget elementor-widget-html" data-id="sxf08w">
+    <style is:global>
+      /* 8 security (navy) */
+      .sxf-sec {
+        padding: 130px 32px;
+        background: #0f1b2d;
+        color: #fff;
+      }
+      .sxf-sec .sxf-glow {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        background:
+          radial-gradient(45% 60% at 80% 45%, rgba(42, 115, 255, 0.36), transparent 70%),
+          radial-gradient(30% 40% at 6% 96%, rgba(0, 191, 255, 0.16), transparent 70%);
+      }
+      .sxf-sec .sxf-wrap {
+        display: grid;
+        grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+        gap: 80px;
+        align-items: center;
+      }
+      .sxf-sec .sxf-eyebrow {
+        color: #7fb0ff;
+      }
+      .sxf-sec .sxf-h {
+        color: #fff;
+      }
+      .sxf-sec .sxf-blue {
+        color: #7fb0ff;
+      }
+      .sxf-sec .sxf-lead {
+        color: rgba(255, 255, 255, 0.74);
+      }
+      .sxf-sgrid {
+        list-style: none;
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 26px 30px;
+        margin: 44px 0 0;
+        padding: 0;
+      }
+      .sxf-sgrid li {
+        display: grid;
+        grid-template-columns: 44px minmax(0, 1fr);
+        gap: 16px;
+        margin: 0;
+      }
+      .sxf-sgrid .ic {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 44px;
+        height: 44px;
+        border-radius: 13px;
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        color: #7fb0ff;
+      }
+      .sxf-sgrid .ic svg {
+        width: 21px;
+        height: 21px;
+      }
+      .sxf-sgrid strong {
+        display: block;
+        margin-top: 2px;
+        font-size: 16.5px;
+        line-height: 1.35;
+        font-weight: 700;
+        color: #fff;
+      }
+      .sxf-sgrid span.d {
+        display: block;
+        margin-top: 5px;
+        font-size: 14.5px;
+        line-height: 1.55;
+        color: rgba(255, 255, 255, 0.68);
+      }
+      .sxf-audit {
+        position: relative;
+        border-radius: 22px;
+        background: rgba(255, 255, 255, 0.06);
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        backdrop-filter: blur(8px);
+        box-shadow:
+          0 40px 90px -30px rgba(0, 0, 0, 0.6),
+          0 0 90px rgba(42, 115, 255, 0.18);
+        padding: 22px 22px 18px;
+      }
+      .sxf-audit .ah {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        margin: 0 0 16px;
+      }
+      .sxf-audit .ah strong {
+        display: inline-flex;
+        align-items: center;
+        gap: 9px;
+        font-size: 15px;
+        font-weight: 700;
+        color: #fff;
+      }
+      .sxf-audit .ah strong svg {
+        width: 18px;
+        height: 18px;
+        color: #7fb0ff;
+      }
+      .sxf-audit .ah span {
+        padding: 5px 10px;
+        border-radius: 999px;
+        background: rgba(42, 115, 255, 0.22);
+        border: 1px solid rgba(127, 176, 255, 0.35);
+        font-size: 12px;
+        font-weight: 600;
+        color: #bfd6ff;
+        white-space: nowrap;
+      }
+      .sxf-audit ol {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: grid;
+        gap: 8px;
+      }
+      .sxf-audit li {
+        display: grid;
+        grid-template-columns: 10px minmax(0, 1fr) auto;
+        gap: 12px;
+        align-items: center;
+        margin: 0;
+        padding: 12px 14px;
+        border-radius: 13px;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+      }
+      .sxf-audit li i {
+        width: 9px;
+        height: 9px;
+        border-radius: 50%;
+        box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.08);
+      }
+      .sxf-audit li b {
+        display: block;
+        font-size: 13.5px;
+        font-weight: 600;
+        color: #fff;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .sxf-audit li small {
+        display: block;
+        margin-top: 2px;
+        font-size: 12px;
+        color: rgba(255, 255, 255, 0.55);
+      }
+      .sxf-audit li em {
+        font-style: normal;
+        font-size: 12px;
+        font-variant-numeric: tabular-nums;
+        color: rgba(255, 255, 255, 0.55);
+      }
+      .sxf-sec .sxf-gdpr {
+        top: -22px;
+        right: 26px;
+        font-size: 13px;
+        color: #0f1b2d;
+        box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
+      }
+      .sxf-sec .f1 {
+        left: -26px;
+        bottom: -30px;
+        --s: 54px;
+        --c: #2a73ff;
+        --r: -12deg;
+        --d: 6.4s;
+        z-index: 2;
+      }
+      .sxf-sec.is-run .sxf-audit li {
+        animation: sxfLog 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+        animation-delay: calc(var(--n) * 0.18s);
+      }
+      @keyframes sxfLog {
+        from {
+          opacity: 0;
+          transform: translateY(12px);
+        }
+        to {
+          opacity: 1;
+          transform: none;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .sxf-sec.is-run .sxf-audit li {
+          animation: none;
+        }
+      }
+      @media (max-width: 1340px) {
+        .sxf-sec .f1 {
+          left: -10px;
+        }
+      }
+      @media (max-width: 1180px) {
+        .sxf-sec .sxf-wrap {
+          gap: 48px;
+        }
+      }
+      @media (max-width: 1024px) {
+        .sxf-sec {
+          padding: 104px 24px;
+        }
+        .sxf-sec .sxf-wrap {
+          grid-template-columns: minmax(0, 1fr);
+          gap: 64px;
+        }
+        .sxf-sec .sxf-text {
+          max-width: 720px;
+          margin: 0 auto;
+        }
+        .sxf-sec .sxf-vis {
+          max-width: 560px;
+          width: 100%;
+          margin: 0 auto;
+        }
+      }
+      @media (max-width: 767px) {
+        .sxf-sec {
+          padding: 84px 18px;
+        }
+        .sxf-sgrid {
+          grid-template-columns: minmax(0, 1fr);
+          gap: 20px;
+        }
+        .sxf-audit {
+          padding: 16px 14px 14px;
+        }
+        .sxf-audit li {
+          padding: 10px 12px;
+          gap: 10px;
+        }
+        .sxf-sec .sxf-gdpr {
+          right: 12px;
+          font-size: 12px;
+        }
+        .sxf-sec .f1 {
+          left: -8px;
+          --s: 40px;
+        }
+      }
+    </style>
+    <section class="sxf sxf-sec" id="sicherheit" aria-labelledby="sxf-h-sec">
+      <div class="sxf-glow" aria-hidden="true"></div>
+      <div class="sxf-wrap">
+        <div class="sxf-text" data-rv>
+          <p class="sxf-eyebrow">{t.security_security}</p>
+          <h2 class="sxf-h" id="sxf-h-sec">
+            {t.security_shared_securely}
+            <span class="sxf-blue">{t.security_no_compromises}</span>
+          </h2>
+          <p class="sxf-lead">{t.security_your_files_never_leave}</p>
+          <ul class="sxf-sgrid">
+            <li>
+              <span class="ic" aria-hidden="true"
+                ><svg class="i" viewbox="0 0 24 24" aria-hidden="true"
+                  ><path d="M4 9h16M4 15h16M10 3 8 21M16 3l-2 18"></path></svg
+                ></span
+              ><span
+                ><strong>{t.security_impossible_to_guess}</strong><span class="d">{t.security_every_share_gets_a}</span
+                ></span
+              >
+            </li><li>
+              <span class="ic" aria-hidden="true"
+                ><svg class="i" viewbox="0 0 24 24" aria-hidden="true"
+                  ><circle cx="7.5" cy="15.5" r="4.5"></circle><path d="m10.7 12.3 9.3-9.3M17 6l3 3M15 8l2 2"
+                  ></path></svg
+                ></span
+              ><span
+                ><strong>{t.security_password_protection}</strong><span class="d"
+                  >{t.security_securely_generated_no_password}</span
+                ></span
+              >
+            </li><li>
+              <span class="ic" aria-hidden="true"
+                ><svg class="i" viewbox="0 0 24 24" aria-hidden="true"
+                  ><rect x="3" y="5" width="18" height="16" rx="2"></rect><path d="M16 3v4M8 3v4M3 10h18"></path></svg
+                ></span
+              ><span
+                ><strong>{t.security_automatic_end}</strong><span class="d">{t.security_after_the_expiry_date}</span
+                ></span
+              >
+            </li><li>
+              <span class="ic" aria-hidden="true"
+                ><svg class="i" viewbox="0 0 24 24" aria-hidden="true"
+                  ><rect x="4" y="11" width="16" height="10" rx="2"></rect><path d="M8 11V7a4 4 0 0 1 8 0v4"
+                  ></path></svg
+                ></span
+              ><span
+                ><strong>{t.security_encrypted_transfer}</strong><span class="d"
+                  >{t.security_share_pages_run_exclusively}</span
+                ></span
+              >
+            </li><li>
+              <span class="ic" aria-hidden="true"
+                ><svg class="i" viewbox="0 0 24 24" aria-hidden="true"
+                  ><rect x="3" y="4" width="18" height="7" rx="2"></rect><rect x="3" y="13" width="18" height="7" rx="2"
+                  ></rect><path d="M7 7.5h.01M7 16.5h.01"></path></svg
+                ></span
+              ><span
+                ><strong>{t.security_in_germany_or_on}</strong><span class="d">{t.security_hosting_in_germany_or}</span
+                ></span
+              >
+            </li><li>
+              <span class="ic" aria-hidden="true"
+                ><svg class="i" viewbox="0 0 24 24" aria-hidden="true"><path d="M3 12h4l3-8 4 16 3-8h4"></path></svg
+                ></span
+              ><span
+                ><strong>{t.security_fully_logged}</strong><span class="d"
+                  >{t.security_creating_viewing_downloading_and}</span
+                ></span
+              >
+            </li>
+          </ul>
+        </div>
+        <div class="sxf-vis" data-rv style="--dl:.12s">
+          <span class="sxf-fold f1" aria-hidden="true"></span>
+          <div class="sxf-audit" role="img" aria-label={t.security_aria_label_example_entries_for}>
+            <p class="ah">
+              <strong
+                ><svg class="i" viewbox="0 0 24 24" aria-hidden="true"><path d="M3 12h4l3-8 4 16 3-8h4"></path></svg>{
+                  t.security_audit_log
+                }</strong
+              ><span>{t.security_action_external_sharing}</span>
+            </p>
+            <ol>
+              <li style="--n:0">
+                <i style="background:#22C55E"></i><span
+                  ><b>Create external sharing</b><small>{t.security_project_team}</small></span
+                ><em>09:12</em>
+              </li><li style="--n:1">
+                <i style="background:#A855F7"></i><span
+                  ><b>Preview external sharing</b><small>{t.security_external_recipient}</small></span
+                ><em>09:41</em>
+              </li><li style="--n:2">
+                <i style="background:#2A73FF"></i><span
+                  ><b>Download external sharing</b><small>{t.security_external_recipient}</small></span
+                ><em>09:43</em>
+              </li><li style="--n:3">
+                <i style="background:#FFA600"></i><span
+                  ><b>Upload content external sharing</b><small>{t.security_external_recipient}</small></span
+                ><em>10:05</em>
+              </li><li style="--n:4">
+                <i style="background:#00BFFF"></i><span
+                  ><b>Update external sharing</b><small>{t.security_project_team}</small></span
+                ><em>11:20</em>
+              </li>
+            </ol>
+          </div>
+          <span class="sxf-pill sxf-gdpr" aria-hidden="true"
+            ><b style="background:#22C55E"
+              ><svg class="i" viewbox="0 0 24 24" aria-hidden="true"
+                ><path d="M12 3 4 6v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V6z"></path><path d="m9 12 2 2 4-4"></path></svg
+              ></b
+            >{t.security_gdpr_compliant}</span
+          >
+        </div>
+      </div>
+    </section>
+    <script is:inline>
+      (function () {
+        function go() {
+          document.querySelectorAll('.sxf-sec').forEach(function (s) {
+            if (s.__sxf) return;
+            s.__sxf = 1;
+            if (!('IntersectionObserver' in window) || document.visibilityState === 'hidden') {
+              s.classList.add('is-run');
+              return;
+            }
+            var io = new IntersectionObserver(
+              function (es) {
+                if (es[0].isIntersecting) {
+                  s.classList.add('is-run');
+                  io.disconnect();
+                }
+              },
+              { threshold: 0.3 },
+            );
+            io.observe(s.querySelector('.sxf-audit'));
+          });
+        }
+        if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', go);
+        else go();
+      })();
+    </script>
+  </div>
+</div>

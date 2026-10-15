@@ -1,0 +1,52 @@
+---
+/**
+ * Plain text pages: Impressum / Legal notice, Datenschutz / Privacy policy.
+ * The text lives in Markdown, one file per page and language: src/content/legal/<page>.<lang>.md
+ * (edit it like a normal document; "\" at the end of a line is a line break).
+ */
+import '../styles/legacy-legal.css'; // purged theme CSS for WordPress text pages (must load before site.css)
+import Base from '../layouts/Base.astro';
+import type { Lang } from '../i18n';
+
+type Page = 'impressum' | 'datenschutz';
+const { lang, page } = Astro.props as { lang: Lang; page: Page };
+
+/** URL of each legal page per language. There is no Czech version; the footer links to German. */
+const urls: Record<Page, Partial<Record<Lang, string>>> = {
+  impressum: { de: '/impressum/', en: '/en/legal-notice/' },
+  datenschutz: { de: '/datenschutz/', en: '/en/privacy-policy/' },
+};
+const descriptions: Record<Page, Partial<Record<Lang, string>>> = {
+  impressum: {
+    de: 'Impressum von sdx-app.com: Anbieter, Kontakt und Registerangaben der Jenomics GmbH, München.',
+    en: 'Legal notice of sdx-app.com: provider, contact and register details of Jenomics GmbH, Munich.',
+  },
+  datenschutz: {
+    de: 'Datenschutzerklärung von sdx-app.com: welche Daten beim Besuch der Website verarbeitet werden und welche Rechte Sie haben.',
+    en: 'Privacy policy of sdx-app.com: which data is processed when you visit the website and what your rights are.',
+  },
+};
+
+const files = import.meta.glob<{ frontmatter: { title: string }; Content: any }>('../content/legal/*.md', {
+  eager: true,
+});
+const doc = files[`../content/legal/${page}.${lang}.md`];
+if (!doc) throw new Error(`Missing src/content/legal/${page}.${lang}.md`);
+const { Content, frontmatter } = doc;
+---
+
+<Base
+  lang={lang}
+  title={`${frontmatter.title} | SDX`}
+  description={descriptions[page][lang] ?? ''}
+  alternates={urls[page]}
+  bodyClass="page page-template-default"
+  mainClass="site-main page"
+>
+  <div class="page-header">
+    <h1 class="entry-title">{frontmatter.title}</h1>
+  </div>
+  <div class="page-content">
+    <Content />
+  </div>
+</Base>
