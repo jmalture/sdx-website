@@ -1,0 +1,74 @@
+---
+import { dict } from '../../i18n';
+import data from '../../i18n/share.json';
+const { lang } = Astro.props;
+const t = dict(data, lang);
+---
+<div class="elementor-element elementor-element-6a75109 e-flex e-con-full e-con e-parent" data-id="6a75109">
+<div class="elementor-element elementor-element-57a24e4 elementor-widget elementor-widget-html" data-id="57a24e4">
+<style is:global>
+/* 15 private or global: big switch */
+.sxf-pg2{padding:120px 32px;background:linear-gradient(180deg,#EAF2FE 0%,#F5F9FF 100%);}
+.sxf-pg2 .sxf-head{max-width:760px;}
+.sxf-pg2 .tgl{position:relative;display:grid;grid-template-columns:1fr 1fr;width:min(480px,100%);margin:44px auto 0;padding:5px;border-radius:21px;background:#fff;border:1px solid #D8E1EE;}
+.sxf-pg2 .tgl .th{position:absolute;top:5px;bottom:5px;left:5px;width:calc(50% - 5px);border-radius:16px;background:#2A73FF;box-shadow:0 8px 18px rgba(42,115,255,.28);transition:transform .45s cubic-bezier(.22,1,.36,1);}
+.sxf-pg2 .tgl.g .th{transform:translateX(100%);}
+.sxf .sxf-pg2 .tgl button,.sxf-pg2 .tgl button{position:relative;z-index:1;display:flex;align-items:center;justify-content:center;gap:10px;padding:12px 14px;border-radius:16px;font-size:15px;font-weight:600;color:#0F1B2D;text-align:center;transition:color .3s ease;}
+.sxf-pg2 .tgl button svg{width:18px;height:18px;}
+.sxf-pg2 .tgl button[aria-pressed="true"]{color:#fff;}
+.sxf-pg2 .scene{position:relative;height:300px;max-width:720px;margin:34px auto 0;}
+.sxf-pg2 .core{position:absolute;left:50%;top:50%;z-index:2;width:240px;margin:-62px 0 0 -120px;padding:18px;border-radius:22px;background:#fff;box-shadow:0 26px 50px -20px rgba(18,37,92,.35);}
+.sxf-pg2 .core .r{display:flex;align-items:center;gap:10px;}
+.sxf-pg2 .core .r i{display:flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:12px;background:#FFBB00;flex:none;}
+.sxf-pg2 .core .r i::after{content:"";width:20px;height:20px;background:center/contain no-repeat url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23fff'%3E%3Cpath d='M3 6.5A2.5 2.5 0 0 1 5.5 4h4.1l2 2.2h6.9A2.5 2.5 0 0 1 21 8.7v8.8a2.5 2.5 0 0 1-2.5 2.5h-13A2.5 2.5 0 0 1 3 17.5z'/%3E%3C/svg%3E");}
+.sxf-pg2 .core b{display:block;font-size:15px;color:#0F1B2D;}
+.sxf-pg2 .core small{display:block;font-size:12px;color:#8A94A6;}
+.sxf-pg2 .core .own{display:flex;align-items:center;gap:8px;margin-top:14px;padding:8px 10px;border-radius:12px;background:#F1F4F9;font-size:12.5px;font-weight:600;color:#0F1B2D;}
+.sxf-pg2 .core .own em{margin-left:auto;font-style:normal;padding:2px 8px;border-radius:999px;background:var(--oc,#2A73FF);color:#fff;font-size:11px;font-weight:700;transition:background-color .4s ease;}
+.sxf-pg2 .av{position:absolute;left:50%;top:50%;z-index:1;display:flex;align-items:center;justify-content:center;width:52px;height:52px;margin:-26px 0 0 -26px;border-radius:50%;background:var(--c);color:#fff;font-size:15px;font-weight:700;border:3px solid #fff;box-shadow:0 10px 20px -8px rgba(18,37,92,.45);transform:translate(0,0) scale(.3);opacity:0;transition:transform .7s cubic-bezier(.34,1.56,.64,1) var(--dl2,0s),opacity .3s ease var(--dl2,0s);}
+.sxf-pg2 .av.me{opacity:1;transform:translate(-200px,-70px) scale(1);}
+.sxf-pg2 .g .av{opacity:1;transform:translate(var(--x),var(--y)) scale(1);}
+.sxf-pg2 .g .av.me{transform:translate(-210px,-80px) scale(1);}
+.sxf-pg2 .lines{position:absolute;inset:0;width:100%;height:100%;overflow:visible;}
+.sxf-pg2 .lines path{fill:none;stroke:#A21CE0;stroke-width:2;stroke-dasharray:4 7;stroke-linecap:round;opacity:0;transition:opacity .4s ease .3s;}
+.sxf-pg2 .lines path.me{stroke:#2A73FF;opacity:1;}
+.sxf-pg2 .g .lines path{opacity:.6;}
+.sxf-pg2 .cap{max-width:560px;min-height:52px;margin:24px auto 0;text-align:center;font-size:17px;line-height:1.55;color:#4A5568;}
+.sxf-pg2 .cap b{color:#0F1B2D;}
+@media (prefers-reduced-motion:reduce){.sxf-pg2 .av,.sxf-pg2 .tgl .th{transition:none;}}
+@media (max-width:1024px){.sxf-pg2{padding:104px 24px;}}
+@media (max-width:767px){.sxf-pg2{padding:84px 18px;} .sxf-pg2 .tgl button{font-size:14px;padding:11px 6px;gap:7px;} .sxf-pg2 .tgl button svg{width:16px;height:16px;}
+ .sxf-pg2 .scene{height:330px;transform:scale(.72);transform-origin:50% 50%;margin-top:6px;margin-bottom:-40px;} .sxf-pg2 .cap{font-size:16px;}}
+</style>
+<section class="sxf sxf-pg2" id="privat-global" aria-labelledby="sxf-h-pg2">
+<div class="sxf-wrap">
+<div class="sxf-head" data-rv>
+<p class="sxf-eyebrow">{t.s6a75109_t1}</p>
+<h2 class="sxf-h" id="sxf-h-pg2">{t.s6a75109_t2} <span class="sxf-blue">{t.s6a75109_t3}</span></h2>
+<p class="sxf-lead">{t.s6a75109_t4}</p>
+</div>
+<div class="sw2" data-rv style="--dl:.1s">
+<div class="tgl" role="group" aria-label={t.s6a75109_a5}>
+<span class="th" aria-hidden="true"></span>
+<button type="button" class="sxf-b" data-m="p" aria-pressed="true"><svg class="i" viewbox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 21a8 8 0 0 1 16 0"></path></svg>{t.s6a75109_t6}</button>
+<button type="button" class="sxf-b" data-m="g" aria-pressed="false"><svg class="i" viewbox="0 0 24 24" aria-hidden="true"><path d="M3 21h18M5 21V8l7-5 7 5v13M9 21v-5h6v5M9 10h.01M15 10h.01"></path></svg>{t.s6a75109_t7}</button>
+</div>
+<div class="scene" aria-hidden="true">
+<svg class="lines" viewbox="-360 -150 720 300" preserveaspectratio="xMidYMid meet">
+<path class="me" d="M-200 -70 Q -150 -10 -110 0"></path>
+<path d="M210 -90 Q 160 -30 110 -10"></path><path d="M240 40 Q 180 30 120 20"></path><path d="M-230 70 Q -170 40 -120 20"></path><path d="M60 125 Q 40 90 20 62"></path><path d="M-80 130 Q -60 95 -30 62"></path>
+</svg>
+<span class="av me" style="--c:#2A73FF">{t.s6a75109_t8}</span>
+<span class="av" style="--c:#C800FF;--x:210px;--y:-90px;--dl2:.05s">TK</span>
+<span class="av" style="--c:#FFBB00;--x:240px;--y:40px;--dl2:.12s">MB</span>
+<span class="av" style="--c:#22C55E;--x:-230px;--y:70px;--dl2:.19s">AL</span>
+<span class="av" style="--c:#00BFFF;--x:60px;--y:125px;--dl2:.26s">JS</span>
+<span class="av" style="--c:#FF4D8D;--x:-80px;--y:130px;--dl2:.33s">RW</span>
+<div class="core"><div class="r"><i></i><span><b>{t.s6a75109_t9}</b><small>{t.s6a75109_t10}</small></span></div><div class="own">{t.s6a75109_t11}<em class="oe">{t.s6a75109_t12}</em></div></div>
+</div>
+<p class="cap" aria-live="polite"><b>{t.s6a75109_t13}</b> {t.s6a75109_t14}</p>
+</div>
+</div>
+</section>
+<script is:inline set:html={t.s6a75109_raw15} /> </div>
+</div>

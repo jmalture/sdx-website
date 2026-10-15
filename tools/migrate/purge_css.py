@@ -12,7 +12,11 @@ import soupsieve as sv
 
 SRC = os.environ.get('SRC', '/home/claude/mig/src')
 SITE = os.environ.get('SITE', '/home/claude/mig/site')
-OUT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', 'src/styles/legacy.css'))
+# usage: purge_css.py [<rendered page in SRC> <output css in src/styles>]  (default: homepage -> legacy.css)
+PAGE = sys.argv[1] if len(sys.argv) > 1 else 'home-de.html'
+OUT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', 'src/styles',
+                                   sys.argv[2] if len(sys.argv) > 2 else 'legacy.css'))
+SKIP = ('themer-blocks.css', 'swiper.min.css', 'e-swiper.min.css', 'google-fonts/')
 
 FILES = [  # same order as the <link> tags on the live page (fonts, swiper and themer blocks left out)
     'wp-content/themes/hello-elementor/assets/css/reset.css',
@@ -37,9 +41,14 @@ RUNTIME = {'animated', 'elementor-sticky--effects', 'elementor-sticky--active', 
            'elementor-message-success', 'elementor-message-danger', 'elementor-form-waiting',
            'elementor-error', 'elementor-field-type-acceptance'}
 
-doc = BeautifulSoup(open(f'{SRC}/home-de.html', encoding='utf-8').read(), 'lxml')
-for t in doc.select('[data-elementor-type]'):
-    pass
+doc = BeautifulSoup(open(f'{SRC}/{PAGE}', encoding='utf-8').read(), 'lxml')
+if len(sys.argv) > 1:  # other pages: take the stylesheets in the order the page links them
+    FILES = [re.sub(r'^https://sdx-app\.com/', '', l['href']).split('?')[0] for l in doc.select('link[rel=stylesheet]')
+             if 'sdx-app.com/wp-content/' in l['href'] and not any(x in l['href'] for x in SKIP)]
+# classes the page's own inline scripts toggle (classList.add/toggle/remove, also several args)
+for sc in doc.find_all('script'):
+    for args in re.findall(r'classList\.(?:add|toggle|remove)\(([^)]*)\)', sc.get_text()):
+        RUNTIME.update(re.findall(r"['\"]([A-Za-z][\w-]*)['\"]", args))
 # add runtime classes everywhere they could appear so selectors using them still match
 anims = set()
 for el in doc.select('.elementor-invisible'):

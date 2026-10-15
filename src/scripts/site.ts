@@ -95,7 +95,38 @@ function initContactForm() {
   });
 }
 
+/**
+ * FAQ sections: the decorative folders are placed with % of the section height, so opening an
+ * answer or "show more" made them travel down. Pin each folder at the pixel position it has in
+ * the collapsed state; re-measure on width changes while nothing is expanded. Also keeps them still when a category
+ * chip shortens the list.
+ */
+function initFaqFolds() {
+  document.querySelectorAll<HTMLElement>('.sdxq').forEach((sec) => {
+    const folds = [...sec.querySelectorAll<HTMLElement>('.sdxt-fold, .sxf-fold')];
+    if (!folds.length) return;
+    const expanded = () => !!sec.querySelector('.sdxq-item.is-open, .sdxq-more.is-less');
+    const orig = folds.map((f) => [f.style.top, f.style.bottom]);
+    const pin = () => {
+      folds.forEach((f, i) => { f.style.top = orig[i][0]; f.style.bottom = orig[i][1]; });
+      const tops = folds.map((f) => f.offsetTop); // offsetTop ignores the bob/rotate transforms
+      folds.forEach((f, i) => {
+        f.style.setProperty('top', `${tops[i]}px`, 'important');
+        f.style.setProperty('bottom', 'auto', 'important');
+      });
+    };
+    pin();
+    let w = window.innerWidth;
+    window.addEventListener('resize', () => {
+      if (window.innerWidth === w || expanded()) return;
+      w = window.innerWidth;
+      pin();
+    });
+  });
+}
+
 initAnimations();
 initStickyHeader();
+initFaqFolds();
 initLangSwitch();
 initContactForm();

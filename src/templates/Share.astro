@@ -1,0 +1,17 @@
+---
+/** External Share feature page (WordPress 610 DE / 650 EN). One template; texts in src/i18n/share.json. */
+import '../styles/legacy-share.css'; // purged Elementor/theme CSS for this page (must load before site.css)
+import Base from '../layouts/Base.astro';
+import Sections from '../components/share/index.astro';
+import meta from '../i18n/share.meta.json';
+import type { Lang } from '../i18n';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const alternates = { de: '/external-share/', en: '/en/external-sharing/' };
+const m = (meta as Record<string, { title: string; description: string }>)[lang];
+---
+<Base lang={lang} title={m.title} description={m.description} alternates={alternates}
+  ogImage="/media/sxf-hero-share-page.webp" bodyClass="page elementor-template-full-width elementor-page-610">
+  <Sections lang={lang} />
+</Base>

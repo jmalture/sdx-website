@@ -26,6 +26,8 @@ of each page have the same DOM; only texts, attributes and links differ.
 3. Elementor runtime features are replaced by `src/scripts/site.ts` (animations, sticky header,
    language select, form) and plain CSS (logo carousel).
 4. Visual check against the live site at 390 / 820 / 1440 px, then PageSpeed.
+   Each page gets its own purged stylesheet (`legacy.css` homepage, `legacy-share.css` External Share),
+   imported by its template, so a page only carries the CSS it needs.
 5. Afterwards each section can be cleaned up (Elementor wrapper classes removed, its CSS moved
    into the component) without changing the look; `legacy.css` shrinks accordingly.
 
@@ -37,9 +39,9 @@ are set with the `SRC` and `SITE` environment variables.
 | # | Package | Status |
 |---|---|---|
 | 1 | Project setup: repo, Astro, fonts, base layout, header with mega menu + language switch, footer | done (v0.1) |
-| 2 | i18n: one template per page, dictionaries de/en/cs, hreflang, canonical, switcher | done for the homepage |
+| 2 | i18n: one template per page, dictionaries de/en/cs, hreflang, canonical, switcher | done (homepage, External Share) |
 | 3 | Homepage port (all 15 sections, DE/EN/CZ) | done (v0.1), visual check against live pending |
-| 4 | Features overview, External Share (DE/EN), Audits | open |
+| 4 | Features overview, External Share (DE/EN), Audits | External Share DE/EN done (v0.2), others open |
 | 5 | Impressum, Datenschutz (DE/EN) | open (texts approved first, see D26-1527) |
 | 6 | Media: AVIF/WebP with srcset for all images, posters, OG image | open |
 | 7 | Contact form endpoint + SMTP | done (code), SMTP account and recipient pending |

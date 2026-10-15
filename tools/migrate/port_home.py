@@ -98,8 +98,8 @@ def render(nodes, D, dict_var):
             x = n.attrs.get(a, '')
             x = ' '.join(x) if isinstance(x, list) else x
             vals.append(media(x))
-        if a == 'class':
-            vals = [vals[0]] * 3  # classes come from DE (EN/CZ copies only differ in Elementor ids)
+        if a in ('class', 'data-id'):
+            vals = [vals[0]] * len(nodes)  # from the base language (other copies only differ in Elementor ids)
         if len(set(vals)) == 1:
             parts.append(a if vals[0] == '' and a not in ('alt', 'value', 'content') else f'{a}="{esc_attr(vals[0])}"')
         else:

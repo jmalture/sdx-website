@@ -1,5 +1,6 @@
 ---
 /** The homepage. One template for all languages; texts come from src/i18n/home.json. */
+import '../styles/legacy.css'; // purged Elementor/theme CSS for this page (must load before site.css)
 import Base from '../layouts/Base.astro';
 import Sections from '../components/home/index.astro';
 import meta from '../i18n/home.meta.json';
