@@ -43,7 +43,10 @@
     "footer_2026_secure_data_exchange": "© 2026 Secure Data eXchange · ein Produkt der",
     "footer_back_to_top": "Nach oben",
     "footer_link_privacy": "/datenschutz/",
-    "footer_privacy": "Datenschutz"
+    "footer_privacy": "Datenschutz",
+    "h_home": "Startseite",
+    "h_home_href": "/",
+    "h_menu_close": "Menü schließen"
   },
   "en": {
     "h_menu_open": "Open features menu",
@@ -89,7 +92,10 @@
     "footer_2026_secure_data_exchange": "© 2026 Secure Data eXchange · a product of",
     "footer_back_to_top": "Back to top",
     "footer_link_privacy": "/en/privacy-policy/",
-    "footer_privacy": "Privacy Policy"
+    "footer_privacy": "Privacy Policy",
+    "h_home": "Home",
+    "h_home_href": "/en/",
+    "h_menu_close": "Close menu"
   },
   "cs": {
     "h_menu_open": "Otevřít menu funkcí",
@@ -135,6 +141,9 @@
     "footer_2026_secure_data_exchange": "© 2026 Secure Data eXchange · produkt společnosti",
     "footer_back_to_top": "Nahoru",
     "footer_link_privacy": "/datenschutz/",
-    "footer_privacy": "Ochrana osobních údajů"
+    "footer_privacy": "Ochrana osobních údajů",
+    "h_home": "Úvod",
+    "h_home_href": "/cs/",
+    "h_menu_close": "Zavřít menu"
   }
 }

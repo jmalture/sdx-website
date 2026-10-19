@@ -132,8 +132,94 @@ function initFaqFolds() {
   });
 }
 
+/**
+ * Phones: card rows made swipeable in site.css get dots below them showing the current card.
+ * Tapping a dot scrolls to that card.
+ */
+function initSwipe() {
+  const rows = document.querySelectorAll<HTMLElement>(
+    'main .sdxs-tiles, main #sdx-why-stack, main .sxf-bento, main .sxf-vgrid, main .sxf-ntf .pts, main .sxa-log .cards, main .sfx-grid',
+  );
+  rows.forEach((row) => {
+    const cards = [...row.children] as HTMLElement[];
+    if (cards.length < 2) return;
+    const dots = document.createElement('div');
+    dots.className = 'sx-dots';
+    dots.setAttribute('aria-hidden', 'true');
+    cards.forEach((card) => {
+      const d = document.createElement('i');
+      d.addEventListener('click', () => row.scrollTo({ left: card.offsetLeft - 18, behavior: 'smooth' }));
+      dots.appendChild(d);
+    });
+    row.insertAdjacentElement('afterend', dots);
+    const update = () => {
+      const x = row.scrollLeft + 18;
+      let cur = 0;
+      cards.forEach((c, i) => {
+        if (c.offsetLeft - 1 <= x) cur = i;
+      });
+      if (row.scrollLeft + row.clientWidth >= row.scrollWidth - 2) cur = cards.length - 1;
+      [...dots.children].forEach((d, i) => d.classList.toggle('on', i === cur));
+    };
+    row.addEventListener('scroll', update, { passive: true });
+    update();
+  });
+}
+
+/**
+ * Phones: burger button opens the side menu (slides in from the right over a dimmed page).
+ * Closes on the X, the dimmed area, a link tap, Escape, or when the screen gets wider.
+ */
+function initMobileMenu() {
+  const btn = document.querySelector<HTMLButtonElement>('.sx-burger');
+  const side = document.getElementById('sx-mnav');
+  if (!btn || !side) return;
+  const set = (open: boolean) => {
+    side.classList.toggle('is-open', open);
+    side.toggleAttribute('inert', !open);
+    document.documentElement.classList.toggle('sx-side-lock', open);
+    btn.setAttribute('aria-expanded', String(open));
+    btn.setAttribute('aria-label', (open ? btn.dataset.labelClose : btn.dataset.labelOpen) || '');
+    if (open) side.querySelector<HTMLElement>('.sx-side-x')?.focus({ preventScroll: true });
+    else if (side.contains(document.activeElement)) btn.focus({ preventScroll: true });
+  };
+  // allow the slide/fade transitions only once the page (incl. late styles) is painted closed
+  const ready = () => requestAnimationFrame(() => requestAnimationFrame(() => side.classList.add('is-ready')));
+  if (document.readyState === 'complete') ready();
+  else window.addEventListener('load', ready, { once: true });
+  // page restored from the back/forward cache: show it closed, without animating
+  window.addEventListener('pageshow', (e) => {
+    if (!e.persisted) return;
+    side.classList.remove('is-ready');
+    set(false);
+    ready();
+  });
+  btn.addEventListener('click', () => set(!side.classList.contains('is-open')));
+  side.addEventListener('click', (e) => {
+    const el = e.target as HTMLElement;
+    const a = el.closest('a');
+    if (a && !e.metaKey && !e.ctrlKey && !e.shiftKey && a.origin === location.origin) {
+      const sameDoc = a.pathname === location.pathname;
+      set(false);
+      if (!sameDoc) {
+        // let the panel slide out before the next page starts loading
+        e.preventDefault();
+        setTimeout(() => (location.href = a.href), 260);
+      }
+      return;
+    }
+    if (el.closest('[data-close]')) set(false);
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && side.classList.contains('is-open')) set(false);
+  });
+  window.matchMedia('(min-width: 768px)').addEventListener('change', (m) => m.matches && set(false));
+}
+
 initAnimations();
 initStickyHeader();
+initMobileMenu();
 initFaqFolds();
+initSwipe();
 initLangSwitch();
 initContactForm();

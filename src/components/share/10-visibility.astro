@@ -178,12 +178,17 @@ const t = dict(data, lang);
       .sxf-pg2 .g .av.me {
         transform: translate(-210px, -80px) scale(1);
       }
+      /* lines use the same px coordinates as the avatars (viewBox 720x300 at 1:1, centred),
+         so they still meet the avatars when the scene is narrower or scaled on phones */
       .sxf-pg2 .lines {
         position: absolute;
-        inset: 0;
-        width: 100%;
-        height: 100%;
+        left: 50%;
+        top: 50%;
+        width: 720px;
+        height: 300px;
+        margin: -150px 0 0 -360px;
         overflow: visible;
+        pointer-events: none;
       }
       .sxf-pg2 .lines path {
         fill: none;

@@ -30,3 +30,109 @@
   border-radius: 8px;
   box-shadow: 0 4px 16px rgba(15, 27, 45, 0.2);
 }
+
+/* ---------------------------------------------------------------------------------------------
+ * Phones: long card lists become one swipeable row so a section stays about one screen high.
+ * Used for: home "Teilen" tiles and "Warum SDX?" cards, External Share features + benefits,
+ * Audits benefits + functions + logged actions, External Share notifications, Features cards. Dots below the row are added by initSwipe() in site.ts.
+ * ------------------------------------------------------------------------------------------- */
+@media (max-width: 767px) {
+  main .sdxs-tiles,
+  main #sdx-why-stack,
+  main .sxf-bento,
+  main .sxf-vgrid,
+  main .sxf-ntf .pts,
+  main .sxa-log .cards,
+  main .sfx-grid {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: stretch !important;
+    gap: 12px !important;
+    height: auto !important;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: 18px;
+    width: auto !important;
+    max-width: none !important;
+    margin-inline: -18px !important;
+    padding: 4px 18px 18px !important;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+  main .sdxs-tiles::-webkit-scrollbar,
+  main #sdx-why-stack::-webkit-scrollbar,
+  main .sxf-bento::-webkit-scrollbar,
+  main .sxf-vgrid::-webkit-scrollbar,
+  main .sxf-ntf .pts::-webkit-scrollbar,
+  main .sxa-log .cards::-webkit-scrollbar,
+  main .sfx-grid::-webkit-scrollbar {
+    display: none;
+  }
+  main .sdxs-tiles > *,
+  main #sdx-why-stack > *,
+  main .sxf-bento > *,
+  main .sxf-vgrid > *,
+  main .sxf-ntf .pts > *,
+  main .sxa-log .cards > *,
+  main .sfx-grid > * {
+    flex: 0 0 84% !important;
+    max-width: 84% !important;
+    width: auto !important;
+    min-width: 0;
+    margin: 0 !important;
+    scroll-snap-align: start;
+  }
+  .sx-dots {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 6px;
+  }
+  .sx-dots i {
+    width: 6px;
+    height: 6px;
+    border-radius: 3px;
+    background: currentColor;
+    opacity: 0.25;
+    transition:
+      width 0.2s ease,
+      opacity 0.2s ease;
+  }
+  .sx-dots i.on {
+    width: 18px;
+    opacity: 0.8;
+  }
+}
+@media (max-width: 767px) {
+  /* "Warum SDX?" cards were sized for the 420px desktop fan: less padding in the narrow card */
+  main #sdx-why-stack .sdx-card {
+    padding: 28px 22px 30px;
+    gap: 14px;
+  }
+  main #sdx-why-stack .sdx-card-h {
+    font-size: 24px;
+  }
+  main #sdx-why-stack .sdx-card-body {
+    padding: 0;
+  }
+}
+@media (min-width: 768px) {
+  .sx-dots {
+    display: none;
+  }
+}
+
+/* Contact form consent: checkbox next to its text, wrapped lines indented under the text. */
+.elementor-field-type-acceptance .elementor-field-option {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+.elementor-field-type-acceptance .elementor-field-option label {
+  display: block !important;
+  line-height: 1.5;
+}
+.elementor-field-type-acceptance .elementor-field-option input {
+  flex: none;
+}

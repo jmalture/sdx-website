@@ -44,8 +44,24 @@ const t = dict(data, lang);
       .sxa-log .ln.r {
         animation-direction: reverse;
       }
-      .sxa-log .mq:hover .ln {
-        animation-play-state: paused;
+      /* the two rows run across the full window width and never stop (no pause on hover) */
+      .sxa-log {
+        overflow: hidden;
+      }
+      .sxa-log .mq {
+        width: 100vw;
+        margin-left: calc(50% - 50vw);
+        margin-right: calc(50% - 50vw);
+        -webkit-mask-image: linear-gradient(90deg, transparent, #000 4%, #000 96%, transparent);
+        mask-image: linear-gradient(90deg, transparent, #000 4%, #000 96%, transparent);
+      }
+      /* magnet: pills near the pointer lean towards it (set by the script via --mx/--my) */
+      .sxa-log .ln span {
+        translate: var(--mx, 0) var(--my, 0);
+        scale: var(--ms, 1);
+        transition:
+          translate 0.25s ease-out,
+          scale 0.25s ease-out;
       }
       @keyframes sxaMq {
         to {
@@ -398,6 +414,45 @@ const t = dict(data, lang);
           var m = s.querySelector('.mq');
           m.appendChild(line(R1, '', '56s'));
           m.appendChild(line(R2, ' r', '64s'));
+          magnet(m);
+        }
+        /* pointer magnet: pills within RANGE px of the pointer move up to PULL px towards it */
+        function magnet(m) {
+          if (window.matchMedia('(prefers-reduced-motion:reduce)').matches) return;
+          if (!window.matchMedia('(hover:hover) and (pointer:fine)').matches) return;
+          var RANGE = 140,
+            PULL = 10,
+            px = 0,
+            py = 0,
+            on = false,
+            raf = 0,
+            pills = [].slice.call(m.querySelectorAll('span'));
+          function frame() {
+            pills.forEach(function (p) {
+              var r = p.getBoundingClientRect(),
+                dx = px - (r.left + r.width / 2),
+                dy = py - (r.top + r.height / 2),
+                d = Math.sqrt(dx * dx + dy * dy),
+                k = on && d < RANGE ? 1 - d / RANGE : 0;
+              p.style.setProperty('--mx', (dx / (d || 1)) * PULL * k + 'px');
+              p.style.setProperty('--my', (dy / (d || 1)) * PULL * k * 0.6 + 'px');
+              p.style.setProperty('--ms', 1 + 0.05 * k);
+            });
+            raf = on ? requestAnimationFrame(frame) : 0;
+          }
+          m.addEventListener('mousemove', function (e) {
+            px = e.clientX;
+            py = e.clientY;
+            if (!on) {
+              on = true;
+              raf = requestAnimationFrame(frame);
+            }
+          });
+          m.addEventListener('mouseleave', function () {
+            on = false;
+            cancelAnimationFrame(raf);
+            frame();
+          });
         }
         function go() {
           document.querySelectorAll('.sxa-log').forEach(init);

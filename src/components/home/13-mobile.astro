@@ -112,3 +112,17 @@ const t = dict(data, lang);
     </div>
   </div>
 </div>
+
+<style is:global>
+  /*
+   * Phones: the phone mockup is centred with left:50% + translateX(-50%), but the entrance animation
+   * (sdxChipInUp) also sets transform and wins, so the phone ended up half off the right edge.
+   * Centre it with left alone; the animation keeps its translateY.
+   */
+  @media (max-width: 1024px) {
+    .elementor-358 .elementor-element.elementor-element-sdxsec4 .sdx-otg-phone-wrap {
+      left: calc(50% - 142px) !important;
+      transform: none;
+    }
+  }
+</style>

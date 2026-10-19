@@ -186,9 +186,18 @@ const t = dict(data, lang);
         .sdxt-brand {
           padding: 76px 18px 96px;
         }
+        /* phones: spread the three cards so every colour code is readable, keep them inside the screen */
         .sdxt-swatches {
           transform: scale(0.62);
           bottom: -34px;
+          left: 4px;
+          width: 260px;
+        }
+        .sdxt-swatches span:nth-child(2) {
+          left: 76px;
+        }
+        .sdxt-swatches span:nth-child(3) {
+          left: 152px;
         }
       }
     </style>

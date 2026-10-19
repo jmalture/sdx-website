@@ -315,6 +315,155 @@ const t = dict(data, lang);
           grid-template-columns: minmax(0, 1fr);
         }
       }
+      /* ---- phones: zoomed screenshot + one caption card that cycles through the numbers ---- */
+      .sxf-hcap {
+        display: none;
+      }
+      @media (max-width: 767px) {
+        .sxf-rcv .sxf-wrap {
+          row-gap: 36px;
+        }
+        .sxf-rcv .sxf-hl {
+          display: none;
+        }
+        .sxf-hs-img img {
+          transform-origin: 0 0;
+          transform: translate(var(--tx, 0%), var(--ty, 0%)) scale(var(--zs, 1));
+          transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        .sxf .sxf-dot {
+          transition:
+            left 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+            top 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+            transform 0.25s ease,
+            background-color 0.25s ease,
+            color 0.25s ease,
+            box-shadow 0.25s ease;
+        }
+        .sxf-rcv .sxf-hcap {
+          grid-area: list;
+          position: relative;
+          display: block;
+          margin-top: -12px;
+          padding: 18px 18px 14px;
+          border-radius: 18px;
+          background: #fff;
+          border: 1px solid #e3e8f1;
+          box-shadow: 0 16px 34px -20px rgba(18, 37, 92, 0.3);
+          overflow: hidden;
+        }
+        .sxf-hcap .top {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+        }
+        .sxf-hcap .k {
+          flex: none;
+          display: inline-grid;
+          place-items: center;
+          width: 26px;
+          height: 26px;
+          border-radius: 50%;
+          background: #2a73ff;
+          color: #fff;
+          font-size: 12.5px;
+          font-weight: 700;
+        }
+        .sxf-hcap strong {
+          flex: 1;
+          min-width: 0;
+          font-size: 17px;
+          line-height: 1.3;
+          color: #0f1b2d;
+        }
+        .sxf-hcap .cnt {
+          font-style: normal;
+          font-size: 12.5px;
+          font-weight: 600;
+          color: #8a94a6;
+        }
+        .sxf-hcap .d {
+          margin: 8px 0 0;
+          font-size: 15px;
+          line-height: 1.5;
+          color: #5b6475;
+        }
+        .sxf-hcap .nav {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          margin-top: 12px;
+        }
+        .sxf-hcap .dots {
+          display: flex;
+          gap: 5px;
+          margin-right: auto;
+        }
+        .sxf-hcap .dots i {
+          width: 6px;
+          height: 6px;
+          border-radius: 3px;
+          background: #2a73ff;
+          opacity: 0.22;
+          transition:
+            width 0.2s ease,
+            opacity 0.2s ease;
+        }
+        .sxf-hcap .dots i.on {
+          width: 16px;
+          opacity: 0.9;
+        }
+        .sxf-rcv .sxf-hcap button,
+        .sxf-rcv .sxf-hcap button:hover,
+        .sxf-rcv .sxf-hcap button:focus {
+          display: grid;
+          place-items: center;
+          width: 36px;
+          height: 36px;
+          padding: 0;
+          border: 1px solid #e3e8f1;
+          border-radius: 50%;
+          background: #fff;
+          color: #0f1b2d;
+          cursor: pointer;
+        }
+        .sxf-hcap button svg {
+          width: 18px;
+          height: 18px;
+          fill: none;
+          stroke: currentColor;
+          stroke-width: 2;
+          stroke-linecap: round;
+          stroke-linejoin: round;
+        }
+        .sxf-hcap .bar {
+          position: absolute;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          height: 3px;
+          background: #eef1f6;
+        }
+        .sxf-hcap .bar i {
+          display: block;
+          height: 100%;
+          background: #2a73ff;
+          transform-origin: 0 50%;
+          transform: scaleX(0);
+        }
+        .sxf-rcv.is-auto .sxf-hcap .bar i {
+          animation: sxfFill 4s linear forwards;
+          animation-play-state: paused;
+        }
+        .sxf-rcv.is-auto.is-run .sxf-hcap .bar i {
+          animation-play-state: running;
+        }
+        @keyframes sxfFill {
+          to {
+            transform: scaleX(1);
+          }
+        }
+      }
     </style>
     <section class="sxf sxf-rcv" id="empfaenger" aria-labelledby="sxf-h-rcv">
       <div class="sxf-glow" aria-hidden="true"></div>
@@ -397,6 +546,23 @@ const t = dict(data, lang);
             </div>
           </div>
         </div>
+        <!-- Phones: one caption card for the active number instead of the list (filled by the script below) -->
+        <div class="sxf-hcap" aria-live="polite">
+          <div class="top">
+            <span class="k">1</span><strong></strong><em class="cnt">1 / 8</em>
+          </div>
+          <p class="d"></p>
+          <div class="nav">
+            <span class="dots" aria-hidden="true"></span>
+            <button type="button" class="sxf-b prev" aria-label={t.share_page_prev}>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6"></path></svg>
+            </button>
+            <button type="button" class="sxf-b next" aria-label={t.share_page_next}>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18 6-6-6-6"></path></svg>
+            </button>
+          </div>
+          <span class="bar" aria-hidden="true"><i></i></span>
+        </div>
         <ol class="sxf-hl" data-rv style="--dl:.12s">
           <li>
             <button class="sxf-b sxf-hli" aria-pressed="false"
@@ -465,8 +631,64 @@ const t = dict(data, lang);
           if (s.__sxf) return;
           s.__sxf = 1;
           var d = [].slice.call(s.querySelectorAll('.sxf-dot')),
-            l = [].slice.call(s.querySelectorAll('.sxf-hli'));
+            l = [].slice.call(s.querySelectorAll('.sxf-hli')),
+            cur = 0;
+          var phone = window.matchMedia('(max-width: 767px)');
+          var rm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+          // phones: where to zoom for each number (point to centre, scale). 1-7 sit on the share card,
+          // 8 is the background, so it shows the whole picture.
+          var CARD = { x: 0.333, y: 0.66, s: 1.5 },
+            FULL = { x: 0.5, y: 0.5, s: 1 },
+            ZOOM = [CARD, CARD, CARD, CARD, CARD, CARD, CARD, FULL];
+          var img = s.querySelector('.sxf-hs-img img'),
+            cap = s.querySelector('.sxf-hcap'),
+            pos = d.map(function (e) {
+              return [parseFloat(e.style.left), parseFloat(e.style.top)];
+            });
+          var texts = l.map(function (e) {
+            return [e.querySelector('strong').textContent, e.querySelector('.d').textContent];
+          });
+          function zoom(i) {
+            var z = phone.matches ? ZOOM[i] || FULL : FULL;
+            img.style.setProperty('--zs', z.s);
+            img.style.setProperty('--tx', 50 - z.x * z.s * 100 + '%'); // translate after scale: centre the point
+            img.style.setProperty('--ty', 50 - z.y * z.s * 100 + '%');
+            d.forEach(function (e, k) {
+              e.style.left = 50 + (pos[k][0] - z.x * 100) * z.s + '%';
+              e.style.top = 50 + (pos[k][1] - z.y * 100) * z.s + '%';
+            });
+          }
+          function caption(i) {
+            if (!cap) return;
+            cap.querySelector('.k').textContent = i + 1;
+            cap.querySelector('strong').textContent = texts[i][0];
+            cap.querySelector('.d').textContent = texts[i][1];
+            cap.querySelector('.cnt').textContent = i + 1 + ' / ' + l.length;
+            [].forEach.call(cap.querySelectorAll('.dots i'), function (e, k) {
+              e.classList.toggle('on', k === i);
+            });
+            var bar = cap.querySelector('.bar i');
+            bar.style.animation = 'none';
+            bar.offsetWidth;
+            bar.style.animation = '';
+          }
+          // the caption keeps the height of its longest text so the page does not jump
+          function fixHeight() {
+            if (!cap) return;
+            cap.style.minHeight = '';
+            var mx = 0;
+            texts.forEach(function (x, k) {
+              cap.querySelector('strong').textContent = x[0];
+              cap.querySelector('.d').textContent = x[1];
+              mx = Math.max(mx, cap.offsetHeight);
+            });
+            cap.style.minHeight = mx + 'px';
+            caption(cur);
+          }
           function on(i) {
+            cur = i;
+            zoom(i);
+            caption(i);
             d.forEach(function (e, k) {
               e.classList.toggle('is-on', k === i);
               e.setAttribute('aria-pressed', k === i ? 'true' : 'false');
@@ -485,7 +707,63 @@ const t = dict(data, lang);
               });
             });
           });
+          if (cap) {
+            var dots = cap.querySelector('.dots');
+            l.forEach(function (e, k) {
+              var x = document.createElement('i');
+              x.addEventListener('click', function () {
+                on(k);
+              });
+              dots.appendChild(x);
+            });
+            cap.querySelector('.prev').addEventListener('click', function () {
+              on((cur + l.length - 1) % l.length);
+            });
+            cap.querySelector('.next').addEventListener('click', function () {
+              on((cur + 1) % l.length);
+            });
+            // automatic cycle: the progress line's end moves on to the next number
+            cap.querySelector('.bar i').addEventListener('animationend', function () {
+              if (phone.matches) on((cur + 1) % l.length);
+            });
+            // swipe on the caption or the picture
+            var x0 = null;
+            [cap, s.querySelector('.sxf-hs')].forEach(function (el) {
+              el.addEventListener(
+                'touchstart',
+                function (e) {
+                  x0 = e.touches[0].clientX;
+                },
+                { passive: true },
+              );
+              el.addEventListener('touchend', function (e) {
+                if (x0 === null) return;
+                var dx = e.changedTouches[0].clientX - x0;
+                x0 = null;
+                if (Math.abs(dx) > 40) on((cur + (dx < 0 ? 1 : l.length - 1)) % l.length);
+              });
+            });
+            if (!rm) {
+              s.classList.add('is-auto');
+              if ('IntersectionObserver' in window)
+                new IntersectionObserver(
+                  function (es) {
+                    s.classList.toggle('is-run', es[0].isIntersecting);
+                  },
+                  { threshold: 0.5 },
+                ).observe(s.querySelector('.sxf-hs'));
+              else s.classList.add('is-run');
+            }
+            var w = window.innerWidth;
+            window.addEventListener('resize', function () {
+              if (window.innerWidth === w) return;
+              w = window.innerWidth;
+              fixHeight();
+              zoom(cur);
+            });
+          }
           on(0);
+          fixHeight();
         }
         function go() {
           document.querySelectorAll('.sxf-rcv').forEach(init);

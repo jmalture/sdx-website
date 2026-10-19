@@ -212,9 +212,154 @@ const t = dict(data, lang);
           margin: 0 auto;
         }
       }
+      .sxf-how .sxf-tabs {
+        display: none;
+      }
       @media (max-width: 767px) {
         .sxf-how {
           padding: 84px 18px;
+        }
+        /* ---- phones: tabs above the screenshot, only the active step's text below ---- */
+        .sxf-how .sxf-split {
+          gap: 0;
+          margin-top: 36px;
+        }
+        .sxf-how .sxf-tabs {
+          display: flex;
+          gap: 4px;
+          margin-bottom: 22px;
+          padding: 5px;
+          border-radius: 999px;
+          background: #fff;
+          box-shadow: 0 8px 22px -12px rgba(18, 37, 92, 0.25);
+        }
+        .sxf-how .sxf-tabs button,
+        .sxf-how .sxf-tabs button:hover,
+        .sxf-how .sxf-tabs button:focus {
+          position: relative;
+          flex: 1 1 0;
+          min-width: 0;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 6px;
+          padding: 9px 4px 11px;
+          border: 0;
+          border-radius: 999px;
+          background: transparent;
+          color: #4a5568;
+          font:
+            600 13.5px/1.2 Inter,
+            sans-serif;
+          white-space: nowrap;
+          overflow: hidden;
+          cursor: pointer;
+        }
+        .sxf-how .sxf-tabs button[aria-selected='true'] {
+          background: #2a73ff;
+          color: #fff;
+        }
+        .sxf-how .sxf-tabs .n {
+          flex: none;
+          display: inline-grid;
+          place-items: center;
+          width: 20px;
+          height: 20px;
+          border-radius: 50%;
+          background: #e6edf8;
+          color: #2a73ff;
+          font-size: 11.5px;
+          font-weight: 700;
+        }
+        .sxf-how .sxf-tabs button[aria-selected='true'] .n {
+          background: #fff;
+        }
+        .sxf-how .sxf-tabs .bar {
+          position: absolute;
+          left: 16px;
+          right: 16px;
+          bottom: 4px;
+          height: 2px;
+          border-radius: 2px;
+          background: rgba(255, 255, 255, 0.35);
+          overflow: hidden;
+          opacity: 0;
+        }
+        .sxf-how .sxf-tabs .bar i {
+          display: block;
+          height: 100%;
+          background: #fff;
+          transform-origin: 0 50%;
+          transform: scaleX(0);
+        }
+        .sxf-how.is-auto .sxf-tabs [aria-selected='true'] .bar {
+          opacity: 1;
+        }
+        .sxf-how.is-auto .sxf-tabs [aria-selected='true'] .bar i {
+          animation: sxfFill 6.5s linear forwards;
+          animation-play-state: paused;
+        }
+        .sxf-how.is-auto.is-run .sxf-tabs [aria-selected='true'] .bar i {
+          animation-play-state: running;
+        }
+        /* zoom into the part of the screenshot each step is about (point to centre + scale) */
+        .sxf-how .sxf-tab-in img {
+          --zs: 1;
+          --zx: 0%;
+          --zy: 0%;
+          transform: scale(var(--zs)) translate(var(--zx), var(--zy)) scale(1.015);
+        }
+        .sxf-how .sxf-tab-in img.is-on {
+          transform: scale(var(--zs)) translate(var(--zx), var(--zy));
+        }
+        .sxf-how .sxf-tab-in img:nth-child(1) {
+          /* context menu with "Share" */
+          --zs: 2.1;
+          --zx: -25%;
+          --zy: -4%;
+        }
+        .sxf-how .sxf-tab-in img:nth-child(2) {
+          /* share dialog */
+          --zs: 1.55;
+          --zx: 0%;
+          --zy: -7%;
+        }
+        .sxf-how .sxf-tab-in img:nth-child(3) {
+          /* QR code and link */
+          --zs: 2.4;
+          --zx: 0%;
+          --zy: -7%;
+        }
+        /* text of the active step only; all steps share one grid cell so the height never jumps */
+        .sxf-how .sxf-steps {
+          display: grid;
+          margin-top: 26px;
+        }
+        .sxf-how .sxf-steps > li {
+          grid-area: 1 / 1;
+          visibility: hidden;
+          opacity: 0;
+          transition: opacity 0.35s ease;
+        }
+        .sxf-how .sxf-steps > li:has(.is-on) {
+          visibility: visible;
+          opacity: 1;
+        }
+        .sxf-how .sxf-steps .sxf-step .n {
+          display: none;
+        }
+        .sxf-how .sxf-steps .sxf-step {
+          grid-template-columns: minmax(0, 1fr);
+          height: 100%;
+          padding: 18px 18px 20px;
+        }
+        .sxf-how .sxf-step .bar {
+          visibility: hidden; /* still runs: its end moves on to the next step */
+        }
+        /* touch leaves :hover stuck on the text; keep the timer running so it stays in sync with the tab */
+        .sxf-how.is-auto.is-run .sxf-steps:hover .sxf-step.is-on .bar i,
+        .sxf-how.is-auto.is-run .sxf-steps:focus-within .sxf-step.is-on .bar i {
+          animation-play-state: running;
         }
         .sxf-how .f1 {
           left: -8px;
@@ -253,6 +398,25 @@ const t = dict(data, lang);
           <p class="sxf-lead">{t.steps_straight_from_your_folders}</p>
         </div>
         <div class="sxf-split">
+          <!-- Phones: step tabs above the screenshot (hidden on larger screens, see the max-width: 767px block) -->
+          <div class="sxf-tabs" role="tablist" aria-label={t.steps_aria_label_steps}>
+            {
+              [t.steps_tab_1, t.steps_tab_2, t.steps_tab_3].map((label, i) => (
+                <button
+                  type="button"
+                  role="tab"
+                  aria-selected={i === 0 ? 'true' : 'false'}
+                  aria-controls="sxf-how-shot"
+                >
+                  <span class="n">{i + 1}</span>
+                  {label}
+                  <span class="bar" aria-hidden="true">
+                    <i />
+                  </span>
+                </button>
+              ))
+            }
+          </div>
           <div class="sxf-vis" data-rv>
             <span class="sxf-fold f1" aria-hidden="true"></span>
             <div class="sxf-browser">
@@ -329,6 +493,7 @@ const t = dict(data, lang);
           s.__sxf = 1;
           var bt = [].slice.call(s.querySelectorAll('.sxf-step')),
             im = [].slice.call(s.querySelectorAll('.sxf-tab-in img')),
+            tb = [].slice.call(s.querySelectorAll('.sxf-tabs button')),
             cur = 0;
           var rm = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
           function show(i) {
@@ -346,6 +511,40 @@ const t = dict(data, lang);
             });
             im.forEach(function (m, k) {
               m.classList.toggle('is-on', k === i);
+            });
+            // phone tabs: same state, progress line restarted with the step
+            tb.forEach(function (b, k) {
+              b.setAttribute('aria-selected', k === i ? 'true' : 'false');
+              var bar = b.querySelector('.bar i');
+              if (bar) {
+                bar.style.animation = 'none';
+                bar.offsetWidth;
+                bar.style.animation = '';
+              }
+            });
+          }
+          // phones: tapping a tab switches the step and keeps the auto-advance running
+          tb.forEach(function (b, k) {
+            b.addEventListener('click', function () {
+              show(k);
+            });
+          });
+          // phones: swipe left/right on the screenshot for the next/previous step
+          var shot = s.querySelector('.sxf-tab-in'),
+            x0 = null;
+          if (shot) {
+            shot.addEventListener(
+              'touchstart',
+              function (e) {
+                x0 = e.touches[0].clientX;
+              },
+              { passive: true },
+            );
+            shot.addEventListener('touchend', function (e) {
+              if (x0 === null) return;
+              var dx = e.changedTouches[0].clientX - x0;
+              x0 = null;
+              if (Math.abs(dx) > 40) show((cur + (dx < 0 ? 1 : bt.length - 1)) % bt.length);
             });
           }
           bt.forEach(function (b, k) {

@@ -498,6 +498,22 @@ const t = dict(data, lang);
           font-size: 11px;
           padding: 4px 10px;
         }
+        /* phones: zoom onto the share card in the screenshot (2x, card fills the left part) */
+        .sxf-hero .sxf-shot {
+          overflow: hidden;
+        }
+        .sxf-hero .sxf-shot img {
+          transform-origin: 0 0;
+          animation: sxfHeroZoom 1.4s cubic-bezier(0.22, 1, 0.36, 1) 0.5s both;
+        }
+        @keyframes sxfHeroZoom {
+          from {
+            transform: none;
+          }
+          to {
+            transform: translate(0%, -100%) scale(2);
+          }
+        }
         .sxf-hero .p1 {
           top: -16px;
           right: 4%;

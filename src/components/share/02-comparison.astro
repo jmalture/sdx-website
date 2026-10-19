@@ -1,6 +1,6 @@
 ---
 /**
- * Section "comparison": Ein Link statt zehn Anhängen.
+ * Section "comparison": Ein Link statt zehn Anhänge.
  * Texts: src/i18n/share.json, keys starting with "comparison_" (one entry per language).
  * Layout and styles of this section are in this file; legacy Elementor classes come from
  * src/styles/legacy*.css and should be left as they are.
@@ -396,6 +396,48 @@ const t = dict(data, lang);
           height: 46px;
           margin: -23px 0 0 -23px;
         }
+        /* compact mail on phones: smaller meta line, attachments and flags (box height set by script) */
+        .sxf-mail {
+          padding: 14px 14px;
+          font-size: 13px;
+          line-height: 1.5;
+        }
+        .sxf-mail .m-s {
+          font-size: 15px;
+        }
+        .sxf-mail .m-meta {
+          margin-bottom: 10px;
+          padding-bottom: 10px;
+          font-size: 11.5px;
+        }
+        .sxf-mail .m-b {
+          margin-bottom: 12px;
+        }
+        .sxf-att {
+          gap: 6px;
+          margin-bottom: 12px;
+        }
+        .sxf-att span {
+          padding: 5px 9px;
+          font-size: 12px;
+          gap: 5px;
+        }
+        .sxf-flags {
+          gap: 6px;
+        }
+        .sxf-flags span {
+          padding: 4px 9px 4px 5px;
+          font-size: 11.5px;
+          gap: 5px;
+        }
+        .sxf-flags span b {
+          width: 16px;
+          height: 16px;
+        }
+        .sxf-card {
+          gap: 10px;
+          padding: 10px;
+        }
       }
     </style>
     <section class="sxf sxf-cmp" id="vergleich" aria-labelledby="sxf-h-cmp">
@@ -617,6 +659,40 @@ const t = dict(data, lang);
         <p class="sxf-cmp-hint" data-rv>{t.comparison_drag_the_slider_to}</p>
       </div>
     </section>
+    <script is:inline>
+      /* phones: the comparison box is as tall as its taller mail (instead of a fixed 620px) */
+      (function () {
+        function fit(box) {
+          box.style.height = '';
+          if (!window.matchMedia('(max-width: 767px)').matches) return;
+          var h = 0;
+          [].forEach.call(box.querySelectorAll('.sxf-cmp-pane'), function (p) {
+            var m = p.querySelector('.sxf-mst'),
+              cs = getComputedStyle(p);
+            if (m) h = Math.max(h, m.offsetHeight + parseFloat(cs.paddingTop) + parseFloat(cs.paddingBottom));
+          });
+          if (h) box.style.height = Math.ceil(h) + 'px';
+        }
+        function go() {
+          [].forEach.call(document.querySelectorAll('.sxf-cmpbox'), function (b) {
+            fit(b);
+            var w = window.innerWidth;
+            window.addEventListener('resize', function () {
+              if (window.innerWidth !== w) {
+                w = window.innerWidth;
+                fit(b);
+              }
+            });
+            if (document.fonts && document.fonts.ready)
+              document.fonts.ready.then(function () {
+                fit(b);
+              });
+          });
+        }
+        if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', go);
+        else go();
+      })();
+    </script>
     <script
       define:vars={{
         T: {

@@ -126,6 +126,9 @@ const t = dict(data, lang);
         margin: 0;
         padding: 8px 22px;
       }
+      .sxa-det dl .r {
+        display: contents;
+      }
       .sxa-det dt,
       .sxa-det dd {
         margin: 0;
@@ -246,6 +249,88 @@ const t = dict(data, lang);
         .sxa-det .f1 {
           left: -8px;
           --s: 40px;
+        }
+        /* ---- phones: entries as compact chips (avatar + action), details as small tiles ---- */
+        .sxa-det .grid {
+          gap: 16px;
+        }
+        .sxa-det .lst {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          gap: 8px;
+        }
+        .sxf.sxa-det .en {
+          gap: 8px;
+          padding: 8px 10px;
+          border-radius: 13px;
+        }
+        .sxa-det .en:hover {
+          transform: none;
+        }
+        .sxa-det .en .sxa-av {
+          width: 26px;
+          height: 26px;
+          font-size: 10px;
+        }
+        .sxa-det .en .t b {
+          display: none;
+        }
+        .sxa-det .en .t small {
+          margin-top: 0;
+          font-size: 0; /* hides "16:42 · m.weber", keeps the action pill */
+        }
+        .sxa-det .en .t small .sxa-act {
+          max-width: 100%;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          font-size: 11.5px;
+        }
+        .sxa-det .ch {
+          padding: 12px 14px;
+        }
+        .sxa-det dl {
+          display: grid;
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          gap: 6px;
+          padding: 12px 12px 6px;
+        }
+        .sxa-det dl .r {
+          display: block;
+          min-width: 0;
+          padding: 7px 10px;
+          border-radius: 10px;
+          background: #f6f8fb;
+        }
+        .sxa-det dl .r-su {
+          grid-column: 1 / -1;
+        }
+        .sxa-det dl .r dt,
+        .sxa-det dl .r dd {
+          padding: 0;
+          border: 0;
+        }
+        .sxa-det dl .r dt {
+          font-size: 10.5px;
+          letter-spacing: 0.04em;
+          text-transform: uppercase;
+        }
+        .sxa-det dl .r dd {
+          font-size: 13px;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+        .sxa-det dl .r-su dd {
+          white-space: normal;
+        }
+        .sxa-det .js {
+          margin: 6px 12px 12px;
+        }
+        .sxa-det pre {
+          max-height: 150px;
+          overflow: auto;
+          padding: 10px 12px 12px;
+          font-size: 11.5px;
         }
       }
     </style>
@@ -420,24 +505,19 @@ const t = dict(data, lang);
           });
           function fill(i) {
             var x = E[i];
+            // each label/value pair sits in a .r wrapper: invisible on desktop (display: contents),
+            // a small tile on phones so several details fit on one line
+            function r(cls, k, v) {
+              return '<div class="r ' + cls + '"><dt>' + k + '</dt><dd>' + v + '</dd></div>';
+            }
             dl.innerHTML =
-              '<dt>Created</dt><dd>' +
-              x.t +
-              '</dd><dt>Action</dt><dd><span class="sxa-act" style="--c:' +
-              x.a[1] +
-              '">' +
-              x.a[0] +
-              '</span></dd><dt>User</dt><dd>' +
-              x.u +
-              '</dd><dt>Summary</dt><dd>' +
-              esc(x.s) +
-              '</dd><dt>Entity ID</dt><dd><code>' +
-              x.e +
-              '</code></dd><dt>ID</dt><dd><code>' +
-              x.id +
-              '</code></dd><dt>Changed</dt><dd>' +
-              x.ch +
-              '</dd>';
+              r('r-cr', 'Created', x.t) +
+              r('r-ac', 'Action', '<span class="sxa-act" style="--c:' + x.a[1] + '">' + x.a[0] + '</span>') +
+              r('r-us', 'User', x.u) +
+              r('r-su', 'Summary', esc(x.s)) +
+              r('r-en', 'Entity ID', '<code>' + x.e + '</code>') +
+              r('r-id', 'ID', '<code>' + x.id + '</code>') +
+              r('r-ch', 'Changed', x.ch);
             pre.innerHTML = hl(x.j);
           }
           function show(i) {

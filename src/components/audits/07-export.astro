@@ -388,6 +388,77 @@ const t = dict(data, lang);
           right: -8px;
           --s: 40px;
         }
+        /* ---- phones: compact points and dialog (3-column fields, shorter preview) ---- */
+        .sxa-exp .pts {
+          gap: 8px;
+          margin-top: 20px;
+        }
+        .sxa-exp .pts li {
+          gap: 10px;
+          font-size: 14px;
+          line-height: 1.45;
+        }
+        .sxa-exp .pts li b {
+          width: 20px;
+          height: 20px;
+        }
+        .sxa-exp .pts li b svg {
+          width: 12px;
+          height: 12px;
+        }
+        .sxa-exp .dh {
+          padding: 12px 14px;
+        }
+        .sxa-exp .fs {
+          padding: 10px 12px 8px;
+        }
+        .sxa-exp .lb {
+          margin-bottom: 4px;
+          font-size: 10.5px;
+        }
+        .sxa-exp .fs .cks {
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+        .sxf.sxa-exp .ck {
+          gap: 6px;
+          padding: 5px 2px;
+          font-size: 12.5px;
+        }
+        .sxa-exp .ck i {
+          width: 16px;
+          height: 16px;
+          flex: none;
+        }
+        .sxa-exp .lk {
+          margin-top: 2px;
+        }
+        .sxf.sxa-exp .lk button {
+          font-size: 12.5px;
+        }
+        .sxa-exp .pv {
+          padding: 10px 12px 14px;
+        }
+        .sxf.sxa-exp .seg button {
+          padding: 6px 4px;
+          font-size: 12.5px;
+        }
+        .sxa-exp .file {
+          margin: 10px 0 6px;
+          font-size: 12px;
+        }
+        .sxa-exp .out {
+          height: 112px;
+        }
+        .sxa-exp .out pre {
+          padding: 10px 12px;
+          font-size: 11px;
+        }
+        .sxa-exp .ft {
+          margin-top: 10px;
+        }
+        .sxa-exp .ft small {
+          font-size: 11.5px;
+        }
       }
     </style>
     <section class="sxf sxa-exp" id="export" aria-labelledby="sxa-h-exp">

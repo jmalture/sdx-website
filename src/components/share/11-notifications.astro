@@ -363,6 +363,27 @@ const t = dict(data, lang);
         .sxf-ntf .f2 {
           display: none;
         }
+        /* phones: the three points go under the phone as a swipe row (site.css .sxf-ntf .pts) */
+        .sxf-ntf .sxf-grid {
+          gap: 0;
+        }
+        .sxf-ntf .sxf-text {
+          display: contents;
+        }
+        .sxf-ntf .sxf-vis {
+          order: 1;
+          margin-top: 40px;
+        }
+        .sxf-ntf .pts {
+          order: 2;
+          margin-top: 36px;
+          text-align: left;
+        }
+        .sxf-ntf .sxf-text + .sxf-vis ~ .sx-dots,
+        .sxf-ntf .sx-dots {
+          order: 3;
+          color: #2a73ff;
+        }
       }
     </style>
     <section class="sxf sxf-ntf" id="benachrichtigungen" aria-labelledby="sxf-h-ntf">

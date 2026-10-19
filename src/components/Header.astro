@@ -9,6 +9,8 @@ import data from '../i18n/chrome.json';
 const { lang, alternates } = Astro.props as { lang: Lang; alternates: Partial<Record<Lang, string>> };
 const t = dict(data, lang);
 const langs = LANGS.filter((l) => alternates[l.code]);
+/** Language select in the header. Off until the EN/CZ texts are final; the language URLs still work. */
+const SHOW_LANG_SWITCH = false;
 ---
 
 <header class="elementor elementor-213 elementor-location-header sx-header">
@@ -491,26 +493,29 @@ const langs = LANGS.filter((l) => alternates[l.code]);
             })();
           </script>
         </div>
-        <div
-          class="elementor-element elementor-element-5a825a28 elementor-widget elementor-widget-wp-widget-polylang"
-          data-id="5a825a28"
-        >
-          <div class="elementor-widget-container">
-            <label class="screen-reader-text" for="sx-lang">{t.h_lang_label}</label><select
-              id="sx-lang"
-              class="pll-switcher-select"
-              data-lang-switch
+        {
+          SHOW_LANG_SWITCH && (
+            <div
+              class="elementor-element elementor-element-5a825a28 elementor-widget elementor-widget-wp-widget-polylang"
+              data-id="5a825a28"
             >
-              {
-                langs.map((l) => (
-                  <option value={alternates[l.code]} lang={l.locale} selected={l.code === lang}>
-                    {l.name}
-                  </option>
-                ))
-              }
-            </select>
-          </div>
-        </div>
+              <div class="elementor-widget-container">
+                <>
+                  <label class="screen-reader-text" for="sx-lang">
+                    {t.h_lang_label}
+                  </label>
+                  <select id="sx-lang" class="pll-switcher-select" data-lang-switch>
+                    {langs.map((l) => (
+                      <option value={alternates[l.code]} lang={l.locale} selected={l.code === lang}>
+                        {l.name}
+                      </option>
+                    ))}
+                  </select>
+                </>
+              </div>
+            </div>
+          )
+        }
         <div
           class="elementor-element elementor-element-25016d1b elementor-align-right sdx-cta elementor-widget elementor-widget-button"
           data-id="25016d1b"
@@ -521,13 +526,376 @@ const langs = LANGS.filter((l) => alternates[l.code]);
             </span>
           </a>
         </div>
-        <div
-          class="elementor-element elementor-element-7f81335 sdx-burger-wrap elementor-hidden-desktop elementor-hidden-tablet elementor-hidden-mobile elementor-widget elementor-widget-html"
-          data-id="7f81335"
-        >
-          <button class="sdx-burger" aria-label={t.h_burger} aria-expanded="false"><span></span><span></span></button>
+        <div class="sx-burger-wrap">
+          <button
+            type="button"
+            class="sx-burger"
+            aria-label={t.h_burger}
+            data-label-open={t.h_burger}
+            data-label-close={t.h_menu_close}
+            aria-expanded="false"
+            aria-controls="sx-mnav"
+          >
+            <span></span><span></span><span></span>
+          </button>
         </div>
       </div>
     </div>
   </div>
 </header>
+<!-- Phones: side menu opened by the burger button (site.ts initMobileMenu). Desktop uses the mega menu. -->
+<!-- hidden until its CSS applies (prevents a flash of the unstyled menu while styles load) -->
+<div class="sx-side" id="sx-mnav" hidden inert>
+  <div class="sx-side-bg" data-close></div>
+  <nav class="sx-side-panel" aria-label={t.h_burger}>
+    <div class="sx-side-top">
+      <a href={t.h_home_href} class="sx-side-logo" aria-label="SDX"
+        ><svg height="26" width="83" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 89 28" aria-hidden="true">
+          <path
+            d="M 27.297 4.814 L 27.297 16.216 C 27.297 18.889 25.187 21.055 22.584 21.055 L 22.152 21.055 L 22.152 9.054 C 22.152 6.958 20.489 5.252 18.445 5.252 L 6.765 5.252 L 6.765 4.814 C 6.765 2.31 8.618 0.25 10.992 0 L 23.07 0 C 25.445 0.25 27.297 2.31 27.297 4.814 Z"
+            fill="rgb(62,203,251)"></path>
+          <path
+            d="M 0 23.186 L 0 11.784 C 0 9.111 2.11 6.945 4.713 6.945 L 5.145 6.945 L 5.145 18.946 C 5.145 21.042 6.808 22.748 8.852 22.748 L 20.531 22.748 L 20.531 23.186 C 20.531 25.69 18.678 27.75 16.303 28 L 4.227 28 C 1.853 27.75 0 25.69 0 23.186 Z"
+            fill="rgb(41,115,255)"></path>
+          <path
+            d="M 20.535 9.055 L 20.535 21.055 L 8.844 21.055 C 7.691 21.053 6.756 20.094 6.753 18.91 L 6.753 6.911 L 18.444 6.911 C 18.89 6.911 19.305 7.055 19.644 7.302 C 19.665 7.318 19.686 7.333 19.708 7.349 C 20.229 7.753 20.536 8.386 20.535 9.056 Z"
+            fill="rgb(86,253,185)"></path>
+          <path
+            d="M 39.717 24.919 C 38.664 24.919 37.68 24.784 36.768 24.521 C 35.856 24.257 35.04 23.886 34.325 23.404 C 33.61 22.926 33.018 22.391 32.552 21.798 C 32.087 21.21 31.781 20.586 31.644 19.932 L 35.636 18.709 C 35.893 19.401 36.351 19.998 37.006 20.499 C 37.662 20.999 38.485 21.259 39.479 21.278 C 40.533 21.297 41.39 21.064 42.056 20.575 C 42.723 20.085 43.054 19.454 43.054 18.678 C 43.054 18.005 42.79 17.439 42.265 16.981 C 41.74 16.522 41.017 16.17 40.105 15.925 L 37.394 15.191 C 36.381 14.927 35.487 14.526 34.712 13.983 C 33.938 13.444 33.331 12.775 32.895 11.979 C 32.459 11.184 32.24 10.259 32.24 9.2 C 32.24 7.181 32.891 5.609 34.191 4.477 C 35.491 3.346 37.334 2.78 39.717 2.78 C 41.047 2.78 42.216 2.979 43.218 3.376 C 44.22 3.774 45.061 4.34 45.735 5.074 C 46.41 5.808 46.927 6.672 47.285 7.67 L 43.322 8.924 C 43.084 8.232 42.648 7.64 42.011 7.15 C 41.375 6.661 40.57 6.416 39.598 6.416 C 38.626 6.416 37.826 6.649 37.26 7.12 C 36.693 7.59 36.411 8.251 36.411 9.108 C 36.411 9.781 36.634 10.308 37.081 10.699 C 37.528 11.085 38.139 11.383 38.913 11.586 L 41.654 12.289 C 43.442 12.737 44.83 13.543 45.825 14.702 C 46.819 15.864 47.315 17.157 47.315 18.583 C 47.315 19.845 47.016 20.95 46.421 21.898 C 45.825 22.846 44.961 23.584 43.829 24.116 C 42.697 24.643 41.326 24.911 39.717 24.911 Z M 50.854 24.55 L 50.854 3.157 L 54.935 3.157 L 54.935 24.55 Z M 53.211 7.068 L 53.211 3.157 L 57.531 3.157 L 57.531 7.068 Z M 53.211 24.55 L 53.211 20.638 L 57.531 20.638 L 57.531 24.55 L 53.211 24.55 Z M 57.531 24.55 L 57.531 20.638 C 58.484 20.638 59.367 20.466 60.182 20.118 C 60.998 19.77 61.706 19.292 62.312 18.68 C 62.92 18.069 63.389 17.35 63.728 16.524 C 64.066 15.698 64.234 14.807 64.234 13.851 C 64.234 12.895 64.066 12.001 63.728 11.178 C 63.389 10.352 62.92 9.634 62.312 9.022 C 61.706 8.41 60.998 7.932 60.182 7.584 C 59.367 7.236 58.484 7.064 57.531 7.064 L 57.531 3.153 C 59.657 3.153 61.538 3.612 63.176 4.53 C 64.815 5.447 66.096 6.705 67.02 8.303 C 67.943 9.902 68.405 11.752 68.405 13.852 C 68.405 15.95 67.94 17.775 67.005 19.384 C 66.07 20.994 64.789 22.256 63.161 23.173 C 61.53 24.091 59.654 24.55 57.531 24.55 Z M 69.363 24.55 L 77.441 12.846 L 83.999 3.157 L 88.855 3.157 L 80.956 14.284 L 74.279 24.554 L 69.363 24.554 L 69.363 24.55 Z M 84.084 24.55 L 77.407 14.28 L 69.509 3.153 L 74.364 3.153 L 80.923 12.812 L 89 24.546 L 84.084 24.546 Z"
+            fill="currentColor"></path>
+        </svg></a
+      >
+      <button type="button" class="sx-side-x" data-close aria-label={t.h_menu_close}>
+        <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"></path></svg>
+      </button>
+    </div>
+    <ul class="sx-side-main">
+      <li style="--i:0"><a href={t.h_home_href}>{t.h_home}<i aria-hidden="true">→</i></a></li>
+      <li style="--i:1"><a href={t.h_features_href}>Features<i aria-hidden="true">→</i></a></li>
+    </ul>
+    <ul class="sx-side-cards">
+      <li style="--i:2">
+        <a href={t.h_share_href} style="--c:#2A73FF;--t:#EAF1FF">
+          <span class="ic" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="21" height="21"
+              ><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"></path><path
+                d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"></path></svg
+            >
+          </span>
+          <span class="tx"><strong>External Share</strong><small>{t.h_share_desc}</small></span>
+        </a>
+      </li>
+      <li style="--i:3">
+        <a href={t.h_audits_href} style="--c:#0F1B2D;--t:#EEF1F6">
+          <span class="ic" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="21" height="21"
+              ><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path><path
+                d="M14 3v6h6M8 13h8M8 17h5"></path></svg
+            >
+          </span>
+          <span class="tx"><strong>Audits <em>{t.h_new}</em></strong><small>{t.h_audits_desc}</small></span>
+        </a>
+      </li>
+    </ul>
+    <a class="sx-side-cta" href={t.h_cta_href} style="--i:4">{t.h_cta}</a>
+  </nav>
+</div>
+
+<style is:global>
+  /* The language select used to push the contact button to the right; without it, do that here. */
+  .sx-header .elementor-element.sdx-cta {
+    margin-left: auto;
+  }
+  /* ---- burger + mobile menu (phones only) ---- */
+  .sx-burger-wrap {
+    display: none;
+  }
+  @media (max-width: 767px) {
+    .sx-burger-wrap {
+      display: block;
+      margin-left: 4px;
+    }
+    .sx-header .sx-burger,
+    .sx-header .sx-burger:hover,
+    .sx-header .sx-burger:focus {
+      position: relative;
+      display: block;
+      width: 44px;
+      height: 44px;
+      padding: 0;
+      border: 1px solid #e3e8f1;
+      border-radius: 12px;
+      background: #fff !important;
+      color: #0f1b2d;
+      cursor: pointer;
+    }
+    .sx-burger span {
+      position: absolute;
+      left: 13px;
+      width: 18px;
+      height: 2px;
+      border-radius: 2px;
+      background: currentColor;
+      transition:
+        transform 0.25s ease,
+        opacity 0.2s ease;
+    }
+    .sx-burger span:nth-child(1) {
+      top: 15px;
+    }
+    .sx-burger span:nth-child(2) {
+      top: 21px;
+    }
+    .sx-burger span:nth-child(3) {
+      top: 27px;
+    }
+    .sx-burger[aria-expanded='true'] span:nth-child(1) {
+      transform: translateY(6px) rotate(45deg);
+    }
+    .sx-burger[aria-expanded='true'] span:nth-child(2) {
+      opacity: 0;
+    }
+    .sx-burger[aria-expanded='true'] span:nth-child(3) {
+      transform: translateY(-6px) rotate(-45deg);
+    }
+  }
+  /* ---- side menu (phones) ---- */
+  .sx-side {
+    display: none;
+  }
+  @media (max-width: 767px) {
+    .sx-side,
+    .sx-side[hidden] {
+      display: block;
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      pointer-events: none;
+    }
+    .sx-side.is-open {
+      pointer-events: auto;
+    }
+    .sx-side-bg {
+      position: absolute;
+      inset: 0;
+      background: rgba(10, 20, 40, 0.42);
+      -webkit-backdrop-filter: blur(4px);
+      backdrop-filter: blur(4px);
+      opacity: 0;
+      transition: opacity 0.35s ease;
+    }
+    .sx-side.is-open .sx-side-bg {
+      opacity: 1;
+    }
+    .sx-side-panel {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      bottom: 8px;
+      width: min(340px, calc(100vw - 48px));
+      display: flex;
+      flex-direction: column;
+      padding: 16px 18px 20px;
+      border-radius: 24px;
+      background: #fff;
+      box-shadow:
+        0 30px 60px -20px rgba(10, 20, 40, 0.45),
+        0 0 0 1px rgba(15, 27, 45, 0.04);
+      overflow-y: auto;
+      transform: translateX(calc(100% + 24px)) scale(0.96);
+      transform-origin: 100% 50%;
+      transition: transform 0.45s cubic-bezier(0.32, 0.72, 0, 1);
+    }
+    .sx-side.is-open .sx-side-panel {
+      transform: none;
+      transition: transform 0.55s cubic-bezier(0.34, 1.3, 0.5, 1);
+    }
+    .sx-side-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+    }
+    .sx-side-logo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font:
+        800 21px/1 Inter,
+        sans-serif;
+      letter-spacing: -0.02em;
+      color: #0f1b2d;
+      text-decoration: none;
+    }
+    .sx-side-logo svg {
+      display: block;
+      height: 26px;
+      width: auto;
+    }
+    .sx-side .sx-side-x,
+    .sx-side .sx-side-x:hover,
+    .sx-side .sx-side-x:focus {
+      display: grid;
+      place-items: center;
+      width: 40px;
+      height: 40px;
+      padding: 0;
+      border: 0;
+      border-radius: 12px;
+      background: #f1f4f9;
+      color: #0f1b2d;
+      cursor: pointer;
+    }
+    .sx-side-x svg {
+      width: 18px;
+      height: 18px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2.2;
+      stroke-linecap: round;
+      transition: transform 0.4s ease;
+    }
+    .sx-side.is-open .sx-side-x svg {
+      transform: rotate(90deg);
+    }
+    .sx-side ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    /* items rise in one after another */
+    .sx-side li,
+    .sx-side-cta {
+      opacity: 0;
+      transform: translateX(26px);
+      transition:
+        opacity 0.2s ease,
+        transform 0.2s ease;
+    }
+    .sx-side.is-open li,
+    .sx-side.is-open .sx-side-cta {
+      opacity: 1;
+      transform: none;
+      transition:
+        opacity 0.45s ease calc(0.12s + var(--i) * 0.06s),
+        transform 0.6s cubic-bezier(0.34, 1.4, 0.5, 1) calc(0.12s + var(--i) * 0.06s);
+    }
+    .sx-side-main a {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 4px;
+      border-bottom: 1px solid #eef1f6;
+      font:
+        700 22px/1.2 Inter,
+        sans-serif;
+      letter-spacing: -0.01em;
+      color: #0f1b2d;
+      text-decoration: none;
+    }
+    .sx-side-main a i {
+      font-style: normal;
+      font-size: 18px;
+      color: #2a73ff;
+      transition: transform 0.25s ease;
+    }
+    .sx-side-main a:active i {
+      transform: translateX(4px);
+    }
+    .sx-side-cards {
+      display: grid;
+      gap: 10px;
+      margin-top: 18px !important;
+    }
+    .sx-side-cards a {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      padding: 14px;
+      border-radius: 18px;
+      background: var(--t);
+      color: #0f1b2d;
+      text-decoration: none;
+      transition: transform 0.2s ease;
+    }
+    .sx-side-cards a:active {
+      transform: scale(0.98);
+    }
+    .sx-side-cards .ic {
+      flex: none;
+      display: grid;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      border-radius: 13px;
+      background: var(--c);
+      color: #fff;
+      box-shadow: 0 10px 18px -8px var(--c);
+    }
+    .sx-side-cards .ic svg {
+      width: 21px;
+      height: 21px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    .sx-side-cards strong {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 16px;
+    }
+    .sx-side-cards em {
+      padding: 2px 7px;
+      border-radius: 999px;
+      background: #ffbb00;
+      color: #0f1b2d;
+      font-style: normal;
+      font-size: 10.5px;
+      font-weight: 700;
+    }
+    .sx-side-cards small {
+      display: block;
+      margin-top: 3px;
+      font-size: 13px;
+      line-height: 1.45;
+      color: #5b6475;
+    }
+    .sx-side a.sx-side-cta {
+      margin-top: auto;
+      padding: 15px;
+      border-radius: 999px;
+      background: #2a73ff;
+      box-shadow: 0 14px 26px -12px rgba(42, 115, 255, 0.7);
+      color: #fff;
+      font:
+        700 16px/1.2 Inter,
+        sans-serif;
+      text-align: center;
+      text-decoration: none;
+    }
+    .sx-side-cards + .sx-side-cta {
+      margin-top: auto;
+    }
+    html.sx-side-lock,
+    html.sx-side-lock body {
+      overflow: hidden;
+    }
+  }
+  /* no animation until the script is ready: otherwise a page that loads its CSS late (dev server)
+     or is restored from cache shows the panel flying out again on the new page */
+  .sx-side:not(.is-ready),
+  .sx-side:not(.is-ready) * {
+    transition: none !important;
+  }
+  @media (max-width: 767px) and (prefers-reduced-motion: reduce) {
+    .sx-side-panel,
+    .sx-side li,
+    .sx-side-cta {
+      transition: opacity 0.2s ease !important;
+      transform: none !important;
+    }
+  }
+</style>
