@@ -8,9 +8,11 @@ import { dict, LANGS, type Lang } from '../i18n';
 import data from '../i18n/chrome.json';
 const { lang, alternates } = Astro.props as { lang: Lang; alternates: Partial<Record<Lang, string>> };
 const t = dict(data, lang);
-const langs = LANGS.filter((l) => alternates[l.code]);
-/** Language select in the header. Off until the EN/CZ texts are final; the language URLs still work. */
-const SHOW_LANG_SWITCH = false;
+/** Language select in the header. Off hides it; the language URLs keep working either way. */
+const SHOW_LANG_SWITCH = true;
+/** Languages offered in the select. CS pages exist but their texts are not final, so add 'cs' here once they are. */
+const SWITCH_LANGS: readonly string[] = ['de', 'en'];
+const langs = LANGS.filter((l) => alternates[l.code] && SWITCH_LANGS.includes(l.code));
 ---
 
 <header class="elementor elementor-213 elementor-location-header sx-header">
@@ -597,7 +599,25 @@ const SHOW_LANG_SWITCH = false;
         </a>
       </li>
     </ul>
-    <a class="sx-side-cta" href={t.h_cta_href} style="--i:4">{t.h_cta}</a>
+    {
+      SHOW_LANG_SWITCH && langs.length > 1 && (
+        <ul class="sx-side-lang" aria-label={t.h_lang_label}>
+          {langs.map((l, i) => (
+            <li style={`--i:${4 + i}`}>
+              <a
+                href={alternates[l.code]}
+                lang={l.locale}
+                hreflang={l.locale.slice(0, 2)}
+                aria-current={l.code === lang ? 'true' : undefined}
+              >
+                {l.name}
+              </a>
+            </li>
+          ))}
+        </ul>
+      )
+    }
+    <a class="sx-side-cta" href={t.h_cta_href} style="--i:6">{t.h_cta}</a>
   </nav>
 </div>
 
@@ -606,11 +626,25 @@ const SHOW_LANG_SWITCH = false;
   .sx-header .elementor-element.sdx-cta {
     margin-left: auto;
   }
+  /* With the language select shown, it takes the auto margin so select + button sit together on the right. */
+  .sx-header .elementor-element-5a825a28 {
+    margin-left: auto;
+  }
+  .sx-header .elementor-element-5a825a28 ~ .sdx-cta {
+    margin-left: 0;
+  }
   /* ---- burger + mobile menu (phones only) ---- */
   .sx-burger-wrap {
     display: none;
   }
   @media (max-width: 767px) {
+    /* phones: language links are in the side menu, the header select would squeeze the contact button */
+    .sx-header .elementor-element-5a825a28 {
+      display: none;
+    }
+    .sx-header .elementor-element-5a825a28 ~ .sdx-cta {
+      margin-left: auto;
+    }
     .sx-burger-wrap {
       display: block;
       margin-left: 4px;
@@ -878,6 +912,28 @@ const SHOW_LANG_SWITCH = false;
     }
     .sx-side-cards + .sx-side-cta {
       margin-top: auto;
+    }
+    /* language choice lives in the side menu on phones (the header has no room for the select) */
+    .sx-side .sx-side-lang {
+      display: flex;
+      gap: 8px;
+      margin: 22px 0 18px;
+    }
+    .sx-side-lang a {
+      display: block;
+      padding: 9px 16px;
+      border: 1px solid #dfe5ee;
+      border-radius: 999px;
+      color: #0f1b2d;
+      font:
+        600 14px/1.2 Inter,
+        sans-serif;
+      text-decoration: none;
+    }
+    .sx-side-lang a[aria-current='true'] {
+      border-color: #2a73ff;
+      background: #eaf1ff;
+      color: #2a73ff;
     }
     html.sx-side-lock,
     html.sx-side-lock body {
