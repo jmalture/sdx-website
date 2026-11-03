@@ -1,0 +1,24 @@
+---
+/** All sections of the ZIP Upload page, in order. To reorder or remove a section, edit the list below. */
+import type { Lang } from '../../i18n';
+import Base from './00-base.astro';
+import Hero from './01-hero.astro';
+import Steps from './02-steps.astro';
+import Additive from './03-additive.astro';
+import Benefits from './04-benefits.astro';
+import Functions from './05-functions.astro';
+import UseCases from './06-use-cases.astro';
+import Faq from './07-faq.astro';
+import Cta from './08-cta.astro';
+const { lang } = Astro.props as { lang: Lang };
+---
+
+<Base />
+<Hero lang={lang} />
+<Steps lang={lang} />
+<Additive lang={lang} />
+<Benefits lang={lang} />
+<Functions lang={lang} />
+<UseCases lang={lang} />
+<Faq lang={lang} />
+<Cta lang={lang} />

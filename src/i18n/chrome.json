@@ -46,7 +46,11 @@
     "footer_privacy": "Datenschutz",
     "h_home": "Startseite",
     "h_home_href": "/",
-    "h_menu_close": "Menü schließen"
+    "h_menu_close": "Menü schließen",
+    "h_zip_href": "/zip-upload/",
+    "h_zip_desc": "Viele Dateien in einem Schritt importieren, mit Vorschau.",
+    "footer_link_zip_upload": "/zip-upload/",
+    "footer_zip_upload": "ZIP Upload"
   },
   "en": {
     "h_menu_open": "Open features menu",
@@ -95,7 +99,11 @@
     "footer_privacy": "Privacy Policy",
     "h_home": "Home",
     "h_home_href": "/en/",
-    "h_menu_close": "Close menu"
+    "h_menu_close": "Close menu",
+    "h_zip_href": "/en/zip-upload/",
+    "h_zip_desc": "Import many files in one step, with a preview.",
+    "footer_link_zip_upload": "/en/zip-upload/",
+    "footer_zip_upload": "ZIP Upload"
   },
   "cs": {
     "h_menu_open": "Otevřít menu funkcí",
@@ -144,6 +152,10 @@
     "footer_privacy": "Ochrana osobních údajů",
     "h_home": "Úvod",
     "h_home_href": "/cs/",
-    "h_menu_close": "Zavřít menu"
+    "h_menu_close": "Zavřít menu",
+    "h_zip_href": "/zip-upload/",
+    "h_zip_desc": "Importujte mnoho souborů najednou, s náhledem.",
+    "footer_link_zip_upload": "/zip-upload/",
+    "footer_zip_upload": "ZIP Upload"
   }
 }

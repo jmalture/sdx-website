@@ -1,0 +1,83 @@
+---
+/**
+ * Section "uc": Überall, wo Pakete ankommen. (7 use cases of the feature document)
+ * Texts: src/i18n/zip.json, keys starting with "uc_".
+ */
+import { dict, type Lang } from '../../i18n';
+import data from '../../i18n/zip.json';
+const { lang } = Astro.props as { lang: Lang };
+const t = dict(data, lang);
+const ids = [1, 2, 3, 4, 5, 6, 7];
+---
+
+<style is:global>
+  .szu-uc .szu-ugrid {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 20px;
+    margin: 0;
+    padding: 0;
+  }
+  .szu-uc .szu-ugrid li {
+    margin: 0;
+  }
+  .szu-uc .szu-card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 26px 26px 28px;
+  }
+  .szu-uc .szu-area {
+    align-self: flex-start;
+    padding: 4px 12px;
+    border-radius: 999px;
+    background: #eaf1ff;
+    font-size: 12.5px;
+    line-height: 1.4;
+    font-weight: 650;
+    color: #1f55c4;
+  }
+  .szu-uc .szu-card h3 {
+    margin-top: 16px;
+    font-size: 19px;
+  }
+  .szu-uc .szu-card p {
+    font-size: 15.5px;
+  }
+  .szu-uc .szu-ugrid li:last-child {
+    grid-column: span 1;
+  }
+  @media (max-width: 1024px) {
+    .szu-uc .szu-ugrid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  @media (max-width: 640px) {
+    .szu-uc .szu-ugrid {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+</style>
+<section class="sxf szu-sec is-tint szu-uc" id="use-cases" aria-labelledby="szu-h-uc">
+  <div class="sxf-wrap">
+    <div class="sxf-head" data-rv>
+      <p class="sxf-eyebrow">{t.uc_eyebrow}</p>
+      <h2 class="sxf-h" id="szu-h-uc">{t.uc_title}</h2>
+      <p class="sxf-lead">{t.uc_lead}</p>
+    </div>
+    <ul class="szu-ugrid">
+      {
+        ids.map((n) => (
+          <li data-rv style={`--dl:${((n - 1) % 3) * 0.1}s`}>
+            <article class="szu-card">
+              <span class="szu-area">{t[`uc_${n}_area`]}</span>
+              <h3>{t[`uc_${n}_title`]}</h3>
+              <p>{t[`uc_${n}_text`]}</p>
+            </article>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>

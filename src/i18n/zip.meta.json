@@ -1,0 +1,10 @@
+{
+  "de": {
+    "title": "ZIP Upload: viele Dateien in einem Schritt importieren | SDX",
+    "description": "ZIP-Dateien in SDX hochladen und direkt entpacken: mit Vorschau vor dem Import, Teilauswahl, übernommener Ordnerstruktur und Schutz vor ZIP-Bomben."
+  },
+  "en": {
+    "title": "ZIP Upload: import many files in one step | SDX",
+    "description": "Upload ZIP files to SDX and unpack them right away: with a preview before the import, partial selection, the folder structure kept and protection from ZIP bombs."
+  }
+}

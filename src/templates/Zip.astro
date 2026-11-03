@@ -1,0 +1,25 @@
+---
+/** ZIP Upload feature page. One template; texts in src/i18n/zip.json. */
+import '../styles/legacy-features.css'; // header/footer rules from the purged Elementor CSS (must load before site.css)
+import Base from '../layouts/Base.astro';
+import Sections from '../components/zip/index.astro';
+import meta from '../i18n/zip.meta.json';
+import type { Lang } from '../i18n';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const alternates = { de: '/zip-upload/', en: '/en/zip-upload/' };
+const m = (meta as Record<string, { title: string; description: string }>)[lang];
+---
+
+<Base
+  lang={lang}
+  title={m.title}
+  description={m.description}
+  alternates={alternates}
+  bodyClass="page elementor-template-full-width elementor-page"
+>
+  <Sections lang={lang} />
+</Base>

@@ -35,7 +35,17 @@
     "cta_which_features_fit_your": "Welche Features passen zu Ihnen?",
     "cta_in_a_short_demo": "Wir zeigen Ihnen in einer kurzen Demo, wie die Features in Ihrem Alltag zusammenspielen.",
     "cta_request_a_demo": "Demo anfragen",
-    "cta_back_to_home": "Zur Startseite"
+    "cta_back_to_home": "Zur Startseite",
+    "feature_list_link_zip_upload": "/zip-upload/",
+    "feature_list_import": "Import",
+    "feature_list_zip_text": "ZIP-Dateien hochladen und direkt entpacken: mit Vorschau vor dem Import, Teilauswahl und übernommener Ordnerstruktur.",
+    "feature_list_zip_chip_preview": "Vorschau",
+    "feature_list_zip_chip_partial": "Teilimport",
+    "feature_list_zip_chip_space": "Space-Import",
+    "feature_list_zip_f1": "Genehmigungen/",
+    "feature_list_zip_f2": "Gutachten/",
+    "feature_list_zip_f3": "Pläne/",
+    "feature_list_zip_f4": "Verträge/"
   },
   "en": {
     "hero_aria_label_breadcrumb": "Breadcrumb",
@@ -73,7 +83,17 @@
     "cta_which_features_fit_your": "Which features fit your needs?",
     "cta_in_a_short_demo": "In a short demo we show you how the features work together in your day-to-day work.",
     "cta_request_a_demo": "Request a demo",
-    "cta_back_to_home": "Back to home"
+    "cta_back_to_home": "Back to home",
+    "feature_list_link_zip_upload": "/en/zip-upload/",
+    "feature_list_import": "Import",
+    "feature_list_zip_text": "Upload ZIP files and unpack them right away: with a preview before the import, partial selection and the folder structure kept.",
+    "feature_list_zip_chip_preview": "Preview",
+    "feature_list_zip_chip_partial": "Partial import",
+    "feature_list_zip_chip_space": "Space import",
+    "feature_list_zip_f1": "Permits/",
+    "feature_list_zip_f2": "Reports/",
+    "feature_list_zip_f3": "Plans/",
+    "feature_list_zip_f4": "Contracts/"
   },
   "cs": {
     "hero_aria_label_breadcrumb": "Drobečková navigace",

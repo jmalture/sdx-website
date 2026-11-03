@@ -1,0 +1,404 @@
+---
+/**
+ * Section "hero": Viele Dateien. Ein Upload.
+ * Texts: src/i18n/zip.json, keys starting with "hero_" (one entry per language).
+ * The import dialog is an illustrative mock-up built in HTML/CSS (no real screenshot yet).
+ */
+import { dict, type Lang } from '../../i18n';
+import data from '../../i18n/zip.json';
+const { lang } = Astro.props as { lang: Lang };
+const t = dict(data, lang);
+const folders = [
+  { name: t.hero_dialog_folder_permits, n: 12, on: true },
+  { name: t.hero_dialog_folder_reports, n: 8, on: true },
+  { name: t.hero_dialog_folder_leases, n: 5, on: true },
+  { name: t.hero_dialog_folder_drafts, n: 21, on: false },
+];
+---
+
+<style is:global>
+  .szu-hero {
+    padding: 84px 32px 128px;
+    background: linear-gradient(180deg, #ffffff 0%, #eaf2fe 62%, #dcebfc 100%);
+  }
+  .szu-hero .sxf-wrap {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+    gap: 72px;
+    align-items: center;
+  }
+  .szu-hero .szu-crumb {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0 0 26px;
+    font-size: 13px;
+    font-weight: 500;
+    color: #5b6475;
+  }
+  .szu-hero .szu-crumb a,
+  .szu-hero .szu-crumb a:visited {
+    color: #5b6475;
+    text-decoration: none;
+  }
+  .szu-hero .szu-crumb a:hover {
+    color: #2a73ff;
+  }
+  .szu-hero .szu-crumb span[aria-current] {
+    color: #0f1b2d;
+  }
+  .szu-hero h1.szu-h1 {
+    margin: 0;
+    font-size: clamp(40px, 4.7vw, 62px);
+    line-height: 1.06;
+    font-weight: 700;
+    letter-spacing: -0.045em;
+    color: #000;
+  }
+  .szu-hero .sxf-lead {
+    max-width: 540px;
+    margin-top: 26px;
+  }
+  .szu-hero .szu-ctas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 36px;
+  }
+  .szu-hero .szu-trust {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 22px;
+    margin: 34px 0 0;
+    padding: 0;
+  }
+  .szu-hero .szu-trust li {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
+    font-size: 14px;
+    font-weight: 500;
+    color: #4a5568;
+  }
+  .szu-hero .szu-trust li b {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #1a9b4b;
+    color: #fff;
+  }
+  .szu-hero .szu-trust li b svg {
+    width: 12px;
+    height: 12px;
+    stroke-width: 3;
+  }
+  .szu-vis {
+    position: relative;
+    padding: 28px 0 28px 18px;
+  }
+  .szu-dialog {
+    position: relative;
+    z-index: 1;
+    border-radius: 20px;
+    background: #fff;
+    box-shadow:
+      0 44px 90px -24px rgba(18, 37, 92, 0.34),
+      0 0 0 1px rgba(18, 37, 92, 0.06);
+    overflow: hidden;
+  }
+  .szu-dialog-head {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 18px 22px;
+    border-bottom: 1px solid #edf1f7;
+  }
+  .szu-dialog-head .szu-zip {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    background: #eaf1ff;
+    color: #2a73ff;
+    flex: none;
+  }
+  .szu-dialog-head .szu-zip svg {
+    width: 20px;
+    height: 20px;
+  }
+  .szu-dialog-head strong {
+    display: block;
+    font-size: 15px;
+    line-height: 1.3;
+    color: #0f1b2d;
+  }
+  .szu-dialog-head small {
+    display: block;
+    font-size: 12.5px;
+    line-height: 1.4;
+    color: #5b6475;
+  }
+  .szu-dialog-label {
+    margin-left: auto;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: #f1f4f9;
+    font-size: 12px;
+    font-weight: 600;
+    color: #5b6475;
+    white-space: nowrap;
+  }
+  .szu-tree {
+    list-style: none;
+    margin: 0;
+    padding: 10px 22px 6px;
+  }
+  .szu-tree li {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 0;
+    padding: 11px 0;
+    border-bottom: 1px solid #f1f4f9;
+    font-size: 15px;
+    font-weight: 500;
+    color: #0f1b2d;
+  }
+  .szu-tree li:last-child {
+    border-bottom: 0;
+  }
+  .szu-tree .szu-chk {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    border-radius: 6px;
+    border: 1.5px solid #c3cde0;
+    color: #fff;
+    flex: none;
+  }
+  .szu-tree .is-on .szu-chk {
+    background: #2a73ff;
+    border-color: #2a73ff;
+  }
+  .szu-tree .szu-chk svg {
+    width: 12px;
+    height: 12px;
+    stroke-width: 3;
+  }
+  .szu-tree .szu-fold-ic {
+    width: 20px;
+    height: 20px;
+    color: #2a73ff;
+    flex: none;
+  }
+  .szu-tree .szu-cnt {
+    margin-left: auto;
+    font-size: 13px;
+    font-weight: 500;
+    color: #5b6475;
+  }
+  .szu-tree li:not(.is-on) .szu-fold-ic {
+    color: #9aa6bc;
+  }
+  .szu-tree li:not(.is-on) {
+    color: #5b6475;
+  }
+  .szu-dialog-foot {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    padding: 16px 22px 20px;
+    background: #f8fafd;
+    border-top: 1px solid #edf1f7;
+  }
+  .szu-dialog-foot .szu-opt {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13.5px;
+    font-weight: 500;
+    color: #4a5568;
+  }
+  .szu-dialog-foot .szu-opt i {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    border-radius: 5px;
+    background: #2a73ff;
+    color: #fff;
+  }
+  .szu-dialog-foot .szu-opt i svg {
+    width: 11px;
+    height: 11px;
+    stroke-width: 3;
+  }
+  .szu-dialog-foot .szu-go {
+    margin-left: auto;
+    padding: 10px 20px;
+    border-radius: 12px;
+    background: #2a73ff;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 600;
+  }
+  .szu-hero .p1 {
+    top: 0;
+    right: 8%;
+    --d: 6.4s;
+  }
+  .szu-hero .p2 {
+    right: 24px;
+    bottom: -8px;
+    --d: 5.4s;
+  }
+  .szu-hero .f1 {
+    left: -4px;
+    top: -6px;
+    --s: 44px;
+    --c: #ffbb00;
+    --r: -12deg;
+    --d: 6.8s;
+    z-index: 2;
+  }
+  @media (max-width: 1024px) {
+    .szu-hero {
+      padding: 56px 24px 96px;
+    }
+    .szu-hero .sxf-wrap {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 56px;
+    }
+  }
+  @media (max-width: 767px) {
+    .szu-hero {
+      padding: 40px 18px 80px;
+    }
+    .szu-vis {
+      padding: 36px 0 28px;
+    }
+    .szu-dialog-label {
+      display: none;
+    }
+    .szu-hero .p1 {
+      right: 4%;
+    }
+    .szu-hero .p2 {
+      right: 8px;
+      bottom: -6px;
+    }
+    .szu-hero .f1 {
+      left: -4px;
+      top: 2px;
+      --s: 36px;
+    }
+  }
+</style>
+<section class="sxf szu-hero" id="top" aria-labelledby="szu-h1">
+  <div class="sxf-wrap">
+    <div class="szu-copy" data-rv>
+      <nav class="szu-crumb" aria-label={t.hero_aria_label_breadcrumb}>
+        <a href={t.hero_link_home}>{t.hero_home}</a>
+        <span aria-hidden="true">/</span>
+        <a href={t.hero_link_features}>{t.hero_features}</a>
+        <span aria-hidden="true">/</span>
+        <span aria-current="page">ZIP Upload</span>
+      </nav>
+      <h1 class="szu-h1" id="szu-h1">{t.hero_many_files}<br /><span class="sxf-blue">{t.hero_one_upload}</span></h1>
+      <p class="sxf-lead">{t.hero_lead}</p>
+      <div class="szu-ctas">
+        <a class="sxf-btn sxf-btn-p" href={t.hero_link_kontakt}
+          >{t.hero_request_a_demo}
+          <svg class="i" viewbox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></a
+        ><a class="sxf-btn sxf-btn-s" href="#so-gehts">{t.hero_how_it_works}</a>
+      </div>
+      <ul class="szu-trust">
+        {
+          [t.hero_trust_preview, t.hero_trust_structure, t.hero_trust_zip_bombs].map((x) => (
+            <li>
+              <b>
+                <svg class="i" viewbox="0 0 24 24" aria-hidden="true">
+                  <path d="m5 12 5 5L20 7" />
+                </svg>
+              </b>
+              {x}
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+    <div class="szu-vis" data-rv style="--dl:.12s" role="img" aria-label={t.hero_dialog_label}>
+      <span class="sxf-fold f1" aria-hidden="true"></span>
+      <div class="szu-dialog" aria-hidden="true">
+        <div class="szu-dialog-head">
+          <span class="szu-zip"
+            ><svg class="i" viewbox="0 0 24 24"
+              ><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path><path
+                d="M14 3v6h6M10 11v1M10 14v1M10 17v1"></path></svg
+            ></span
+          >
+          <div>
+            <strong>{t.hero_dialog_title}: {t.hero_dialog_file}</strong>
+            <small>{t.hero_dialog_target}</small>
+          </div>
+          <span class="szu-dialog-label">{t.hero_dialog_selected}</span>
+        </div>
+        <ul class="szu-tree">
+          {
+            folders.map((f) => (
+              <li class={f.on ? 'is-on' : ''}>
+                <span class="szu-chk">
+                  {f.on && (
+                    <svg class="i" viewbox="0 0 24 24">
+                      <path d="m5 12 5 5L20 7" />
+                    </svg>
+                  )}
+                </span>
+                <svg class="i szu-fold-ic" viewbox="0 0 24 24">
+                  <path d="M3 6.5A2.5 2.5 0 0 1 5.5 4h4.1l2 2.2h6.9A2.5 2.5 0 0 1 21 8.7v8.8a2.5 2.5 0 0 1-2.5 2.5h-13A2.5 2.5 0 0 1 3 17.5z" />
+                </svg>
+                {f.name}
+                <span class="szu-cnt">
+                  {f.n} {t.hero_dialog_files}
+                </span>
+              </li>
+            ))
+          }
+        </ul>
+        <div class="szu-dialog-foot">
+          <span class="szu-opt"
+            ><i><svg class="i" viewbox="0 0 24 24"><path d="m5 12 5 5L20 7"></path></svg></i>{
+              t.hero_dialog_keep_empty
+            }</span
+          >
+          <span class="szu-go">{t.hero_dialog_import}</span>
+        </div>
+      </div>
+      <span class="sxf-pill p1" aria-hidden="true"
+        ><b style="background:#2A73FF"><svg class="i" viewbox="0 0 24 24"><path d="m5 12 5 5L20 7"></path></svg></b>{
+          t.hero_pill_partial
+        }</span
+      >
+      <span class="sxf-pill p2" aria-hidden="true"
+        ><b style="background:#1A9B4B"
+          ><svg class="i" viewbox="0 0 24 24"
+            ><path
+              d="M3 6.5A2.5 2.5 0 0 1 5.5 4h4.1l2 2.2h6.9A2.5 2.5 0 0 1 21 8.7v8.8a2.5 2.5 0 0 1-2.5 2.5h-13A2.5 2.5 0 0 1 3 17.5z"
+            ></path></svg
+          ></b
+        >{t.hero_pill_structure}</span
+      >
+    </div>
+  </div>
+</section>
