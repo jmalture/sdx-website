@@ -1,0 +1,454 @@
+---
+/**
+ * Section "views": Liste oder Kacheln, die Vorschau bleibt (toggle list / tile view, sidebar preview of the selected file).
+ * Texts: src/i18n/preview.json, keys starting with "views_" (and "mock_" for file names and sample contents).
+ * Both views are rendered at the same time and cross-fade in a fixed-height box, so nothing moves when switching.
+ */
+import { dict, type Lang } from '../../i18n';
+import data from '../../i18n/preview.json';
+import { KINDS, ft, pv, fileName, COLORS } from './mock';
+const { lang } = Astro.props as { lang: Lang };
+const t = dict(data, lang);
+---
+
+<style is:global>
+  .spv-views .sxf-wrap {
+    display: grid;
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.4fr);
+    gap: 64px;
+    align-items: center;
+  }
+  .spv-views .spv-copy .sxf-h {
+    font-size: clamp(30px, 3.4vw, 42px);
+  }
+  .spv-views .spv-pts {
+    list-style: none;
+    display: grid;
+    gap: 14px;
+    margin: 30px 0 0;
+    padding: 0;
+  }
+  .spv-views .spv-pts li {
+    display: flex;
+    gap: 12px;
+    margin: 0;
+    font-size: 16px;
+    line-height: 1.5;
+    color: #3d4555;
+  }
+  .spv-views .spv-pts li b {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    margin-top: 1px;
+    border-radius: 50%;
+    background: #1a9b4b;
+    color: #fff;
+    flex: none;
+  }
+  .spv-views .spv-pts li b svg {
+    width: 12px;
+    height: 12px;
+    stroke-width: 3;
+  }
+  .spv-views .spv-tool {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 10px 14px;
+    border-bottom: 1px solid #e6ecf5;
+  }
+  .spv-views .spv-tool .pth {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 13px;
+    font-weight: 600;
+    color: #3d4555;
+  }
+  .spv-views .spv-seg {
+    display: inline-flex;
+    padding: 3px;
+    border-radius: 12px;
+    background: #eef3fb;
+    flex: none;
+  }
+  .sxf .spv-seg-b {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    min-height: 36px;
+    padding: 6px 12px;
+    border-radius: 9px;
+    color: #5b6475;
+    font-family: Inter, sans-serif;
+    font-size: 13px;
+    line-height: 1.2;
+    font-weight: 600;
+    transition:
+      background-color 0.25s ease,
+      color 0.25s ease,
+      box-shadow 0.25s ease;
+  }
+  .spv-seg-b svg {
+    width: 16px;
+    height: 16px;
+  }
+  .sxf .spv-seg-b[aria-pressed='true'] {
+    background: #fff;
+    color: #1f55c4;
+    box-shadow: 0 2px 8px rgba(18, 37, 92, 0.14);
+  }
+  .spv-views .spv-vb {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 232px;
+    height: 372px;
+  }
+  .spv-views .spv-coll {
+    position: relative;
+    min-width: 0;
+    border-right: 1px solid #e6ecf5;
+    overflow: hidden;
+  }
+  .spv-views .spv-v {
+    position: absolute;
+    inset: 0;
+    list-style: none;
+    margin: 0;
+    padding: 10px;
+    opacity: 0;
+    visibility: hidden;
+    transition:
+      opacity 0.3s ease,
+      visibility 0s linear 0.3s;
+  }
+  .spv-views .spv-v.is-on {
+    opacity: 1;
+    visibility: visible;
+    transition-delay: 0s;
+  }
+  .spv-views .spv-v-list {
+    display: grid;
+    align-content: start;
+    gap: 2px;
+  }
+  .spv-views .spv-v-tiles {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-auto-rows: 1fr;
+    gap: 10px;
+  }
+  .spv-views .spv-v li {
+    margin: 0;
+    min-width: 0;
+  }
+  .sxf .spv-tile {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 6px;
+    width: 100%;
+    height: 100%;
+    padding: 12px;
+    border-radius: 14px;
+    border: 1px solid #e3eaf5;
+    background: #fafcff;
+    color: #0f1b2d;
+    font-family: Inter, sans-serif;
+    text-align: left;
+    transition:
+      background-color 0.25s ease,
+      border-color 0.25s ease,
+      box-shadow 0.25s ease;
+  }
+  .spv-tile .big {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    flex: 1 1 auto;
+    border-radius: 10px;
+    background: color-mix(in srgb, var(--c) 12%, #fff);
+  }
+  .spv-tile .nm {
+    display: block;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 13px;
+    line-height: 1.3;
+    font-weight: 600;
+  }
+  .sxf .spv-tile.is-sel {
+    background: #eaf2ff;
+    border-color: #2a73ff;
+    box-shadow: 0 12px 24px -16px rgba(42, 115, 255, 0.6);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .sxf .spv-tile:hover:not(.is-sel) {
+      border-color: #c9d9f5;
+      background: #f3f7ff;
+    }
+  }
+  .spv-views .spv-as {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    min-width: 0;
+    padding: 12px 14px 14px;
+    background: #fafcff;
+  }
+  .spv-views .spv-ash {
+    font-size: 12px;
+    line-height: 1.4;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #8a94a6;
+  }
+  .spv-views .spv-as .spv-stage {
+    flex: 1 1 auto;
+    min-height: 0;
+  }
+  .spv-views .spv-asn {
+    min-height: 22px;
+  }
+  .spv-views .spv-asn b {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 14px;
+    line-height: 1.35;
+    font-weight: 700;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .spv-views .spv-v,
+    .sxf .spv-seg-b,
+    .sxf .spv-tile {
+      transition: none;
+    }
+  }
+  @media (max-width: 1180px) {
+    .spv-views .sxf-wrap {
+      gap: 40px;
+    }
+    .spv-views .spv-vb {
+      grid-template-columns: minmax(0, 1fr) 200px;
+    }
+  }
+  @media (max-width: 1024px) {
+    .spv-views .sxf-wrap {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .spv-views .spv-copy {
+      max-width: 640px;
+    }
+  }
+  @media (max-width: 767px) {
+    .spv-views .spv-vb {
+      grid-template-columns: minmax(0, 1fr);
+      height: auto;
+    }
+    .spv-views .spv-coll {
+      height: 372px;
+      border-right: 0;
+      border-bottom: 1px solid #e6ecf5;
+    }
+    .spv-views .spv-as .spv-stage {
+      flex: none;
+      height: 190px;
+    }
+    .spv-views .spv-v-tiles {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .spv-views .spv-tool .pth {
+      display: none;
+    }
+    .spv-views .spv-tool {
+      justify-content: flex-start;
+    }
+  }
+  @media (max-width: 380px) {
+    .sxf .spv-seg-b {
+      padding: 6px 9px;
+    }
+  }
+</style>
+<section class="sxf spv-sec spv-alt spv-views" id="ansichten" aria-labelledby="spv-h-views">
+  <div class="sxf-wrap">
+    <div class="spv-copy" data-rv>
+      <p class="sxf-eyebrow">{t.views_eyebrow}</p>
+      <h2 class="sxf-h" id="spv-h-views">{t.views_title_1} <span class="sxf-blue">{t.views_title_2}</span></h2>
+      <p class="sxf-lead">{t.views_lead}</p>
+      <ul class="spv-pts">
+        {
+          [t.views_p1, t.views_p2, t.views_p3].map((x) => (
+            <li>
+              <b>
+                <svg class="i" viewbox="0 0 24 24" aria-hidden="true">
+                  <path d="m5 12 5 5L20 7" />
+                </svg>
+              </b>
+              <span>{x}</span>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+    <div data-rv style="--dl:.12s">
+      <div class="spv-win" role="group" aria-label={t.views_app_label}>
+        <div class="spv-bar"><i></i><i></i><i></i><span class="spv-ex">{t.mock_label}</span></div>
+        <div class="spv-tool">
+          <span class="pth">{t.views_path}</span>
+          <div class="spv-seg" role="group" aria-label={t.views_toggle_label}>
+            <button type="button" class="sxf-b spv-seg-b" data-v="list" aria-pressed="true">
+              <svg class="i" viewbox="0 0 24 24" aria-hidden="true"
+                ><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"></path></svg
+              >{t.views_list}
+            </button>
+            <button type="button" class="sxf-b spv-seg-b" data-v="tiles" aria-pressed="false">
+              <svg class="i" viewbox="0 0 24 24" aria-hidden="true"
+                ><rect x="3" y="3" width="7" height="7" rx="1.5"></rect><rect x="14" y="3" width="7" height="7" rx="1.5"
+                ></rect><rect x="3" y="14" width="7" height="7" rx="1.5"></rect><rect
+                  x="14"
+                  y="14"
+                  width="7"
+                  height="7"
+                  rx="1.5"></rect></svg
+              >{t.views_tiles}
+            </button>
+          </div>
+        </div>
+        <div class="spv-vb">
+          <div class="spv-coll">
+            <ul class="spv-v spv-v-list is-on">
+              {
+                KINDS.map((k, i) => (
+                  <li>
+                    <button
+                      type="button"
+                      class={`sxf-b spv-fr${i === 0 ? ' is-sel' : ''}`}
+                      aria-pressed={i === 0 ? 'true' : 'false'}
+                    >
+                      <Fragment set:html={ft(k)} />
+                      <span class="tx">
+                        <span class="nm">{fileName(k, t)}</span>
+                        <span class="mt">{t[`mock_m_${k}`]}</span>
+                      </span>
+                    </button>
+                  </li>
+                ))
+              }
+            </ul>
+            <ul class="spv-v spv-v-tiles" aria-hidden="true">
+              {
+                KINDS.map((k, i) => (
+                  <li>
+                    <button
+                      type="button"
+                      tabindex="-1"
+                      class={`sxf-b spv-tile${i === 0 ? ' is-sel' : ''}`}
+                      style={`--c:${COLORS[k]}`}
+                      aria-pressed={i === 0 ? 'true' : 'false'}
+                    >
+                      <span class="big">
+                        <Fragment set:html={ft(k)} />
+                      </span>
+                      <span class="nm">{fileName(k, t)}</span>
+                    </button>
+                  </li>
+                ))
+              }
+            </ul>
+          </div>
+          <aside class="spv-as" aria-label={t.views_sidebar_label}>
+            <div class="spv-ash">{t.views_sidebar_label}</div>
+            <div class="spv-stage">{KINDS.map((k, i) => <Fragment set:html={pv(k, t, i === 0)} />)}</div>
+            <div class="spv-asn"><b class="spv-sn">{fileName(KINDS[0], t)}</b></div>
+          </aside>
+        </div>
+      </div>
+      <p class="spv-note">{t.views_note}</p>
+    </div>
+  </div>
+  <script is:inline>
+    (function () {
+      function init(s) {
+        if (s.__spv) return;
+        s.__spv = 1;
+        var lists = [].slice.call(s.querySelectorAll('.spv-v')),
+          btns = [].slice.call(s.querySelectorAll('.spv-seg-b')),
+          pvs = [].slice.call(s.querySelectorAll('.spv-pv')),
+          sn = s.querySelector('.spv-sn'),
+          items = lists.map(function (l) {
+            return [].slice.call(l.querySelectorAll('button'));
+          }),
+          cur = 0,
+          names = items[0].map(function (b) {
+            return b.querySelector('.nm').textContent;
+          });
+        function pick(i) {
+          cur = i;
+          items.forEach(function (arr) {
+            arr.forEach(function (b, k) {
+              b.classList.toggle('is-sel', k === i);
+              b.setAttribute('aria-pressed', k === i ? 'true' : 'false');
+            });
+          });
+          pvs.forEach(function (p, k) {
+            p.classList.toggle('is-on', k === i);
+          });
+          sn.textContent = names[i];
+        }
+        function view(v) {
+          var tiles = v === 'tiles';
+          btns.forEach(function (b) {
+            b.setAttribute('aria-pressed', b.getAttribute('data-v') === v ? 'true' : 'false');
+          });
+          lists[0].classList.toggle('is-on', !tiles);
+          lists[1].classList.toggle('is-on', tiles);
+          lists[0].setAttribute('aria-hidden', tiles ? 'true' : 'false');
+          lists[1].setAttribute('aria-hidden', tiles ? 'false' : 'true');
+          items[0].forEach(function (b) {
+            b.tabIndex = tiles ? -1 : 0;
+          });
+          items[1].forEach(function (b) {
+            b.tabIndex = tiles ? 0 : -1;
+          });
+        }
+        items.forEach(function (arr) {
+          arr.forEach(function (b, i) {
+            b.addEventListener('click', function () {
+              pick(i);
+            });
+          });
+        });
+        btns.forEach(function (b) {
+          b.addEventListener('click', function () {
+            view(b.getAttribute('data-v'));
+          });
+        });
+        if ('IntersectionObserver' in window) {
+          new IntersectionObserver(
+            function (es) {
+              s.classList.toggle('spv-run', es[0].isIntersecting && !document.hidden);
+            },
+            { threshold: 0.3 },
+          ).observe(s);
+        }
+      }
+      function go() {
+        document.querySelectorAll('.spv-views').forEach(init);
+      }
+      if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', go);
+      else go();
+    })();
+  </script>
+</section>

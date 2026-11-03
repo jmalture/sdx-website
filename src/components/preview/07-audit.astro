@@ -1,0 +1,389 @@
+---
+/**
+ * Section "audit": Jede Vorschau steht im Audit (click a file, a "Preview content" row is added to a mini audit log).
+ * Texts: src/i18n/preview.json, keys starting with "audit_" (and "mock_" for file names).
+ * "Preview content" is the real action name of the SDX audit filter (see the Audits page).
+ */
+import { dict, type Lang } from '../../i18n';
+import data from '../../i18n/preview.json';
+import { KINDS, ft, fileName } from './mock';
+const { lang } = Astro.props as { lang: Lang };
+const t = dict(data, lang);
+---
+
+<style is:global>
+  .spv-audit .spv-ag {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.25fr);
+    gap: 24px;
+    align-items: stretch;
+  }
+  .spv-audit .spv-win {
+    display: flex;
+    flex-direction: column;
+  }
+  .spv-audit .spv-ph {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 14px 18px 8px;
+    font-size: 12px;
+    line-height: 1.4;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #8a94a6;
+  }
+  .spv-audit .spv-fl {
+    list-style: none;
+    display: grid;
+    gap: 2px;
+    margin: 0;
+    padding: 0 10px 8px;
+  }
+  .spv-audit .spv-fl li {
+    margin: 0;
+  }
+  .spv-audit .spv-fl .spv-fr .go {
+    margin-left: auto;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 3px 9px;
+    border-radius: 999px;
+    background: #f3e8ff;
+    color: #7e22ce;
+    font-size: 12px;
+    line-height: 1.4;
+    font-weight: 600;
+    white-space: nowrap;
+    flex: none;
+  }
+  .spv-audit .spv-fl .spv-fr .go svg {
+    width: 13px;
+    height: 13px;
+  }
+  .spv-audit .spv-hintrow {
+    margin-top: auto;
+    padding: 12px 18px 16px;
+    border-top: 1px solid #eef1f6;
+    font-size: 13px;
+    line-height: 1.5;
+    color: #5b6475;
+  }
+  .spv-audit .spv-lg {
+    position: relative;
+    flex: 1 1 auto;
+    height: 336px;
+    overflow: hidden;
+  }
+  .spv-audit .spv-lr {
+    display: grid;
+    grid-template-rows: 1fr;
+    animation: spvRow 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+  @keyframes spvRow {
+    from {
+      grid-template-rows: 0fr;
+      opacity: 0;
+    }
+    to {
+      grid-template-rows: 1fr;
+      opacity: 1;
+    }
+  }
+  .spv-audit .spv-lr > div {
+    min-height: 0;
+    overflow: hidden;
+  }
+  .spv-audit .spv-lr .in {
+    display: grid;
+    gap: 5px;
+    min-height: 67px;
+    padding: 10px 18px;
+    border-top: 1px solid #eef1f6;
+  }
+  .spv-audit .spv-lr .l1 {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    font-size: 13.5px;
+    line-height: 1.3;
+    font-weight: 600;
+    color: #0f1b2d;
+  }
+  .spv-audit .spv-lr .av {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--c);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    flex: none;
+  }
+  .spv-audit .spv-lr .tm {
+    margin-left: auto;
+    font-size: 12px;
+    font-weight: 500;
+    color: #8a94a6;
+  }
+  .spv-audit .spv-lr .l2 {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    min-width: 0;
+  }
+  .spv-audit .spv-lr .act {
+    padding: 2px 10px;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--c) 14%, #fff);
+    color: color-mix(in srgb, var(--c) 78%, #000);
+    font-size: 12px;
+    line-height: 1.5;
+    font-weight: 700;
+    white-space: nowrap;
+    flex: none;
+  }
+  .spv-audit .spv-lr .sm {
+    min-width: 0;
+    overflow-wrap: anywhere;
+    font-size: 13px;
+    color: #5b6475;
+  }
+  .spv-audit .spv-lr.is-new .in {
+    background: #f9f2ff;
+    box-shadow: inset 3px 0 0 #a855f7;
+  }
+  .spv-audit .spv-ph .spv-ex {
+    letter-spacing: 0;
+    text-transform: none;
+  }
+  .spv-audit .spv-tally {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 3px 10px;
+    border-radius: 999px;
+    background: #f3e8ff;
+    color: #7e22ce;
+    letter-spacing: 0;
+    text-transform: none;
+    font-size: 12px;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+  .spv-audit .spv-flt {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 3px 10px;
+    border-radius: 8px;
+    border: 1px solid #e3eaf5;
+    letter-spacing: 0;
+    text-transform: none;
+    font-size: 12px;
+    font-weight: 600;
+    color: #3d4555;
+    white-space: nowrap;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .spv-audit .spv-lr {
+      animation: none;
+    }
+  }
+  @media (max-width: 1024px) {
+    .spv-audit .spv-ag {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+  @media (max-width: 767px) {
+    .spv-audit .spv-fl .spv-fr .mt {
+      display: none;
+    }
+    .spv-audit .spv-lg {
+      height: 330px;
+    }
+    .spv-audit .spv-lr .in {
+      padding: 10px 14px;
+    }
+    .spv-audit .spv-flt {
+      display: none;
+    }
+  }
+</style>
+<section class="sxf spv-sec spv-alt spv-audit" id="audit" aria-labelledby="spv-h-audit">
+  <div class="sxf-wrap">
+    <div class="sxf-head" data-rv>
+      <p class="sxf-eyebrow">{t.audit_eyebrow}</p>
+      <h2 class="sxf-h" id="spv-h-audit">{t.audit_title_1} <span class="sxf-blue">{t.audit_title_2}</span></h2>
+      <p class="sxf-lead">{t.audit_lead}</p>
+    </div>
+    <div class="spv-ag" data-rv style="--dl:.1s">
+      <div class="spv-win" role="group" aria-label={t.audit_files_label}>
+        <div class="spv-bar"><i></i><i></i><i></i><span class="pth">{t.audit_files_path}</span></div>
+        <div class="spv-ph"><span>{t.audit_files_head}</span><span class="spv-ex">{t.mock_label}</span></div>
+        <ul class="spv-fl">
+          {
+            KINDS.map((k) => (
+              <li>
+                <button type="button" class="sxf-b spv-fr" data-nm={fileName(k, t)}>
+                  <Fragment set:html={ft(k)} />
+                  <span class="tx">
+                    <span class="nm">{fileName(k, t)}</span>
+                  </span>
+                  <span class="go">
+                    <svg class="i" viewbox="0 0 24 24" aria-hidden="true">
+                      <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12zM12 9a3 3 0 1 0 0 6 3 3 0 0 0 0-6z" />
+                    </svg>
+                    {t.audit_preview}
+                  </span>
+                </button>
+              </li>
+            ))
+          }
+        </ul>
+        <p class="spv-hintrow">{t.audit_hint}</p>
+      </div>
+      <div class="spv-win" role="group" aria-label={t.audit_log_label}>
+        <div class="spv-bar">
+          <i></i><i></i><i></i><span class="pth">Audits</span><span class="spv-ex">{t.mock_label}</span>
+        </div>
+        <div class="spv-ph">
+          <span class="spv-flt">{t.audit_filter}</span>
+          <span class="spv-tally">Preview content: <b class="spv-n">0</b></span>
+        </div>
+        <div class="spv-lg" aria-live="polite" aria-relevant="additions"></div>
+      </div>
+    </div>
+  </div>
+  <script is:inline>
+    (function () {
+      var ACT = {
+        pv: ['Preview content', '#A855F7'],
+        dl: ['Download content', '#2A73FF'],
+        up: ['Upload content', '#F59000'],
+        ud: ['Update content', '#00A3D9'],
+        li: ['Login', '#22C55E'],
+      };
+      var SEED = [
+        ['t.schulz', 'li', 'logged in', '09:38', '#22C55E'],
+        ['m.weber', 'ud', 'updated content Vertrag_Nordwerk_v3.pdf', '09:36', '#2A73FF'],
+        ['j.klein', 'dl', 'downloaded content Preisliste_2026.pdf', '09:33', '#F59000'],
+        ['l.braun', 'up', 'uploaded content Pruefbericht_07.pdf', '09:31', '#00A3D9'],
+      ];
+      function init(s) {
+        if (s.__spv) return;
+        s.__spv = 1;
+        var lg = s.querySelector('.spv-lg'),
+          nEl = s.querySelector('.spv-n'),
+          btns = [].slice.call(s.querySelectorAll('.spv-fl .spv-fr')),
+          n = 0,
+          m = 41,
+          demo = false;
+        var rm = window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+        function row(u, a, txt, tm, col, isNew) {
+          var r = document.createElement('div'),
+            w = document.createElement('div'),
+            inn = document.createElement('div');
+          r.className = 'spv-lr' + (isNew ? ' is-new' : '');
+          inn.className = 'in';
+          var l1 = document.createElement('div');
+          l1.className = 'l1';
+          var av = document.createElement('span');
+          av.className = 'av';
+          av.style.setProperty('--c', col);
+          av.textContent = u
+            .split('.')
+            .map(function (p) {
+              return p.charAt(0);
+            })
+            .join('')
+            .toUpperCase();
+          var un = document.createElement('span');
+          un.textContent = u;
+          var te = document.createElement('span');
+          te.className = 'tm';
+          te.textContent = tm;
+          l1.appendChild(av);
+          l1.appendChild(un);
+          l1.appendChild(te);
+          var l2 = document.createElement('div');
+          l2.className = 'l2';
+          var ap = document.createElement('span');
+          ap.className = 'act';
+          ap.style.setProperty('--c', ACT[a][1]);
+          ap.textContent = ACT[a][0];
+          var sm = document.createElement('span');
+          sm.className = 'sm';
+          sm.textContent = txt;
+          l2.appendChild(ap);
+          l2.appendChild(sm);
+          inn.appendChild(l1);
+          inn.appendChild(l2);
+          w.appendChild(inn);
+          r.appendChild(w);
+          return r;
+        }
+        SEED.forEach(function (x) {
+          lg.appendChild(row(x[0], x[1], x[2], x[3], x[4], false));
+        });
+        function add(name) {
+          m++;
+          n++;
+          nEl.textContent = String(n);
+          var tm = '09:' + (m < 10 ? '0' : '') + m;
+          var r = row('a.mueller', 'pv', 'previewed content ' + name, tm, '#C800FF', true);
+          if (rm) r.style.animation = 'none';
+          lg.insertBefore(r, lg.firstChild);
+          [].slice.call(lg.children).forEach(function (c, i) {
+            if (i > 0) c.classList.remove('is-new');
+            if (i > 7) lg.removeChild(c);
+          });
+        }
+        btns.forEach(function (b) {
+          b.addEventListener('click', function () {
+            demo = true;
+            btns.forEach(function (o) {
+              o.classList.toggle('is-sel', o === b);
+            });
+            add(b.getAttribute('data-nm'));
+          });
+        });
+        if (rm) {
+          btns[0].classList.add('is-sel');
+          add(btns[0].getAttribute('data-nm'));
+        }
+        if ('IntersectionObserver' in window) {
+          var io = new IntersectionObserver(
+            function (es) {
+              s.classList.toggle('spv-run', es[0].isIntersecting && !document.hidden);
+              if (es[0].isIntersecting && !demo && !rm) {
+                demo = true;
+                setTimeout(function () {
+                  if (!document.hidden) {
+                    btns[0].classList.add('is-sel');
+                    add(btns[0].getAttribute('data-nm'));
+                  }
+                }, 1100);
+                io.disconnect();
+              }
+            },
+            { threshold: 0.45 },
+          );
+          io.observe(lg);
+        }
+      }
+      function go() {
+        document.querySelectorAll('.spv-audit').forEach(init);
+      }
+      if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', go);
+      else go();
+    })();
+  </script>
+</section>

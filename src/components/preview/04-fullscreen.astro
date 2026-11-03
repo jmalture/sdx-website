@@ -1,0 +1,550 @@
+---
+/**
+ * Section "fullscreen": Vollbild und blättern (a button opens a faux fullscreen layer inside the mock-up).
+ * Texts: src/i18n/preview.json, keys starting with "fullscreen_" (and "mock_" for file names and sample contents).
+ * The layer is part of the mock-up, not a real page overlay: arrows, swipe and the arrow keys page through the files, Esc closes.
+ */
+import { dict, type Lang } from '../../i18n';
+import data from '../../i18n/preview.json';
+import { KINDS, ft, pv, fileName } from './mock';
+const { lang } = Astro.props as { lang: Lang };
+const t = dict(data, lang);
+---
+
+<style is:global>
+  .spv-fullscreen .sxf-wrap {
+    display: grid;
+    grid-template-columns: minmax(0, 1.4fr) minmax(0, 0.8fr);
+    gap: 64px;
+    align-items: center;
+  }
+  .spv-fullscreen .spv-copy .sxf-h {
+    font-size: clamp(30px, 3.4vw, 42px);
+  }
+  .spv-fullscreen .spv-keys {
+    list-style: none;
+    display: grid;
+    gap: 14px;
+    margin: 30px 0 0;
+    padding: 0;
+  }
+  .spv-fullscreen .spv-keys li {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    margin: 0;
+    font-size: 16px;
+    line-height: 1.5;
+    color: #3d4555;
+  }
+  .spv-fullscreen .spv-keys li > span:first-child {
+    display: flex;
+    gap: 4px;
+    min-width: 62px;
+    padding-top: 1px;
+    flex: none;
+  }
+  .spv-fullscreen .spv-fsb-wrap {
+    margin-top: 28px;
+  }
+  .spv-fullscreen .spv-ab {
+    display: grid;
+    grid-template-columns: 220px minmax(0, 1fr);
+    height: 392px;
+  }
+  .spv-fullscreen .spv-al {
+    min-width: 0;
+    padding: 12px 8px;
+    border-right: 1px solid #e6ecf5;
+    overflow: hidden;
+  }
+  .spv-fullscreen .spv-al ul {
+    list-style: none;
+    display: grid;
+    gap: 2px;
+    margin: 0;
+    padding: 0;
+  }
+  .spv-fullscreen .spv-al li {
+    margin: 0;
+  }
+  .spv-fullscreen .spv-fr {
+    padding: 9px 8px;
+    gap: 10px;
+  }
+  .spv-fullscreen .spv-fr .nm {
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+  .spv-fullscreen .spv-fr .tx {
+    flex: 1 1 auto;
+  }
+  .spv-fullscreen .spv-main {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    min-width: 0;
+    padding: 14px 16px 16px;
+    background: #fafcff;
+  }
+  .spv-fullscreen .spv-mh {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+  }
+  .spv-fullscreen .spv-mh b {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 14px;
+    line-height: 1.35;
+    font-weight: 700;
+  }
+  .sxf .spv-fsb {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 36px;
+    padding: 6px 14px;
+    border-radius: 10px;
+    background: #2a73ff;
+    color: #fff;
+    font-family: Inter, sans-serif;
+    font-size: 13px;
+    line-height: 1.2;
+    font-weight: 600;
+    white-space: nowrap;
+    flex: none;
+    transition:
+      background-color 0.25s ease,
+      box-shadow 0.25s ease;
+  }
+  .spv-fsb svg {
+    width: 16px;
+    height: 16px;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .sxf .spv-fsb:hover {
+      background: #1f63eb;
+      box-shadow: 0 8px 18px rgba(42, 115, 255, 0.35);
+    }
+  }
+  .spv-fullscreen .spv-main .spv-stage {
+    flex: 1 1 auto;
+    min-height: 0;
+  }
+  /* the faux fullscreen layer */
+  .spv-fullscreen .spv-fs {
+    position: absolute;
+    inset: 0;
+    z-index: 5;
+    display: flex;
+    flex-direction: column;
+    background: #0b1424;
+    color: #fff;
+    opacity: 0;
+    visibility: hidden;
+    transform: scale(0.97);
+    transition:
+      opacity 0.3s ease,
+      transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+      visibility 0s linear 0.45s;
+  }
+  .spv-fullscreen .spv-fs.is-open {
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    transition-delay: 0s;
+  }
+  .spv-fullscreen .spv-fs-top {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  }
+  .spv-fullscreen .spv-fs-top b {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 14px;
+    line-height: 1.35;
+    font-weight: 600;
+  }
+  .spv-fullscreen .spv-fs-top .ct {
+    margin-left: auto;
+    padding: 2px 10px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.14);
+    font-size: 12px;
+    line-height: 1.5;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  .spv-fullscreen .spv-fs-top .spv-ex {
+    margin-left: 0;
+    background: transparent;
+    border-color: rgba(255, 255, 255, 0.28);
+    color: rgba(255, 255, 255, 0.85);
+  }
+  .sxf .spv-fs-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.12);
+    color: #fff;
+    flex: none;
+    transition:
+      background-color 0.25s ease,
+      transform 0.25s ease;
+  }
+  .spv-fs-btn svg {
+    width: 20px;
+    height: 20px;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .sxf .spv-fs-btn:hover {
+      background: rgba(255, 255, 255, 0.26);
+    }
+  }
+  .sxf .spv-fs-btn:focus-visible {
+    outline-color: #fff;
+  }
+  .spv-fullscreen .spv-fs-mid {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    flex: 1 1 auto;
+    min-height: 0;
+    padding: 14px 12px;
+  }
+  .spv-fullscreen .spv-fs-mid .spv-stage {
+    flex: 1 1 auto;
+    height: 100%;
+    max-width: 640px;
+    border-color: rgba(255, 255, 255, 0.1);
+    background: #16233a;
+  }
+  .spv-fullscreen .spv-fs-dots {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    padding: 10px 16px 14px;
+    font-size: 12px;
+    line-height: 1.4;
+    color: rgba(255, 255, 255, 0.72);
+  }
+  .spv-fullscreen .spv-fs-dots .dots {
+    display: flex;
+    gap: 6px;
+  }
+  .spv-fullscreen .spv-fs-dots .dots i {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.28);
+    transition:
+      background-color 0.3s ease,
+      transform 0.3s ease;
+  }
+  .spv-fullscreen .spv-fs-dots .dots i.is-on {
+    background: #fff;
+    transform: scale(1.25);
+  }
+  .spv-fullscreen .spv-fs-dots .spv-kbd {
+    background: transparent;
+    border-color: rgba(255, 255, 255, 0.3);
+    box-shadow: none;
+    color: #fff;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .spv-fullscreen .spv-fs,
+    .sxf .spv-fs-btn,
+    .sxf .spv-fsb,
+    .spv-fullscreen .spv-fs-dots .dots i {
+      transition: none;
+    }
+    .spv-fullscreen .spv-fs {
+      transform: none;
+    }
+  }
+  @media (max-width: 1180px) {
+    .spv-fullscreen .sxf-wrap {
+      gap: 40px;
+    }
+    .spv-fullscreen .spv-ab {
+      grid-template-columns: 170px minmax(0, 1fr);
+    }
+    .spv-fullscreen .spv-fr .mt {
+      display: none;
+    }
+  }
+  @media (max-width: 1024px) {
+    .spv-fullscreen .sxf-wrap {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .spv-fullscreen .spv-copy {
+      order: -1;
+      max-width: 640px;
+    }
+  }
+  @media (max-width: 767px) {
+    .spv-fullscreen .spv-ab {
+      grid-template-columns: minmax(0, 1fr);
+      height: 420px;
+    }
+    .spv-fullscreen .spv-al {
+      display: none;
+    }
+    .spv-fullscreen .spv-fs-dots .hint {
+      display: none;
+    }
+    .spv-fullscreen .spv-fs-top .spv-ex {
+      display: none;
+    }
+    .sxf .spv-fs-btn {
+      width: 36px;
+      height: 36px;
+    }
+    .spv-fullscreen .spv-fs-mid {
+      gap: 6px;
+      padding: 12px 6px;
+    }
+    .spv-fullscreen .spv-mh {
+      flex-wrap: wrap;
+    }
+  }
+</style>
+<section class="sxf spv-sec spv-fullscreen" id="vollbild" aria-labelledby="spv-h-fullscreen">
+  <div class="sxf-wrap">
+    <div data-rv>
+      <div class="spv-win spv-fwin" role="group" aria-label={t.fullscreen_app_label}>
+        <div class="spv-bar">
+          <i></i><i></i><i></i><span class="pth">{t.fullscreen_path}</span><span class="spv-ex">{t.mock_label}</span>
+        </div>
+        <div class="spv-ab">
+          <div class="spv-al">
+            <ul>
+              {
+                KINDS.map((k, i) => (
+                  <li>
+                    <button
+                      type="button"
+                      class={`sxf-b spv-fr${i === 0 ? ' is-sel' : ''}`}
+                      aria-pressed={i === 0 ? 'true' : 'false'}
+                    >
+                      <Fragment set:html={ft(k)} />
+                      <span class="tx">
+                        <span class="nm">{fileName(k, t)}</span>
+                      </span>
+                    </button>
+                  </li>
+                ))
+              }
+            </ul>
+          </div>
+          <div class="spv-main">
+            <div class="spv-mh">
+              <b class="spv-sn">{fileName(KINDS[0], t)}</b>
+              <button type="button" class="sxf-b spv-fsb" aria-haspopup="dialog">
+                <svg class="i" viewbox="0 0 24 24" aria-hidden="true"
+                  ><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"></path></svg
+                >{t.fullscreen_open}
+              </button>
+            </div>
+            <div class="spv-stage">{KINDS.map((k, i) => <Fragment set:html={pv(k, t, i === 0)} />)}</div>
+          </div>
+        </div>
+        <div class="spv-fs" role="dialog" aria-modal="false" aria-label={t.fullscreen_layer_label} aria-hidden="true">
+          <div class="spv-fs-top">
+            <b class="spv-fn">{fileName(KINDS[0], t)}</b>
+            <span class="ct" aria-live="polite"><span class="spv-ci">1</span> / {KINDS.length}</span>
+            <span class="spv-ex">{t.mock_label}</span>
+            <button type="button" class="sxf-b spv-fs-btn spv-x" aria-label={t.fullscreen_close}>
+              <svg class="i" viewbox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"></path></svg>
+            </button>
+          </div>
+          <div class="spv-fs-mid">
+            <button type="button" class="sxf-b spv-fs-btn spv-pr" aria-label={t.fullscreen_prev}>
+              <svg class="i" viewbox="0 0 24 24" aria-hidden="true"><path d="m15 5-7 7 7 7"></path></svg>
+            </button>
+            <div class="spv-stage spv-zs">
+              <div class="spv-zm">{KINDS.map((k, i) => <Fragment set:html={pv(k, t, i === 0)} />)}</div>
+            </div>
+            <button type="button" class="sxf-b spv-fs-btn spv-nx" aria-label={t.fullscreen_next}>
+              <svg class="i" viewbox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7"></path></svg>
+            </button>
+          </div>
+          <div class="spv-fs-dots">
+            <span class="dots" aria-hidden="true">{KINDS.map((k, i) => <i class={i === 0 ? 'is-on' : ''} />)}</span>
+            <span class="hint"
+              ><span class="spv-kbd">&larr;</span>
+              <span class="spv-kbd">&rarr;</span>
+              {t.fullscreen_hint_page} &nbsp;
+              <span class="spv-kbd">Esc</span>
+              {t.fullscreen_hint_close}</span
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="spv-copy" data-rv style="--dl:.12s">
+      <p class="sxf-eyebrow">{t.fullscreen_eyebrow}</p>
+      <h2 class="sxf-h" id="spv-h-fullscreen">
+        {t.fullscreen_title_1}
+        <span class="sxf-blue">{t.fullscreen_title_2}</span>
+      </h2>
+      <p class="sxf-lead">{t.fullscreen_lead}</p>
+      <ul class="spv-keys">
+        <li>
+          <span><span class="spv-kbd">&larr;</span><span class="spv-kbd">&rarr;</span></span><span
+            >{t.fullscreen_k1}</span
+          >
+        </li>
+        <li><span><span class="spv-kbd">Esc</span></span><span>{t.fullscreen_k2}</span></li>
+        <li>
+          <span><span class="spv-kbd">&harr;</span></span><span>{t.fullscreen_k3}</span>
+        </li>
+      </ul>
+      <p class="spv-note">{t.fullscreen_note}</p>
+    </div>
+  </div>
+  <script is:inline>
+    (function () {
+      function init(s) {
+        if (s.__spv) return;
+        s.__spv = 1;
+        var win = s.querySelector('.spv-fwin'),
+          rows = [].slice.call(s.querySelectorAll('.spv-fr')),
+          layer = s.querySelector('.spv-fs'),
+          ab = s.querySelector('.spv-ab'),
+          opener = s.querySelector('.spv-fsb'),
+          x = s.querySelector('.spv-x'),
+          pr = s.querySelector('.spv-pr'),
+          nx = s.querySelector('.spv-nx'),
+          main = s.querySelector('.spv-main'),
+          sn = s.querySelector('.spv-sn'),
+          fn = s.querySelector('.spv-fn'),
+          ci = s.querySelector('.spv-ci'),
+          dots = [].slice.call(s.querySelectorAll('.spv-fs-dots .dots i')),
+          stages = [].slice.call(s.querySelectorAll('.spv-stage')),
+          names = rows.map(function (r) {
+            return r.querySelector('.nm').textContent;
+          }),
+          n = rows.length,
+          cur = 0,
+          sx = null;
+        function pick(i) {
+          cur = (i + n) % n;
+          rows.forEach(function (r, k) {
+            r.classList.toggle('is-sel', k === cur);
+            r.setAttribute('aria-pressed', k === cur ? 'true' : 'false');
+          });
+          stages.forEach(function (st) {
+            [].slice.call(st.querySelectorAll('.spv-pv')).forEach(function (p, k) {
+              p.classList.toggle('is-on', k === cur);
+            });
+          });
+          dots.forEach(function (d, k) {
+            d.classList.toggle('is-on', k === cur);
+          });
+          sn.textContent = names[cur];
+          fn.textContent = names[cur];
+          ci.textContent = String(cur + 1);
+        }
+        function open() {
+          layer.classList.add('is-open');
+          layer.setAttribute('aria-hidden', 'false');
+          layer.setAttribute('aria-modal', 'true');
+          ab.setAttribute('inert', '');
+          s.classList.add('spv-run');
+          setTimeout(function () {
+            x.focus();
+          }, 30);
+        }
+        function close() {
+          layer.classList.remove('is-open');
+          layer.setAttribute('aria-hidden', 'true');
+          layer.setAttribute('aria-modal', 'false');
+          ab.removeAttribute('inert');
+          opener.focus();
+        }
+        rows.forEach(function (r, i) {
+          r.addEventListener('click', function () {
+            pick(i);
+          });
+        });
+        opener.addEventListener('click', open);
+        x.addEventListener('click', close);
+        pr.addEventListener('click', function () {
+          pick(cur - 1);
+        });
+        nx.addEventListener('click', function () {
+          pick(cur + 1);
+        });
+        win.addEventListener('keydown', function (e) {
+          if (!layer.classList.contains('is-open')) return;
+          var k = e.key;
+          if (k === 'Escape') {
+            e.preventDefault();
+            close();
+          } else if (k === 'ArrowRight') {
+            e.preventDefault();
+            pick(cur + 1);
+          } else if (k === 'ArrowLeft') {
+            e.preventDefault();
+            pick(cur - 1);
+          } else if (k === 'Tab') {
+            var f = [pr, nx, x],
+              i = f.indexOf(document.activeElement);
+            e.preventDefault();
+            f[(i + (e.shiftKey ? 2 : 1)) % 3].focus();
+          }
+        });
+        layer.addEventListener(
+          'touchstart',
+          function (e) {
+            sx = e.touches[0].clientX;
+          },
+          { passive: true },
+        );
+        layer.addEventListener('touchend', function (e) {
+          if (sx === null) return;
+          var dx = e.changedTouches[0].clientX - sx;
+          sx = null;
+          if (Math.abs(dx) > 40) pick(cur + (dx < 0 ? 1 : -1));
+        });
+        var zs = s.querySelector('.spv-zs');
+        function zoom() {
+          zs.style.setProperty('--z', Math.max(1, Math.min(1.7, zs.clientWidth / 520)).toFixed(3));
+        }
+        if ('ResizeObserver' in window) new ResizeObserver(zoom).observe(zs);
+        zoom();
+        if ('IntersectionObserver' in window) {
+          new IntersectionObserver(
+            function (es) {
+              if (!es[0].isIntersecting && layer.classList.contains('is-open')) close();
+              s.classList.toggle('spv-run', es[0].isIntersecting && !document.hidden);
+            },
+            { threshold: 0.2 },
+          ).observe(s);
+        }
+        void main;
+      }
+      function go() {
+        document.querySelectorAll('.spv-fullscreen').forEach(init);
+      }
+      if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', go);
+      else go();
+    })();
+  </script>
+</section>

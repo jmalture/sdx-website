@@ -57,7 +57,7 @@ const langs = LANGS.filter((l) => alternates[l.code] && SWITCH_LANGS.includes(l.
         >
           <nav class="sdxm" aria-label="Features">
             <div class="sdxm-item">
-              <a class="sdxm-t" href={t.h_features_href}>Features<span class="sdxm-n" aria-hidden="true">3</span></a
+              <a class="sdxm-t" href={t.h_features_href}>Features<span class="sdxm-n" aria-hidden="true">4</span></a
               ><button
                 type="button"
                 class="sdxm-c"
@@ -97,6 +97,19 @@ const langs = LANGS.filter((l) => alternates[l.code] && SWITCH_LANGS.includes(l.
                           ></span
                         >
                         <span class="sdxm-tx"><strong>ZIP Upload</strong><small>{t.h_zip_desc}</small></span></a
+                      >
+                    </li>
+                    <li>
+                      <a class="sdxm-card" href={t.h_preview_href} style="--c:#8E10C0;--t:#F6E8FC">
+                        <span class="sdxm-ic" aria-hidden="true"
+                          ><svg viewbox="0 0 24 24"
+                            ><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"></path><circle
+                              cx="12"
+                              cy="12"
+                              r="3"></circle></svg
+                          ></span
+                        >
+                        <span class="sdxm-tx"><strong>Preview</strong><small>{t.h_preview_desc}</small></span></a
                       >
                     </li>
                     <li>
@@ -610,6 +623,17 @@ const langs = LANGS.filter((l) => alternates[l.code] && SWITCH_LANGS.includes(l.
         </a>
       </li>
       <li style="--i:4">
+        <a href={t.h_preview_href} style="--c:#8E10C0;--t:#F6E8FC">
+          <span class="ic" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="21" height="21"
+              ><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"></path><circle cx="12" cy="12" r="3"
+              ></circle></svg
+            >
+          </span>
+          <span class="tx"><strong>Preview</strong><small>{t.h_preview_desc}</small></span>
+        </a>
+      </li>
+      <li style="--i:5">
         <a href={t.h_audits_href} style="--c:#0F1B2D;--t:#EEF1F6">
           <span class="ic" aria-hidden="true">
             <svg viewBox="0 0 24 24" width="21" height="21"
@@ -625,7 +649,7 @@ const langs = LANGS.filter((l) => alternates[l.code] && SWITCH_LANGS.includes(l.
       SHOW_LANG_SWITCH && langs.length > 1 && (
         <ul class="sx-side-lang" aria-label={t.h_lang_label}>
           {langs.map((l, i) => (
-            <li style={`--i:${4 + i}`}>
+            <li style={`--i:${5 + i}`}>
               <a
                 href={alternates[l.code]}
                 lang={l.locale}
@@ -639,7 +663,7 @@ const langs = LANGS.filter((l) => alternates[l.code] && SWITCH_LANGS.includes(l.
         </ul>
       )
     }
-    <a class="sx-side-cta" href={t.h_cta_href} style="--i:6">{t.h_cta}</a>
+    <a class="sx-side-cta" href={t.h_cta_href} style="--i:7">{t.h_cta}</a>
   </nav>
 </div>
 

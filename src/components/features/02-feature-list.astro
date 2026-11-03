@@ -14,7 +14,7 @@ const t = dict(data, lang);
 <div class="elementor-element elementor-element-sfx02 e-con-full e-flex e-con e-parent" data-id="sfx02">
   <div class="elementor-element elementor-element-sfx02w elementor-widget elementor-widget-html" data-id="sfx02w">
     <style is:global>
-      /* 2 feature cards (pseudo archive). To add a feature: copy one <li class="sfx-item"> block, keep data-live. */
+      /* feature cards (pseudo archive). To add a feature: copy one <li class="sfx-item"> block, keep data-live. */
       .sfx-all {
         padding: 40px 32px 128px;
         background: linear-gradient(180deg, #e3eefd 0%, #ffffff 260px);
@@ -472,6 +472,133 @@ const t = dict(data, lang);
           opacity: 1;
         }
       }
+      /* visual: Preview (file list, the sidebar preview swaps) */
+      .sfx-pvw {
+        position: relative;
+        z-index: 1;
+        display: grid;
+        grid-template-columns: 1fr 96px;
+        gap: 8px;
+        width: 76%;
+        padding: 10px;
+        border-radius: 14px;
+        background: #fff;
+        box-shadow: 0 18px 34px -14px rgba(0, 0, 0, 0.45);
+      }
+      .sfx-pvl {
+        display: grid;
+        gap: 5px;
+        align-content: center;
+      }
+      .sfx-pvl i {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        padding: 6px 8px;
+        border-radius: 8px;
+        font-style: normal;
+        font-size: 11.5px;
+        font-weight: 600;
+        line-height: 1.2;
+        color: #3d4555;
+        white-space: nowrap;
+        overflow: hidden;
+        animation: sfxPvRow 6s ease-in-out infinite;
+      }
+      .sfx-pvl i s {
+        width: 10px;
+        height: 10px;
+        border-radius: 3px;
+        background: var(--k);
+        flex: none;
+      }
+      .sfx-pvl i:nth-child(1) {
+        --k: #f04438;
+        background: #eaf2ff;
+      }
+      .sfx-pvl i:nth-child(2) {
+        --k: #1a9b4b;
+        animation-delay: 2s;
+      }
+      .sfx-pvl i:nth-child(3) {
+        --k: #0a9bd6;
+        animation-delay: 4s;
+      }
+      .sfx-pvs {
+        position: relative;
+        height: 96px;
+        border-radius: 8px;
+        background: #eef3fb;
+        overflow: hidden;
+      }
+      .sfx-pvs b {
+        position: absolute;
+        inset: 8px;
+        display: grid;
+        align-content: start;
+        gap: 5px;
+        padding: 8px;
+        border-radius: 5px;
+        background: #fff;
+        box-shadow: 0 0 0 1px rgba(18, 37, 92, 0.08);
+        opacity: 0;
+        animation: sfxPvDoc 6s ease-in-out infinite;
+      }
+      .sfx-pvs b:nth-child(1) {
+        opacity: 1;
+      }
+      .sfx-pvs b:nth-child(2) {
+        animation-delay: 2s;
+      }
+      .sfx-pvs b:nth-child(3) {
+        animation-delay: 4s;
+        background: #0d2347;
+      }
+      .sfx-pvs b u {
+        display: block;
+        height: 5px;
+        border-radius: 3px;
+        background: #e6ecf5;
+      }
+      .sfx-pvs b:nth-child(1) u:first-child {
+        background: #fde4e2;
+        height: 12px;
+      }
+      .sfx-pvs b:nth-child(2) u:nth-child(odd) {
+        background: #d3efdc;
+      }
+      .sfx-pvs b:nth-child(3) u {
+        background: rgba(255, 255, 255, 0.35);
+      }
+      @keyframes sfxPvRow {
+        0% {
+          background: transparent;
+        }
+        6%,
+        30% {
+          background: #eaf2ff;
+        }
+        38%,
+        100% {
+          background: transparent;
+        }
+      }
+      @keyframes sfxPvDoc {
+        0% {
+          opacity: 0;
+          transform: translateY(6px);
+        }
+        8%,
+        30% {
+          opacity: 1;
+          transform: none;
+        }
+        38%,
+        100% {
+          opacity: 0;
+          transform: translateY(6px);
+        }
+      }
       @media (prefers-reduced-motion: reduce) {
         .sfx-all * {
           animation: none !important;
@@ -485,6 +612,13 @@ const t = dict(data, lang);
         }
         .sfx-log span {
           opacity: 1;
+        }
+        .sfx-pvl i:nth-child(1) {
+          background: #eaf2ff;
+        }
+        .sfx-pvs b:nth-child(1) {
+          opacity: 1;
+          transform: none;
         }
         .sxf a.sfx-card {
           transform: none !important;
@@ -590,6 +724,42 @@ const t = dict(data, lang);
             <a
               class="sfx-card"
               data-live
+              href={t.feature_list_link_preview}
+              style="--c:#8E10C0;--bg:linear-gradient(135deg,#8E10C0,#2A73FF)"
+            >
+              <div class="sfx-v" aria-hidden="true">
+                <span class="sfx-tag"><i></i>{t.feature_list_viewer}</span>
+                <div class="sfx-pvw">
+                  <div class="sfx-pvl">
+                    <i><s></s>{t.feature_list_pv_f1}</i><i><s></s>{t.feature_list_pv_f2}</i><i
+                      ><s></s>{t.feature_list_pv_f3}</i
+                    >
+                  </div>
+                  <div class="sfx-pvs">
+                    <b><u></u><u></u><u></u><u></u></b><b><u></u><u></u><u></u><u></u></b><b><u></u><u></u><u></u></b>
+                  </div>
+                </div>
+              </div>
+              <div class="sfx-b">
+                <h2>Preview</h2>
+                <p>{t.feature_list_pv_text}</p>
+                <ul class="sfx-chips">
+                  <li>{t.feature_list_pv_chip_sidebar}</li><li>{t.feature_list_pv_chip_full}</li><li>
+                    {t.feature_list_pv_chip_widgets}
+                  </li>
+                </ul>
+                <span class="sfx-go"
+                  >{t.feature_list_explore_the_feature}
+                  <svg class="i" viewbox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg
+                  ></span
+                >
+              </div>
+            </a>
+          </li>
+          <li class="sfx-item" data-rv style="--dl:.4s">
+            <a
+              class="sfx-card"
+              data-live
               href={t.feature_list_link_audits}
               style="--c:#0F1B2D;--bg:linear-gradient(135deg,#0F1B2D,#22365C)"
             >
@@ -623,7 +793,7 @@ const t = dict(data, lang);
               </div>
             </a>
           </li>
-          <li class="sfx-item" data-rv style="--dl:.2s">
+          <li class="sfx-item" data-rv style="--dl:.5s">
             <a class="sfx-card sfx-soon" href={t.feature_list_link_kontakt} style="--c:#2A73FF">
               <div class="sfx-v" aria-hidden="true"><span class="sfx-q">?</span></div>
               <div class="sfx-b">

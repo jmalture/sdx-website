@@ -50,7 +50,11 @@
     "h_zip_href": "/zip-upload/",
     "h_zip_desc": "Viele Dateien in einem Schritt importieren, mit Vorschau.",
     "footer_link_zip_upload": "/zip-upload/",
-    "footer_zip_upload": "ZIP Upload"
+    "footer_zip_upload": "ZIP Upload",
+    "h_preview_href": "/preview/",
+    "h_preview_desc": "Dateien ansehen, ohne sie herunterzuladen.",
+    "footer_link_preview": "/preview/",
+    "footer_preview": "Preview"
   },
   "en": {
     "h_menu_open": "Open features menu",
@@ -103,7 +107,11 @@
     "h_zip_href": "/en/zip-upload/",
     "h_zip_desc": "Import many files in one step, with a preview.",
     "footer_link_zip_upload": "/en/zip-upload/",
-    "footer_zip_upload": "ZIP Upload"
+    "footer_zip_upload": "ZIP Upload",
+    "h_preview_href": "/en/preview/",
+    "h_preview_desc": "View files without downloading them.",
+    "footer_link_preview": "/en/preview/",
+    "footer_preview": "Preview"
   },
   "cs": {
     "h_menu_open": "Otevřít menu funkcí",
@@ -156,6 +164,10 @@
     "h_zip_href": "/zip-upload/",
     "h_zip_desc": "Importujte mnoho souborů najednou, s náhledem.",
     "footer_link_zip_upload": "/zip-upload/",
-    "footer_zip_upload": "ZIP Upload"
+    "footer_zip_upload": "ZIP Upload",
+    "h_preview_href": "/preview/",
+    "h_preview_desc": "Zobrazte soubory bez stahování.",
+    "footer_link_preview": "/preview/",
+    "footer_preview": "Preview"
   }
 }
