@@ -1,0 +1,10 @@
+{
+  "de": {
+    "title": "Preview: Dateien ansehen, ohne sie herunterzuladen | SDX",
+    "description": "Dateien direkt in SDX ansehen: PDF, XLSX, PPTX, JSON, TXT und MP4 in der Seitenleiste oder im Vollbild, mit Details, Audit-Protokollierung und erweiterbar über Custom-Preview-Widgets."
+  },
+  "en": {
+    "title": "Preview: view files without downloading them | SDX",
+    "description": "View files right inside SDX: PDF, XLSX, PPTX, JSON, TXT and MP4 in the sidebar or in full screen, with details, audit logging and extensible through custom preview widgets."
+  }
+}

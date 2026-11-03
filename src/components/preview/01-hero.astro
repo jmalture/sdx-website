@@ -1,0 +1,437 @@
+---
+/**
+ * Section "hero": Dateien ansehen, ohne sie herunterzuladen.
+ * Texts: src/i18n/preview.json, keys starting with "hero_" (and "mock_" for the file names and sample contents).
+ * The file view is a live mock-up built in HTML/CSS: every few seconds another file is selected and the
+ * preview in the right sidebar swaps (also clickable). Script texts: none (the file data are in the markup).
+ */
+import { dict, type Lang } from '../../i18n';
+import data from '../../i18n/preview.json';
+import { KINDS, ft, pv, fileName } from './mock';
+const { lang } = Astro.props as { lang: Lang };
+const t = dict(data, lang);
+---
+
+<style is:global>
+  .spv-hero {
+    padding: 84px 32px 128px;
+    background: linear-gradient(180deg, #ffffff 0%, #eaf2fe 62%, #dcebfc 100%);
+  }
+  .spv-hero .sxf-wrap {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
+    gap: 64px;
+    align-items: center;
+  }
+  .spv-hero .spv-crumb {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0 0 26px;
+    font-size: 13px;
+    font-weight: 500;
+    color: #5b6475;
+  }
+  .spv-hero .spv-crumb a,
+  .spv-hero .spv-crumb a:visited {
+    color: #5b6475;
+    text-decoration: none;
+  }
+  .spv-hero .spv-crumb a:hover {
+    color: #2a73ff;
+  }
+  .spv-hero .spv-crumb span[aria-current] {
+    color: #0f1b2d;
+  }
+  .spv-hero h1.spv-h1 {
+    margin: 0;
+    font-size: clamp(38px, 4.4vw, 58px);
+    line-height: 1.07;
+    font-weight: 700;
+    letter-spacing: -0.045em;
+    color: #000;
+    text-wrap: balance;
+  }
+  .spv-hero .sxf-lead {
+    max-width: 540px;
+    margin-top: 26px;
+  }
+  .spv-hero .spv-ctas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 36px;
+  }
+  .spv-hero .spv-trust {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 22px;
+    margin: 34px 0 0;
+    padding: 0;
+  }
+  .spv-hero .spv-trust li {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
+    font-size: 14px;
+    font-weight: 500;
+    color: #4a5568;
+  }
+  .spv-hero .spv-trust li b {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #1a9b4b;
+    color: #fff;
+  }
+  .spv-hero .spv-trust li b svg {
+    width: 12px;
+    height: 12px;
+    stroke-width: 3;
+  }
+  .spv-vis {
+    position: relative;
+    padding: 28px 0 28px 12px;
+  }
+  .spv-app .spv-ab {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 286px;
+    height: 408px;
+  }
+  .spv-app .spv-al {
+    min-width: 0;
+    padding: 12px 10px 10px;
+    border-right: 1px solid #e6ecf5;
+    overflow: hidden;
+  }
+  .spv-app .spv-ah {
+    padding: 2px 12px 8px;
+    font-size: 12px;
+    line-height: 1.4;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #8a94a6;
+  }
+  .spv-app .spv-al ul {
+    list-style: none;
+    display: grid;
+    gap: 2px;
+    margin: 0;
+    padding: 0;
+  }
+  .spv-app .spv-al li {
+    margin: 0;
+  }
+  .spv-app .spv-as {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    min-width: 0;
+    padding: 12px 14px 14px;
+    background: #fafcff;
+  }
+  .spv-app .spv-ash {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    font-size: 12px;
+    line-height: 1.4;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #8a94a6;
+  }
+  .spv-app .spv-ash svg {
+    width: 16px;
+    height: 16px;
+    color: #5b6475;
+  }
+  .spv-app .spv-stage {
+    flex: 1 1 auto;
+    min-height: 0;
+  }
+  .spv-app .spv-asn {
+    min-height: 40px;
+  }
+  .spv-app .spv-asn b {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 14px;
+    line-height: 1.35;
+    font-weight: 700;
+    color: #0f1b2d;
+  }
+  .spv-app .spv-asn span {
+    display: block;
+    font-size: 12px;
+    line-height: 1.4;
+    color: #5b6475;
+  }
+  .spv-hero .p1 {
+    top: 0;
+    right: 6%;
+    --d: 6.4s;
+  }
+  .spv-hero .p2 {
+    right: 20px;
+    bottom: -8px;
+    --d: 5.4s;
+  }
+  .spv-hero .f1 {
+    left: -10px;
+    top: -2px;
+    --s: 44px;
+    --c: #ffbb00;
+    --r: -12deg;
+    --d: 6.8s;
+    z-index: 2;
+  }
+  @media (max-width: 1180px) {
+    .spv-app .spv-ab {
+      grid-template-columns: minmax(0, 1fr) 244px;
+    }
+  }
+  @media (max-width: 1024px) {
+    .spv-hero {
+      padding: 56px 24px 96px;
+    }
+    .spv-hero .sxf-wrap {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 56px;
+    }
+    .spv-app .spv-ab {
+      grid-template-columns: minmax(0, 1fr) 286px;
+    }
+  }
+  @media (max-width: 767px) {
+    .spv-hero {
+      padding: 40px 18px 80px;
+    }
+    .spv-vis {
+      padding: 36px 0 28px;
+    }
+    .spv-app .spv-ab {
+      grid-template-columns: minmax(0, 1fr);
+      height: auto;
+    }
+    .spv-app .spv-al {
+      border-right: 0;
+      border-bottom: 1px solid #e6ecf5;
+    }
+    .sxf .spv-app .spv-fr {
+      padding: 6px 10px;
+    }
+    .spv-app .spv-fr .mt {
+      display: none;
+    }
+    .spv-app .spv-stage {
+      flex: none;
+      height: 210px;
+    }
+    .spv-hero .p1 {
+      right: 4%;
+    }
+    .spv-hero .p2 {
+      right: 8px;
+      bottom: -6px;
+    }
+    .spv-hero .f1 {
+      left: -4px;
+      top: 2px;
+      --s: 36px;
+    }
+  }
+  @media (max-width: 560px) {
+    .spv-app .spv-bar .pth {
+      display: none;
+    }
+  }
+</style>
+<section class="sxf spv-hero" id="top" aria-labelledby="spv-h1">
+  <div class="sxf-wrap">
+    <div class="spv-copy" data-rv>
+      <nav class="spv-crumb" aria-label={t.hero_aria_label_breadcrumb}>
+        <a href={t.hero_link_home}>{t.hero_home}</a>
+        <span aria-hidden="true">/</span>
+        <a href={t.hero_link_features}>{t.hero_features}</a>
+        <span aria-hidden="true">/</span>
+        <span aria-current="page">Preview</span>
+      </nav>
+      <h1 class="spv-h1" id="spv-h1">{t.hero_title_1} <span class="sxf-blue">{t.hero_title_2}</span></h1>
+      <p class="sxf-lead">{t.hero_lead}</p>
+      <div class="spv-ctas">
+        <a class="sxf-btn sxf-btn-p" href={t.hero_link_kontakt}
+          >{t.hero_request_a_demo}
+          <svg class="i" viewbox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></a
+        ><a class="sxf-btn sxf-btn-s" href="#formate">{t.hero_how_it_works}</a>
+      </div>
+      <ul class="spv-trust">
+        {
+          [t.hero_trust_1, t.hero_trust_2, t.hero_trust_3].map((x) => (
+            <li>
+              <b>
+                <svg class="i" viewbox="0 0 24 24" aria-hidden="true">
+                  <path d="m5 12 5 5L20 7" />
+                </svg>
+              </b>
+              {x}
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+    <div class="spv-vis" data-rv style="--dl:.12s">
+      <span class="sxf-fold f1" aria-hidden="true"></span>
+      <div class="spv-win spv-app" role="group" aria-label={t.hero_app_label}>
+        <div class="spv-bar">
+          <i></i><i></i><i></i><span class="pth">{t.hero_path}</span><span class="spv-ex">{t.mock_label}</span>
+        </div>
+        <div class="spv-ab">
+          <div class="spv-al">
+            <div class="spv-ah">{t.hero_list_label}</div>
+            <ul>
+              {
+                KINDS.map((k, i) => (
+                  <li>
+                    <button
+                      type="button"
+                      class={`sxf-b spv-fr${i === 0 ? ' is-sel' : ''}`}
+                      aria-pressed={i === 0 ? 'true' : 'false'}
+                      data-nm={fileName(k, t)}
+                      data-mt={t[`mock_m_${k}`]}
+                    >
+                      <Fragment set:html={ft(k)} />
+                      <span class="tx">
+                        <span class="nm">{fileName(k, t)}</span>
+                        <span class="mt">{t[`mock_m_${k}`]}</span>
+                      </span>
+                    </button>
+                  </li>
+                ))
+              }
+            </ul>
+          </div>
+          <aside class="spv-as" aria-label={t.hero_sidebar_label}>
+            <div class="spv-ash">
+              <span>{t.hero_sidebar_label}</span>
+              <svg class="i" viewbox="0 0 24 24" aria-hidden="true"
+                ><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"></path></svg
+              >
+            </div>
+            <div class="spv-stage">
+              {KINDS.map((k, i) => <Fragment set:html={pv(k, t, i === 0)} />)}
+            </div>
+            <div class="spv-asn">
+              <b class="spv-sn">{fileName(KINDS[0], t)}</b>
+              <span class="spv-sm">{t[`mock_m_${KINDS[0]}`]}</span>
+            </div>
+          </aside>
+        </div>
+      </div>
+      <span class="sxf-pill p1" aria-hidden="true"
+        ><b style="background:#2A73FF"
+          ><svg class="i" viewbox="0 0 24 24"
+            ><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"></path><circle cx="12" cy="12" r="3"
+            ></circle></svg
+          ></b
+        >{t.hero_pill_1}</span
+      >
+      <span class="sxf-pill p2" aria-hidden="true"
+        ><b style="background:#A855F7"
+          ><svg class="i" viewbox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h10"></path></svg></b
+        >{t.hero_pill_2}</span
+      >
+    </div>
+  </div>
+  <script is:inline>
+    (function () {
+      function init(s) {
+        if (s.__spv) return;
+        s.__spv = 1;
+        var rows = [].slice.call(s.querySelectorAll('.spv-fr')),
+          pvs = [].slice.call(s.querySelectorAll('.spv-pv')),
+          sn = s.querySelector('.spv-sn'),
+          sm = s.querySelector('.spv-sm'),
+          app = s.querySelector('.spv-app'),
+          cur = 0,
+          tm = null,
+          vis = false,
+          hold = false,
+          done = false;
+        var rm = window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+        function pick(i) {
+          cur = i;
+          rows.forEach(function (r, k) {
+            r.classList.toggle('is-sel', k === i);
+            r.setAttribute('aria-pressed', k === i ? 'true' : 'false');
+          });
+          pvs.forEach(function (p, k) {
+            p.classList.toggle('is-on', k === i);
+          });
+          sn.textContent = rows[i].getAttribute('data-nm');
+          sm.textContent = rows[i].getAttribute('data-mt');
+        }
+        function tick() {
+          clearTimeout(tm);
+          if (rm || done || !vis || document.hidden) return;
+          tm = setTimeout(function () {
+            if (!hold) pick((cur + 1) % rows.length);
+            tick();
+          }, 3600);
+        }
+        rows.forEach(function (r, i) {
+          r.addEventListener('click', function () {
+            done = true;
+            clearTimeout(tm);
+            pick(i);
+          });
+        });
+        app.addEventListener('mouseenter', function () {
+          hold = true;
+        });
+        app.addEventListener('mouseleave', function () {
+          hold = false;
+        });
+        app.addEventListener('focusin', function () {
+          hold = true;
+        });
+        app.addEventListener('focusout', function () {
+          hold = false;
+        });
+        document.addEventListener('visibilitychange', function () {
+          if (document.hidden) clearTimeout(tm);
+          else tick();
+        });
+        if ('IntersectionObserver' in window) {
+          new IntersectionObserver(
+            function (es) {
+              vis = es[0].isIntersecting;
+              s.classList.toggle('spv-run', vis);
+              if (vis) tick();
+              else clearTimeout(tm);
+            },
+            { threshold: 0.35 },
+          ).observe(app);
+        } else {
+          vis = true;
+          s.classList.add('spv-run');
+          tick();
+        }
+      }
+      function go() {
+        document.querySelectorAll('.spv-hero').forEach(init);
+      }
+      if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', go);
+      else go();
+    })();
+  </script>
+</section>

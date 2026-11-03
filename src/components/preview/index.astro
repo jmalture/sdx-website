@@ -1,0 +1,36 @@
+---
+/** All sections of the Preview page, in order. To reorder or remove a section, edit the list below. */
+import type { Lang } from '../../i18n';
+import Base from './00-base.astro';
+import Mock from './00-mock.astro';
+import Hero from './01-hero.astro';
+import Formats from './02-formats.astro';
+import Views from './03-views.astro';
+import Fullscreen from './04-fullscreen.astro';
+import Details from './05-details.astro';
+import Benefits from './06-benefits.astro';
+import Audit from './07-audit.astro';
+import Widget from './08-widget.astro';
+import UseCases from './09-use-cases.astro';
+import Functions from './10-functions.astro';
+import Security from './11-security.astro';
+import Faq from './12-faq.astro';
+import Cta from './13-cta.astro';
+const { lang } = Astro.props as { lang: Lang };
+---
+
+<Base />
+<Mock />
+<Hero lang={lang} />
+<Formats lang={lang} />
+<Views lang={lang} />
+<Fullscreen lang={lang} />
+<Details lang={lang} />
+<Benefits lang={lang} />
+<Audit lang={lang} />
+<Widget lang={lang} />
+<UseCases lang={lang} />
+<Functions lang={lang} />
+<Security lang={lang} />
+<Faq lang={lang} />
+<Cta lang={lang} />

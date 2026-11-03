@@ -1,0 +1,413 @@
+---
+/**
+ * Section "details": Zur Datei die passenden Details (toggle chips switch the details panel, a switch shows/hides it).
+ * Texts: src/i18n/preview.json, keys starting with "details_" (panel rows: details_p<panel>_r<row>_a|b|c).
+ * Panels share one grid cell, so the tallest one sets the height and nothing moves when switching.
+ */
+import { dict, type Lang } from '../../i18n';
+import data from '../../i18n/preview.json';
+import { ft, pv, fileName } from './mock';
+const { lang } = Astro.props as { lang: Lang };
+const t = dict(data, lang);
+// panel 1..6: rows and whether the rows are key/value pairs
+const panels = [
+  { rows: 5, kv: true },
+  { rows: 3, kv: false },
+  { rows: 3, kv: false },
+  { rows: 2, kv: false },
+  { rows: 2, kv: false },
+  { rows: 3, kv: true },
+];
+const icons = [
+  'M4 4h16v16H4zM4 9h16M9 9v11',
+  'M12 7v5l3 2M3 12a9 9 0 1 0 3-6.7M3 4v4h4',
+  'M12 3 4 6v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V6z',
+  'M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12zM12 9a3 3 0 1 0 0 6 3 3 0 0 0 0-6z',
+  'M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1',
+  'M20 12 12 20 4 12V4h8z M8 8h.01',
+];
+---
+
+<style is:global>
+  .spv-details .spv-dw {
+    max-width: 1000px;
+    margin: 0 auto;
+    --dw: 440px;
+  }
+  .spv-details .spv-dwh {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 18px;
+    border-bottom: 1px solid #e6ecf5;
+  }
+  .spv-details .spv-dwh b {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 15px;
+    line-height: 1.3;
+  }
+  .sxf .spv-sw {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-left: auto;
+    min-height: 36px;
+    padding: 4px 4px 4px 12px;
+    border-radius: 999px;
+    border: 1px solid #d8e1ee;
+    background: #fff;
+    color: #3d4555;
+    font-family: Inter, sans-serif;
+    font-size: 13px;
+    line-height: 1.2;
+    font-weight: 600;
+    white-space: nowrap;
+    flex: none;
+  }
+  .spv-sw i {
+    position: relative;
+    width: 38px;
+    height: 22px;
+    border-radius: 999px;
+    background: #c4cedd;
+    transition: background-color 0.3s ease;
+  }
+  .spv-sw i::after {
+    content: '';
+    position: absolute;
+    left: 3px;
+    top: 3px;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .sxf .spv-sw[aria-pressed='true'] i {
+    background: #2a73ff;
+  }
+  .sxf .spv-sw[aria-pressed='true'] i::after {
+    transform: translateX(16px);
+  }
+  .spv-details .spv-dwm {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) var(--dw);
+    transition: grid-template-columns 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .spv-details .spv-dwm.is-off {
+    grid-template-columns: minmax(0, 1fr) 0px;
+  }
+  .spv-details .spv-dws {
+    padding: 18px;
+    background: #fafcff;
+    min-width: 0;
+  }
+  .spv-details .spv-dws .spv-stage {
+    height: 100%;
+    min-height: 240px;
+  }
+  .spv-details .spv-dwd {
+    position: relative;
+    min-width: 0;
+    overflow: hidden;
+    border-left: 1px solid #e6ecf5;
+    transition: border-color 0.3s ease;
+  }
+  .spv-details .spv-dwm.is-off .spv-dwd {
+    border-color: transparent;
+  }
+  .spv-details .spv-dwi {
+    width: var(--dw);
+    padding: 18px 20px 20px;
+    transition: opacity 0.3s ease;
+  }
+  .spv-details .spv-dwm.is-off .spv-dwi {
+    opacity: 0;
+  }
+  .spv-details .spv-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .sxf.spv-details .spv-chip {
+    min-height: 36px;
+    padding: 6px 12px;
+    font-size: 13px;
+  }
+  .spv-chip svg {
+    width: 15px;
+    height: 15px;
+  }
+  .spv-details .spv-panels {
+    display: grid;
+    margin-top: 16px;
+  }
+  .spv-details .spv-panel {
+    grid-area: 1 / 1;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(6px);
+    transition:
+      opacity 0.3s ease,
+      transform 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+      visibility 0s linear 0.3s;
+  }
+  .spv-details .spv-panel.is-on {
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    transition-delay: 0s;
+  }
+  .spv-details .spv-panel ul {
+    list-style: none;
+    display: grid;
+    gap: 0;
+    margin: 0;
+    padding: 0;
+  }
+  .spv-details .spv-panel li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    min-height: 44px;
+    margin: 0;
+    padding: 8px 0;
+    border-bottom: 1px solid #edf1f7;
+    font-size: 14px;
+    line-height: 1.35;
+  }
+  .spv-details .spv-panel li:last-child {
+    border-bottom: 0;
+  }
+  .spv-details .spv-panel li span {
+    min-width: 0;
+  }
+  .spv-details .spv-panel li strong {
+    display: block;
+    font-weight: 600;
+    color: #0f1b2d;
+  }
+  .spv-details .spv-panel li small {
+    display: block;
+    font-size: 12px;
+    line-height: 1.4;
+    color: #5b6475;
+  }
+  .spv-details .spv-panel.kv li > span:first-child {
+    color: #5b6475;
+    font-size: 13px;
+  }
+  .spv-details .spv-panel.kv li > span:last-child {
+    font-weight: 600;
+    color: #0f1b2d;
+    text-align: right;
+  }
+  .spv-details .spv-panel li em {
+    padding: 3px 10px;
+    border-radius: 999px;
+    background: #eaf2ff;
+    color: #1f55c4;
+    font-style: normal;
+    font-size: 12px;
+    line-height: 1.4;
+    font-weight: 600;
+    white-space: nowrap;
+    flex: none;
+  }
+  .spv-details .spv-dwo {
+    display: none;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .spv-details .spv-dwm,
+    .spv-details .spv-dwi,
+    .spv-details .spv-panel,
+    .spv-sw i,
+    .spv-sw i::after {
+      transition: none;
+    }
+    .spv-details .spv-panel {
+      transform: none;
+    }
+  }
+  @media (max-width: 1024px) {
+    .spv-details .spv-dw {
+      max-width: 640px;
+      --dw: 100%;
+    }
+    .spv-details .spv-dwm,
+    .spv-details .spv-dwm.is-off {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .spv-details .spv-dws .spv-stage {
+      height: 220px;
+      min-height: 0;
+    }
+    .spv-details .spv-dwd {
+      border-left: 0;
+      border-top: 1px solid #e6ecf5;
+    }
+    .spv-details .spv-dwm.is-off .spv-dwd {
+      border-color: #e6ecf5;
+    }
+    .spv-details .spv-dwo {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      text-align: center;
+      font-size: 14px;
+      line-height: 1.5;
+      color: #5b6475;
+      opacity: 0;
+      visibility: hidden;
+      transition:
+        opacity 0.3s ease,
+        visibility 0s linear 0.3s;
+    }
+    .spv-details .spv-dwm.is-off .spv-dwo {
+      opacity: 1;
+      visibility: visible;
+      transition-delay: 0s;
+    }
+  }
+  @media (max-width: 480px) {
+    .spv-details .spv-dwi {
+      padding: 16px 14px 18px;
+    }
+    .spv-details .spv-dws {
+      padding: 12px;
+    }
+    .spv-details .spv-dwh {
+      padding: 12px 12px;
+      gap: 8px;
+    }
+  }
+</style>
+<section class="sxf spv-sec spv-alt2 spv-details" id="details" aria-labelledby="spv-h-details">
+  <div class="sxf-wrap">
+    <div class="sxf-head" data-rv>
+      <p class="sxf-eyebrow">{t.details_eyebrow}</p>
+      <h2 class="sxf-h" id="spv-h-details">{t.details_title_1} <span class="sxf-blue">{t.details_title_2}</span></h2>
+      <p class="sxf-lead">{t.details_lead}</p>
+    </div>
+    <div data-rv style="--dl:.1s">
+      <div class="spv-win spv-dw" role="group" aria-label={t.details_app_label}>
+        <div class="spv-bar"><i></i><i></i><i></i><span class="spv-ex">{t.mock_label}</span></div>
+        <div class="spv-dwh">
+          <Fragment set:html={ft('pdf')} />
+          <b>{fileName('pdf', t)}</b>
+          <button type="button" class="sxf-b spv-sw" aria-pressed="true"
+            >{t.details_switch}<i aria-hidden="true"></i></button
+          >
+        </div>
+        <div class="spv-dwm">
+          <div class="spv-dws">
+            <div class="spv-stage"><Fragment set:html={pv('pdf', t, true)} /></div>
+          </div>
+          <div class="spv-dwd">
+            <div class="spv-dwi">
+              <div class="spv-chips" role="group" aria-label={t.details_chips_label}>
+                {
+                  panels.map((p, i) => (
+                    <button type="button" class="sxf-b spv-chip" aria-pressed={i === 0 ? 'true' : 'false'}>
+                      <svg class="i" viewbox="0 0 24 24" aria-hidden="true">
+                        <path d={icons[i]} />
+                      </svg>
+                      {t[`details_tab_${i + 1}`]}
+                    </button>
+                  ))
+                }
+              </div>
+              <div class="spv-panels" aria-live="polite">
+                {
+                  panels.map((p, i) => (
+                    <div class={`spv-panel${p.kv ? ' kv' : ''}${i === 0 ? ' is-on' : ''}`}>
+                      <ul>
+                        {Array.from({ length: p.rows }, (_, m) => {
+                          const k = `details_p${i + 1}_r${m + 1}_`;
+                          return (
+                            <li>
+                              <span>
+                                {p.kv ? (
+                                  t[k + 'a']
+                                ) : (
+                                  <>
+                                    <strong>{t[k + 'a']}</strong>
+                                    <small>{t[k + 'b']}</small>
+                                  </>
+                                )}
+                              </span>
+                              {p.kv ? <span>{t[k + 'b']}</span> : t[k + 'c'] ? <em>{t[k + 'c']}</em> : null}
+                            </li>
+                          );
+                        })}
+                      </ul>
+                    </div>
+                  ))
+                }
+              </div>
+            </div>
+            <div class="spv-dwo">{t.details_hidden}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script is:inline>
+    (function () {
+      function init(s) {
+        if (s.__spv) return;
+        s.__spv = 1;
+        var chips = [].slice.call(s.querySelectorAll('.spv-chip')),
+          panels = [].slice.call(s.querySelectorAll('.spv-panel')),
+          sw = s.querySelector('.spv-sw'),
+          m = s.querySelector('.spv-dwm');
+        function pick(i, focus) {
+          chips.forEach(function (c, k) {
+            c.setAttribute('aria-pressed', k === i ? 'true' : 'false');
+          });
+          panels.forEach(function (p, k) {
+            p.classList.toggle('is-on', k === i);
+          });
+          if (focus) chips[i].focus();
+        }
+        chips.forEach(function (c, i) {
+          c.addEventListener('click', function () {
+            pick(i);
+          });
+          c.addEventListener('keydown', function (e) {
+            var n = chips.length;
+            if (e.key === 'ArrowRight') {
+              e.preventDefault();
+              pick((i + 1) % n, true);
+            } else if (e.key === 'ArrowLeft') {
+              e.preventDefault();
+              pick((i + n - 1) % n, true);
+            }
+          });
+        });
+        sw.addEventListener('click', function () {
+          var on = sw.getAttribute('aria-pressed') !== 'true';
+          sw.setAttribute('aria-pressed', on ? 'true' : 'false');
+          m.classList.toggle('is-off', !on);
+          m.querySelector('.spv-dwi').setAttribute('aria-hidden', on ? 'false' : 'true');
+          chips.forEach(function (c) {
+            c.tabIndex = on ? 0 : -1;
+          });
+        });
+      }
+      function go() {
+        document.querySelectorAll('.spv-details').forEach(init);
+      }
+      if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', go);
+      else go();
+    })();
+  </script>
+</section>

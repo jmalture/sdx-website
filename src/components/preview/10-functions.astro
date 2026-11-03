@@ -1,0 +1,358 @@
+---
+/**
+ * Section "functions": Alle Funktionen im Überblick (bento grid, the 8 functions of the feature document).
+ * Texts: src/i18n/preview.json, keys starting with "functions_" (functions_<n>_t|p).
+ * The only static card section of the page. Mini UIs are drawn in CSS.
+ */
+import { dict, type Lang } from '../../i18n';
+import data from '../../i18n/preview.json';
+import { ft, type Kind } from './mock';
+const { lang } = Astro.props as { lang: Lang };
+const t = dict(data, lang);
+const kinds: Kind[] = ['json', 'xlsx', 'pdf', 'pptx', 'txt', 'mp4'];
+const chips = [t.details_tab_1, t.details_tab_2, t.details_tab_3, t.details_tab_6];
+---
+
+<style is:global>
+  .spv-functions .spv-bento {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 18px;
+  }
+  .spv-functions .spv-bw {
+    min-width: 0;
+  }
+  .spv-functions .spv-bw.w2 {
+    grid-column: span 2;
+  }
+  .spv-bt {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 22px 22px 24px;
+    border-radius: 24px;
+    background: #fff;
+    border: 1px solid #e3e8f0;
+    box-shadow: 0 2px 6px rgba(18, 37, 92, 0.04);
+    transition:
+      transform 0.3s ease,
+      box-shadow 0.3s ease,
+      border-color 0.3s ease;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .spv-bt:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 24px 46px -20px rgba(18, 37, 92, 0.25);
+      border-color: #c9d9f5;
+    }
+  }
+  .spv-bt .mv {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    height: 128px;
+    margin-bottom: 20px;
+    padding: 14px;
+    border-radius: 16px;
+    background: linear-gradient(135deg, #eef4ff, #f8fbff);
+    overflow: hidden;
+  }
+  .spv-bt h3 {
+    margin: 0 0 8px;
+    font-family: Inter, sans-serif;
+    font-size: 19px;
+    line-height: 1.3;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    color: #0f1b2d;
+  }
+  .spv-bt p {
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.55;
+    color: #4a5568;
+  }
+  /* a: file preview in the sidebar */
+  .spv-bt .mv-a {
+    display: grid;
+    grid-template-columns: 1fr 96px;
+    gap: 10px;
+    align-items: stretch;
+  }
+  .spv-bt .mv-a .ls {
+    display: grid;
+    align-content: center;
+    gap: 6px;
+  }
+  .spv-bt .mv-a .ls i {
+    display: block;
+    height: 14px;
+    border-radius: 6px;
+    background: #fff;
+    box-shadow: 0 0 0 1px rgba(18, 37, 92, 0.08);
+  }
+  .spv-bt .mv-a .ls i.on {
+    background: #2a73ff;
+    box-shadow: none;
+  }
+  .spv-bt .mv-a .sb {
+    display: grid;
+    align-content: start;
+    gap: 5px;
+    padding: 8px;
+    border-radius: 8px;
+    background: #fff;
+    box-shadow: 0 8px 18px -10px rgba(18, 37, 92, 0.4);
+  }
+  .spv-bt .mv-a .sb i {
+    display: block;
+    height: 5px;
+    border-radius: 3px;
+    background: #e6ecf5;
+  }
+  .spv-bt .mv-a .sb i:first-child {
+    height: 26px;
+    background: #fde4e2;
+  }
+  /* b: list / tiles */
+  .spv-bt .mv-b span {
+    display: grid;
+    gap: 4px;
+    width: 46px;
+    padding: 8px;
+    border-radius: 8px;
+    background: #fff;
+    box-shadow: 0 0 0 1px rgba(18, 37, 92, 0.08);
+  }
+  .spv-bt .mv-b span i {
+    display: block;
+    height: 6px;
+    border-radius: 3px;
+    background: #bcd3ff;
+  }
+  .spv-bt .mv-b span.tl {
+    grid-template-columns: 1fr 1fr;
+  }
+  .spv-bt .mv-b span.tl i {
+    height: 14px;
+    border-radius: 4px;
+  }
+  /* c: fullscreen */
+  .spv-bt .mv-c span {
+    position: relative;
+    width: 96px;
+    height: 70px;
+    border-radius: 8px;
+    background: #0f1b2d;
+  }
+  .spv-bt .mv-c span::before,
+  .spv-bt .mv-c span::after {
+    content: '';
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    border: 3px solid #fff;
+  }
+  .spv-bt .mv-c span::before {
+    left: 8px;
+    top: 8px;
+    border-right: 0;
+    border-bottom: 0;
+  }
+  .spv-bt .mv-c span::after {
+    right: 8px;
+    bottom: 8px;
+    border-left: 0;
+    border-top: 0;
+  }
+  .spv-bt .mv-c b {
+    font-size: 18px;
+    color: #2a73ff;
+    line-height: 1;
+  }
+  /* d: formats */
+  .spv-bt .mv-d {
+    flex-wrap: wrap;
+    align-content: center;
+  }
+  /* e: details chips */
+  .spv-bt .mv-e {
+    flex-wrap: wrap;
+    align-content: center;
+  }
+  .spv-bt .mv-e i {
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: #fff;
+    box-shadow: 0 0 0 1px rgba(18, 37, 92, 0.1);
+    font-style: normal;
+    font-size: 12px;
+    line-height: 1.4;
+    font-weight: 600;
+    color: #3d4555;
+  }
+  .spv-bt .mv-e i:first-child {
+    background: #2a73ff;
+    color: #fff;
+    box-shadow: none;
+  }
+  /* f: audit */
+  .spv-bt .mv-f span {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    border-radius: 10px;
+    background: #fff;
+    box-shadow: 0 0 0 1px rgba(18, 37, 92, 0.08);
+    font-size: 12px;
+    line-height: 1.3;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  .spv-bt .mv-f em {
+    padding: 2px 9px;
+    border-radius: 999px;
+    background: #f3e8ff;
+    color: #7e22ce;
+    font-style: normal;
+    font-weight: 700;
+  }
+  /* g: custom widgets */
+  .spv-bt .mv-g span.dash {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 64px;
+    height: 64px;
+    border-radius: 14px;
+    border: 2px dashed #8fb3f5;
+    color: #2a73ff;
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 1;
+  }
+  .spv-bt .mv-g b {
+    font-size: 13px;
+    color: #5b6475;
+  }
+  /* h: extended functions */
+  .spv-bt .mv-h span {
+    display: inline-flex;
+    align-items: center;
+    padding: 7px 16px;
+    border-radius: 10px;
+    background: #f59000;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+  }
+  .spv-bt .mv-h em {
+    padding: 4px 10px;
+    border-radius: 8px;
+    background: #fff;
+    box-shadow: 0 0 0 1px rgba(18, 37, 92, 0.1);
+    font-style: normal;
+    font-size: 12px;
+    font-weight: 600;
+    color: #3d4555;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .spv-bt {
+      transition: none;
+    }
+  }
+  @media (max-width: 1024px) {
+    .spv-functions .spv-bento {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  @media (max-width: 640px) {
+    .spv-functions .spv-bento {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 14px;
+    }
+    .spv-functions .spv-bw.w2 {
+      grid-column: auto;
+    }
+  }
+</style>
+<section class="sxf spv-sec spv-functions" id="funktionen" aria-labelledby="spv-h-functions">
+  <div class="sxf-wrap">
+    <div class="sxf-head" data-rv>
+      <p class="sxf-eyebrow">{t.functions_eyebrow}</p>
+      <h2 class="sxf-h" id="spv-h-functions">
+        {t.functions_title_1}
+        <span class="sxf-blue">{t.functions_title_2}</span>
+      </h2>
+      <p class="sxf-lead">{t.functions_lead}</p>
+    </div>
+    <div class="spv-bento">
+      <div class="spv-bw w2" data-rv>
+        <article class="spv-bt">
+          <div class="mv mv-a" aria-hidden="true">
+            <div class="ls"><i></i><i class="on"></i><i></i><i></i></div>
+            <div class="sb"><i></i><i></i><i></i><i></i></div>
+          </div>
+          <h3>{t.functions_1_t}</h3>
+          <p>{t.functions_1_p}</p>
+        </article>
+      </div>
+      <div class="spv-bw" data-rv style="--dl:.07s">
+        <article class="spv-bt">
+          <div class="mv mv-b" aria-hidden="true">
+            <span><i></i><i></i><i></i></span>
+            <span class="tl"><i></i><i></i><i></i><i></i></span>
+          </div>
+          <h3>{t.functions_2_t}</h3>
+          <p>{t.functions_2_p}</p>
+        </article>
+      </div>
+      <div class="spv-bw" data-rv style="--dl:.14s">
+        <article class="spv-bt">
+          <div class="mv mv-c" aria-hidden="true"><span></span></div>
+          <h3>{t.functions_3_t}</h3>
+          <p>{t.functions_3_p}</p>
+        </article>
+      </div>
+      <div class="spv-bw w2" data-rv>
+        <article class="spv-bt">
+          <div class="mv mv-d" aria-hidden="true">{kinds.map((k) => <Fragment set:html={ft(k)} />)}</div>
+          <h3>{t.functions_4_t}</h3>
+          <p>{t.functions_4_p}</p>
+        </article>
+      </div>
+      <div class="spv-bw" data-rv style="--dl:.07s">
+        <article class="spv-bt">
+          <div class="mv mv-e" aria-hidden="true">{chips.map((c) => <i>{c}</i>)}</div>
+          <h3>{t.functions_5_t}</h3>
+          <p>{t.functions_5_p}</p>
+        </article>
+      </div>
+      <div class="spv-bw" data-rv style="--dl:.14s">
+        <article class="spv-bt">
+          <div class="mv mv-f" aria-hidden="true"><span><em>Preview content</em></span></div>
+          <h3>{t.functions_6_t}</h3>
+          <p>{t.functions_6_p}</p>
+        </article>
+      </div>
+      <div class="spv-bw w2" data-rv>
+        <article class="spv-bt">
+          <div class="mv mv-g" aria-hidden="true"><span class="dash">+</span><b>Custom Preview Widget</b></div>
+          <h3>{t.functions_7_t}</h3>
+          <p>{t.functions_7_p}</p>
+        </article>
+      </div>
+      <div class="spv-bw w2" data-rv style="--dl:.08s">
+        <article class="spv-bt">
+          <div class="mv mv-h" aria-hidden="true"><span>EDIT</span><em>OnlyOffice</em></div>
+          <h3>{t.functions_8_t}</h3>
+          <p>{t.functions_8_p}</p>
+        </article>
+      </div>
+    </div>
+  </div>
+</section>

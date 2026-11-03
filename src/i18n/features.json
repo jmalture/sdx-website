@@ -45,7 +45,16 @@
     "feature_list_zip_f1": "Genehmigungen/",
     "feature_list_zip_f2": "Gutachten/",
     "feature_list_zip_f3": "Pläne/",
-    "feature_list_zip_f4": "Verträge/"
+    "feature_list_zip_f4": "Verträge/",
+    "feature_list_link_preview": "/preview/",
+    "feature_list_viewer": "Ansicht",
+    "feature_list_pv_f1": "Rechnung.pdf",
+    "feature_list_pv_f2": "Tabelle.xlsx",
+    "feature_list_pv_f3": "Video.mp4",
+    "feature_list_pv_text": "Dateien direkt in SDX ansehen, ohne sie herunterzuladen: in der Seitenleiste oder im Vollbild, mit Details und Audit-Protokollierung.",
+    "feature_list_pv_chip_sidebar": "Seitenleiste",
+    "feature_list_pv_chip_full": "Vollbild",
+    "feature_list_pv_chip_widgets": "Custom Widgets"
   },
   "en": {
     "hero_aria_label_breadcrumb": "Breadcrumb",
@@ -93,7 +102,16 @@
     "feature_list_zip_f1": "Permits/",
     "feature_list_zip_f2": "Reports/",
     "feature_list_zip_f3": "Plans/",
-    "feature_list_zip_f4": "Contracts/"
+    "feature_list_zip_f4": "Contracts/",
+    "feature_list_link_preview": "/en/preview/",
+    "feature_list_viewer": "Viewer",
+    "feature_list_pv_f1": "Invoice.pdf",
+    "feature_list_pv_f2": "Table.xlsx",
+    "feature_list_pv_f3": "Video.mp4",
+    "feature_list_pv_text": "View files right in SDX without downloading them: in the sidebar or in full screen, with details and audit logging.",
+    "feature_list_pv_chip_sidebar": "Sidebar",
+    "feature_list_pv_chip_full": "Full screen",
+    "feature_list_pv_chip_widgets": "Custom widgets"
   },
   "cs": {
     "hero_aria_label_breadcrumb": "Drobečková navigace",

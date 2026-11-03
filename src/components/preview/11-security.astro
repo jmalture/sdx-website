@@ -1,0 +1,347 @@
+---
+/**
+ * Section "security": Die Vorschau folgt Ihren Zugriffsrechten (animated checklist plus a rights switch).
+ * Texts: src/i18n/preview.json, keys starting with "security_" (and "mock_" for sample contents).
+ * The checklist plays once when it scrolls into view (all items visible with reduced motion). The switch shows that
+ * the preview follows the SDX access rights: with a right the file is shown, without it the preview stays locked.
+ */
+import { dict, type Lang } from '../../i18n';
+import data from '../../i18n/preview.json';
+import { ft, pv, fileName } from './mock';
+const { lang } = Astro.props as { lang: Lang };
+const t = dict(data, lang);
+const items = [1, 2, 3, 4];
+---
+
+<style is:global>
+  .spv-security {
+    background: #0f1b2d;
+    color: #fff;
+  }
+  .sxf.spv-security {
+    background: linear-gradient(180deg, #0f1b2d 0%, #14264a 100%);
+  }
+  .spv-security .sxf-wrap {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+    gap: 64px;
+    align-items: center;
+  }
+  .spv-security .sxf-eyebrow {
+    color: #7fb0ff;
+  }
+  .spv-security .sxf-h {
+    color: #fff;
+    font-size: clamp(30px, 3.4vw, 42px);
+  }
+  .spv-security .sxf-blue {
+    color: #7fb0ff;
+  }
+  .spv-security .sxf-lead {
+    color: rgba(255, 255, 255, 0.78);
+  }
+  .spv-security .spv-cl {
+    list-style: none;
+    display: grid;
+    gap: 14px;
+    margin: 32px 0 0;
+    padding: 0;
+  }
+  .spv-security .spv-cl li {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    margin: 0;
+    padding: 14px 16px;
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    font-size: 16px;
+    line-height: 1.5;
+    color: rgba(255, 255, 255, 0.94);
+  }
+  .spv-security .spv-cl li b {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 26px;
+    height: 26px;
+    margin-top: 0;
+    border-radius: 50%;
+    background: #1a9b4b;
+    color: #fff;
+    flex: none;
+  }
+  .spv-security .spv-cl li b svg {
+    width: 14px;
+    height: 14px;
+    stroke-width: 3;
+    stroke-dasharray: 24;
+    stroke-dashoffset: 0;
+  }
+  .spv-js-sec .spv-cl li {
+    opacity: 0;
+    transform: translateY(14px);
+    transition:
+      opacity 0.6s ease var(--dl, 0s),
+      transform 0.7s cubic-bezier(0.22, 1, 0.36, 1) var(--dl, 0s);
+  }
+  .spv-js-sec .spv-cl li b svg {
+    stroke-dashoffset: 24;
+    transition: stroke-dashoffset 0.5s ease calc(var(--dl, 0s) + 0.35s);
+  }
+  .spv-js-sec .spv-cl.is-in li {
+    opacity: 1;
+    transform: none;
+  }
+  .spv-js-sec .spv-cl.is-in li b svg {
+    stroke-dashoffset: 0;
+  }
+  .spv-security .spv-win {
+    background: #fff;
+    color: #0f1b2d;
+  }
+  .spv-security .spv-who {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 14px 16px;
+    border-bottom: 1px solid #e6ecf5;
+  }
+  .spv-security .spv-chip .av {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--c);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    flex: none;
+  }
+  .spv-security .spv-sb {
+    padding: 16px;
+  }
+  .spv-security .spv-sb .spv-stage {
+    aspect-ratio: 16 / 10;
+  }
+  .spv-security .spv-lk {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 20px;
+    background: #eef3fb;
+    text-align: center;
+    opacity: 0;
+    visibility: hidden;
+    transition:
+      opacity 0.35s ease,
+      visibility 0s linear 0.35s;
+  }
+  .spv-security .spv-lk.is-on {
+    opacity: 1;
+    visibility: visible;
+    transition-delay: 0s;
+  }
+  .spv-security .spv-lk b {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: #0f1b2d;
+    color: #fff;
+  }
+  .spv-security .spv-lk b svg {
+    width: 22px;
+    height: 22px;
+  }
+  .spv-security .spv-lk strong {
+    font-size: 15px;
+    line-height: 1.35;
+  }
+  .spv-security .spv-lk span {
+    font-size: 13.5px;
+    line-height: 1.5;
+    color: #5b6475;
+  }
+  .spv-security .spv-sf {
+    display: grid;
+    margin-top: 12px;
+  }
+  .spv-security .spv-sf > div {
+    grid-area: 1 / 1;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    line-height: 1.45;
+    color: #5b6475;
+    opacity: 0;
+    visibility: hidden;
+    transition:
+      opacity 0.3s ease,
+      visibility 0s linear 0.3s;
+  }
+  .spv-security .spv-sf > div.is-on {
+    opacity: 1;
+    visibility: visible;
+    transition-delay: 0s;
+  }
+  .spv-security .spv-sf em {
+    padding: 2px 9px;
+    border-radius: 999px;
+    background: #f3e8ff;
+    color: #7e22ce;
+    font-style: normal;
+    font-size: 12px;
+    font-weight: 700;
+    white-space: nowrap;
+    flex: none;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .spv-js-sec .spv-cl li,
+    .spv-js-sec .spv-cl li b svg,
+    .spv-security .spv-lk,
+    .spv-security .spv-sf > div {
+      transition: none;
+    }
+    .spv-js-sec .spv-cl li {
+      opacity: 1;
+      transform: none;
+    }
+    .spv-js-sec .spv-cl li b svg {
+      stroke-dashoffset: 0;
+    }
+  }
+  @media (max-width: 1024px) {
+    .spv-security .sxf-wrap {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 48px;
+    }
+  }
+  @media (max-width: 767px) {
+    .spv-security .spv-sb {
+      padding: 12px;
+    }
+    .spv-security .spv-sb .spv-stage {
+      aspect-ratio: 4 / 3;
+    }
+    .spv-security .spv-cl li {
+      font-size: 15px;
+    }
+  }
+</style>
+<section class="sxf spv-sec spv-security" id="sicherheit" aria-labelledby="spv-h-security">
+  <div class="sxf-wrap">
+    <div data-rv>
+      <p class="sxf-eyebrow">{t.security_eyebrow}</p>
+      <h2 class="sxf-h" id="spv-h-security">{t.security_title_1} <span class="sxf-blue">{t.security_title_2}</span></h2>
+      <p class="sxf-lead">{t.security_lead}</p>
+      <ul class="spv-cl">
+        {
+          items.map((n) => (
+            <li style={`--dl:${(n - 1) * 0.35}s`}>
+              <b aria-hidden="true">
+                <svg class="i" viewbox="0 0 24 24">
+                  <path d="m5 12 5 5L20 7" />
+                </svg>
+              </b>
+              <span>{t[`security_c${n}`]}</span>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+    <div data-rv style="--dl:.12s">
+      <div class="spv-win" role="group" aria-label={t.security_app_label}>
+        <div class="spv-bar">
+          <i></i><i></i><i></i><span class="pth">{fileName('pdf', t)}</span><span class="spv-ex">{t.mock_label}</span>
+        </div>
+        <div class="spv-who" role="group" aria-label={t.security_who_label}>
+          <button type="button" class="sxf-b spv-chip" data-a="1" aria-pressed="true" style="--c:#1a9b4b">
+            <span class="av" aria-hidden="true">AW</span>{t.security_user_1}
+          </button>
+          <button type="button" class="sxf-b spv-chip" data-a="0" aria-pressed="false" style="--c:#8a94a6">
+            <span class="av" aria-hidden="true">TK</span>{t.security_user_2}
+          </button>
+        </div>
+        <div class="spv-sb">
+          <div class="spv-stage">
+            <Fragment set:html={pv('pdf', t, true)} />
+            <div class="spv-lk" aria-hidden="true">
+              <b
+                ><svg class="i" viewbox="0 0 24 24"
+                  ><rect x="4" y="11" width="16" height="10" rx="2"></rect><path d="M8 11V7a4 4 0 0 1 8 0v4"
+                  ></path></svg
+                ></b
+              >
+              <strong>{t.security_locked_t}</strong>
+              <span>{t.security_locked_p}</span>
+            </div>
+          </div>
+          <div class="spv-sf" aria-live="polite">
+            <div class="is-on"><Fragment set:html={ft('pdf')} /><em>Preview content</em>{t.security_ok_note}</div>
+            <div>{t.security_no_note}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script is:inline>
+    (function () {
+      function init(s) {
+        if (s.__spv) return;
+        s.__spv = 1;
+        var cl = s.querySelector('.spv-cl'),
+          chips = [].slice.call(s.querySelectorAll('.spv-chip')),
+          lk = s.querySelector('.spv-lk'),
+          notes = [].slice.call(s.querySelectorAll('.spv-sf > div')),
+          rm = window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+        s.classList.add('spv-js-sec');
+        chips.forEach(function (c) {
+          c.addEventListener('click', function () {
+            var ok = c.getAttribute('data-a') === '1';
+            chips.forEach(function (o) {
+              o.setAttribute('aria-pressed', o === c ? 'true' : 'false');
+            });
+            lk.classList.toggle('is-on', !ok);
+            notes[0].classList.toggle('is-on', ok);
+            notes[1].classList.toggle('is-on', !ok);
+          });
+        });
+        if (rm || !('IntersectionObserver' in window)) {
+          cl.classList.add('is-in');
+          return;
+        }
+        var io = new IntersectionObserver(
+          function (es) {
+            if (es[0].isIntersecting) {
+              cl.classList.add('is-in');
+              io.disconnect();
+            }
+          },
+          { threshold: 0.35 },
+        );
+        io.observe(cl);
+        setTimeout(function () {
+          var r = cl.getBoundingClientRect();
+          if (r.top < innerHeight && r.bottom > 0) cl.classList.add('is-in');
+        }, 1500);
+      }
+      function go() {
+        document.querySelectorAll('.spv-security').forEach(init);
+      }
+      if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', go);
+      else go();
+    })();
+  </script>
+</section>

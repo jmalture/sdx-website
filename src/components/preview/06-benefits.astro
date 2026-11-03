@@ -1,0 +1,302 @@
+---
+/**
+ * Section "benefits": Nutzen (8 business value categories of the feature document as hover-reveal cards).
+ * Texts: src/i18n/preview.json, keys starting with "benefits_" (benefits_<n>_t|p|b1|b2|b3|pill).
+ * Hover/focus reveals three points through a clip-path circle (fine pointers only); on touch the points are shown below the text.
+ */
+import { dict, type Lang } from '../../i18n';
+import data from '../../i18n/preview.json';
+const { lang } = Astro.props as { lang: Lang };
+const t = dict(data, lang);
+const cards = [
+  { c: '#2A73FF', k: '#1E5BD8', i: 'M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z' },
+  {
+    c: '#FFA600',
+    k: '#B86A00',
+    i: 'M12 3v18M16 7.5C16 6 14.2 5 12 5S8 6 8 7.7c0 4 8 2.6 8 6.6C16 16 14.2 17 12 17s-4-1-4-2.5',
+  },
+  { c: '#0F1B2D', k: '#0F1B2D', i: 'M12 3 4 6v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V6zM9 12l2 2 4-4' },
+  {
+    c: '#22C55E',
+    k: '#13803F',
+    i: 'M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12zM12 9a3 3 0 1 0 0 6 3 3 0 0 0 0-6z',
+  },
+  {
+    c: '#F04438',
+    k: '#B3261E',
+    i: 'M12 9v4M12 17h.01M10.3 3.9 2.4 18a2 2 0 0 0 1.7 3h15.8a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z',
+  },
+  { c: '#C800FF', k: '#8E10C0', i: 'M13 2 4 14h7l-1 8 9-12h-7z' },
+  { c: '#00BFFF', k: '#0075B0', i: 'M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z' },
+  {
+    c: '#2A73FF',
+    k: '#1E5BD8',
+    i: 'M10 13a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1M14 11a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1',
+  },
+];
+---
+
+<style is:global>
+  .spv-benefits .spv-vgrid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 20px;
+  }
+  .spv-benefits .spv-vcw {
+    min-width: 0;
+  }
+  .spv-vc {
+    position: relative;
+    height: 100%;
+    min-height: 318px;
+    padding: 30px 26px 26px;
+    border-radius: 24px;
+    background: #fff;
+    border: 1px solid #e3e8f0;
+    box-shadow: 0 2px 6px rgba(18, 37, 92, 0.04);
+    overflow: hidden;
+    outline: none;
+    transition:
+      box-shadow 0.3s ease,
+      transform 0.3s ease,
+      border-color 0.3s ease;
+  }
+  .spv-vc .ic {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 54px;
+    height: 54px;
+    border-radius: 15px;
+    background: var(--c);
+    color: #fff;
+    box-shadow: 0 12px 24px -10px var(--c);
+  }
+  .spv-vc .ic svg {
+    width: 26px;
+    height: 26px;
+  }
+  .spv-vc .mv {
+    position: absolute;
+    top: 30px;
+    right: 22px;
+    max-width: calc(100% - 118px);
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--c) 12%, #fff);
+    color: var(--k);
+    font-size: 12px;
+    line-height: 1.4;
+    font-weight: 700;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .spv-vc h3 {
+    margin: 22px 0 10px;
+    font-family: Inter, sans-serif;
+    font-size: 21px;
+    line-height: 1.3;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    color: #0f1b2d;
+  }
+  .spv-vc p {
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.55;
+    color: #4a5568;
+  }
+  .spv-vc .more {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    margin-top: 16px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--k);
+  }
+  .spv-vc .more svg {
+    width: 16px;
+    height: 16px;
+  }
+  .spv-vc .pf {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 28px 26px;
+    background: var(--k);
+    color: #fff;
+    clip-path: circle(0 at 53px 57px);
+    transition: clip-path 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .spv-vc .pf .ic2 {
+    position: absolute;
+    left: 26px;
+    top: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 54px;
+    height: 54px;
+    border-radius: 15px;
+    background: rgba(255, 255, 255, 0.16);
+  }
+  .spv-vc .pf .ic2 svg {
+    width: 26px;
+    height: 26px;
+  }
+  .spv-vc .pf b {
+    display: block;
+    margin: 56px 0 12px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    opacity: 0.85;
+  }
+  .spv-vc .pf ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 9px;
+  }
+  .spv-vc .pf li {
+    display: flex;
+    gap: 10px;
+    margin: 0;
+    font-size: 14.5px;
+    line-height: 1.45;
+    font-weight: 500;
+  }
+  .spv-vc .pf li svg {
+    width: 17px;
+    height: 17px;
+    margin-top: 1px;
+    stroke-width: 2.6;
+    flex: none;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .spv-vc:hover,
+    .spv-vc:focus-visible,
+    .spv-vc:focus-within {
+      transform: translateY(-4px);
+      box-shadow: 0 26px 50px -18px rgba(18, 37, 92, 0.28);
+      border-color: transparent;
+    }
+    .spv-vc:hover .pf,
+    .spv-vc:focus-visible .pf,
+    .spv-vc:focus-within .pf {
+      clip-path: circle(150% at 53px 57px);
+    }
+  }
+  .spv-vc:focus-visible {
+    outline: 2px solid #2a73ff;
+    outline-offset: 3px;
+  }
+  @media (hover: none), (pointer: coarse) {
+    .spv-vc {
+      min-height: 0;
+    }
+    .spv-vc .more,
+    .spv-vc .pf .ic2,
+    .spv-vc .pf b {
+      display: none;
+    }
+    .spv-vc .pf {
+      position: static;
+      clip-path: none;
+      background: transparent;
+      color: #0f1b2d;
+      padding: 16px 0 0;
+      margin-top: 18px;
+      border-top: 1px solid #eef1f6;
+    }
+    .spv-vc .pf li {
+      font-size: 14.5px;
+      color: #3d4555;
+    }
+    .spv-vc .pf li svg {
+      color: var(--c);
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .spv-vc,
+    .spv-vc .pf {
+      transition: none;
+    }
+  }
+  @media (max-width: 1180px) {
+    .spv-benefits .spv-vgrid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  @media (max-width: 767px) {
+    .spv-benefits .spv-vgrid {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 16px;
+    }
+    .spv-vc {
+      padding: 26px 22px;
+    }
+    .spv-vc h3 {
+      font-size: 20px;
+      margin-top: 20px;
+    }
+  }
+</style>
+<section class="sxf spv-sec spv-benefits" id="nutzen" aria-labelledby="spv-h-benefits">
+  <div class="sxf-wrap">
+    <div class="sxf-head" data-rv>
+      <p class="sxf-eyebrow">{t.benefits_eyebrow}</p>
+      <h2 class="sxf-h" id="spv-h-benefits">{t.benefits_title_1} <span class="sxf-blue">{t.benefits_title_2}</span></h2>
+      <p class="sxf-lead">{t.benefits_lead}</p>
+    </div>
+    <div class="spv-vgrid">
+      {
+        cards.map((c, n) => (
+          <div class="spv-vcw" data-rv style={`--dl:${(n % 4) * 0.07}s`}>
+            <article class="spv-vc" tabindex="0" style={`--c:${c.c};--k:${c.k}`}>
+              <span class="ic" aria-hidden="true">
+                <svg class="i" viewbox="0 0 24 24">
+                  <path d={c.i} />
+                </svg>
+              </span>
+              {t[`benefits_${n + 1}_pill`] && <span class="mv">{t[`benefits_${n + 1}_pill`]}</span>}
+              <h3>{t[`benefits_${n + 1}_t`]}</h3>
+              <p>{t[`benefits_${n + 1}_p`]}</p>
+              <span class="more" aria-hidden="true">
+                <svg class="i" viewbox="0 0 24 24">
+                  <path d="M12 5v14M5 12h14" />
+                </svg>
+                {t.benefits_more}
+              </span>
+              <div class="pf">
+                <span class="ic2" aria-hidden="true">
+                  <svg class="i" viewbox="0 0 24 24">
+                    <path d={c.i} />
+                  </svg>
+                </span>
+                <b>{t.benefits_more}</b>
+                <ul>
+                  {[1, 2, 3].map((m) => (
+                    <li>
+                      <svg class="i" viewbox="0 0 24 24" aria-hidden="true">
+                        <path d="m5 12 5 5L20 7" />
+                      </svg>
+                      <span>{t[`benefits_${n + 1}_b${m}`]}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </article>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>

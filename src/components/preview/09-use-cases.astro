@@ -1,0 +1,469 @@
+---
+/**
+ * Section "use_cases": Wofür Teams den Preview nutzen (7 use cases of the feature document, expanding panels per area).
+ * Texts: src/i18n/preview.json, keys starting with "use_" (use_<n>_area|t|p) and "mock_" for the sample contents.
+ * Desktop (1181 px and wider): horizontal panels, hover intent 140 ms, click toggles. Below: stacked accordion, each panel toggles on its own.
+ */
+import { dict, type Lang } from '../../i18n';
+import data from '../../i18n/preview.json';
+import { pv, type Kind } from './mock';
+const { lang } = Astro.props as { lang: Lang };
+const t = dict(data, lang);
+const cases: { c: string; tint: string; kind: Kind | 'aud'; icon: string }[] = [
+  {
+    c: '#F04438',
+    tint: '#FEEFEE',
+    kind: 'pdf',
+    icon: 'M12 3v18M16 7.5C16 6 14.2 5 12 5S8 6 8 7.7c0 4 8 2.6 8 6.6C16 16 14.2 17 12 17s-4-1-4-2.5',
+  },
+  {
+    c: '#1A9B4B',
+    tint: '#E6F6EC',
+    kind: 'xlsx',
+    icon: 'M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z',
+  },
+  { c: '#F59000', tint: '#FFF3E0', kind: 'pptx', icon: 'M4 5h16v11H4zM12 16v4M8 20h8' },
+  {
+    c: '#8E10C0',
+    tint: '#F6E8FC',
+    kind: 'json',
+    icon: 'M8 4H6a2 2 0 0 0-2 2v3a2 2 0 0 1-2 2 2 2 0 0 1 2 2v3a2 2 0 0 0 2 2h2M16 4h2a2 2 0 0 1 2 2v3a2 2 0 0 0 2 2 2 2 0 0 0-2 2v3a2 2 0 0 1-2 2h-2',
+  },
+  { c: '#0A9BD6', tint: '#E3F5FD', kind: 'mp4', icon: 'M5 4v16l14-8z' },
+  { c: '#0F1B2D', tint: '#EEF1F6', kind: 'aud', icon: 'M12 3 4 6v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V6zM9 12l2 2 4-4' },
+  {
+    c: '#2A73FF',
+    tint: '#EAF1FF',
+    kind: 'cad',
+    icon: 'M10 13a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1M14 11a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1',
+  },
+];
+const audRows = [
+  ['a.mueller', t.use_aud_1, '#C800FF'],
+  ['t.schulz', t.use_aud_2, '#22C55E'],
+  ['m.weber', t.use_aud_3, '#2A73FF'],
+];
+---
+
+<style is:global>
+  .spv-uc .spv-ucs {
+    display: flex;
+    gap: 12px;
+    height: 580px;
+  }
+  .spv-uc .spv-ucp {
+    position: relative;
+    flex: 1 1 0;
+    min-width: 0;
+    border-radius: 24px;
+    background: var(--t);
+    border: 1px solid color-mix(in srgb, var(--c) 18%, transparent);
+    overflow: hidden;
+    transition:
+      flex-grow 0.42s cubic-bezier(0.22, 1, 0.36, 1),
+      box-shadow 0.4s ease,
+      background-color 0.4s ease;
+  }
+  .spv-uc .spv-ucp.is-on {
+    flex-grow: 4;
+    background: #fff;
+    box-shadow: 0 30px 60px -24px rgba(18, 37, 92, 0.25);
+    border-color: color-mix(in srgb, var(--c) 30%, transparent);
+  }
+  .sxf .spv-uch {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+    width: 100%;
+    padding: 24px 0;
+    font-family: Inter, sans-serif;
+    text-align: left;
+    color: #0f1b2d;
+  }
+  .sxf.spv-uc .spv-ucp.is-on .spv-uch {
+    position: relative;
+    inset: auto;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 24px 24px 0;
+  }
+  .spv-uch .ic {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 46px;
+    height: 46px;
+    margin: 0 auto;
+    border-radius: 14px;
+    background: var(--c);
+    color: #fff;
+    flex: none;
+    transition: margin 0.4s ease;
+  }
+  .spv-ucp.is-on .spv-uch .ic {
+    margin: 0;
+  }
+  .spv-uch .ic svg {
+    width: 22px;
+    height: 22px;
+  }
+  .spv-uch .ar {
+    display: block;
+    margin: 0 auto;
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    font-size: 15px;
+    line-height: 1.3;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    color: var(--c);
+    white-space: nowrap;
+    transition: opacity 0.25s ease;
+  }
+  .spv-ucp.is-on .spv-uch .ar {
+    writing-mode: horizontal-tb;
+    transform: none;
+    margin: 0;
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .spv-uch .ar small {
+    display: none;
+  }
+  .spv-uch .pl {
+    display: none;
+  }
+  .spv-uc .spv-ucb {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 84px;
+    bottom: 0;
+    width: 100%;
+    padding: 14px 24px 24px;
+    opacity: 0;
+    visibility: hidden;
+    transition:
+      opacity 0.25s ease,
+      visibility 0s linear 0.25s;
+  }
+  .spv-uc .spv-ucp.is-on .spv-ucb {
+    opacity: 1;
+    visibility: visible;
+    transition:
+      opacity 0.3s ease 0.1s,
+      visibility 0s linear 0s;
+  }
+  .spv-ucb .inner {
+    width: 380px;
+    max-width: 100%;
+  }
+  .spv-ucb h3 {
+    margin: 0 0 10px;
+    font-family: Inter, sans-serif;
+    font-size: 22px;
+    line-height: 1.25;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    color: #0f1b2d;
+  }
+  .spv-ucb p {
+    margin: 0;
+    font-size: 15.5px;
+    line-height: 1.55;
+    color: #4a5568;
+  }
+  .spv-ucb .spv-stage {
+    height: 190px;
+    margin-top: 20px;
+    background: color-mix(in srgb, var(--c) 8%, #eef3fb);
+  }
+  .spv-ucb .spv-stage .spv-pv {
+    opacity: 1;
+    visibility: inherit;
+    transform: none;
+  }
+  .spv-ucb .spv-pv-aud {
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: center;
+    gap: 6px;
+    padding: 12px 14px;
+  }
+  .spv-ucb .spv-pv-aud div {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 10px;
+    border-radius: 8px;
+    background: #fff;
+    box-shadow: 0 0 0 1px rgba(18, 37, 92, 0.06);
+    font-size: 12px;
+    line-height: 1.3;
+    min-width: 0;
+  }
+  .spv-ucb .spv-pv-aud i {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--c);
+    color: #fff;
+    font-style: normal;
+    font-size: 11px;
+    font-weight: 700;
+    flex: none;
+  }
+  .spv-ucb .spv-pv-aud em {
+    padding: 1px 8px;
+    border-radius: 999px;
+    background: #f3e8ff;
+    color: #7e22ce;
+    font-style: normal;
+    font-size: 11px;
+    font-weight: 700;
+    white-space: nowrap;
+    flex: none;
+  }
+  .spv-ucb .spv-pv-aud span {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: #5b6475;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .spv-uc .spv-ucp,
+    .spv-uc .spv-ucb,
+    .spv-uch .ic,
+    .spv-uch .ar {
+      transition: none !important;
+    }
+  }
+  @media (max-width: 1180px) {
+    .spv-uc .spv-ucs {
+      flex-direction: column;
+      height: auto;
+      gap: 10px;
+    }
+    .spv-uc .spv-ucp,
+    .spv-uc .spv-ucp.is-on {
+      flex: none;
+      transition:
+        box-shadow 0.4s ease,
+        background-color 0.4s ease;
+    }
+    .sxf .spv-uch,
+    .sxf.spv-uc .spv-ucp.is-on .spv-uch {
+      position: relative;
+      inset: auto;
+      flex-direction: row;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 14px;
+      min-height: 72px;
+      padding: 14px 20px;
+    }
+    .spv-uch .ic,
+    .spv-ucp.is-on .spv-uch .ic {
+      margin: 0;
+    }
+    .spv-uch .ar,
+    .spv-ucp.is-on .spv-uch .ar {
+      writing-mode: horizontal-tb;
+      transform: none;
+      margin: 0;
+      font-size: 15px;
+      letter-spacing: 0;
+      text-transform: none;
+      min-width: 0;
+      white-space: normal;
+      flex: 1 1 auto;
+    }
+    .spv-uch .ar small {
+      display: block;
+      margin-top: 1px;
+      font-size: 13px;
+      line-height: 1.35;
+      font-weight: 500;
+      color: #3d4555;
+    }
+    .spv-uch .pl {
+      display: flex;
+      width: 22px;
+      height: 22px;
+      color: var(--c);
+      flex: none;
+      transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .spv-ucp.is-on .spv-uch .pl {
+      transform: rotate(45deg);
+    }
+    .spv-uc .spv-ucb,
+    .spv-uc .spv-ucp.is-on .spv-ucb {
+      position: static;
+      display: grid;
+      padding: 0;
+      opacity: 1;
+      transition:
+        grid-template-rows 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+        visibility 0s linear 0.4s;
+    }
+    .spv-uc .spv-ucb {
+      grid-template-rows: 0fr;
+      visibility: hidden;
+    }
+    .spv-uc .spv-ucp.is-on .spv-ucb {
+      grid-template-rows: 1fr;
+      visibility: visible;
+      transition-delay: 0s;
+    }
+    .spv-ucb .wrap {
+      min-height: 0;
+      overflow: hidden;
+    }
+    .spv-ucb .inner {
+      width: auto;
+      padding: 4px 20px 22px;
+    }
+    .spv-ucb h3 {
+      font-size: 20px;
+    }
+    .spv-ucb .spv-stage {
+      height: 200px;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) and (max-width: 1180px) {
+    .spv-uc .spv-ucb,
+    .spv-uc .spv-ucp.is-on .spv-ucb,
+    .spv-uch .pl {
+      transition: none;
+    }
+  }
+</style>
+<section class="sxf spv-sec spv-alt spv-uc" id="anwendungen" aria-labelledby="spv-h-uc">
+  <div class="sxf-wrap">
+    <div class="sxf-head" data-rv>
+      <p class="sxf-eyebrow">{t.use_eyebrow}</p>
+      <h2 class="sxf-h" id="spv-h-uc">{t.use_title_1} <span class="sxf-blue">{t.use_title_2}</span></h2>
+      <p class="sxf-lead">{t.use_lead}</p>
+    </div>
+    <div class="spv-ucs" data-rv style="--dl:.1s">
+      {
+        cases.map((c, i) => (
+          <div class={`spv-ucp${i === 0 ? ' is-on' : ''}`} style={`--c:${c.c};--t:${c.tint}`}>
+            <button
+              type="button"
+              class="sxf-b spv-uch"
+              aria-expanded={i === 0 ? 'true' : 'false'}
+              aria-controls={`spv-ucb-${i + 1}`}
+            >
+              <span class="ic" aria-hidden="true">
+                <svg class="i" viewbox="0 0 24 24">
+                  <path d={c.icon} />
+                </svg>
+              </span>
+              <span class="ar">
+                {t[`use_${i + 1}_area`]}
+                <small>{t[`use_${i + 1}_t`]}</small>
+              </span>
+              <svg class="i pl" viewbox="0 0 24 24" aria-hidden="true">
+                <path d="M12 5v14M5 12h14" />
+              </svg>
+            </button>
+            <div class="spv-ucb" id={`spv-ucb-${i + 1}`} role="region" aria-label={t[`use_${i + 1}_area`]}>
+              <div class="wrap">
+                <div class="inner">
+                  <h3>{t[`use_${i + 1}_t`]}</h3>
+                  <p>{t[`use_${i + 1}_p`]}</p>
+                  <div class="spv-stage" aria-hidden="true">
+                    {c.kind === 'aud' ? (
+                      <div class="spv-pv spv-pv-aud">
+                        {audRows.map((r) => (
+                          <div>
+                            <i style={`--c:${r[2]}`}>
+                              {r[0]
+                                .split('.')
+                                .map((x) => x[0])
+                                .join('')
+                                .toUpperCase()}
+                            </i>
+                            <em>Preview content</em>
+                            <span>{r[1]}</span>
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <Fragment set:html={pv(c.kind as Kind, t, true)} />
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+  <script is:inline>
+    (function () {
+      function init(s) {
+        if (s.__spv) return;
+        s.__spv = 1;
+        var ps = [].slice.call(s.querySelectorAll('.spv-ucp')),
+          mq = window.matchMedia('(min-width:1181px)'),
+          fine = window.matchMedia('(hover:hover) and (pointer:fine)'),
+          tm;
+        function set(p, o) {
+          p.classList.toggle('is-on', o);
+          p.querySelector('.spv-uch').setAttribute('aria-expanded', o ? 'true' : 'false');
+        }
+        function on(i) {
+          ps.forEach(function (p, k) {
+            set(p, k === i);
+          });
+        }
+        ps.forEach(function (p, k) {
+          var h = p.querySelector('.spv-uch');
+          h.addEventListener('click', function () {
+            if (mq.matches) on(k);
+            else set(p, !p.classList.contains('is-on'));
+          });
+          p.addEventListener('mouseenter', function () {
+            if (!mq.matches || !fine.matches) return;
+            clearTimeout(tm);
+            tm = setTimeout(function () {
+              on(k);
+            }, 140);
+          });
+          p.addEventListener('mouseleave', function () {
+            clearTimeout(tm);
+          });
+        });
+        function sync() {
+          // desktop keeps exactly one panel open, stacked layout may have several
+          var open = ps.filter(function (p) {
+            return p.classList.contains('is-on');
+          });
+          if (mq.matches && open.length !== 1) on(0);
+        }
+        if (mq.addEventListener) mq.addEventListener('change', sync);
+        sync();
+      }
+      function go() {
+        document.querySelectorAll('.spv-uc').forEach(init);
+      }
+      if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', go);
+      else go();
+    })();
+  </script>
+</section>

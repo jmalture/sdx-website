@@ -1,0 +1,217 @@
+---
+/**
+ * Section "faq": Fragen zum Preview? Beantwortet. (8 Q&As of the feature document, filter chips, native details/summary, FAQPage JSON-LD)
+ * Texts: src/i18n/preview.json, keys starting with "faq_" (faq_<n>_q|a|g, g = group).
+ */
+import { dict, type Lang } from '../../i18n';
+import data from '../../i18n/preview.json';
+const { lang } = Astro.props as { lang: Lang };
+const t = dict(data, lang);
+const ids = [1, 2, 3, 4, 5, 6, 7, 8];
+const groups = ['all', 'basics', 'formats', 'extend', 'security'];
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: ids.map((n) => ({
+    '@type': 'Question',
+    name: t[`faq_${n}_q`],
+    acceptedAnswer: { '@type': 'Answer', text: t[`faq_${n}_a`] },
+  })),
+};
+---
+
+<style is:global>
+  .sxf.spv-faq {
+    overflow: visible;
+  }
+  .spv-faq .sxf-wrap {
+    max-width: 860px;
+  }
+  .spv-faq .spv-fchips {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+    margin: -20px 0 32px;
+  }
+  .spv-faq .spv-fl2 {
+    min-height: var(--mh, 0px);
+  }
+  .spv-faq .spv-fq[hidden] {
+    display: none;
+  }
+  .spv-faq .spv-q {
+    margin: 0 0 12px;
+    border-radius: 18px;
+    background: #fff;
+    border: 1px solid #e3eaf5;
+    transition:
+      border-color 0.25s ease,
+      box-shadow 0.25s ease;
+  }
+  .spv-faq .spv-q:hover,
+  .spv-faq .spv-q[open] {
+    border-color: #c9d9f5;
+  }
+  .spv-faq .spv-q[open] {
+    box-shadow: 0 18px 36px -22px rgba(42, 115, 255, 0.3);
+  }
+  .spv-faq .spv-q summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 20px 24px;
+    cursor: pointer;
+    list-style: none;
+    font-size: 17px;
+    line-height: 1.4;
+    font-weight: 600;
+    color: #0f1b2d;
+  }
+  .spv-faq .spv-q summary::-webkit-details-marker {
+    display: none;
+  }
+  .spv-faq .spv-q summary svg {
+    width: 20px;
+    height: 20px;
+    color: #2a73ff;
+    flex: none;
+    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .spv-faq .spv-q[open] summary svg {
+    transform: rotate(45deg);
+  }
+  .spv-faq .spv-q p {
+    margin: 0;
+    padding: 0 24px 22px;
+    font-size: 16px;
+    line-height: 1.65;
+    color: #4a5568;
+  }
+  .spv-faq .spv-cnt {
+    margin: 4px 0 0;
+    text-align: center;
+    font-size: 13px;
+    line-height: 1.5;
+    color: #5b6475;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .spv-faq .spv-q,
+    .spv-faq .spv-q summary svg {
+      transition: none;
+    }
+  }
+  @media (max-width: 767px) {
+    .spv-faq .spv-fchips {
+      margin-top: -12px;
+    }
+    .spv-faq .spv-q summary {
+      padding: 18px 18px;
+      font-size: 16px;
+    }
+    .spv-faq .spv-q p {
+      padding: 0 18px 20px;
+      font-size: 15.5px;
+    }
+  }
+</style>
+<section class="sxf spv-sec spv-faq" id="faq" aria-labelledby="spv-h-faq">
+  <div class="sxf-wrap">
+    <div class="sxf-head" data-rv>
+      <p class="sxf-eyebrow">{t.faq_eyebrow}</p>
+      <h2 class="sxf-h" id="spv-h-faq">{t.faq_title}</h2>
+    </div>
+    <div class="spv-fchips" role="group" aria-label={t.faq_filter_label} data-rv>
+      {
+        groups.map((g, i) => (
+          <button type="button" class="sxf-b spv-chip" data-g={g} aria-pressed={i === 0 ? 'true' : 'false'}>
+            {t[`faq_g_${g}`]}
+          </button>
+        ))
+      }
+    </div>
+    <div class="spv-fl2">
+      {
+        ids.map((n) => (
+          <div class="spv-fq" data-g={t[`faq_${n}_g`]} data-rv style={`--dl:${Math.min(n - 1, 4) * 0.07}s`}>
+            <details class="spv-q">
+              <summary>
+                {t[`faq_${n}_q`]}
+                <svg class="i" viewbox="0 0 24 24" aria-hidden="true">
+                  <path d="M12 5v14M5 12h14" />
+                </svg>
+              </summary>
+              <p>{t[`faq_${n}_a`]}</p>
+            </details>
+          </div>
+        ))
+      }
+    </div>
+    <p class="spv-cnt" aria-live="polite"><span class="spv-c1">{ids.length}</span> / {ids.length} {t.faq_count}</p>
+  </div>
+  <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  <script is:inline>
+    (function () {
+      function init(s) {
+        if (s.__spv) return;
+        s.__spv = 1;
+        var chips = [].slice.call(s.querySelectorAll('.spv-chip')),
+          qs = [].slice.call(s.querySelectorAll('.spv-fq')),
+          list = s.querySelector('.spv-fl2'),
+          c1 = s.querySelector('.spv-c1');
+        function measure() {
+          // keep the list as tall as with every question visible and closed, so filtering never moves what follows
+          var open = [];
+          qs.forEach(function (q) {
+            var d = q.querySelector('details');
+            if (d.open) {
+              open.push(d);
+              d.open = false;
+            }
+            q.hidden = false;
+          });
+          list.style.setProperty('--mh', '0px');
+          var h = list.getBoundingClientRect().height;
+          list.style.setProperty('--mh', Math.round(h) + 'px');
+          open.forEach(function (d) {
+            d.open = true;
+          });
+          apply(cur);
+        }
+        var cur = 'all';
+        function apply(g) {
+          var n = 0;
+          cur = g;
+          qs.forEach(function (q) {
+            var show = g === 'all' || q.getAttribute('data-g') === g;
+            q.hidden = !show;
+            if (show) n++;
+          });
+          c1.textContent = String(n);
+        }
+        chips.forEach(function (c) {
+          c.addEventListener('click', function () {
+            chips.forEach(function (o) {
+              o.setAttribute('aria-pressed', o === c ? 'true' : 'false');
+            });
+            apply(c.getAttribute('data-g'));
+          });
+        });
+        var tm;
+        window.addEventListener('resize', function () {
+          clearTimeout(tm);
+          tm = setTimeout(measure, 200);
+        });
+        measure();
+        window.addEventListener('load', measure);
+        if (document.fonts && document.fonts.ready) document.fonts.ready.then(measure);
+      }
+      function go() {
+        document.querySelectorAll('.spv-faq').forEach(init);
+      }
+      if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', go);
+      else go();
+    })();
+  </script>
+</section>
