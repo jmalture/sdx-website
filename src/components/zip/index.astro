@@ -3,22 +3,28 @@
 import type { Lang } from '../../i18n';
 import Base from './00-base.astro';
 import Hero from './01-hero.astro';
-import Steps from './02-steps.astro';
-import Additive from './03-additive.astro';
-import Benefits from './04-benefits.astro';
-import Functions from './05-functions.astro';
-import UseCases from './06-use-cases.astro';
-import Faq from './07-faq.astro';
-import Cta from './08-cta.astro';
+import Compare from './02-compare.astro';
+import Steps from './03-steps.astro';
+import Preview from './04-preview.astro';
+import Additive from './05-additive.astro';
+import Benefits from './06-benefits.astro';
+import UseCases from './07-use-cases.astro';
+import Functions from './08-functions.astro';
+import Security from './09-security.astro';
+import Faq from './10-faq.astro';
+import Cta from './11-cta.astro';
 const { lang } = Astro.props as { lang: Lang };
 ---
 
 <Base />
 <Hero lang={lang} />
+<Compare lang={lang} />
 <Steps lang={lang} />
+<Preview lang={lang} />
 <Additive lang={lang} />
 <Benefits lang={lang} />
-<Functions lang={lang} />
 <UseCases lang={lang} />
+<Functions lang={lang} />
+<Security lang={lang} />
 <Faq lang={lang} />
 <Cta lang={lang} />

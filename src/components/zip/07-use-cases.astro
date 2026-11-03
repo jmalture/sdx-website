@@ -1,0 +1,412 @@
+---
+/**
+ * Section "uc": Überall, wo Pakete ankommen. (expanding panels grouped by area, seven use cases of the feature document)
+ * Texts: src/i18n/zip.json, keys starting with "uc_" and "ucg_". Technique: share/07-use-cases, audits/06-use-cases.
+ */
+import { dict, type Lang } from '../../i18n';
+import data from '../../i18n/zip.json';
+const { lang } = Astro.props as { lang: Lang };
+const t = dict(data, lang);
+const groups = [
+  {
+    id: 1,
+    c: '#2A73FF',
+    bg: '#EAF1FF',
+    count: t.ucg_2_examples,
+    items: [1, 4],
+    icon: '<path d="M4 20h16M6 17v-6M10 17v-6M14 17v-6M18 17v-6M3 9l9-6 9 6z"></path>',
+  },
+  {
+    id: 2,
+    c: '#F59000',
+    bg: '#FFF4DF',
+    count: t.ucg_2_examples,
+    items: [2, 3],
+    icon: '<path d="M14.7 6.3a4 4 0 0 0-5 5L3 18l3 3 6.7-6.7a4 4 0 0 0 5-5l-2.4 2.4-2.6-.6-.6-2.6z"></path>',
+  },
+  {
+    id: 3,
+    c: '#A21CE0',
+    bg: '#F6EBFF',
+    count: t.ucg_3_examples,
+    items: [5, 6, 7],
+    icon: '<path d="m12 3 9 5-9 5-9-5z"></path><path d="m3 13 9 5 9-5"></path>',
+  },
+];
+---
+
+<style is:global>
+  .szu-uc {
+    padding: 128px 32px;
+    background: linear-gradient(180deg, #f3f7ff 0%, #ffffff 100%);
+  }
+  .szu-uc .szu-ucs {
+    display: flex;
+    gap: 14px;
+    height: 560px;
+    margin-top: 60px;
+  }
+  .szu-uc .szu-ucp {
+    position: relative;
+    flex: 1 1 0;
+    min-width: 0;
+    border-radius: 26px;
+    background: var(--t);
+    border: 1px solid color-mix(in srgb, var(--c) 18%, transparent);
+    overflow: hidden;
+    transition:
+      flex-grow 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+      box-shadow 0.3s ease,
+      background-color 0.3s ease;
+  }
+  .szu-uc .szu-ucp.is-on {
+    flex-grow: 3.3;
+    background: #fff;
+    box-shadow: 0 30px 60px -24px rgba(18, 37, 92, 0.25);
+    border-color: color-mix(in srgb, var(--c) 30%, transparent);
+  }
+  .szu-uc .szu-uch {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 26px 24px;
+    text-align: left;
+  }
+  .szu-uc .szu-ucp.is-on .szu-uch {
+    position: relative;
+    inset: auto;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 16px;
+    padding: 30px 32px 0;
+    cursor: default;
+  }
+  .szu-uc .szu-uch .ic {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 52px;
+    height: 52px;
+    border-radius: 15px;
+    background: var(--c);
+    color: #fff;
+    box-shadow: 0 12px 24px -10px var(--c);
+    flex: none;
+  }
+  .szu-uc .szu-uch .ic svg {
+    width: 25px;
+    height: 25px;
+  }
+  .szu-uc .szu-uch .nm {
+    display: block;
+    font-size: 22px;
+    line-height: 1.2;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    color: #0f1b2d;
+  }
+  .szu-uc .szu-uch .ct {
+    display: block;
+    margin-top: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    color: color-mix(in srgb, var(--c) 70%, #0f1b2d);
+  }
+  .szu-uc .szu-uch .lbl {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 10px;
+  }
+  .szu-uc .szu-uch .pl {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: #fff;
+    color: var(--c);
+    box-shadow: 0 4px 12px rgba(18, 37, 92, 0.1);
+    transition: transform 0.3s ease;
+    flex: none;
+  }
+  .szu-uc .szu-uch .pl svg {
+    width: 18px;
+    height: 18px;
+  }
+  .szu-uc .szu-ucp:not(.is-on):hover .pl {
+    transform: rotate(90deg);
+  }
+  .szu-uc .szu-ucp.is-on .szu-uch .nm {
+    font-size: 26px;
+  }
+  .szu-uc .szu-ucp.is-on .szu-uch .lbl {
+    display: block;
+  }
+  .szu-uc .szu-ucp.is-on .szu-uch .pl {
+    display: none;
+  }
+  .szu-uc .szu-ucb {
+    position: absolute;
+    left: 32px;
+    right: 32px;
+    bottom: 30px;
+    top: 118px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 10px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(12px);
+    transition:
+      opacity 0.15s ease,
+      transform 0.15s ease,
+      visibility 0s 0.15s;
+  }
+  .szu-uc .szu-ucp.is-on .szu-ucb {
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    transition:
+      opacity 0.2s ease 0.05s,
+      transform 0.25s cubic-bezier(0.22, 1, 0.36, 1) 0.05s,
+      visibility 0s;
+  }
+  .szu-uc .szu-ucb .uc {
+    padding: 16px 20px;
+    border-radius: 16px;
+    background: var(--t);
+  }
+  .szu-uc .szu-ucb .uc small {
+    display: block;
+    margin-bottom: 4px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: color-mix(in srgb, var(--c) 70%, #0f1b2d);
+  }
+  .szu-uc .szu-ucb .uc strong {
+    display: block;
+    font-size: 17px;
+    line-height: 1.35;
+    font-weight: 700;
+    color: #0f1b2d;
+  }
+  .szu-uc .szu-ucb .uc p {
+    margin: 6px 0 0;
+    font-size: 15px;
+    line-height: 1.55;
+    color: #4a5568;
+  }
+  .szu-uc .f1 {
+    left: 5%;
+    top: 130px;
+    --s: 44px;
+    --c: #ffbb00;
+    --r: -12deg;
+    --d: 6.4s;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .szu-uc .szu-ucp,
+    .szu-uc .szu-ucb {
+      transition: none;
+    }
+  }
+  @media (max-width: 1240px) {
+    .szu-uc .f1 {
+      display: none;
+    }
+    .szu-uc .szu-ucs {
+      height: 620px;
+    }
+    .szu-uc .szu-ucp.is-on {
+      flex-grow: 2.6;
+    }
+  }
+  @media (max-width: 1024px) {
+    .szu-uc {
+      padding: 104px 24px;
+    }
+    .szu-uc .szu-ucs {
+      flex-direction: column;
+      height: auto;
+      gap: 12px;
+      margin-top: 48px;
+      max-width: 720px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .szu-uc .szu-ucp,
+    .szu-uc .szu-ucp.is-on {
+      flex: none;
+    }
+    .szu-uc .szu-uch,
+    .szu-uc .szu-ucp.is-on .szu-uch {
+      position: relative;
+      inset: auto;
+      width: 100%;
+      flex-direction: row;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 14px;
+      padding: 18px 20px;
+    }
+    .szu-uc .szu-uch .nm,
+    .szu-uc .szu-ucp.is-on .szu-uch .nm {
+      font-size: 20px;
+    }
+    .szu-uc .szu-uch .lbl,
+    .szu-uc .szu-ucp.is-on .szu-uch .lbl {
+      display: flex;
+      flex: 1;
+      align-items: center;
+    }
+    .szu-uc .szu-uch .ic {
+      width: 44px;
+      height: 44px;
+      border-radius: 13px;
+    }
+    .szu-uc .szu-uch .ic svg {
+      width: 21px;
+      height: 21px;
+    }
+    .szu-uc .szu-uch .pl {
+      display: flex !important;
+    }
+    .szu-uc .szu-ucp.is-on .szu-uch .pl {
+      transform: rotate(45deg);
+    }
+    .szu-uc .szu-ucp.is-on .szu-uch {
+      cursor: pointer;
+    }
+    .szu-uc .szu-ucb {
+      position: static;
+      display: none;
+      padding: 0 20px 20px;
+      opacity: 1;
+      visibility: visible;
+      transform: none;
+      transition: none;
+    }
+    .szu-uc .szu-ucp.is-on .szu-ucb {
+      display: flex;
+    }
+  }
+  @media (max-width: 767px) {
+    .szu-uc {
+      padding: 84px 18px;
+    }
+    .szu-uc .szu-ucb {
+      padding: 0 14px 14px;
+    }
+    .szu-uc .szu-ucb .uc {
+      padding: 15px 16px;
+    }
+    .szu-uc .szu-ucb .uc strong {
+      font-size: 16px;
+    }
+  }
+</style>
+<section class="sxf szu-uc" id="anwendungen" aria-labelledby="szu-h-uc">
+  <div class="sxf-float" aria-hidden="true"><span class="sxf-fold f1"></span></div>
+  <div class="sxf-wrap">
+    <div class="sxf-head" data-rv>
+      <p class="sxf-eyebrow">{t.uc_eyebrow}</p>
+      <h2 class="sxf-h" id="szu-h-uc">{t.uc_title}</h2>
+      <p class="sxf-lead">{t.uc_lead}</p>
+    </div>
+    <div class="szu-ucs" data-rv>
+      {
+        groups.map((g, gi) => (
+          <article class={`szu-ucp${gi === 0 ? ' is-on' : ''}`} style={`--c:${g.c};--t:${g.bg}`}>
+            <button
+              type="button"
+              class="sxf-b szu-uch"
+              aria-expanded={gi === 0 ? 'true' : 'false'}
+              aria-controls={`szu-uc-${g.id}`}
+            >
+              <span class="ic" aria-hidden="true">
+                <svg class="i" viewbox="0 0 24 24" set:html={g.icon} />
+              </span>
+              <span class="lbl">
+                <span>
+                  <span class="nm">{t[`ucg_${g.id}_name`]}</span>
+                  <span class="ct">{g.count}</span>
+                </span>
+                <span class="pl" aria-hidden="true">
+                  <svg class="i" viewbox="0 0 24 24">
+                    <path d="M12 5v14M5 12h14" />
+                  </svg>
+                </span>
+              </span>
+            </button>
+            <div class="szu-ucb" id={`szu-uc-${g.id}`} role="region" aria-label={t[`ucg_${g.id}_name`]}>
+              {g.items.map((n) => (
+                <div class="uc">
+                  <small>{t[`uc_${n}_area`]}</small>
+                  <strong>{t[`uc_${n}_title`]}</strong>
+                  <p>{t[`uc_${n}_text`]}</p>
+                </div>
+              ))}
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>
+<script is:inline>
+  (function () {
+    function init(s) {
+      if (s.__szu) return;
+      s.__szu = 1;
+      var ps = [].slice.call(s.querySelectorAll('.szu-ucp')),
+        t;
+      var mq = window.matchMedia('(min-width:1025px)'),
+        fine = window.matchMedia('(hover:hover) and (pointer:fine)');
+      function on(i) {
+        ps.forEach(function (p, k) {
+          var o = k === i;
+          p.classList.toggle('is-on', o);
+          p.querySelector('.szu-uch').setAttribute('aria-expanded', o ? 'true' : 'false');
+        });
+      }
+      ps.forEach(function (p, k) {
+        var h = p.querySelector('.szu-uch');
+        h.addEventListener('click', function () {
+          if (!mq.matches) {
+            // stacked layout: every panel toggles on its own, so the page above the click never moves
+            var o = !p.classList.contains('is-on');
+            p.classList.toggle('is-on', o);
+            h.setAttribute('aria-expanded', o ? 'true' : 'false');
+            return;
+          }
+          on(k);
+        });
+        p.addEventListener('mouseenter', function () {
+          if (!mq.matches || !fine.matches) return;
+          clearTimeout(t);
+          t = setTimeout(function () {
+            on(k);
+          }, 140);
+        });
+        p.addEventListener('mouseleave', function () {
+          clearTimeout(t);
+        });
+      });
+      on(0);
+    }
+    function boot() {
+      document.querySelectorAll('.szu-uc').forEach(init);
+    }
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
+    else boot();
+  })();
+</script>

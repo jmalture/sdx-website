@@ -253,6 +253,102 @@ const folders = [
     font-size: 14px;
     font-weight: 600;
   }
+  .szu-dialog-head > div {
+    min-width: 0;
+  }
+  .szu-bar {
+    height: 3px;
+    background: #edf1f7;
+    overflow: hidden;
+  }
+  .szu-bar i {
+    display: block;
+    height: 100%;
+    background: #2a73ff;
+    transform-origin: 0 50%;
+    transform: scaleX(0);
+    transition: transform 0s;
+  }
+  .szu-dialog.is-imp .szu-bar i {
+    transform: scaleX(1);
+    transition: transform 1.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .szu-tree .szu-chk {
+    transition:
+      background-color 0.25s ease,
+      border-color 0.25s ease;
+  }
+  .szu-tree .szu-chk svg path {
+    stroke-dasharray: 20;
+    stroke-dashoffset: 20;
+    transition: stroke-dashoffset 0.3s cubic-bezier(0.22, 1, 0.36, 1) 0.05s;
+  }
+  .szu-tree .is-on .szu-chk svg path {
+    stroke-dashoffset: 0;
+  }
+  .szu-tree .is-on.is-imp .szu-chk {
+    background: #1a9b4b;
+    border-color: #1a9b4b;
+  }
+  .szu-tree li,
+  .szu-tree .szu-fold-ic {
+    transition: color 0.3s ease;
+  }
+  .szu-tree .szu-nm {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .szu-tree .szu-cnt {
+    white-space: nowrap;
+  }
+  .szu-stat {
+    display: grid;
+    margin-left: auto;
+    font-size: 13.5px;
+    font-weight: 500;
+    color: #4a5568;
+  }
+  .szu-stat > span {
+    grid-area: 1 / 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 6px;
+    white-space: nowrap;
+    transition: opacity 0.3s ease;
+  }
+  .szu-stat b {
+    font-variant-numeric: tabular-nums;
+    color: #0f1b2d;
+  }
+  .szu-stat .szu-stat-ok {
+    opacity: 0;
+    color: #1a9b4b;
+    font-weight: 600;
+  }
+  .szu-stat .szu-stat-ok svg {
+    width: 16px;
+    height: 16px;
+    stroke-width: 3;
+  }
+  .szu-dialog.is-done .szu-stat-n {
+    opacity: 0;
+  }
+  .szu-dialog.is-done .szu-stat-ok {
+    opacity: 1;
+  }
+  .szu-dialog-foot .szu-go {
+    margin-left: 0;
+    transition:
+      transform 0.2s ease,
+      background-color 0.2s ease;
+  }
+  .szu-dialog-foot .szu-go.is-press {
+    transform: scale(0.95);
+    background: #1f63eb;
+  }
   .szu-hero .p1 {
     top: 0;
     right: 8%;
@@ -272,6 +368,12 @@ const folders = [
     --d: 6.8s;
     z-index: 2;
   }
+  @media (prefers-reduced-motion: reduce) {
+    .szu-bar i,
+    .szu-tree .szu-chk svg path {
+      transition: none !important;
+    }
+  }
   @media (max-width: 1024px) {
     .szu-hero {
       padding: 56px 24px 96px;
@@ -290,6 +392,16 @@ const folders = [
     }
     .szu-dialog-label {
       display: none;
+    }
+    .szu-dialog-foot {
+      padding: 14px 16px 16px;
+      gap: 10px;
+    }
+    .szu-tree {
+      padding: 6px 16px 4px;
+    }
+    .szu-dialog-head {
+      padding: 14px 16px;
     }
     .szu-hero .p1 {
       right: 4%;
@@ -338,9 +450,9 @@ const folders = [
         }
       </ul>
     </div>
-    <div class="szu-vis" data-rv style="--dl:.12s" role="img" aria-label={t.hero_dialog_label}>
+    <div class="szu-vis szu-live" data-rv style="--dl:.12s" role="img" aria-label={t.hero_dialog_label}>
       <span class="sxf-fold f1" aria-hidden="true"></span>
-      <div class="szu-dialog" aria-hidden="true">
+      <div class="szu-dialog is-imp is-done" aria-hidden="true">
         <div class="szu-dialog-head">
           <span class="szu-zip"
             ><svg class="i" viewbox="0 0 24 24"
@@ -354,21 +466,20 @@ const folders = [
           </div>
           <span class="szu-dialog-label">{t.hero_dialog_selected}</span>
         </div>
+        <div class="szu-bar"><i></i></div>
         <ul class="szu-tree">
           {
             folders.map((f) => (
-              <li class={f.on ? 'is-on' : ''}>
+              <li class={f.on ? 'is-on is-imp' : ''} data-n={f.n}>
                 <span class="szu-chk">
-                  {f.on && (
-                    <svg class="i" viewbox="0 0 24 24">
-                      <path d="m5 12 5 5L20 7" />
-                    </svg>
-                  )}
+                  <svg class="i" viewbox="0 0 24 24">
+                    <path d="m5 12 5 5L20 7" />
+                  </svg>
                 </span>
                 <svg class="i szu-fold-ic" viewbox="0 0 24 24">
                   <path d="M3 6.5A2.5 2.5 0 0 1 5.5 4h4.1l2 2.2h6.9A2.5 2.5 0 0 1 21 8.7v8.8a2.5 2.5 0 0 1-2.5 2.5h-13A2.5 2.5 0 0 1 3 17.5z" />
                 </svg>
-                {f.name}
+                <span class="szu-nm">{f.name}</span>
                 <span class="szu-cnt">
                   {f.n} {t.hero_dialog_files}
                 </span>
@@ -382,6 +493,12 @@ const folders = [
               t.hero_dialog_keep_empty
             }</span
           >
+          <span class="szu-stat">
+            <span class="szu-stat-n"><b class="szu-n">25</b> {t.hero_dialog_count}</span>
+            <span class="szu-stat-ok"
+              ><svg class="i" viewbox="0 0 24 24"><path d="m5 12 5 5L20 7"></path></svg>{t.hero_dialog_done}</span
+            >
+          </span>
           <span class="szu-go">{t.hero_dialog_import}</span>
         </div>
       </div>
@@ -402,3 +519,116 @@ const folders = [
     </div>
   </div>
 </section>
+<script define:vars={{ T: { selected: t.hero_js_selected } }}>
+  (function () {
+    function init(v) {
+      if (v.__szu) return;
+      v.__szu = 1;
+      var dlg = v.querySelector('.szu-dialog'),
+        rows = [].slice.call(v.querySelectorAll('.szu-tree li')),
+        n = v.querySelector('.szu-n'),
+        lab = v.querySelector('.szu-dialog-label'),
+        go = v.querySelector('.szu-go');
+      var rm = window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+      if (rm) return; // the static end state is already in the markup
+      var tm = [],
+        raf = 0,
+        vis = false,
+        total = 0;
+      function later(fn, ms) {
+        tm.push(setTimeout(fn, ms));
+      }
+      function stop() {
+        tm.forEach(clearTimeout);
+        tm = [];
+        cancelAnimationFrame(raf);
+      }
+      function label(k) {
+        lab.textContent = T.selected.replace('{n}', k);
+      }
+      function count(to, ms) {
+        var from = total,
+          t0 = null;
+        cancelAnimationFrame(raf);
+        function step(ts) {
+          if (t0 === null) t0 = ts;
+          var p = Math.min(1, (ts - t0) / ms),
+            e = 1 - Math.pow(1 - p, 3);
+          n.textContent = Math.round(from + (to - from) * e);
+          if (p < 1) raf = requestAnimationFrame(step);
+          else total = to;
+        }
+        raf = requestAnimationFrame(step);
+      }
+      function reset() {
+        dlg.classList.remove('is-imp', 'is-done');
+        go.classList.remove('is-press');
+        rows.forEach(function (r) {
+          r.classList.remove('is-on', 'is-imp');
+        });
+        total = 0;
+        n.textContent = '0';
+        label(0);
+      }
+      function play() {
+        stop();
+        reset();
+        var sum = 0,
+          sel = 0;
+        [0, 1, 2].forEach(function (k) {
+          later(
+            function () {
+              rows[k].classList.add('is-on');
+              sum += +rows[k].getAttribute('data-n');
+              sel++;
+              label(sel);
+              count(sum, 520);
+            },
+            900 + k * 900,
+          );
+        });
+        later(function () {
+          go.classList.add('is-press');
+        }, 3900);
+        later(function () {
+          go.classList.remove('is-press');
+          dlg.classList.add('is-imp');
+        }, 4150);
+        [0, 1, 2].forEach(function (k) {
+          later(
+            function () {
+              rows[k].classList.add('is-imp');
+            },
+            4500 + k * 450,
+          );
+        });
+        later(function () {
+          dlg.classList.add('is-done');
+        }, 5900);
+        later(function () {
+          if (vis && !document.hidden) play();
+        }, 10200);
+      }
+      reset();
+      if ('IntersectionObserver' in window) {
+        new IntersectionObserver(
+          function (es) {
+            vis = es[0].isIntersecting;
+            if (vis && !document.hidden) play();
+            else stop();
+          },
+          { threshold: 0.35 },
+        ).observe(dlg);
+      } else play();
+      document.addEventListener('visibilitychange', function () {
+        if (document.hidden) stop();
+        else if (vis) play();
+      });
+    }
+    function boot() {
+      document.querySelectorAll('.szu-live').forEach(init);
+    }
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
+    else boot();
+  })();
+</script>

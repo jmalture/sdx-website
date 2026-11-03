@@ -1,0 +1,678 @@
+---
+/**
+ * Section "cmp": Viele Einzeluploads oder ein ZIP. (compare slider)
+ * Texts: src/i18n/zip.json, keys starting with "cmp_". File names are neutral demo data.
+ * Technique: share/02-comparison (clip-path slider with a hidden range input for mouse, touch and keyboard).
+ */
+import { dict, type Lang } from '../../i18n';
+import data from '../../i18n/zip.json';
+const { lang } = Astro.props as { lang: Lang };
+const t = dict(data, lang);
+const singles = [
+  { n: 'Scan_0087.pdf', c: '#2a73ff' },
+  { n: 'IMG_2041.jpg', c: '#c800ff' },
+  { n: 'Plan_03.pdf', c: '#2a73ff' },
+  { n: 'Doc_14.pdf', c: '#ffa600' },
+  { n: 'IMG_2042.jpg', c: '#c800ff' },
+  { n: 'Scan_0088.pdf', c: '#2a73ff' },
+];
+const folders = [
+  { n: t.hero_dialog_folder_permits, k: 12 },
+  { n: t.hero_dialog_folder_reports, k: 8 },
+  { n: t.hero_dialog_folder_leases, k: 5 },
+  { n: t.hero_dialog_folder_drafts, k: 21 },
+];
+const fold =
+  'M3 6.5A2.5 2.5 0 0 1 5.5 4h4.1l2 2.2h6.9A2.5 2.5 0 0 1 21 8.7v8.8a2.5 2.5 0 0 1-2.5 2.5h-13A2.5 2.5 0 0 1 3 17.5z';
+---
+
+<style is:global>
+  .szu-cmp {
+    padding: 128px 32px;
+    background: #fff;
+  }
+  .szu-cmp .szu-cmp-frame {
+    --x: 50%;
+    position: relative;
+    max-width: 980px;
+    height: 440px;
+    margin: 60px auto 0;
+    border-radius: 26px;
+    background: #fff;
+    box-shadow:
+      0 40px 80px -30px rgba(18, 37, 92, 0.32),
+      0 0 0 1px rgba(18, 37, 92, 0.07);
+    overflow: hidden;
+    touch-action: pan-y;
+  }
+  .szu-cmp .szu-lay {
+    position: absolute;
+    inset: 0;
+    padding: 72px 36px 28px;
+    display: flex;
+    flex-direction: column;
+  }
+  .szu-cmp .szu-lay-zip {
+    background: linear-gradient(180deg, #eaf2fe 0%, #f7faff 100%);
+    align-items: center;
+    padding-left: calc(46% + 12px);
+  }
+  .szu-cmp .szu-lay-one {
+    background: #f1f3f7;
+    clip-path: inset(0 calc(100% - var(--x)) 0 0);
+  }
+  .szu-cmp .szu-tag {
+    position: absolute;
+    top: 22px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 14px;
+    border-radius: 999px;
+    font-size: 13px;
+    line-height: 1.3;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    white-space: nowrap;
+  }
+  .szu-cmp .szu-lay-one .szu-tag {
+    left: 22px;
+    background: #fff;
+    color: #5b6475;
+    box-shadow: 0 4px 10px rgba(18, 37, 92, 0.08);
+  }
+  .szu-cmp .szu-lay-zip .szu-tag {
+    right: 22px;
+    background: #2a73ff;
+    color: #fff;
+    box-shadow: 0 8px 18px rgba(42, 115, 255, 0.35);
+  }
+  .szu-cmp .szu-files {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 8px;
+    width: 100%;
+    max-width: 520px;
+  }
+  .szu-cmp .szu-files li {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 0;
+    padding: 8px 12px;
+    border-radius: 12px;
+    background: #fff;
+    box-shadow: 0 1px 2px rgba(18, 37, 92, 0.06);
+    font-size: 14px;
+    line-height: 1.3;
+    font-weight: 500;
+    color: #0f1b2d;
+  }
+  .szu-cmp .szu-files .sq {
+    width: 22px;
+    height: 22px;
+    border-radius: 7px;
+    background: var(--c);
+    flex: none;
+  }
+  .szu-cmp .szu-files .nm {
+    min-width: 0;
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .szu-cmp .szu-files .pb {
+    width: 84px;
+    height: 5px;
+    border-radius: 5px;
+    background: #e3e8f0;
+    overflow: hidden;
+    flex: none;
+  }
+  .szu-cmp .szu-files .pb i {
+    display: block;
+    height: 100%;
+    background: var(--c);
+    transform-origin: 0 50%;
+    transform: scaleX(1);
+  }
+  .szu-cmp.is-run .szu-files .pb i {
+    animation: szuCmpBar 4.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+    animation-delay: calc(var(--n) * 0.55s);
+  }
+  @keyframes szuCmpBar {
+    0% {
+      transform: scaleX(0);
+    }
+    55%,
+    100% {
+      transform: scaleX(1);
+    }
+  }
+  .szu-cmp .szu-etc {
+    margin: 12px 0 0;
+    max-width: 520px;
+    width: 100%;
+    padding-left: 12px;
+    font-size: 13.5px;
+    color: #8a94a6;
+  }
+  .szu-cmp .szu-chips {
+    margin-top: auto;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    max-width: 520px;
+    width: 100%;
+  }
+  .szu-cmp .szu-lay-zip .szu-chips {
+    justify-content: center;
+  }
+  .szu-cmp .szu-chips span {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 7px 13px 7px 9px;
+    border-radius: 999px;
+    font-size: 13px;
+    line-height: 1.3;
+    font-weight: 600;
+    background: #fff;
+    border: 1px solid #dde3ee;
+    color: #4a5568;
+  }
+  .szu-cmp .szu-chips span svg {
+    width: 15px;
+    height: 15px;
+    color: #8a94a6;
+  }
+  .szu-cmp .szu-lay-zip .szu-chips span {
+    border-color: #cfdcf7;
+    color: #0f1b2d;
+  }
+  .szu-cmp .szu-lay-zip .szu-chips span svg {
+    color: #1a9b4b;
+    stroke-width: 3;
+  }
+  .szu-cmp .szu-zipcard {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 20px 14px 14px;
+    border-radius: 18px;
+    background: #fff;
+    box-shadow:
+      0 18px 36px -16px rgba(42, 115, 255, 0.45),
+      0 0 0 1px rgba(42, 115, 255, 0.12);
+    font-size: 16px;
+    line-height: 1.3;
+    font-weight: 700;
+    color: #0f1b2d;
+  }
+  .szu-cmp .szu-zipcard i {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 13px;
+    background: #2a73ff;
+    color: #fff;
+    flex: none;
+  }
+  .szu-cmp .szu-zipcard i svg {
+    width: 21px;
+    height: 21px;
+  }
+  .szu-cmp .szu-zipcard small {
+    display: block;
+    margin-top: 2px;
+    font-size: 12.5px;
+    font-weight: 500;
+    color: #5b6475;
+  }
+  .szu-cmp .szu-down {
+    width: 2px;
+    height: 26px;
+    margin: 6px 0;
+    background: repeating-linear-gradient(180deg, #2a73ff 0 5px, transparent 5px 9px);
+    flex: none;
+  }
+  .szu-cmp.is-run .szu-down {
+    animation: szuDown 1s linear infinite;
+  }
+  @keyframes szuDown {
+    to {
+      background-position: 0 9px;
+    }
+  }
+  .szu-cmp .szu-tree2 {
+    list-style: none;
+    margin: 0 0 16px;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+    width: 100%;
+    max-width: 440px;
+  }
+  .szu-cmp .szu-tree2 li {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    margin: 0;
+    padding: 9px 12px;
+    border-radius: 12px;
+    background: #fff;
+    box-shadow: 0 1px 2px rgba(18, 37, 92, 0.06);
+    font-size: 14px;
+    line-height: 1.3;
+    font-weight: 600;
+    color: #0f1b2d;
+  }
+  .szu-cmp .szu-tree2 li svg {
+    width: 18px;
+    height: 18px;
+    color: #2a73ff;
+  }
+  .szu-cmp .szu-tree2 li span {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .szu-cmp .szu-tree2 li em {
+    margin-left: auto;
+    font-style: normal;
+    font-size: 12px;
+    font-weight: 500;
+    color: #5b6475;
+  }
+  .szu-cmp .szu-h {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: var(--x);
+    z-index: 4;
+    width: 0;
+    pointer-events: none;
+  }
+  .szu-cmp .szu-h::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: -1px;
+    width: 2px;
+    background: #fff;
+    box-shadow: 0 0 0 1px rgba(18, 37, 92, 0.14);
+  }
+  .szu-cmp .szu-h b {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 46px;
+    height: 46px;
+    margin: -23px 0 0 -23px;
+    border-radius: 50%;
+    background: #2a73ff;
+    color: #fff;
+    box-shadow:
+      0 10px 22px rgba(42, 115, 255, 0.45),
+      0 0 0 4px #fff;
+    transition: box-shadow 0.2s ease;
+  }
+  .szu-cmp .szu-h b svg {
+    width: 22px;
+    height: 22px;
+  }
+  .szu-cmp .szu-frame-focus .szu-h b {
+    box-shadow:
+      0 10px 22px rgba(42, 115, 255, 0.45),
+      0 0 0 4px #fff,
+      0 0 0 7px #2a73ff;
+  }
+  .szu-cmp .szu-range {
+    position: absolute;
+    inset: 0;
+    z-index: 5;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    opacity: 0;
+    cursor: ew-resize;
+    touch-action: pan-y;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+  .szu-cmp .szu-ctl {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 28px;
+  }
+  .szu-cmp .szu-ctl button {
+    padding: 10px 18px;
+    border-radius: 999px;
+    background: #fff;
+    border: 1px solid #dde3ee;
+    font-family: Inter, sans-serif;
+    font-size: 14px;
+    line-height: 1.3;
+    font-weight: 600;
+    color: #0f1b2d;
+    transition:
+      border-color 0.2s ease,
+      background-color 0.2s ease,
+      color 0.2s ease;
+  }
+  .szu-cmp .szu-ctl button:hover {
+    border-color: #2a73ff;
+  }
+  .szu-cmp .szu-ctl button[aria-pressed='true'] {
+    background: #2a73ff;
+    border-color: #2a73ff;
+    color: #fff;
+  }
+  .szu-cmp .szu-hint {
+    width: 100%;
+    margin: 4px 0 0;
+    text-align: center;
+    font-size: 13.5px;
+    color: #8a94a6;
+  }
+  .szu-cmp .f1 {
+    left: 7%;
+    top: 160px;
+    --s: 46px;
+    --c: #00bfff;
+    --r: -12deg;
+    --d: 6.4s;
+  }
+  .szu-cmp .f2 {
+    right: 6%;
+    bottom: 120px;
+    --s: 54px;
+    --c: #ffbb00;
+    --r: 12deg;
+    --d: 5.8s;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .szu-cmp.is-run .szu-files .pb i,
+    .szu-cmp.is-run .szu-down {
+      animation: none;
+    }
+  }
+  @media (max-width: 1240px) {
+    .szu-cmp .f1,
+    .szu-cmp .f2 {
+      display: none;
+    }
+  }
+  @media (max-width: 1024px) {
+    .szu-cmp {
+      padding: 104px 24px;
+    }
+  }
+  @media (max-width: 900px) {
+    .szu-cmp .szu-lay-zip {
+      padding-left: 36px;
+    }
+  }
+  @media (max-width: 767px) {
+    .szu-cmp {
+      padding: 84px 18px;
+    }
+    .szu-cmp .szu-cmp-frame {
+      height: 470px;
+      margin-top: 40px;
+      border-radius: 20px;
+    }
+    .szu-cmp .szu-lay,
+    .szu-cmp .szu-lay-zip {
+      padding: 64px 14px 18px;
+    }
+    .szu-cmp .szu-tag {
+      top: 16px;
+      font-size: 12px;
+      padding: 6px 11px;
+    }
+    .szu-cmp .szu-lay-one .szu-tag {
+      left: 12px;
+    }
+    .szu-cmp .szu-lay-zip .szu-tag {
+      right: 12px;
+    }
+    .szu-cmp .szu-files {
+      gap: 6px;
+    }
+    .szu-cmp .szu-files li {
+      padding: 7px 10px;
+      font-size: 13px;
+    }
+    .szu-cmp .szu-files .pb {
+      width: 44px;
+    }
+    .szu-cmp .szu-chips {
+      gap: 6px;
+    }
+    .szu-cmp .szu-chips span {
+      padding: 6px 10px 6px 8px;
+      font-size: 12px;
+    }
+    .szu-cmp .szu-tree2 {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 6px;
+      margin-bottom: 12px;
+    }
+    .szu-cmp .szu-tree2 li {
+      padding: 7px 12px;
+    }
+    .szu-cmp .szu-zipcard {
+      font-size: 15px;
+    }
+  }
+</style>
+<section class="sxf szu-cmp" id="vergleich" aria-labelledby="szu-h-cmp">
+  <div class="sxf-float" aria-hidden="true">
+    <span class="sxf-fold f1"></span><span class="sxf-fold f2"></span>
+  </div>
+  <div class="sxf-wrap">
+    <div class="sxf-head" data-rv>
+      <p class="sxf-eyebrow">{t.cmp_eyebrow}</p>
+      <h2 class="sxf-h" id="szu-h-cmp">{t.cmp_title_1} <span class="sxf-blue">{t.cmp_title_2}</span></h2>
+      <p class="sxf-lead">{t.cmp_lead}</p>
+    </div>
+    <div class="szu-cmp-frame" data-rv style="--dl:.1s">
+      <div class="szu-lay szu-lay-zip" aria-hidden="true">
+        <span class="szu-tag">{t.cmp_label_zip}</span>
+        <div class="szu-zipcard">
+          <i
+            ><svg class="i" viewbox="0 0 24 24"
+              ><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path><path
+                d="M14 3v6h6M10 11v1M10 14v1M10 17v1"></path></svg
+            ></i
+          >
+          <span>{t.hero_dialog_file}<small>{t.cmp_zip_1}</small></span>
+        </div>
+        <span class="szu-down"></span>
+        <ul class="szu-tree2">
+          {
+            folders.map((f) => (
+              <li>
+                <svg class="i" viewbox="0 0 24 24">
+                  <path d={fold} />
+                </svg>
+                <span>{f.n}</span>
+                <em>{f.k}</em>
+              </li>
+            ))
+          }
+        </ul>
+        <div class="szu-chips">
+          {
+            [t.cmp_zip_1, t.cmp_zip_2, t.cmp_zip_3].map((x) => (
+              <span>
+                <svg class="i" viewbox="0 0 24 24">
+                  <path d="m5 12 5 5L20 7" />
+                </svg>
+                {x}
+              </span>
+            ))
+          }
+        </div>
+      </div>
+      <div class="szu-lay szu-lay-one" aria-hidden="true">
+        <span class="szu-tag">{t.cmp_label_single}</span>
+        <ul class="szu-files">
+          {
+            singles.map((f, i) => (
+              <li style={`--c:${f.c};--n:${i}`}>
+                <span class="sq" />
+                <span class="nm">{f.n}</span>
+                <span class="pb">
+                  <i />
+                </span>
+              </li>
+            ))
+          }
+        </ul>
+        <p class="szu-etc">{t.cmp_more}</p>
+        <div class="szu-chips">
+          {
+            [t.cmp_single_1, t.cmp_single_2].map((x) => (
+              <span>
+                <svg class="i" viewbox="0 0 24 24">
+                  <path d="M12 8v5M12 16.5v.5" />
+                  <circle cx="12" cy="12" r="9" />
+                </svg>
+                {x}
+              </span>
+            ))
+          }
+        </div>
+      </div>
+      <div class="szu-h" aria-hidden="true">
+        <b><svg class="i" viewbox="0 0 24 24"><path d="m8 7-5 5 5 5M16 7l5 5-5 5"></path></svg></b>
+      </div>
+      <input class="szu-range" type="range" min="0" max="100" step="1" value="50" aria-label={t.cmp_aria_slider} />
+    </div>
+    <div class="szu-ctl" data-rv>
+      <button type="button" class="sxf-b szu-b-one" aria-pressed="false">{t.cmp_btn_single}</button>
+      <button type="button" class="sxf-b szu-b-zip" aria-pressed="false">{t.cmp_btn_zip}</button>
+      <p class="szu-hint">{t.cmp_hint}</p>
+    </div>
+  </div>
+</section>
+<script is:inline>
+  (function () {
+    function init(s) {
+      if (s.__szu) return;
+      s.__szu = 1;
+      var fr = s.querySelector('.szu-cmp-frame'),
+        inp = s.querySelector('.szu-range'),
+        bo = s.querySelector('.szu-b-one'),
+        bz = s.querySelector('.szu-b-zip'),
+        cur = 50,
+        raf = 0,
+        auto = true;
+      var rm = window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+      function set(v) {
+        cur = v;
+        fr.style.setProperty('--x', v + '%');
+        inp.value = v;
+        bo.setAttribute('aria-pressed', v >= 90 ? 'true' : 'false');
+        bz.setAttribute('aria-pressed', v <= 10 ? 'true' : 'false');
+      }
+      function tween(to, ms, done) {
+        cancelAnimationFrame(raf);
+        if (rm || ms <= 0) {
+          set(to);
+          if (done) done();
+          return;
+        }
+        var from = cur,
+          t0 = null;
+        function step(ts) {
+          if (t0 === null) t0 = ts;
+          var p = Math.min(1, (ts - t0) / ms),
+            e = p < 0.5 ? 2 * p * p : 1 - Math.pow(-2 * p + 2, 2) / 2;
+          set(from + (to - from) * e);
+          if (p < 1) raf = requestAnimationFrame(step);
+          else if (done) done();
+        }
+        raf = requestAnimationFrame(step);
+      }
+      function user() {
+        auto = false;
+        cancelAnimationFrame(raf);
+      }
+      inp.addEventListener('input', function () {
+        user();
+        set(+inp.value);
+      });
+      inp.addEventListener('pointerdown', user);
+      inp.addEventListener('keydown', user);
+      inp.addEventListener('focus', function () {
+        if (inp.matches(':focus-visible')) fr.classList.add('szu-frame-focus');
+      });
+      inp.addEventListener('blur', function () {
+        fr.classList.remove('szu-frame-focus');
+      });
+      bo.addEventListener('click', function () {
+        user();
+        tween(92, 450);
+      });
+      bz.addEventListener('click', function () {
+        user();
+        tween(8, 450);
+      });
+      if (rm || !('IntersectionObserver' in window)) {
+        s.classList.add('is-run');
+        return;
+      }
+      var played = false;
+      new IntersectionObserver(
+        function (es) {
+          var on = es[0].isIntersecting && !document.hidden;
+          s.classList.toggle('is-run', on);
+          if (on && !played) {
+            played = true;
+            setTimeout(function () {
+              if (!auto) return;
+              tween(78, 900, function () {
+                if (!auto) return;
+                setTimeout(function () {
+                  if (!auto) return;
+                  tween(22, 1300, function () {
+                    if (!auto) return;
+                    setTimeout(function () {
+                      if (auto) tween(50, 900);
+                    }, 250);
+                  });
+                }, 250);
+              });
+            }, 500);
+          }
+        },
+        { threshold: 0.5 },
+      ).observe(fr);
+      document.addEventListener('visibilitychange', function () {
+        if (document.hidden) s.classList.remove('is-run');
+      });
+    }
+    function boot() {
+      document.querySelectorAll('.szu-cmp').forEach(init);
+    }
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
+    else boot();
+  })();
+</script>

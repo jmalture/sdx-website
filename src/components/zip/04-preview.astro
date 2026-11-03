@@ -1,0 +1,731 @@
+---
+/**
+ * Section "prev": Sie entscheiden, was importiert wird. (interactive tree: tick folders, live count, keep empty folders)
+ * Texts: src/i18n/zip.json, keys starting with "prev_". Folder names and counts are illustrative example data.
+ * Technique: audits/02-filters + audits/07-export (controls change a live result, count-up).
+ */
+import { dict, type Lang } from '../../i18n';
+import data from '../../i18n/zip.json';
+const { lang } = Astro.props as { lang: Lang };
+const t = dict(data, lang);
+const folders = [
+  { name: t.prev_f1, k: 14, on: true },
+  { name: t.prev_f2, k: 9, on: true },
+  { name: t.prev_f3, k: 6, on: true },
+  { name: t.prev_f4, k: 31, on: false },
+];
+const total = folders.reduce((a, f) => a + f.k, 0);
+const start = folders.filter((f) => f.on).reduce((a, f) => a + f.k, 0);
+const fold =
+  'M3 6.5A2.5 2.5 0 0 1 5.5 4h4.1l2 2.2h6.9A2.5 2.5 0 0 1 21 8.7v8.8a2.5 2.5 0 0 1-2.5 2.5h-13A2.5 2.5 0 0 1 3 17.5z';
+const zipIc = 'M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z';
+const of = t.prev_of.replace('{b}', String(total));
+---
+
+<style is:global>
+  .szu-prev {
+    padding: 128px 32px;
+    background: #fff;
+  }
+  .szu-prev .szu-pgrid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 64px minmax(0, 1fr);
+    align-items: center;
+    max-width: 1080px;
+    margin: 60px auto 0;
+  }
+  .szu-prev .szu-pan {
+    position: relative;
+    z-index: 1;
+    border-radius: 24px;
+    background: #fff;
+    box-shadow:
+      0 30px 60px -28px rgba(18, 37, 92, 0.3),
+      0 0 0 1px rgba(18, 37, 92, 0.06);
+    overflow: hidden;
+  }
+  .szu-prev .szu-ph {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 18px 22px;
+    border-bottom: 1px solid #edf1f7;
+  }
+  .szu-prev .szu-ph i {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    background: #eaf1ff;
+    color: #2a73ff;
+    flex: none;
+  }
+  .szu-prev .szu-ph i svg {
+    width: 20px;
+    height: 20px;
+  }
+  .szu-prev .szu-ph div {
+    min-width: 0;
+  }
+  .szu-prev .szu-ph strong {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 15px;
+    line-height: 1.3;
+    color: #0f1b2d;
+  }
+  .szu-prev .szu-ph small {
+    display: block;
+    font-size: 12.5px;
+    line-height: 1.4;
+    color: #5b6475;
+  }
+  .szu-prev .szu-ph em {
+    margin-left: auto;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: #f1f4f9;
+    font-style: normal;
+    font-size: 12px;
+    font-weight: 600;
+    color: #5b6475;
+    white-space: nowrap;
+  }
+  .szu-prev .szu-ft,
+  .szu-prev .szu-rt {
+    list-style: none;
+    margin: 0;
+    padding: 8px 12px 8px;
+  }
+  .szu-prev .szu-ft li,
+  .szu-prev .szu-rt li {
+    margin: 0;
+  }
+  .szu-prev .szu-row {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-height: 56px;
+    padding: 8px 10px;
+    border-radius: 14px;
+    font-size: 15px;
+    font-weight: 500;
+    color: #0f1b2d;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+  .szu-prev .szu-row:hover {
+    background: #f4f8ff;
+  }
+  .szu-prev .szu-row .ck {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    border-radius: 7px;
+    border: 1.5px solid #c3cde0;
+    background: #fff;
+    color: #fff;
+    flex: none;
+    transition:
+      background-color 0.2s ease,
+      border-color 0.2s ease;
+  }
+  .szu-prev .szu-row .ck svg {
+    width: 13px;
+    height: 13px;
+    stroke-width: 3;
+  }
+  .szu-prev .szu-row .ck svg path {
+    stroke-dasharray: 20;
+    stroke-dashoffset: 20;
+    transition: stroke-dashoffset 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .szu-prev .szu-row input,
+  .szu-prev .szu-sw input {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    opacity: 0;
+    cursor: pointer;
+  }
+  .szu-prev .szu-row input:checked + .ck {
+    background: #2a73ff;
+    border-color: #2a73ff;
+  }
+  .szu-prev .szu-row input:checked + .ck svg path {
+    stroke-dashoffset: 0;
+  }
+  .szu-prev .szu-row input:focus-visible + .ck {
+    outline: 2px solid #2a73ff;
+    outline-offset: 3px;
+  }
+  .szu-prev .szu-row .fo {
+    width: 20px;
+    height: 20px;
+    color: #9aa6bc;
+    flex: none;
+    transition: color 0.2s ease;
+  }
+  .szu-prev .szu-row:has(input:checked) .fo {
+    color: #2a73ff;
+  }
+  .szu-prev .szu-row .nm {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .szu-prev .szu-row .ct {
+    margin-left: auto;
+    font-size: 13px;
+    font-weight: 500;
+    color: #5b6475;
+    white-space: nowrap;
+  }
+  .szu-prev .szu-row .tg {
+    margin-left: auto;
+    padding: 3px 9px;
+    border-radius: 999px;
+    border: 1px dashed #c3cde0;
+    font-size: 12px;
+    font-weight: 600;
+    color: #5b6475;
+    white-space: nowrap;
+  }
+  .szu-prev .szu-row.is-static {
+    cursor: default;
+  }
+  .szu-prev .szu-row.is-static:hover {
+    background: transparent;
+  }
+  .szu-prev .szu-row .dash {
+    width: 22px;
+    height: 22px;
+    flex: none;
+  }
+  .szu-prev .szu-pf {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px 18px;
+    padding: 14px 22px 18px;
+    background: #f8fafd;
+    border-top: 1px solid #edf1f7;
+  }
+  .szu-prev .szu-sw {
+    position: relative;
+    min-height: 36px;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13.5px;
+    font-weight: 500;
+    color: #0f1b2d;
+    cursor: pointer;
+  }
+  .szu-prev .szu-sw .tr {
+    position: relative;
+    width: 38px;
+    height: 22px;
+    border-radius: 999px;
+    background: #c3cde0;
+    flex: none;
+    transition: background-color 0.2s ease;
+  }
+  .szu-prev .szu-sw .tr i {
+    position: absolute;
+    left: 3px;
+    top: 3px;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 1px 3px rgba(15, 27, 45, 0.3);
+    transition: transform 0.22s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .szu-prev .szu-sw input:checked + .tr {
+    background: #2a73ff;
+  }
+  .szu-prev .szu-sw input:checked + .tr i {
+    transform: translateX(16px);
+  }
+  .szu-prev .szu-sw input:focus-visible + .tr {
+    outline: 2px solid #2a73ff;
+    outline-offset: 3px;
+  }
+  .szu-prev .szu-ls {
+    margin-left: auto;
+    display: flex;
+    gap: 14px;
+  }
+  .szu-prev .szu-ls button {
+    min-height: 36px;
+    font-family: Inter, sans-serif;
+    font-size: 13.5px;
+    line-height: 1.3;
+    font-weight: 600;
+    color: #2a73ff;
+    border-bottom: 1.5px solid rgba(42, 115, 255, 0.3);
+    transition: border-color 0.2s ease;
+  }
+  .szu-prev .szu-ls button:hover {
+    border-bottom-color: #2a73ff;
+  }
+  .szu-prev .szu-link {
+    position: relative;
+    height: 100%;
+    min-height: 120px;
+  }
+  .szu-prev .szu-link svg {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 44px;
+    height: 44px;
+    margin: -22px 0 0 -22px;
+    padding: 10px;
+    border-radius: 50%;
+    background: #2a73ff;
+    color: #fff;
+    box-shadow: 0 10px 22px rgba(42, 115, 255, 0.4);
+  }
+  .szu-prev .szu-rr {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-height: 56px;
+    padding: 8px 10px;
+    border-radius: 14px;
+    transition: opacity 0.3s ease;
+  }
+  .szu-prev .szu-rr .fo {
+    width: 22px;
+    height: 22px;
+    color: #2a73ff;
+    flex: none;
+    transition: color 0.3s ease;
+  }
+  .szu-prev .szu-rr .tx {
+    min-width: 0;
+    flex: 1;
+    display: grid;
+  }
+  .szu-prev .szu-rr .nm {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 15px;
+    font-weight: 600;
+    color: #0f1b2d;
+  }
+  .szu-prev .szu-rr .sub {
+    display: grid;
+    font-size: 12.5px;
+    line-height: 1.4;
+    color: #5b6475;
+  }
+  .szu-prev .szu-rr .sub span {
+    grid-area: 1 / 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    transition: opacity 0.25s ease;
+  }
+  .szu-prev .szu-rr .sub .a {
+    color: #137a3a;
+    font-weight: 600;
+  }
+  .szu-prev .szu-rr .sub .b {
+    opacity: 0;
+  }
+  .szu-prev .szu-rr.is-off {
+    opacity: 0.5;
+  }
+  .szu-prev .szu-rr.is-off .fo {
+    color: #9aa6bc;
+  }
+  .szu-prev .szu-rr.is-off .sub .a {
+    opacity: 0;
+  }
+  .szu-prev .szu-rr.is-off .sub .b {
+    opacity: 1;
+  }
+  .szu-prev .szu-rr .st {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #1a9b4b;
+    color: #fff;
+    flex: none;
+    transition:
+      transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+      opacity 0.3s ease;
+  }
+  .szu-prev .szu-rr .st svg {
+    width: 12px;
+    height: 12px;
+    stroke-width: 3;
+  }
+  .szu-prev .szu-rr.is-off .st {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  .szu-prev .szu-rr.is-empty {
+    border: 1px dashed #c9d6ee;
+  }
+  .szu-prev .szu-sum {
+    padding: 18px 22px 22px;
+    background: #f8fafd;
+    border-top: 1px solid #edf1f7;
+  }
+  .szu-prev .szu-sum p {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 4px 10px;
+    margin: 0;
+    font-size: 15px;
+    font-weight: 500;
+    color: #4a5568;
+  }
+  .szu-prev .szu-sum b {
+    min-width: 2ch;
+    font-size: 38px;
+    line-height: 1;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    font-variant-numeric: tabular-nums;
+    color: #2a73ff;
+  }
+  .szu-prev .szu-meter {
+    height: 8px;
+    margin-top: 14px;
+    border-radius: 8px;
+    background: #dde6f6;
+    overflow: hidden;
+  }
+  .szu-prev .szu-meter i {
+    display: block;
+    height: 100%;
+    border-radius: 8px;
+    background: #2a73ff;
+    transform-origin: 0 50%;
+    transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .szu-prev .f1 {
+    left: 6%;
+    top: 130px;
+    --s: 46px;
+    --c: #ffbb00;
+    --r: -12deg;
+    --d: 6.4s;
+  }
+  .szu-prev .f2 {
+    right: 5%;
+    bottom: 90px;
+    --s: 52px;
+    --c: #00bfff;
+    --r: 10deg;
+    --d: 5.8s;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .szu-prev .szu-row .ck svg path,
+    .szu-prev .szu-meter i,
+    .szu-prev .szu-sw .tr i {
+      transition: none;
+    }
+  }
+  @media (max-width: 1240px) {
+    .szu-prev .f1,
+    .szu-prev .f2 {
+      display: none;
+    }
+  }
+  @media (max-width: 1024px) {
+    .szu-prev {
+      padding: 104px 24px;
+    }
+    .szu-prev .szu-pgrid {
+      grid-template-columns: minmax(0, 1fr);
+      max-width: 620px;
+      margin-top: 48px;
+    }
+    .szu-prev .szu-link {
+      min-height: 72px;
+    }
+    .szu-prev .szu-link svg {
+      transform: rotate(90deg);
+    }
+  }
+  @media (max-width: 767px) {
+    .szu-prev {
+      padding: 84px 18px;
+    }
+    .szu-prev .szu-pgrid {
+      margin-top: 36px;
+    }
+    .szu-prev .szu-pan {
+      border-radius: 20px;
+    }
+    .szu-prev .szu-ph {
+      padding: 14px 16px;
+    }
+    .szu-prev .szu-ph em {
+      display: none;
+    }
+    .szu-prev .szu-ft,
+    .szu-prev .szu-rt {
+      padding: 6px 6px;
+    }
+    .szu-prev .szu-row,
+    .szu-prev .szu-rr {
+      min-height: 52px;
+      gap: 10px;
+      padding: 6px 8px;
+    }
+    .szu-prev .szu-pf {
+      padding: 14px 16px 16px;
+    }
+    .szu-prev .szu-ls {
+      margin-left: 0;
+    }
+    .szu-prev .szu-sum {
+      padding: 16px 16px 18px;
+    }
+    .szu-prev .szu-link {
+      min-height: 64px;
+    }
+  }
+</style>
+<section class="sxf szu-prev" id="vorschau" aria-labelledby="szu-h-prev">
+  <div class="sxf-float" aria-hidden="true">
+    <span class="sxf-fold f1"></span><span class="sxf-fold f2"></span>
+  </div>
+  <div class="sxf-wrap">
+    <div class="sxf-head" data-rv>
+      <p class="sxf-eyebrow">{t.prev_eyebrow}</p>
+      <h2 class="sxf-h" id="szu-h-prev">{t.prev_title_1} <span class="sxf-blue">{t.prev_title_2}</span></h2>
+      <p class="sxf-lead">{t.prev_lead}</p>
+    </div>
+    <div class="szu-pgrid" data-total={total}>
+      <div class="szu-pan" data-rv>
+        <div class="szu-ph">
+          <i
+            ><svg class="i" viewbox="0 0 24 24"
+              ><path d={zipIc}></path><path d="M14 3v6h6M10 11v1M10 14v1M10 17v1"></path></svg
+            ></i
+          >
+          <div>
+            <strong>{t.hero_dialog_title}: {t.prev_file}</strong>
+            <small>{t.prev_target}</small>
+          </div>
+          <em>{t.add_example_label}</em>
+        </div>
+        <ul class="szu-ft" role="group" aria-label={t.prev_aria_list}>
+          {
+            folders.map((f) => (
+              <li>
+                <label class="szu-row">
+                  <input type="checkbox" class="szu-cb" checked={f.on} data-n={f.k} />
+                  <span class="ck">
+                    <svg class="i" viewbox="0 0 24 24">
+                      <path d="m5 12 5 5L20 7" />
+                    </svg>
+                  </span>
+                  <svg class="i fo" viewbox="0 0 24 24">
+                    <path d={fold} />
+                  </svg>
+                  <span class="nm">{f.name}</span>
+                  <span class="ct">
+                    {f.k} {t.hero_dialog_files}
+                  </span>
+                </label>
+              </li>
+            ))
+          }
+          <li>
+            <div class="szu-row is-static">
+              <svg class="i dash" viewbox="0 0 24 24" aria-hidden="true">
+                <path d="M7 12h10" stroke="#c3cde0" stroke-width="2"></path>
+              </svg>
+              <svg class="i fo" viewbox="0 0 24 24">
+                <path d={fold}></path>
+              </svg>
+              <span class="nm">{t.prev_f5}</span>
+              <span class="tg">{t.prev_empty_tag}</span>
+            </div>
+          </li>
+        </ul>
+        <div class="szu-pf">
+          <label class="szu-sw">
+            <input type="checkbox" class="szu-keep" checked />
+            <span class="tr"><i></i></span>
+            {t.hero_dialog_keep_empty}
+          </label>
+          <span class="szu-ls">
+            <button type="button" class="sxf-b szu-all">{t.prev_all}</button>
+            <button type="button" class="sxf-b szu-none">{t.prev_none}</button>
+          </span>
+        </div>
+      </div>
+      <div class="szu-link" aria-hidden="true">
+        <svg class="i" viewbox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
+      </div>
+      <div class="szu-pan" data-rv style="--dl:.12s">
+        <div class="szu-ph">
+          <i><svg class="i" viewbox="0 0 24 24"><path d={fold}></path></svg></i>
+          <div>
+            <strong>{t.prev_result}</strong>
+            <small>{t.prev_target}</small>
+          </div>
+        </div>
+        <ul class="szu-rt">
+          {
+            folders.map((f) => (
+              <li>
+                <div class={`szu-rr${f.on ? '' : ' is-off'}`}>
+                  <svg class="i fo" viewbox="0 0 24 24">
+                    <path d={fold} />
+                  </svg>
+                  <span class="tx">
+                    <span class="nm">{f.name}</span>
+                    <span class="sub">
+                      <span class="a">
+                        {f.k} {t.hero_dialog_files}
+                      </span>
+                      <span class="b">{t.prev_skipped}</span>
+                    </span>
+                  </span>
+                  <span class="st">
+                    <svg class="i" viewbox="0 0 24 24">
+                      <path d="m5 12 5 5L20 7" />
+                    </svg>
+                  </span>
+                </div>
+              </li>
+            ))
+          }
+          <li>
+            <div class="szu-rr is-empty">
+              <svg class="i fo" viewbox="0 0 24 24">
+                <path d={fold}></path>
+              </svg>
+              <span class="tx">
+                <span class="nm">{t.prev_f5}</span>
+                <span class="sub">
+                  <span class="a">{t.prev_kept}</span>
+                  <span class="b">{t.prev_not_created}</span>
+                </span>
+              </span>
+              <span class="st">
+                <svg class="i" viewbox="0 0 24 24">
+                  <path d="m5 12 5 5L20 7"></path>
+                </svg>
+              </span>
+            </div>
+          </li>
+        </ul>
+        <div class="szu-sum">
+          <p>
+            <b class="szu-n">{start}</b><span>{of}</span>
+          </p>
+          <div class="szu-meter" aria-hidden="true"><i style={`transform:scaleX(${start / total})`}></i></div>
+        </div>
+      </div>
+      <span class="sxf-sr szu-sr-live" aria-live="polite"></span>
+    </div>
+  </div>
+</section>
+<script is:inline>
+  (function () {
+    function init(s) {
+      if (s.__szu) return;
+      s.__szu = 1;
+      var cbs = [].slice.call(s.querySelectorAll('.szu-cb')),
+        rr = [].slice.call(s.querySelectorAll('.szu-rr')),
+        keep = s.querySelector('.szu-keep'),
+        n = s.querySelector('.szu-n'),
+        mt = s.querySelector('.szu-meter i'),
+        lv = s.querySelector('.szu-sr-live'),
+        of = s.querySelector('.szu-sum p span'),
+        total = +s.querySelector('.szu-pgrid').getAttribute('data-total'),
+        shown = +n.textContent,
+        raf = 0,
+        lt = 0;
+      var rm = window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+      function sum() {
+        return cbs.reduce(function (a, c) {
+          return a + (c.checked ? +c.getAttribute('data-n') : 0);
+        }, 0);
+      }
+      function countTo(to) {
+        cancelAnimationFrame(raf);
+        var from = shown,
+          t0 = null;
+        if (rm || from === to) {
+          shown = to;
+          n.textContent = to;
+          return;
+        }
+        function step(ts) {
+          if (t0 === null) t0 = ts;
+          var p = Math.min(1, (ts - t0) / 420),
+            e = 1 - Math.pow(1 - p, 3);
+          shown = Math.round(from + (to - from) * e);
+          n.textContent = shown;
+          if (p < 1) raf = requestAnimationFrame(step);
+        }
+        raf = requestAnimationFrame(step);
+      }
+      function upd() {
+        var v = sum();
+        cbs.forEach(function (c, i) {
+          rr[i].classList.toggle('is-off', !c.checked);
+        });
+        rr[rr.length - 1].classList.toggle('is-off', !keep.checked);
+        mt.style.transform = 'scaleX(' + v / total + ')';
+        countTo(v);
+        clearTimeout(lt);
+        lt = setTimeout(function () {
+          lv.textContent = v + ' ' + of.textContent;
+        }, 500);
+      }
+      cbs.forEach(function (c) {
+        c.addEventListener('change', upd);
+      });
+      keep.addEventListener('change', upd);
+      s.querySelector('.szu-all').addEventListener('click', function () {
+        cbs.forEach(function (c) {
+          c.checked = true;
+        });
+        upd();
+      });
+      s.querySelector('.szu-none').addEventListener('click', function () {
+        cbs.forEach(function (c) {
+          c.checked = false;
+        });
+        upd();
+      });
+      upd();
+    }
+    function boot() {
+      document.querySelectorAll('.szu-prev').forEach(init);
+    }
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
+    else boot();
+  })();
+</script>

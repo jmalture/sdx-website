@@ -1,0 +1,463 @@
+---
+/**
+ * Section "fn": Alles, was ein Import braucht. (bento grid of the nine functions, CSS-drawn mini UIs on the wide tiles)
+ * Texts: src/i18n/zip.json, keys starting with "fn_". Technique: share/09-features, audits/09-functions.
+ */
+import { dict, type Lang } from '../../i18n';
+import data from '../../i18n/zip.json';
+const { lang } = Astro.props as { lang: Lang };
+const t = dict(data, lang);
+const fold =
+  'M3 6.5A2.5 2.5 0 0 1 5.5 4h4.1l2 2.2h6.9A2.5 2.5 0 0 1 21 8.7v8.8a2.5 2.5 0 0 1-2.5 2.5h-13A2.5 2.5 0 0 1 3 17.5z';
+const zipIc = 'M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9zM14 3v6h6M10 11v1M10 14v1M10 17v1';
+const tiles = [
+  { n: 1, c: '#2A73FF', wide: 'unpack', icon: `<path d="${zipIc}"></path>` },
+  {
+    n: 2,
+    c: '#22C55E',
+    icon: '<path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"></path><circle cx="12" cy="12" r="3"></circle>',
+  },
+  { n: 3, c: '#C800FF', icon: '<path d="M4 6h16M4 12h10M4 18h6"></path><path d="m15 17 2 2 4-4"></path>' },
+  { n: 4, c: '#00BFFF', icon: '<path d="M4 6h6M4 12h10M4 18h14M3 3v18"></path>' },
+  { n: 5, c: '#FFA600', wide: 'add', icon: '<path d="M4 7h13l-3-3M20 17H7l3 3"></path>' },
+  { n: 6, c: '#8A94A6', icon: `<path d="${fold}"></path>` },
+  { n: 7, c: '#2A73FF', wide: 'space', icon: '<path d="m12 3 9 5-9 5-9-5z"></path><path d="m3 13 9 5 9-5"></path>' },
+  { n: 8, c: '#F04438', icon: '<path d="M13 2 4 14h7l-1 8 9-12h-7z"></path>' },
+  { n: 9, c: '#0F1B2D', icon: '<path d="M12 3v12M7 10l5 5 5-5M4 20h16"></path>' },
+];
+---
+
+<style is:global>
+  .szu-fn {
+    padding: 128px 32px;
+    background: #f7f9fd;
+  }
+  .szu-fn .szu-bento {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 18px;
+    margin-top: 60px;
+  }
+  .szu-fn .szu-tw {
+    display: flex;
+    grid-column: span 1;
+  }
+  .szu-fn .szu-tw.w {
+    grid-column: span 2;
+  }
+  .szu-fn .szu-tile {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-width: 0;
+    padding: 28px 28px 26px;
+    border-radius: 24px;
+    background: #fff;
+    border: 1px solid #e3e8f0;
+    box-shadow: 0 2px 6px rgba(18, 37, 92, 0.04);
+    overflow: hidden;
+    transition:
+      transform 0.3s ease,
+      box-shadow 0.3s ease,
+      border-color 0.3s ease;
+  }
+  .szu-fn .szu-tile .ic {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 46px;
+    height: 46px;
+    border-radius: 13px;
+    background: var(--c);
+    color: #fff;
+    box-shadow: 0 10px 20px -10px var(--c);
+  }
+  .szu-fn .szu-tile .ic svg {
+    width: 22px;
+    height: 22px;
+  }
+  .szu-fn .szu-tile h3 {
+    margin: 20px 0 8px;
+    font-family: Inter, sans-serif;
+    font-size: 19px;
+    line-height: 1.3;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    color: #0f1b2d;
+  }
+  .szu-fn .szu-tile p {
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.55;
+    color: #4a5568;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .szu-fn .szu-tile:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 24px 46px -18px rgba(18, 37, 92, 0.25);
+      border-color: color-mix(in srgb, var(--c) 35%, #e3e8f0);
+    }
+  }
+  /* wide tiles: text left, mini UI right */
+  .szu-fn .szu-tw.w .szu-tile {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+    gap: 0 26px;
+    align-items: center;
+  }
+  .szu-fn .szu-tw.w .szu-tile .tx {
+    min-width: 0;
+  }
+  .szu-fn .mini {
+    position: relative;
+    padding: 14px;
+    border-radius: 16px;
+    background: #f4f8ff;
+    border: 1px solid #e3ebf8;
+    min-width: 0;
+  }
+  .szu-fn .mini .row {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    margin: 0;
+    padding: 8px 10px;
+    border-radius: 10px;
+    background: #fff;
+    box-shadow: 0 1px 2px rgba(18, 37, 92, 0.06);
+    font-size: 13px;
+    line-height: 1.3;
+    font-weight: 600;
+    color: #0f1b2d;
+    min-width: 0;
+  }
+  .szu-fn .mini .row + .row {
+    margin-top: 6px;
+  }
+  .szu-fn .mini .row svg {
+    width: 16px;
+    height: 16px;
+    color: #2a73ff;
+    flex: none;
+  }
+  .szu-fn .mini .row .nm {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .szu-fn .mini .row em {
+    margin-left: auto;
+    padding: 2px 8px;
+    border-radius: 999px;
+    font-style: normal;
+    font-size: 11px;
+    font-weight: 700;
+    color: #fff;
+    background: var(--g, #8a94a6);
+    white-space: nowrap;
+  }
+  .szu-fn .mini .row.zip {
+    background: #2a73ff;
+    color: #fff;
+  }
+  .szu-fn .mini .row.zip svg {
+    color: #fff;
+  }
+  .szu-fn .mini .row .sq {
+    width: 14px;
+    height: 14px;
+    border-radius: 4px;
+    background: var(--c);
+    flex: none;
+  }
+  .szu-fn .mini .row.sub {
+    margin-left: 18px;
+  }
+  .szu-fn .mini .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 10px;
+    padding: 8px 14px;
+    border-radius: 10px;
+    background: #2a73ff;
+    color: #fff;
+    font-size: 12.5px;
+    font-weight: 600;
+  }
+  .szu-fn .mini .btn svg {
+    width: 14px;
+    height: 14px;
+  }
+  .szu-fn .mini .pg {
+    flex: 1;
+    height: 4px;
+    margin-left: 6px;
+    border-radius: 4px;
+    background: #dbe6fb;
+    overflow: hidden;
+  }
+  .szu-fn .mini .pg i {
+    display: block;
+    height: 100%;
+    background: #2a73ff;
+    transform-origin: 0 50%;
+    transform: scaleX(1);
+  }
+  /* loops, only while visible */
+  .szu-fn.is-run .m-unpack .row:not(.zip) {
+    animation: szuRowIn 5.4s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+    animation-delay: calc(var(--n) * 0.35s);
+  }
+  @keyframes szuRowIn {
+    0%,
+    6% {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    18%,
+    86% {
+      opacity: 1;
+      transform: none;
+    }
+    96%,
+    100% {
+      opacity: 0;
+      transform: translateY(0);
+    }
+  }
+  .szu-fn.is-run .m-add .row em {
+    animation: szuTagIn 5.4s ease-out infinite;
+    animation-delay: calc(var(--n) * 0.45s);
+  }
+  @keyframes szuTagIn {
+    0%,
+    10% {
+      opacity: 0;
+      transform: translateX(6px);
+    }
+    24%,
+    86% {
+      opacity: 1;
+      transform: none;
+    }
+    96%,
+    100% {
+      opacity: 0;
+    }
+  }
+  .szu-fn.is-run .m-space .pg i {
+    animation: szuPg 4.8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+    animation-delay: calc(var(--n) * 0.3s);
+  }
+  @keyframes szuPg {
+    0% {
+      transform: scaleX(0);
+    }
+    60%,
+    100% {
+      transform: scaleX(1);
+    }
+  }
+  .szu-fn .f1 {
+    right: 5%;
+    top: 120px;
+    --s: 46px;
+    --c: #00bfff;
+    --r: 12deg;
+    --d: 6.2s;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .szu-fn.is-run .m-unpack .row:not(.zip),
+    .szu-fn.is-run .m-add .row em,
+    .szu-fn.is-run .m-space .pg i {
+      animation: none;
+    }
+  }
+  @media (max-width: 1240px) {
+    .szu-fn .f1 {
+      display: none;
+    }
+  }
+  @media (max-width: 1100px) {
+    .szu-fn .szu-bento {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .szu-fn .szu-tw.w {
+      grid-column: span 2;
+    }
+    .szu-fn .szu-bento {
+      grid-auto-flow: dense;
+    }
+  }
+  @media (max-width: 1024px) {
+    .szu-fn {
+      padding: 104px 24px;
+    }
+    .szu-fn .szu-bento {
+      margin-top: 48px;
+    }
+  }
+  @media (max-width: 767px) {
+    .szu-fn {
+      padding: 84px 18px;
+    }
+    .szu-fn .szu-bento {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 14px;
+      margin-top: 40px;
+    }
+    .szu-fn .szu-tw.w {
+      grid-column: span 1;
+    }
+    .szu-fn .szu-tile {
+      padding: 24px 22px;
+    }
+    .szu-fn .szu-tw.w .szu-tile {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 20px 0;
+      align-items: start;
+    }
+  }
+  @media (max-width: 1100px) and (min-width: 768px) {
+    .szu-fn .szu-tw.w .szu-tile {
+      grid-template-columns: minmax(0, 0.9fr) minmax(0, 1fr);
+    }
+  }
+</style>
+<section class="sxf szu-fn" id="funktionen" aria-labelledby="szu-h-fn">
+  <div class="sxf-float" aria-hidden="true"><span class="sxf-fold f1"></span></div>
+  <div class="sxf-wrap">
+    <div class="sxf-head" data-rv>
+      <p class="sxf-eyebrow">{t.fn_eyebrow}</p>
+      <h2 class="sxf-h" id="szu-h-fn">{t.fn_title}</h2>
+      <p class="sxf-lead">{t.fn_lead}</p>
+    </div>
+    <div class="szu-bento">
+      {
+        tiles.map((x, i) => (
+          <div class={`szu-tw${x.wide ? ' w' : ''}`} data-rv style={`--dl:${(i % 3) * 0.07}s`}>
+            <article class="szu-tile" style={`--c:${x.c}`}>
+              <div class="tx">
+                <span class="ic" aria-hidden="true">
+                  <svg class="i" viewbox="0 0 24 24" set:html={x.icon} />
+                </span>
+                <h3>{t[`fn_${x.n}_title`]}</h3>
+                <p>{t[`fn_${x.n}_text`]}</p>
+              </div>
+              {x.wide === 'unpack' && (
+                <div class="mini m-unpack" aria-hidden="true">
+                  <div class="row zip">
+                    <svg class="i" viewbox="0 0 24 24">
+                      <path d={zipIc} />
+                    </svg>
+                    <span class="nm">{t.hero_dialog_file}</span>
+                  </div>
+                  <div class="row" style="--n:1">
+                    <svg class="i" viewbox="0 0 24 24">
+                      <path d={fold} />
+                    </svg>
+                    <span class="nm">{t.hero_dialog_folder_permits}</span>
+                    <em style="--g:#1a9b4b">{t.fn_mini_unpack}</em>
+                  </div>
+                  <div class="row sub" style="--n:2">
+                    <svg class="i" viewbox="0 0 24 24">
+                      <path d={fold} />
+                    </svg>
+                    <span class="nm">{t.hero_dialog_folder_reports}</span>
+                  </div>
+                  <div class="row" style="--n:3">
+                    <svg class="i" viewbox="0 0 24 24">
+                      <path d={fold} />
+                    </svg>
+                    <span class="nm">{t.hero_dialog_folder_leases}</span>
+                  </div>
+                </div>
+              )}
+              {x.wide === 'add' && (
+                <div class="mini m-add" aria-hidden="true">
+                  <div class="row" style="--n:0">
+                    <span class="sq" style="--c:#2a73ff" />
+                    <span class="nm">{t.add_file_plan}</span>
+                    <em style="--g:#f59000;--n:0">{t.add_tag_replaced}</em>
+                  </div>
+                  <div class="row" style="--n:1">
+                    <span class="sq" style="--c:#c800ff" />
+                    <span class="nm">{t.add_file_stat}</span>
+                    <em style="--g:#1a9b4b;--n:1">{t.add_tag_new}</em>
+                  </div>
+                  <div class="row" style="--n:2">
+                    <span class="sq" style="--c:#ffa600" />
+                    <span class="nm">{t.add_file_report}</span>
+                    <em style="--g:#8a94a6;--n:2">{t.add_tag_kept}</em>
+                  </div>
+                </div>
+              )}
+              {x.wide === 'space' && (
+                <div class="mini m-space" aria-hidden="true">
+                  <div class="row">
+                    <svg class="i" viewbox="0 0 24 24">
+                      <path d="m12 3 9 5-9 5-9-5z" />
+                      <path d="m3 13 9 5 9-5" />
+                    </svg>
+                    <span class="nm">{t.fn_mini_space}</span>
+                  </div>
+                  <div class="row sub" style="--n:0">
+                    <svg class="i" viewbox="0 0 24 24">
+                      <path d={fold} />
+                    </svg>
+                    <span class="nm">{t.hero_dialog_folder_permits}</span>
+                    <span class="pg">
+                      <i style="--n:0" />
+                    </span>
+                  </div>
+                  <div class="row sub" style="--n:1">
+                    <svg class="i" viewbox="0 0 24 24">
+                      <path d={fold} />
+                    </svg>
+                    <span class="nm">{t.hero_dialog_folder_reports}</span>
+                    <span class="pg">
+                      <i style="--n:1" />
+                    </span>
+                  </div>
+                  <span class="btn">
+                    <svg class="i" viewbox="0 0 24 24">
+                      <path d={zipIc} />
+                    </svg>
+                    {t.fn_mini_btn}
+                  </span>
+                </div>
+              )}
+            </article>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
+<script is:inline>
+  (function () {
+    function init(s) {
+      if (s.__szu) return;
+      s.__szu = 1;
+      if (window.matchMedia('(prefers-reduced-motion:reduce)').matches) return;
+      if (!('IntersectionObserver' in window)) return;
+      new IntersectionObserver(
+        function (es) {
+          s.classList.toggle('is-run', es[0].isIntersecting && !document.hidden);
+        },
+        { threshold: 0.2 },
+      ).observe(s.querySelector('.szu-bento'));
+      document.addEventListener('visibilitychange', function () {
+        if (document.hidden) s.classList.remove('is-run');
+      });
+    }
+    function boot() {
+      document.querySelectorAll('.szu-fn').forEach(init);
+    }
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
+    else boot();
+  })();
+</script>

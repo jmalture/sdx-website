@@ -1,0 +1,739 @@
+---
+/**
+ * Section "add": Aktualisieren, ohne etwas zu verlieren. (click-to-simulate additive import)
+ * Texts: src/i18n/zip.json, keys starting with "add_". File names are illustrative example data.
+ * Technique: share/08-website-sync (token flies from source to target, rows change one after another, count-ups, reset).
+ */
+import { dict, type Lang } from '../../i18n';
+import data from '../../i18n/zip.json';
+const { lang } = Astro.props as { lang: Lang };
+const t = dict(data, lang);
+const zipRows = [
+  { n: t.add_file_plan, s: t.add_sub_same, c: '#2a73ff' },
+  { n: t.add_file_stat, s: t.add_sub_new, c: '#c800ff' },
+  { n: t.add_file_calc, s: t.add_sub_new, c: '#22c55e' },
+];
+// kind: rep = replaced, keep = untouched, new = added
+const sdxRows = [
+  { k: 'rep', n: t.add_file_plan, c: '#2a73ff', s1: t.add_sub_exist, s2: t.add_sub_perm, tg: t.add_tag_replaced },
+  { k: 'keep', n: t.add_file_report, c: '#ffa600', s1: t.add_sub_exist, s2: t.add_sub_untouched, tg: t.add_tag_kept },
+  { k: 'keep', n: t.add_file_contract, c: '#00bfff', s1: t.add_sub_exist, s2: t.add_sub_untouched, tg: t.add_tag_kept },
+  { k: 'new', n: t.add_file_stat, c: '#c800ff', s1: '', s2: t.add_tag_new, tg: t.add_tag_new },
+  { k: 'new', n: t.add_file_calc, c: '#22c55e', s1: '', s2: t.add_tag_new, tg: t.add_tag_new },
+];
+const stats = [
+  { k: 'rep', title: t.add_1_title, text: t.add_1_text, tag: t.add_tag_replaced },
+  { k: 'new', title: t.add_2_title, text: t.add_2_text, tag: t.add_tag_new },
+  { k: 'keep', title: t.add_3_title, text: t.add_3_text, tag: t.add_tag_kept },
+];
+const zipIc = 'M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z';
+---
+
+<style is:global>
+  .szu-add {
+    padding: 128px 32px;
+    background: linear-gradient(180deg, #ffffff 0%, #f3f7ff 100%);
+  }
+  .szu-add .szu-grid {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 0.8fr) 120px minmax(0, 1.2fr);
+    align-items: center;
+    max-width: 1080px;
+    margin: 60px auto 0;
+  }
+  .szu-add .szu-pan {
+    position: relative;
+    z-index: 1;
+    padding: 22px;
+    border-radius: 24px;
+    background: #fff;
+    box-shadow:
+      0 30px 60px -28px rgba(18, 37, 92, 0.3),
+      0 0 0 1px rgba(18, 37, 92, 0.05);
+  }
+  .szu-add .szu-lb {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0 0 14px;
+    font-size: 13px;
+    font-weight: 700;
+    color: #0f1b2d;
+  }
+  .szu-add .szu-lb i {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 9px;
+    background: #2a73ff;
+    color: #fff;
+    flex: none;
+  }
+  .szu-add .szu-lb i svg {
+    width: 16px;
+    height: 16px;
+  }
+  .szu-add .szu-lb small {
+    margin-left: auto;
+    padding: 3px 9px;
+    border-radius: 999px;
+    background: #eaf1ff;
+    color: #2a73ff;
+    font-size: 11.5px;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  .szu-add .szu-fl {
+    border-radius: 16px;
+    border: 1px solid #edf1f7;
+    overflow: hidden;
+  }
+  .szu-add .szu-fr {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    min-height: 58px;
+    padding: 9px 14px;
+    background: #fff;
+    transition: background-color 0.5s ease;
+  }
+  .szu-add .szu-fr + .szu-fr {
+    border-top: 1px solid #f0f3f8;
+  }
+  .szu-add .szu-fr .sq {
+    width: 26px;
+    height: 26px;
+    border-radius: 8px;
+    background: var(--c);
+    flex: none;
+  }
+  .szu-add .szu-fr .tx {
+    min-width: 0;
+    flex: 1;
+  }
+  .szu-add .szu-fr .nm {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 14px;
+    line-height: 1.3;
+    font-weight: 600;
+    color: #0f1b2d;
+  }
+  .szu-add .szu-fr .sub {
+    display: grid;
+    font-size: 12px;
+    line-height: 1.4;
+    color: #8a94a6;
+  }
+  .szu-add .szu-fr .sub span {
+    grid-area: 1 / 1;
+    overflow-wrap: anywhere;
+    transition: opacity 0.3s ease;
+  }
+  .szu-add .szu-fr .sub .s2 {
+    opacity: 0;
+  }
+  .szu-add .szu-fr .tg {
+    padding: 3px 9px;
+    border-radius: 999px;
+    color: #fff;
+    font-size: 11.5px;
+    font-weight: 700;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateX(8px);
+    transition:
+      opacity 0.35s ease,
+      transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+      visibility 0s 0.45s;
+  }
+  .szu-add .szu-fr[data-k='rep'] .tg {
+    background: #f59000;
+  }
+  .szu-add .szu-fr[data-k='new'] .tg {
+    background: #1a9b4b;
+  }
+  .szu-add .szu-fr[data-k='keep'] .tg {
+    background: #8a94a6;
+  }
+  .szu-add .szu-fr.is-done .tg {
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    transition:
+      opacity 0.35s ease,
+      transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+      visibility 0s;
+  }
+  .szu-add .szu-fr.is-done .sub .s1 {
+    opacity: 0;
+  }
+  .szu-add .szu-fr.is-done .sub .s2 {
+    opacity: 1;
+  }
+  .szu-add .szu-fr[data-k='rep'].is-done {
+    background: #fff6d6;
+  }
+  .szu-add .szu-fr[data-k='new'].is-done {
+    background: #eaf8ef;
+  }
+  /* empty slots for files that are not there yet */
+  .szu-add .szu-fr[data-k='new'] .sq,
+  .szu-add .szu-fr[data-k='new'] .tx {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(8px);
+    transition:
+      opacity 0.4s ease,
+      transform 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+      visibility 0s 0.5s;
+  }
+  .szu-add .szu-fr[data-k='new'].is-done .sq,
+  .szu-add .szu-fr[data-k='new'].is-done .tx {
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    transition:
+      opacity 0.4s ease,
+      transform 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+      visibility 0s;
+  }
+  .szu-add .szu-fr .ph {
+    position: absolute;
+    inset: 6px 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 11px;
+    border: 1px dashed #c9d6ee;
+    font-size: 12.5px;
+    font-weight: 500;
+    color: #8a94a6;
+    transition: opacity 0.3s ease;
+  }
+  .szu-add .szu-fr.is-done .ph {
+    opacity: 0;
+    visibility: hidden;
+    transition:
+      opacity 0.3s ease,
+      visibility 0s 0.3s;
+  }
+  .szu-add .szu-zip .szu-fr .tg {
+    display: none;
+  }
+  .szu-add .szu-lnk {
+    position: relative;
+    height: 120px;
+  }
+  .szu-add .szu-lnk svg.path {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+  }
+  .szu-add .szu-lnk svg.path path {
+    fill: none;
+    stroke: #2a73ff;
+    stroke-width: 2.5;
+    stroke-dasharray: 6 8;
+    stroke-linecap: round;
+  }
+  .szu-add.is-run .szu-lnk svg.path path {
+    animation: szuDash 1.4s linear infinite;
+  }
+  @keyframes szuDash {
+    to {
+      stroke-dashoffset: -28;
+    }
+  }
+  .szu-add .szu-tok {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    margin: -22px 0 0 -22px;
+    border-radius: 13px;
+    background: #2a73ff;
+    color: #fff;
+    box-shadow: 0 12px 22px -8px rgba(42, 115, 255, 0.7);
+    opacity: 0;
+  }
+  .szu-add .szu-tok svg {
+    width: 22px;
+    height: 22px;
+  }
+  .szu-add .szu-tok.fly {
+    animation: szuFly 0.95s cubic-bezier(0.45, 0, 0.2, 1) forwards;
+  }
+  @keyframes szuFly {
+    0% {
+      left: 0;
+      opacity: 0;
+      transform: scale(0.6);
+    }
+    15% {
+      opacity: 1;
+      transform: scale(1);
+    }
+    85% {
+      opacity: 1;
+      transform: scale(1);
+    }
+    100% {
+      left: 100%;
+      opacity: 0;
+      transform: scale(0.6);
+    }
+  }
+  .szu-add .szu-act {
+    display: flex;
+    justify-content: center;
+    margin-top: 36px;
+  }
+  .szu-add .szu-run {
+    display: inline-grid;
+    place-items: center;
+    min-width: 230px;
+    padding: 14px 28px;
+    border-radius: 16px;
+    background: #2a73ff;
+    color: #fff;
+    font-family: Inter, sans-serif;
+    font-size: 15px;
+    line-height: 1.3;
+    font-weight: 600;
+    transition:
+      transform 0.2s ease,
+      box-shadow 0.2s ease,
+      background-color 0.2s ease;
+  }
+  .szu-add .szu-run span {
+    grid-area: 1 / 1;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    transition: opacity 0.2s ease;
+  }
+  .szu-add .szu-run svg {
+    width: 18px;
+    height: 18px;
+  }
+  .szu-add .szu-run .l2 {
+    opacity: 0;
+    visibility: hidden;
+  }
+  .szu-add.is-after .szu-run .l1 {
+    opacity: 0;
+    visibility: hidden;
+  }
+  .szu-add.is-after .szu-run .l2 {
+    opacity: 1;
+    visibility: visible;
+  }
+  .szu-add .szu-run:hover {
+    background: #1f63eb;
+    transform: translateY(-2px);
+    box-shadow: 0 12px 24px rgba(42, 115, 255, 0.32);
+  }
+  .szu-add.is-after .szu-run {
+    background: #fff;
+    color: #0f1b2d;
+    box-shadow: inset 0 0 0 1px #d8e1ee;
+  }
+  .szu-add.is-after .szu-run:hover {
+    background: #fff;
+    box-shadow:
+      inset 0 0 0 1px #2a73ff,
+      0 10px 20px rgba(18, 37, 92, 0.1);
+  }
+  .szu-add .szu-run[disabled] {
+    opacity: 0.7;
+    cursor: default;
+    transform: none;
+    box-shadow: none;
+  }
+  .szu-add .szu-stats {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+    max-width: 1080px;
+    margin: 44px auto 0;
+  }
+  .szu-add .szu-st {
+    display: grid;
+    grid-template-columns: 52px minmax(0, 1fr);
+    grid-template-rows: auto 1fr;
+    gap: 4px 16px;
+    align-items: start;
+    padding: 22px 22px 24px;
+    border-radius: 22px;
+    background: #fff;
+    border: 1px solid #e3e8f0;
+  }
+  .szu-add .szu-st b {
+    grid-row: 1 / span 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 52px;
+    height: 52px;
+    border-radius: 15px;
+    color: #fff;
+    font-size: 22px;
+    font-weight: 800;
+    font-variant-numeric: tabular-nums;
+  }
+  .szu-add .szu-st[data-k='rep'] b {
+    background: #f59000;
+  }
+  .szu-add .szu-st[data-k='new'] b {
+    background: #1a9b4b;
+  }
+  .szu-add .szu-st[data-k='keep'] b {
+    background: #8a94a6;
+  }
+  .szu-add .szu-st b.pulse {
+    animation: szuPulse 0.6s ease-out;
+  }
+  @keyframes szuPulse {
+    from {
+      box-shadow: 0 0 0 0 rgba(42, 115, 255, 0.45);
+    }
+    to {
+      box-shadow: 0 0 0 14px rgba(42, 115, 255, 0);
+    }
+  }
+  .szu-add .szu-st strong {
+    font-size: 17px;
+    line-height: 1.35;
+    font-weight: 700;
+    color: #0f1b2d;
+  }
+  .szu-add .szu-st span {
+    font-size: 15px;
+    line-height: 1.55;
+    color: #4a5568;
+  }
+  .szu-add .f1 {
+    left: 6%;
+    top: 160px;
+    --s: 48px;
+    --c: #00bfff;
+    --r: -10deg;
+    --d: 6s;
+  }
+  .szu-add .f2 {
+    right: 5%;
+    top: 60%;
+    --s: 44px;
+    --c: #ffbb00;
+    --r: 12deg;
+    --d: 5.4s;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .szu-add.is-run .szu-lnk svg.path path,
+    .szu-add .szu-tok.fly,
+    .szu-add .szu-st b.pulse {
+      animation: none;
+    }
+  }
+  @media (max-width: 1240px) {
+    .szu-add .f1,
+    .szu-add .f2 {
+      display: none;
+    }
+  }
+  @media (max-width: 1024px) {
+    .szu-add {
+      padding: 104px 24px;
+    }
+    .szu-add .szu-grid {
+      grid-template-columns: minmax(0, 1fr);
+      max-width: 620px;
+      margin-top: 48px;
+    }
+    .szu-add .szu-lnk {
+      height: 84px;
+    }
+    .szu-add .szu-lnk svg.path {
+      transform: rotate(90deg) scale(0.7);
+    }
+    .szu-add .szu-tok.fly {
+      animation-name: szuFlyV;
+    }
+    .szu-add .szu-stats {
+      grid-template-columns: minmax(0, 1fr);
+      max-width: 620px;
+      gap: 12px;
+    }
+    @keyframes szuFlyV {
+      0% {
+        left: 50%;
+        top: 0;
+        opacity: 0;
+        transform: scale(0.6);
+      }
+      20% {
+        opacity: 1;
+        transform: scale(1);
+      }
+      80% {
+        opacity: 1;
+        transform: scale(1);
+      }
+      100% {
+        left: 50%;
+        top: 100%;
+        opacity: 0;
+        transform: scale(0.6);
+      }
+    }
+  }
+  @media (max-width: 767px) {
+    .szu-add {
+      padding: 84px 18px;
+    }
+    .szu-add .szu-grid {
+      margin-top: 36px;
+    }
+    .szu-add .szu-pan {
+      padding: 14px;
+      border-radius: 20px;
+    }
+    .szu-add .szu-fr {
+      min-height: 54px;
+      padding: 8px 10px;
+      gap: 9px;
+    }
+    .szu-add .szu-lnk {
+      height: 56px;
+    }
+    .szu-add .szu-lnk svg.path {
+      transform: rotate(90deg) scale(0.45);
+    }
+    .szu-add .szu-act {
+      margin-top: 24px;
+    }
+    .szu-add .szu-run {
+      width: 100%;
+      min-width: 0;
+    }
+    .szu-add .szu-st {
+      grid-template-columns: 44px minmax(0, 1fr);
+      padding: 16px 16px 18px;
+    }
+    .szu-add .szu-st b {
+      width: 44px;
+      height: 44px;
+      border-radius: 13px;
+      font-size: 19px;
+    }
+  }
+</style>
+<section class="sxf szu-add" id="additiv" aria-labelledby="szu-h-add">
+  <div class="sxf-float" aria-hidden="true">
+    <span class="sxf-fold f1"></span><span class="sxf-fold f2"></span>
+  </div>
+  <div class="sxf-wrap">
+    <div class="sxf-head" data-rv>
+      <p class="sxf-eyebrow">{t.add_eyebrow}</p>
+      <h2 class="sxf-h" id="szu-h-add">{t.add_title}</h2>
+      <p class="sxf-lead">{t.add_lead}</p>
+    </div>
+    <div class="szu-grid">
+      <div class="szu-pan szu-zip" data-rv>
+        <p class="szu-lb">
+          <i
+            ><svg class="i" viewbox="0 0 24 24"
+              ><path d={zipIc}></path><path d="M14 3v6h6M10 11v1M10 14v1M10 17v1"></path></svg
+            ></i
+          >{t.add_zip}<small>{t.add_example_label}</small>
+        </p>
+        <div class="szu-fl">
+          {
+            zipRows.map((r) => (
+              <div class="szu-fr" style={`--c:${r.c}`}>
+                <span class="sq" />
+                <span class="tx">
+                  <span class="nm">{r.n}</span>
+                  <span class="sub">
+                    <span>{r.s}</span>
+                  </span>
+                </span>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+      <div class="szu-lnk" aria-hidden="true">
+        <svg class="path" viewbox="0 0 120 120" preserveaspectratio="none"
+          ><path d="M0 60 C 40 30, 80 90, 120 60"></path></svg
+        >
+        <span class="szu-tok"
+          ><svg class="i" viewbox="0 0 24 24"><path d={zipIc}></path><path d="M14 3v6h6"></path></svg></span
+        >
+      </div>
+      <div class="szu-pan szu-sdx" data-rv style="--dl:.12s">
+        <p class="szu-lb"><i>SDX</i>{t.add_sdx}</p>
+        <div class="szu-fl">
+          {
+            sdxRows.map((r) => (
+              <div class="szu-fr" data-k={r.k} style={`--c:${r.c}`}>
+                <span class="sq" />
+                <span class="tx">
+                  <span class="nm">{r.n}</span>
+                  <span class="sub">
+                    <span class="s1">{r.s1}</span>
+                    <span class="s2">{r.s2}</span>
+                  </span>
+                </span>
+                <span class="tg">{r.tg}</span>
+                {r.k === 'new' && <span class="ph">{t.add_slot}</span>}
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+    <div class="szu-act" data-rv>
+      <button type="button" class="sxf-b szu-run">
+        <span class="l1"
+          ><svg class="i" viewbox="0 0 24 24" aria-hidden="true"><path d="M5 4l14 8-14 8z"></path></svg>{
+            t.add_run
+          }</span
+        >
+        <span class="l2"
+          ><svg class="i" viewbox="0 0 24 24" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7M3 4v5h5"></path></svg>{
+            t.add_reset
+          }</span
+        >
+      </button>
+    </div>
+    <div class="szu-stats" data-rv>
+      {
+        stats.map((s) => (
+          <div class="szu-st" data-k={s.k}>
+            <b aria-hidden="true">0</b>
+            <strong>{s.title}</strong>
+            <span>{s.text}</span>
+          </div>
+        ))
+      }
+    </div>
+    <span class="sxf-sr szu-sr-live" aria-live="polite"></span>
+  </div>
+</section>
+<script define:vars={{ T: { done: t.add_js_done, reset: t.add_js_reset } }}>
+  (function () {
+    function init(s) {
+      if (s.__szu) return;
+      s.__szu = 1;
+      var btn = s.querySelector('.szu-run'),
+        tok = s.querySelector('.szu-tok'),
+        rows = [].slice.call(s.querySelectorAll('.szu-sdx .szu-fr')),
+        cn = [].slice.call(s.querySelectorAll('.szu-st b')),
+        lv = s.querySelector('.szu-sr-live'),
+        busy = false,
+        after = false,
+        tm = [],
+        cnt = { rep: 0, new: 0, keep: 0 };
+      var rm = window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+      var idx = { rep: 0, new: 1, keep: 2 };
+      function later(fn, ms) {
+        tm.push(setTimeout(fn, rm ? 0 : ms));
+      }
+      function bump(k) {
+        cnt[k]++;
+        var b = cn[idx[k]];
+        b.textContent = cnt[k];
+        if (rm) return;
+        b.classList.remove('pulse');
+        void b.offsetWidth;
+        b.classList.add('pulse');
+      }
+      function msg() {
+        return T.done.replace('{a}', cnt.rep).replace('{b}', cnt['new']).replace('{c}', cnt.keep);
+      }
+      function setAfter(v) {
+        after = v;
+        s.classList.toggle('is-after', v);
+        btn.setAttribute('aria-pressed', 'false');
+      }
+      function reset() {
+        tm.forEach(clearTimeout);
+        tm = [];
+        rows.forEach(function (r) {
+          r.classList.remove('is-done');
+        });
+        cnt = { rep: 0, new: 0, keep: 0 };
+        cn.forEach(function (b) {
+          b.textContent = '0';
+        });
+        setAfter(false);
+        busy = false;
+        btn.disabled = false;
+        lv.textContent = T.reset;
+      }
+      function run() {
+        busy = true;
+        btn.disabled = true;
+        tok.classList.remove('fly');
+        void tok.offsetWidth;
+        if (!rm) tok.classList.add('fly');
+        // order: replaced, then the new files, then the untouched ones
+        var order = [0, 3, 4, 1, 2];
+        order.forEach(function (i, n) {
+          later(
+            function () {
+              rows[i].classList.add('is-done');
+              bump(rows[i].getAttribute('data-k'));
+            },
+            750 + n * 450,
+          );
+        });
+        later(
+          function () {
+            setAfter(true);
+            busy = false;
+            btn.disabled = false;
+            lv.textContent = msg();
+          },
+          750 + order.length * 450 + 250,
+        );
+      }
+      btn.addEventListener('click', function () {
+        if (busy) return;
+        if (after) reset();
+        else run();
+      });
+      if (rm) {
+        run(); // complete static end state
+      } else if ('IntersectionObserver' in window) {
+        new IntersectionObserver(
+          function (es) {
+            s.classList.toggle('is-run', es[0].isIntersecting && !document.hidden);
+          },
+          { threshold: 0.3 },
+        ).observe(s.querySelector('.szu-grid'));
+      } else s.classList.add('is-run');
+    }
+    function boot() {
+      document.querySelectorAll('.szu-add').forEach(init);
+    }
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
+    else boot();
+  })();
+</script>

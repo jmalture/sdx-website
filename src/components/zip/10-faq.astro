@@ -1,0 +1,430 @@
+---
+/**
+ * Section "faq": Fragen zum ZIP Upload? Beantwortet. (7 Q&As of the feature document: filter chips, accordion, show more)
+ * Texts: src/i18n/zip.json, keys starting with "faq_". Also emits the FAQPage JSON-LD. Technique: share/13-faq.
+ */
+import { dict, type Lang } from '../../i18n';
+import data from '../../i18n/zip.json';
+const { lang } = Astro.props as { lang: Lang };
+const t = dict(data, lang);
+// order on the page; cat: basics | import | limits
+const items = [
+  { n: 1, cat: 'basics' },
+  { n: 2, cat: 'import' },
+  { n: 3, cat: 'import' },
+  { n: 6, cat: 'limits' },
+  { n: 7, cat: 'limits' },
+  { n: 4, cat: 'import' },
+  { n: 5, cat: 'basics' },
+];
+const LIMIT = 5;
+const cats = [
+  { k: 'all', label: t.faq_cat_all, c: '' },
+  { k: 'basics', label: t.faq_cat_basics, c: '#2A73FF' },
+  { k: 'import', label: t.faq_cat_import, c: '#22C55E' },
+  { k: 'limits', label: t.faq_cat_limits, c: '#FFA600' },
+];
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: [1, 2, 3, 4, 5, 6, 7].map((n) => ({
+    '@type': 'Question',
+    name: t[`faq_${n}_q`],
+    acceptedAnswer: { '@type': 'Answer', text: t[`faq_${n}_a`] },
+  })),
+};
+---
+
+<style is:global>
+  .szu-faq {
+    padding: 120px 32px 128px;
+    background: #fff;
+  }
+  .szu-faq .sxf-wrap {
+    max-width: 860px;
+  }
+  .szu-faq .szu-chipsr {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin: 32px auto 0;
+  }
+  .szu-faq .szu-chipsr button {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 16px;
+    border-radius: 999px;
+    background: #fff;
+    border: 1px solid #e3e8f0;
+    font-family: Inter, sans-serif;
+    font-size: 14px;
+    line-height: 1.2;
+    font-weight: 600;
+    color: #0f1b2d;
+    box-shadow: 0 4px 12px rgba(18, 37, 92, 0.06);
+    transition:
+      border-color 0.2s ease,
+      background-color 0.2s ease,
+      color 0.2s ease;
+  }
+  .szu-faq .szu-chipsr button i {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--c);
+  }
+  .szu-faq .szu-chipsr button:hover {
+    border-color: #2a73ff;
+  }
+  .szu-faq .szu-chipsr button[aria-pressed='true'] {
+    background: #0f1b2d;
+    border-color: #0f1b2d;
+    color: #fff;
+  }
+  .szu-faq .szu-list {
+    list-style: none;
+    margin: 36px 0 0;
+    padding: 0;
+  }
+  .szu-faq .szu-qi {
+    margin: 0 0 12px;
+    border-radius: 18px;
+    background: #fff;
+    border: 1px solid #e3eaf5;
+    transition:
+      border-color 0.25s ease,
+      box-shadow 0.25s ease;
+  }
+  .szu-faq .szu-qi[hidden] {
+    display: none;
+  }
+  .szu-faq .szu-qi:hover,
+  .szu-faq .szu-qi.is-open {
+    border-color: #c9d9f5;
+  }
+  .szu-faq .szu-qi.is-open {
+    box-shadow: 0 18px 36px -22px rgba(42, 115, 255, 0.3);
+  }
+  .szu-faq .szu-qi.szu-new {
+    animation: szuQIn 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+  @keyframes szuQIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  .szu-faq .szu-qi h3 {
+    margin: 0;
+    font-size: inherit;
+  }
+  .szu-faq .szu-q {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    width: 100%;
+    padding: 20px 24px;
+    border-radius: 18px;
+    text-align: left;
+    font-family: Inter, sans-serif;
+    font-size: 17px;
+    line-height: 1.4;
+    font-weight: 600;
+    color: #0f1b2d;
+  }
+  .szu-faq .szu-q .ic {
+    position: relative;
+    width: 20px;
+    height: 20px;
+    flex: none;
+    color: #2a73ff;
+    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .szu-faq .szu-q .ic::before,
+  .szu-faq .szu-q .ic::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 14px;
+    height: 2px;
+    margin: -1px 0 0 -7px;
+    border-radius: 2px;
+    background: currentColor;
+  }
+  .szu-faq .szu-q .ic::after {
+    transform: rotate(90deg);
+  }
+  .szu-faq .szu-qi.is-open .szu-q .ic {
+    transform: rotate(45deg);
+  }
+  .szu-faq .szu-a {
+    display: grid;
+    grid-template-rows: 0fr;
+    visibility: hidden;
+    transition:
+      grid-template-rows 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+      visibility 0s 0.35s;
+  }
+  .szu-faq .szu-qi.is-open .szu-a {
+    grid-template-rows: 1fr;
+    visibility: visible;
+    transition:
+      grid-template-rows 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+      visibility 0s;
+  }
+  .szu-faq .szu-a > div {
+    overflow: hidden;
+    min-height: 0;
+  }
+  .szu-faq .szu-a p {
+    margin: 0;
+    padding: 0 24px 22px;
+    font-size: 16px;
+    line-height: 1.65;
+    color: #4a5568;
+  }
+  .szu-faq .szu-morew {
+    display: flex;
+    justify-content: center;
+    margin-top: 22px;
+  }
+  .szu-faq .szu-morew[hidden] {
+    display: none;
+  }
+  .szu-faq .szu-more {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 11px 20px;
+    border-radius: 999px;
+    background: #fff;
+    border: 1px solid #d8e1ee;
+    font-family: Inter, sans-serif;
+    font-size: 14.5px;
+    line-height: 1.3;
+    font-weight: 600;
+    color: #0f1b2d;
+    transition:
+      border-color 0.2s ease,
+      transform 0.2s ease;
+  }
+  .szu-faq .szu-more:hover {
+    border-color: #2a73ff;
+    transform: translateY(-2px);
+  }
+  .szu-faq .szu-more em {
+    font-style: normal;
+    min-width: 22px;
+    padding: 1px 7px;
+    border-radius: 999px;
+    background: #eaf1ff;
+    color: #2a73ff;
+    font-size: 12.5px;
+    text-align: center;
+  }
+  .szu-faq .szu-more em[hidden] {
+    display: none;
+  }
+  .szu-faq .f1 {
+    left: 7%;
+    top: 150px;
+    --s: 54px;
+    --c: #2a73ff;
+    --r: -10deg;
+    --d: 6.4s;
+  }
+  .szu-faq .f2 {
+    right: 8%;
+    top: 230px;
+    --s: 46px;
+    --c: #ffa600;
+    --r: 12deg;
+    --d: 7.2s;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .szu-faq .szu-a,
+    .szu-faq .szu-qi.szu-new {
+      transition: none;
+      animation: none;
+    }
+  }
+  @media (max-width: 1240px) {
+    .szu-faq .f1,
+    .szu-faq .f2 {
+      display: none;
+    }
+  }
+  @media (max-width: 1024px) {
+    .szu-faq {
+      padding: 96px 24px 104px;
+    }
+  }
+  @media (max-width: 767px) {
+    .szu-faq {
+      padding: 80px 18px 88px;
+    }
+    .szu-faq .szu-chipsr {
+      gap: 8px;
+    }
+    .szu-faq .szu-chipsr button {
+      padding: 8px 13px;
+      font-size: 13.5px;
+    }
+    .szu-faq .szu-q {
+      padding: 16px 18px;
+      font-size: 16px;
+    }
+    .szu-faq .szu-a p {
+      padding: 0 18px 18px;
+      font-size: 15.5px;
+    }
+  }
+</style>
+<section class="sxf szu-faq" id="faq" aria-labelledby="szu-h-faq">
+  <div class="sxf-float" aria-hidden="true">
+    <span class="sxf-fold f1"></span><span class="sxf-fold f2"></span>
+  </div>
+  <div class="sxf-wrap">
+    <div class="sxf-head" data-rv>
+      <p class="sxf-eyebrow">{t.faq_eyebrow}</p>
+      <h2 class="sxf-h" id="szu-h-faq">{t.faq_title}</h2>
+    </div>
+    <div class="szu-chipsr" role="group" aria-label={t.faq_aria_filter} data-rv>
+      {
+        cats.map((c) => (
+          <button type="button" class="sxf-b" data-cat={c.k} aria-pressed={c.k === 'all' ? 'true' : 'false'}>
+            {c.c && <i style={`--c:${c.c}`} />}
+            {c.label}
+          </button>
+        ))
+      }
+    </div>
+    <ul class="szu-list">
+      {
+        items.map((it, i) => (
+          <li class="szu-qi" data-cat={it.cat} hidden={i >= LIMIT}>
+            <h3>
+              <button
+                type="button"
+                class="sxf-b szu-q"
+                aria-expanded="false"
+                aria-controls={`szu-a-${it.n}`}
+                id={`szu-q-${it.n}`}
+              >
+                <span>{t[`faq_${it.n}_q`]}</span>
+                <span class="ic" aria-hidden="true" />
+              </button>
+            </h3>
+            <div class="szu-a" id={`szu-a-${it.n}`} role="region" aria-labelledby={`szu-q-${it.n}`}>
+              <div>
+                <p>{t[`faq_${it.n}_a`]}</p>
+              </div>
+            </div>
+          </li>
+        ))
+      }
+    </ul>
+    <div class="szu-morew" hidden={items.length <= LIMIT}>
+      <button type="button" class="sxf-b szu-more" aria-expanded="false" data-more={t.faq_more} data-less={t.faq_less}>
+        <span>{t.faq_more}</span>
+        <em>{items.length - LIMIT}</em>
+      </button>
+    </div>
+  </div>
+</section>
+<script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+<script is:inline>
+  (function () {
+    function init(root) {
+      if (root.__szu) return;
+      root.__szu = 1;
+      var LIMIT = 5,
+        expanded = false,
+        cat = 'all';
+      var items = [].slice.call(root.querySelectorAll('.szu-qi'));
+      var more = root.querySelector('.szu-more');
+      function apply() {
+        var n = 0,
+          rest = 0,
+          tot = 0;
+        items.forEach(function (it) {
+          var match = cat === 'all' || it.getAttribute('data-cat') === cat;
+          var show = match && (expanded || cat !== 'all' || n < LIMIT);
+          if (match) {
+            n++;
+            tot++;
+          }
+          if (match && !show) rest++;
+          it.hidden = !show;
+        });
+        var less = expanded && cat === 'all' && tot > LIMIT;
+        more.parentNode.hidden = !rest && !less;
+        more.setAttribute('aria-expanded', less ? 'true' : 'false');
+        more.querySelector('span').textContent = more.getAttribute(less ? 'data-less' : 'data-more');
+        var c = more.querySelector('em');
+        c.textContent = rest;
+        c.hidden = less;
+      }
+      items.forEach(function (it) {
+        var b = it.querySelector('.szu-q');
+        b.addEventListener('click', function () {
+          var o = !it.classList.contains('is-open');
+          it.classList.toggle('is-open', o);
+          b.setAttribute('aria-expanded', o ? 'true' : 'false');
+        });
+      });
+      var chips = [].slice.call(root.querySelectorAll('.szu-chipsr button'));
+      chips.forEach(function (ch) {
+        ch.addEventListener('click', function () {
+          cat = ch.getAttribute('data-cat');
+          chips.forEach(function (x) {
+            x.setAttribute('aria-pressed', x === ch ? 'true' : 'false');
+          });
+          apply();
+        });
+      });
+      more.addEventListener('click', function () {
+        if (expanded) {
+          var y = more.getBoundingClientRect().top;
+          expanded = false;
+          apply();
+          var dy = more.getBoundingClientRect().top - y;
+          if (dy) window.scrollBy({ top: dy, behavior: 'instant' });
+          return;
+        }
+        var before = items.filter(function (it) {
+          return it.hidden;
+        });
+        expanded = true;
+        apply();
+        var d = 0;
+        before.forEach(function (it) {
+          if (!it.hidden) {
+            it.classList.remove('szu-new');
+            void it.offsetWidth;
+            it.classList.add('szu-new');
+            it.style.animationDelay = d++ * 60 + 'ms';
+          }
+        });
+        var first = before.filter(function (it) {
+          return !it.hidden;
+        })[0];
+        if (first) first.querySelector('.szu-q').focus({ preventScroll: true });
+      });
+      apply();
+    }
+    function boot() {
+      document.querySelectorAll('.szu-faq').forEach(init);
+    }
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
+    else boot();
+  })();
+</script>

@@ -1,0 +1,482 @@
+---
+/**
+ * Section "sec": Gebündelt importiert. Mit klaren Regeln. (animated checklist that plays once on intersection)
+ * Texts: src/i18n/zip.json, keys starting with "sec_". Only claims of the feature document: ZIP-bomb protection
+ * (secure ZIP implementation), limits like a single upload, preview, structure and permissions. No malware scan is claimed.
+ * Technique: share/12-security.
+ */
+import { dict, type Lang } from '../../i18n';
+import data from '../../i18n/zip.json';
+const { lang } = Astro.props as { lang: Lang };
+const t = dict(data, lang);
+const rows = [1, 2, 3, 4].map((n) => ({ n, title: t[`sec_${n}_title`], text: t[`sec_${n}_text`] }));
+---
+
+<style is:global>
+  .szu-sec {
+    padding: 130px 32px;
+    background: #0f1b2d;
+    color: #fff;
+  }
+  .szu-sec .szu-glow {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(40% 50% at 12% 0%, rgba(42, 115, 255, 0.28), transparent 70%),
+      radial-gradient(35% 45% at 100% 100%, rgba(0, 191, 255, 0.16), transparent 70%);
+  }
+  .szu-sec .sxf-wrap {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    gap: 80px;
+    align-items: center;
+  }
+  .szu-sec .sxf-eyebrow {
+    color: #7fb0ff;
+  }
+  .szu-sec .sxf-h {
+    color: #fff;
+  }
+  .szu-sec .sxf-h .sxf-blue {
+    color: #6aa2ff;
+  }
+  .szu-sec .sxf-lead {
+    color: rgba(255, 255, 255, 0.78);
+  }
+  .szu-sec .szu-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 32px;
+  }
+  .szu-sec .szu-chips span {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    padding: 8px 16px 8px 9px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.07);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    font-size: 14px;
+    line-height: 1.3;
+    font-weight: 600;
+    color: #fff;
+  }
+  .szu-sec .szu-chips span b {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: #22c55e;
+    color: #fff;
+    flex: none;
+  }
+  .szu-sec .szu-chips span b svg {
+    width: 12px;
+    height: 12px;
+    stroke-width: 3;
+  }
+  .szu-sec .szu-vis {
+    position: relative;
+  }
+  .szu-sec .szu-card {
+    position: relative;
+    z-index: 1;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow: 0 40px 80px -30px rgba(0, 0, 0, 0.55);
+    overflow: hidden;
+  }
+  .szu-sec .szu-ch {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 18px 24px;
+    font-size: 15px;
+    font-weight: 700;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  .szu-sec .szu-ch i {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 10px;
+    background: #2a73ff;
+    color: #fff;
+    flex: none;
+  }
+  .szu-sec .szu-ch i svg {
+    width: 17px;
+    height: 17px;
+  }
+  .szu-sec .szu-ch em {
+    margin-left: auto;
+    padding: 3px 10px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.1);
+    font-style: normal;
+    font-size: 12px;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.75);
+  }
+  .szu-sec .szu-line {
+    height: 3px;
+    background: rgba(255, 255, 255, 0.08);
+  }
+  .szu-sec .szu-line i {
+    display: block;
+    height: 100%;
+    background: #22c55e;
+    transform-origin: 0 50%;
+    transform: scaleX(1);
+  }
+  .szu-sec .szu-list {
+    list-style: none;
+    margin: 0;
+    padding: 8px 24px 4px;
+  }
+  .szu-sec .szu-list li {
+    display: grid;
+    grid-template-columns: 30px minmax(0, 1fr);
+    gap: 16px;
+    margin: 0;
+    padding: 18px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  }
+  .szu-sec .szu-list li:last-child {
+    border-bottom: 0;
+  }
+  .szu-sec .szu-list .ck {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    margin-top: 1px;
+    border-radius: 50%;
+    background: #22c55e;
+    color: #fff;
+  }
+  .szu-sec .szu-list .ck svg {
+    width: 15px;
+    height: 15px;
+    stroke-width: 3;
+  }
+  .szu-sec .szu-list .ck svg path {
+    stroke-dasharray: 20;
+    stroke-dashoffset: 0;
+  }
+  .szu-sec .szu-list b {
+    display: block;
+    font-size: 16.5px;
+    line-height: 1.35;
+    font-weight: 700;
+    color: #fff;
+  }
+  .szu-sec .szu-list span.tx {
+    display: block;
+    margin-top: 4px;
+    font-size: 14.5px;
+    line-height: 1.55;
+    color: rgba(255, 255, 255, 0.72);
+  }
+  .szu-sec .szu-ready {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    padding: 16px 24px 20px;
+    background: rgba(34, 197, 94, 0.12);
+    border-top: 1px solid rgba(34, 197, 94, 0.3);
+    font-size: 15px;
+    font-weight: 700;
+    color: #7ee2a2;
+  }
+  .szu-sec .szu-ready svg {
+    width: 18px;
+    height: 18px;
+    stroke-width: 3;
+  }
+  .szu-sec .szu-replay {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-left: auto;
+    min-height: 36px;
+    padding: 6px 14px;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    font-family: Inter, sans-serif;
+    font-size: 13px;
+    line-height: 1.3;
+    font-weight: 600;
+    color: #fff;
+    transition:
+      background-color 0.2s ease,
+      border-color 0.2s ease;
+  }
+  .szu-sec .szu-replay {
+    visibility: hidden;
+  }
+  .szu-sec.is-done .szu-replay {
+    visibility: visible;
+  }
+  .szu-sec .szu-replay:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: #fff;
+  }
+  .szu-sec .szu-replay svg {
+    width: 14px;
+    height: 14px;
+    stroke-width: 2.4;
+  }
+  .szu-sec a:focus-visible,
+  .szu-sec .sxf-b:focus-visible {
+    outline-color: #fff;
+  }
+  .szu-sec .f1 {
+    left: -26px;
+    bottom: -30px;
+    --s: 54px;
+    --c: #2a73ff;
+    --r: -12deg;
+    --d: 6.4s;
+    z-index: 2;
+  }
+  /* armed by the script (motion allowed): rows wait until the section plays */
+  .szu-sec.is-arm .szu-list li,
+  .szu-sec.is-arm .szu-ready {
+    opacity: 0;
+  }
+  .szu-sec.is-arm .szu-line i {
+    transform: scaleX(0);
+  }
+  .szu-sec.is-arm .szu-list .ck {
+    background: transparent;
+    box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.25);
+  }
+  .szu-sec.is-arm .szu-list .ck svg path {
+    stroke-dashoffset: 20;
+  }
+  .szu-sec.is-arm.is-play .szu-list li {
+    animation: szuSecRow 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation-delay: calc(var(--n) * 1s);
+  }
+  .szu-sec.is-arm.is-play .szu-list .ck {
+    animation: szuSecDot 0.45s ease-out both;
+    animation-delay: calc(var(--n) * 1s + 0.55s);
+  }
+  .szu-sec.is-arm.is-play .szu-list .ck svg path {
+    animation: szuSecDraw 0.4s ease-out both;
+    animation-delay: calc(var(--n) * 1s + 0.65s);
+  }
+  .szu-sec.is-arm.is-play .szu-line i {
+    animation: szuSecLine 4.4s linear both;
+  }
+  .szu-sec.is-arm.is-play .szu-ready {
+    animation: szuSecRow 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation-delay: 4.3s;
+  }
+  @keyframes szuSecRow {
+    from {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  @keyframes szuSecDot {
+    from {
+      background: transparent;
+      box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.25);
+    }
+    to {
+      background: #22c55e;
+      box-shadow: inset 0 0 0 2px #22c55e;
+    }
+  }
+  @keyframes szuSecDraw {
+    from {
+      stroke-dashoffset: 20;
+    }
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+  @keyframes szuSecLine {
+    from {
+      transform: scaleX(0);
+    }
+    to {
+      transform: scaleX(1);
+    }
+  }
+  @media (max-width: 1340px) {
+    .szu-sec .f1 {
+      left: -10px;
+    }
+  }
+  @media (max-width: 1180px) {
+    .szu-sec .sxf-wrap {
+      gap: 48px;
+    }
+  }
+  @media (max-width: 1024px) {
+    .szu-sec {
+      padding: 104px 24px;
+    }
+    .szu-sec .sxf-wrap {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 56px;
+    }
+    .szu-sec .szu-text {
+      max-width: 720px;
+      margin: 0 auto;
+    }
+    .szu-sec .szu-vis {
+      max-width: 620px;
+      width: 100%;
+      margin: 0 auto;
+    }
+  }
+  @media (max-width: 767px) {
+    .szu-sec {
+      padding: 84px 18px;
+    }
+    .szu-sec .szu-ch {
+      padding: 14px 16px;
+    }
+    .szu-sec .szu-list {
+      padding: 4px 16px 2px;
+    }
+    .szu-sec .szu-list li {
+      grid-template-columns: 26px minmax(0, 1fr);
+      gap: 12px;
+      padding: 14px 0;
+    }
+    .szu-sec .szu-list .ck {
+      width: 26px;
+      height: 26px;
+    }
+    .szu-sec .szu-ready {
+      padding: 14px 16px 16px;
+    }
+    .szu-sec .f1 {
+      left: -6px;
+      --s: 40px;
+    }
+  }
+</style>
+<section class="sxf szu-sec" id="sicherheit" aria-labelledby="szu-h-sec">
+  <div class="szu-glow" aria-hidden="true"></div>
+  <div class="sxf-wrap">
+    <div class="szu-text" data-rv>
+      <p class="sxf-eyebrow">{t.sec_eyebrow}</p>
+      <h2 class="sxf-h" id="szu-h-sec">{t.sec_title_1} <span class="sxf-blue">{t.sec_title_2}</span></h2>
+      <p class="sxf-lead">{t.sec_lead}</p>
+      <div class="szu-chips">
+        {
+          [t.sec_chip_1, t.sec_chip_2].map((x) => (
+            <span>
+              <b>
+                <svg class="i" viewbox="0 0 24 24">
+                  <path d="m5 12 5 5L20 7" />
+                </svg>
+              </b>
+              {x}
+            </span>
+          ))
+        }
+      </div>
+    </div>
+    <div class="szu-vis" data-rv style="--dl:.12s">
+      <div class="szu-card">
+        <div class="szu-ch">
+          <i
+            ><svg class="i" viewbox="0 0 24 24"
+              ><path d="M12 3 4 6v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V6z"></path><path d="m9 12 2 2 4-4"></path></svg
+            ></i
+          >{t.sec_panel}<em>{t.sec_example}</em>
+        </div>
+        <div class="szu-line" aria-hidden="true"><i></i></div>
+        <ul class="szu-list">
+          {
+            rows.map((r) => (
+              <li style={`--n:${r.n - 1}`}>
+                <span class="ck" aria-hidden="true">
+                  <svg class="i" viewbox="0 0 24 24">
+                    <path d="m5 12 5 5L20 7" />
+                  </svg>
+                </span>
+                <span>
+                  <b>{r.title}</b>
+                  <span class="tx">{r.text}</span>
+                </span>
+              </li>
+            ))
+          }
+        </ul>
+        <div class="szu-ready">
+          <svg class="i" viewbox="0 0 24 24"><path d="m5 12 5 5L20 7"></path></svg>{t.sec_ready}
+          <button type="button" class="sxf-b szu-replay">
+            <svg class="i" viewbox="0 0 24 24" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7M3 4v5h5"></path></svg>{
+              t.sec_replay
+            }
+          </button>
+        </div>
+      </div>
+      <span class="sxf-fold f1" aria-hidden="true"></span>
+    </div>
+  </div>
+</section>
+<script is:inline>
+  (function () {
+    function init(s) {
+      if (s.__szu) return;
+      s.__szu = 1;
+      if (window.matchMedia('(prefers-reduced-motion:reduce)').matches) return; // complete static state
+      var card = s.querySelector('.szu-card'),
+        rp = s.querySelector('.szu-replay'),
+        tm = 0;
+      s.classList.add('is-arm');
+      function play() {
+        s.classList.remove('is-play');
+        void s.offsetWidth;
+        s.classList.add('is-play');
+        s.classList.remove('is-done');
+        clearTimeout(tm);
+        tm = setTimeout(function () {
+          s.classList.add('is-done');
+        }, 5200);
+      }
+      rp.addEventListener('click', play);
+      if (!('IntersectionObserver' in window) || document.visibilityState === 'hidden') {
+        s.classList.remove('is-arm');
+        return;
+      }
+      var io = new IntersectionObserver(
+        function (es) {
+          if (es[0].isIntersecting) {
+            play();
+            io.disconnect();
+          }
+        },
+        { threshold: 0.4 },
+      );
+      io.observe(card);
+    }
+    function boot() {
+      document.querySelectorAll('.szu-sec').forEach(init);
+    }
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
+    else boot();
+  })();
+</script>

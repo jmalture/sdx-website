@@ -1,0 +1,503 @@
+---
+/**
+ * Section "ben": Weniger Handarbeit. Mehr Überblick. (hover-reveal business value cards with three mini visuals)
+ * Texts: src/i18n/zip.json, keys starting with "ben_". Technique: share/06-benefits (.sxf-vc clip-path circle).
+ */
+import { dict, type Lang } from '../../i18n';
+import data from '../../i18n/zip.json';
+const { lang } = Astro.props as { lang: Lang };
+const t = dict(data, lang);
+const icons: Record<string, string> = {
+  res: '<rect x="3" y="4" width="18" height="5" rx="1.5"></rect><path d="M5 9v9a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V9M10 13h4"></path>',
+  cost: '<path d="M13 2 4 14h7l-1 8 9-12h-7z"></path>',
+  sec: '<path d="M12 3 4 6v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V6z"></path><path d="m9 12 2 2 4-4"></path>',
+  trust: '<path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"></path><circle cx="12" cy="12" r="3"></circle>',
+  risk: '<path d="M4 6h6M4 12h10M4 18h14M3 3v18"></path>',
+  auto: '<path d="M7 7h10l-3-3M17 17H7l3 3"></path>',
+};
+const cards = [
+  { k: 'res', n: 1, c: '#2A73FF', d: '#1E5BD8', vis: 'res' },
+  { k: 'cost', n: 2, c: '#FFA600', d: '#B86A00', vis: '' },
+  { k: 'sec', n: 3, c: '#0F1B2D', d: '#0F1B2D', vis: '' },
+  { k: 'trust', n: 4, c: '#22C55E', d: '#13803F', vis: 'trust' },
+  { k: 'risk', n: 5, c: '#C800FF', d: '#8E10C0', vis: 'risk' },
+  { k: 'auto', n: 6, c: '#00BFFF', d: '#0075B0', vis: '' },
+];
+---
+
+<style is:global>
+  .szu-ben {
+    padding: 128px 32px;
+    background: #fff;
+  }
+  .szu-ben .szu-vgrid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 22px;
+    margin-top: 60px;
+  }
+  .szu-ben .szu-vw {
+    display: flex;
+  }
+  .szu-ben .szu-vc {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 330px;
+    padding: 32px 30px 30px;
+    border-radius: 24px;
+    background: #fff;
+    border: 1px solid #e3e8f0;
+    box-shadow: 0 2px 6px rgba(18, 37, 92, 0.04);
+    overflow: hidden;
+    outline: none;
+    transition:
+      box-shadow 0.3s ease,
+      transform 0.3s ease,
+      border-color 0.3s ease;
+  }
+  .szu-ben .szu-vc .ic {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 54px;
+    height: 54px;
+    border-radius: 15px;
+    background: var(--c);
+    color: #fff;
+    box-shadow: 0 12px 24px -10px var(--c);
+  }
+  .szu-ben .szu-vc .ic svg {
+    width: 26px;
+    height: 26px;
+  }
+  .szu-ben .szu-vc h3 {
+    margin: 24px 0 10px;
+    font-family: Inter, sans-serif;
+    font-size: 22px;
+    line-height: 1.3;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    color: #0f1b2d;
+  }
+  .szu-ben .szu-vc p {
+    margin: 0;
+    font-size: 16px;
+    line-height: 1.55;
+    color: #4a5568;
+  }
+  .szu-ben .szu-vc .more {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    margin-top: auto;
+    padding-top: 18px;
+    font-size: 14px;
+    font-weight: 600;
+    color: color-mix(in srgb, var(--c) 70%, #0f1b2d);
+  }
+  .szu-ben .szu-vc .more svg {
+    width: 16px;
+    height: 16px;
+  }
+  .szu-ben .szu-vc .pf {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 28px 30px;
+    background: var(--k);
+    color: #fff;
+    clip-path: circle(0 at 57px 59px);
+    transition: clip-path 0.42s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .szu-ben .szu-vc .pf .ic2 {
+    position: absolute;
+    left: 30px;
+    top: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 54px;
+    height: 54px;
+    border-radius: 15px;
+    background: rgba(255, 255, 255, 0.16);
+  }
+  .szu-ben .szu-vc .pf .ic2 svg {
+    width: 26px;
+    height: 26px;
+  }
+  .szu-ben .szu-vc .pf b {
+    display: block;
+    margin: 0 0 14px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    opacity: 0.85;
+  }
+  .szu-ben .szu-vc .pf ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 10px;
+  }
+  .szu-ben .szu-vc .pf li {
+    display: flex;
+    gap: 10px;
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.45;
+    font-weight: 500;
+  }
+  .szu-ben .szu-vc .pf li svg {
+    width: 18px;
+    height: 18px;
+    margin-top: 1px;
+    stroke-width: 2.6;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .szu-ben .szu-vc:hover,
+    .szu-ben .szu-vc:focus-visible,
+    .szu-ben .szu-vc:focus-within {
+      transform: translateY(-4px);
+      box-shadow: 0 26px 50px -18px rgba(18, 37, 92, 0.28);
+      border-color: transparent;
+    }
+    .szu-ben .szu-vc:hover .pf,
+    .szu-ben .szu-vc:focus-visible .pf,
+    .szu-ben .szu-vc:focus-within .pf {
+      clip-path: circle(150% at 57px 59px);
+    }
+  }
+  .szu-ben .szu-vc:focus-visible {
+    outline: 2px solid #2a73ff;
+    outline-offset: 3px;
+  }
+  /* mini visuals */
+  .szu-ben .vis {
+    position: relative;
+    height: 44px;
+    margin-top: 18px;
+    overflow: hidden;
+  }
+  .szu-ben .vis-res i {
+    position: absolute;
+    top: 14px;
+    left: var(--l);
+    width: 16px;
+    height: 16px;
+    border-radius: 5px;
+    background: #9dbcf7;
+  }
+  .szu-ben .vis-res i:nth-child(even) {
+    background: #c7d9fb;
+  }
+  .szu-ben .vis-res b {
+    position: absolute;
+    top: 3px;
+    right: 6%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 11px;
+    background: #2a73ff;
+    color: #fff;
+  }
+  .szu-ben .vis-res b svg {
+    width: 20px;
+    height: 20px;
+  }
+  .szu-ben.is-run .vis-res i {
+    animation: szuMerge 4.6s cubic-bezier(0.5, 0, 0.2, 1) infinite;
+    animation-delay: calc(var(--n) * 0.09s);
+  }
+  .szu-ben.is-run .vis-res b {
+    animation: szuZip 4.6s ease-in-out infinite;
+  }
+  @keyframes szuMerge {
+    0%,
+    22% {
+      left: var(--l);
+      opacity: 1;
+    }
+    58% {
+      left: calc(100% - 38px - 6% + 11px);
+      opacity: 1;
+    }
+    66%,
+    92% {
+      left: calc(100% - 38px - 6% + 11px);
+      opacity: 0;
+    }
+    100% {
+      left: var(--l);
+      opacity: 1;
+    }
+  }
+  @keyframes szuZip {
+    0%,
+    55% {
+      transform: scale(1);
+    }
+    68% {
+      transform: scale(1.12);
+    }
+    82%,
+    100% {
+      transform: scale(1);
+    }
+  }
+  .szu-ben .vis-trust {
+    display: grid;
+    gap: 5px;
+    align-content: center;
+  }
+  .szu-ben .vis-trust span {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .szu-ben .vis-trust span u {
+    width: 11px;
+    height: 11px;
+    border-radius: 3.5px;
+    background: #22c55e;
+    flex: none;
+  }
+  .szu-ben .vis-trust span em {
+    height: 5px;
+    border-radius: 5px;
+    background: #d5ead9;
+    width: var(--w);
+  }
+  .szu-ben.is-run .vis-trust span u {
+    animation: szuTick 5s ease-in-out infinite;
+    animation-delay: calc(var(--n) * 0.5s);
+  }
+  @keyframes szuTick {
+    0%,
+    8% {
+      transform: scale(0);
+    }
+    18%,
+    80% {
+      transform: scale(1);
+    }
+    92%,
+    100% {
+      transform: scale(0);
+    }
+  }
+  .szu-ben .vis-risk {
+    display: grid;
+    gap: 6px;
+    align-content: center;
+  }
+  .szu-ben .vis-risk i {
+    display: block;
+    height: 7px;
+    margin-left: var(--ind);
+    width: var(--w);
+    border-radius: 7px;
+    background: #e0b2f0;
+    transform-origin: 0 50%;
+  }
+  .szu-ben .vis-risk i:nth-child(1) {
+    background: #c800ff;
+  }
+  .szu-ben.is-run .vis-risk i {
+    animation: szuBar 5s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+    animation-delay: calc(var(--n) * 0.25s);
+  }
+  @keyframes szuBar {
+    0%,
+    6% {
+      transform: scaleX(0);
+    }
+    24%,
+    84% {
+      transform: scaleX(1);
+    }
+    96%,
+    100% {
+      transform: scaleX(0);
+    }
+  }
+  @media (hover: none), (pointer: coarse) {
+    .szu-ben .szu-vc {
+      min-height: 0;
+    }
+    .szu-ben .szu-vc .more,
+    .szu-ben .szu-vc .pf .ic2,
+    .szu-ben .szu-vc .pf b {
+      display: none;
+    }
+    .szu-ben .szu-vc .pf {
+      position: static;
+      clip-path: none;
+      background: transparent;
+      color: #0f1b2d;
+      padding: 16px 0 0;
+      margin-top: 18px;
+      border-top: 1px solid #eef1f6;
+    }
+    .szu-ben .szu-vc .pf li {
+      font-size: 14.5px;
+      color: #3d4555;
+    }
+    .szu-ben .szu-vc .pf li svg {
+      color: var(--c);
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .szu-ben.is-run .vis-res i,
+    .szu-ben.is-run .vis-res b,
+    .szu-ben.is-run .vis-trust span u,
+    .szu-ben.is-run .vis-risk i {
+      animation: none;
+    }
+    .szu-ben .szu-vc .pf {
+      transition: none;
+    }
+  }
+  @media (max-width: 1024px) {
+    .szu-ben {
+      padding: 104px 24px;
+    }
+    .szu-ben .szu-vgrid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      margin-top: 48px;
+    }
+  }
+  @media (max-width: 767px) {
+    .szu-ben {
+      padding: 84px 18px;
+    }
+    .szu-ben .szu-vgrid {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 16px;
+      margin-top: 40px;
+    }
+    .szu-ben .szu-vc {
+      padding: 26px 22px;
+    }
+    .szu-ben .szu-vc h3 {
+      font-size: 20px;
+      margin-top: 20px;
+    }
+  }
+</style>
+<section class="sxf szu-ben" id="nutzen" aria-labelledby="szu-h-ben">
+  <div class="sxf-wrap">
+    <div class="sxf-head" data-rv>
+      <p class="sxf-eyebrow">{t.ben_eyebrow}</p>
+      <h2 class="sxf-h" id="szu-h-ben">{t.ben_title}</h2>
+      <p class="sxf-lead">{t.ben_lead}</p>
+    </div>
+    <div class="szu-vgrid">
+      {
+        cards.map((c, i) => (
+          <div class="szu-vw" data-rv style={`--dl:${(i % 3) * 0.08}s`}>
+            <article class="szu-vc" tabindex="0" style={`--c:${c.c};--k:${c.d}`}>
+              <span class="ic" aria-hidden="true">
+                <svg class="i" viewbox="0 0 24 24" set:html={icons[c.k]} />
+              </span>
+              <h3>{t[`ben_${c.n}_title`]}</h3>
+              <p>{t[`ben_${c.n}_text`]}</p>
+              {c.vis === 'res' && (
+                <div class="vis vis-res" aria-hidden="true">
+                  {[0, 1, 2, 3, 4, 5].map((n) => (
+                    <i style={`--l:${n * 9}%;--n:${n}`} />
+                  ))}
+                  <b>
+                    <svg class="i" viewbox="0 0 24 24">
+                      <path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z" />
+                      <path d="M14 3v6h6M10 11v1M10 14v1M10 17v1" />
+                    </svg>
+                  </b>
+                </div>
+              )}
+              {c.vis === 'trust' && (
+                <div class="vis vis-trust" aria-hidden="true">
+                  <span style="--n:0">
+                    <u />
+                    <em style="--w:62%" />
+                  </span>
+                  <span style="--n:1">
+                    <u />
+                    <em style="--w:44%" />
+                  </span>
+                  <span style="--n:2">
+                    <u />
+                    <em style="--w:54%" />
+                  </span>
+                </div>
+              )}
+              {c.vis === 'risk' && (
+                <div class="vis vis-risk" aria-hidden="true">
+                  <i style="--ind:0;--w:46%;--n:0" />
+                  <i style="--ind:7%;--w:52%;--n:1" />
+                  <i style="--ind:14%;--w:38%;--n:2" />
+                  <i style="--ind:7%;--w:44%;--n:3" />
+                </div>
+              )}
+              <span class="more" aria-hidden="true">
+                <svg class="i" viewbox="0 0 24 24">
+                  <path d="M12 5v14M5 12h14" />
+                </svg>
+                {t.ben_how}
+              </span>
+              <div class="pf">
+                <span class="ic2" aria-hidden="true">
+                  <svg class="i" viewbox="0 0 24 24" set:html={icons[c.k]} />
+                </span>
+                <b>{t.ben_how}</b>
+                <ul>
+                  {[1, 2, 3].map((n) => (
+                    <li>
+                      <svg class="i" viewbox="0 0 24 24" aria-hidden="true">
+                        <path d="m5 12 5 5L20 7" />
+                      </svg>
+                      <span>{t[`ben_b${c.n}_${n}`]}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </article>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
+<script is:inline>
+  (function () {
+    function init(s) {
+      if (s.__szu) return;
+      s.__szu = 1;
+      if (window.matchMedia('(prefers-reduced-motion:reduce)').matches) return;
+      if (!('IntersectionObserver' in window)) return;
+      new IntersectionObserver(
+        function (es) {
+          s.classList.toggle('is-run', es[0].isIntersecting && !document.hidden);
+        },
+        { threshold: 0.2 },
+      ).observe(s.querySelector('.szu-vgrid'));
+      document.addEventListener('visibilitychange', function () {
+        if (document.hidden) s.classList.remove('is-run');
+      });
+    }
+    function boot() {
+      document.querySelectorAll('.szu-ben').forEach(init);
+    }
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
+    else boot();
+  })();
+</script>

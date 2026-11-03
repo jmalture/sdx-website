@@ -1,0 +1,858 @@
+---
+/**
+ * Section "steps": In drei Schritten importiert. (auto-advancing steps with a CSS-drawn dialog in three states)
+ * Texts: src/i18n/zip.json, keys starting with "steps_". Technique: share/03-steps.
+ */
+import { dict, type Lang } from '../../i18n';
+import data from '../../i18n/zip.json';
+const { lang } = Astro.props as { lang: Lang };
+const t = dict(data, lang);
+const steps = [1, 2, 3].map((n) => ({ n, title: t[`steps_${n}_title`], text: t[`steps_${n}_text`] }));
+const rows = [
+  { name: t.hero_dialog_folder_permits, k: 12, on: true },
+  { name: t.hero_dialog_folder_reports, k: 8, on: true },
+  { name: t.hero_dialog_folder_leases, k: 5, on: true },
+  { name: t.hero_dialog_folder_drafts, k: 21, on: false },
+];
+const fold =
+  'M3 6.5A2.5 2.5 0 0 1 5.5 4h4.1l2 2.2h6.9A2.5 2.5 0 0 1 21 8.7v8.8a2.5 2.5 0 0 1-2.5 2.5h-13A2.5 2.5 0 0 1 3 17.5z';
+const zipIc = 'M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z';
+---
+
+<style is:global>
+  .szu-how {
+    padding: 128px 32px;
+    background: linear-gradient(180deg, #f3f7ff 0%, #ffffff 100%);
+  }
+  .szu-how .szu-split {
+    display: grid;
+    grid-template-columns: minmax(0, 0.82fr) minmax(0, 1.18fr);
+    gap: 64px;
+    align-items: center;
+    margin-top: 64px;
+  }
+  .szu-how .szu-steps {
+    display: grid;
+    gap: 14px;
+  }
+  .szu-how .szu-step {
+    position: relative;
+    display: grid;
+    grid-template-columns: 44px minmax(0, 1fr);
+    gap: 0 18px;
+    padding: 22px 22px 26px;
+    border-radius: 22px;
+    border: 1px solid transparent;
+    background: transparent;
+    text-align: left;
+    transition:
+      background-color 0.3s ease,
+      border-color 0.3s ease,
+      box-shadow 0.3s ease;
+  }
+  .szu-how .szu-step:hover {
+    background: rgba(255, 255, 255, 0.7);
+  }
+  .szu-how .szu-step.is-on {
+    background: #fff;
+    border-color: #e3ebf8;
+    box-shadow: 0 24px 48px -26px rgba(18, 37, 92, 0.3);
+  }
+  .szu-how .szu-step .no {
+    grid-row: 1 / span 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 14px;
+    background: #eaf1ff;
+    color: #2a73ff;
+    font-size: 18px;
+    font-weight: 700;
+    transition:
+      background-color 0.3s ease,
+      color 0.3s ease;
+  }
+  .szu-how .szu-step.is-on .no {
+    background: #2a73ff;
+    color: #fff;
+  }
+  .szu-how .szu-step .ti {
+    display: block;
+    margin-top: 2px;
+    font-size: 20px;
+    line-height: 1.3;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    color: #0f1b2d;
+  }
+  .szu-how .szu-step .tx {
+    display: block;
+    margin-top: 8px;
+    font-size: 15.5px;
+    line-height: 1.55;
+    color: #4a5568;
+  }
+  .szu-how .szu-step .bar {
+    position: absolute;
+    left: 22px;
+    right: 22px;
+    bottom: 10px;
+    height: 3px;
+    border-radius: 3px;
+    background: #e6edf8;
+    overflow: hidden;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  .szu-how .szu-step .bar i {
+    display: block;
+    height: 100%;
+    width: 100%;
+    background: #2a73ff;
+    transform-origin: 0 50%;
+    transform: scaleX(0);
+  }
+  .szu-how.is-auto .szu-step.is-on .bar {
+    opacity: 1;
+  }
+  .szu-how.is-auto .szu-step.is-on .bar i {
+    animation: szuFill 7s linear forwards;
+    animation-play-state: paused;
+  }
+  .szu-how.is-auto.is-run .szu-step.is-on .bar i {
+    animation-play-state: running;
+  }
+  .szu-how.is-auto.is-run.is-hold .szu-step.is-on .bar i,
+  .szu-how.is-auto.is-run .szu-steps:focus-within .szu-step.is-on .bar i {
+    animation-play-state: paused;
+  }
+  @keyframes szuFill {
+    to {
+      transform: scaleX(1);
+    }
+  }
+  .szu-how .szu-cap {
+    display: none;
+  }
+  /* stage: one fake app window, three panels stacked */
+  .szu-how .szu-stage {
+    position: relative;
+    touch-action: pan-y;
+  }
+  .szu-how .szu-win {
+    position: relative;
+    height: 470px;
+    border-radius: 24px;
+    background: #fff;
+    box-shadow:
+      0 44px 90px -26px rgba(18, 37, 92, 0.34),
+      0 0 0 1px rgba(18, 37, 92, 0.06);
+    overflow: hidden;
+  }
+  .szu-how .szu-wbar {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    height: 46px;
+    padding: 0 18px;
+    background: #f4f6fa;
+    border-bottom: 1px solid #e9edf4;
+  }
+  .szu-how .szu-wbar i {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #d5dbe6;
+    flex: none;
+  }
+  .szu-how .szu-wbar span {
+    margin-left: 10px;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 12.5px;
+    font-weight: 600;
+    color: #5b6475;
+  }
+  .szu-how .szu-wbar em {
+    margin-left: auto;
+    padding: 3px 10px;
+    border-radius: 999px;
+    background: #fff;
+    border: 1px solid #e3e8f0;
+    font-style: normal;
+    font-size: 11.5px;
+    font-weight: 600;
+    color: #8a94a6;
+    white-space: nowrap;
+  }
+  .szu-how .szu-pn {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 46px;
+    bottom: 0;
+    padding: 24px 28px;
+    opacity: 0;
+    visibility: hidden;
+    transition:
+      opacity 0.35s ease,
+      visibility 0s 0.35s;
+  }
+  .szu-how .szu-pn.is-on {
+    opacity: 1;
+    visibility: visible;
+    transition:
+      opacity 0.35s ease,
+      visibility 0s;
+  }
+  .szu-how .szu-pn.is-on .szu-a {
+    animation: szuIn 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation-delay: calc(0.12s + var(--n, 0) * 0.14s);
+  }
+  @keyframes szuIn {
+    from {
+      opacity: 0;
+      transform: translateY(14px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  /* panel 1: drop zone */
+  .szu-how .szu-drop {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    height: 250px;
+    margin-top: 16px;
+    border-radius: 20px;
+    border: 2px dashed #b9cdf5;
+    background: #f5f9ff;
+    text-align: center;
+    font-size: 15px;
+    font-weight: 600;
+    color: #2a5fc9;
+  }
+  .szu-how .szu-path {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
+    font-size: 14px;
+    font-weight: 600;
+    color: #0f1b2d;
+  }
+  .szu-how .szu-path svg {
+    width: 18px;
+    height: 18px;
+    color: #2a73ff;
+  }
+  .szu-how .szu-file {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 18px 12px 12px;
+    border-radius: 16px;
+    background: #fff;
+    box-shadow:
+      0 16px 32px -14px rgba(42, 115, 255, 0.5),
+      0 0 0 1px rgba(42, 115, 255, 0.14);
+    font-size: 15px;
+    line-height: 1.3;
+    font-weight: 700;
+    color: #0f1b2d;
+    text-align: left;
+  }
+  .szu-how .szu-file i {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 11px;
+    background: #2a73ff;
+    color: #fff;
+    flex: none;
+  }
+  .szu-how .szu-file i svg {
+    width: 20px;
+    height: 20px;
+  }
+  .szu-how .szu-up {
+    width: min(100%, 300px);
+    font-size: 12.5px;
+    font-weight: 600;
+    color: #5b6475;
+  }
+  .szu-how .szu-up div {
+    height: 6px;
+    margin-top: 6px;
+    border-radius: 6px;
+    background: #dbe6fb;
+    overflow: hidden;
+  }
+  .szu-how .szu-up i {
+    display: block;
+    height: 100%;
+    background: #2a73ff;
+    transform-origin: 0 50%;
+    transform: scaleX(1);
+  }
+  .szu-how .szu-pn.is-on .szu-up i {
+    animation: szuUp 1.8s cubic-bezier(0.4, 0, 0.2, 1) 0.9s both;
+  }
+  @keyframes szuUp {
+    from {
+      transform: scaleX(0);
+    }
+  }
+  /* panel 2 + 3: rows */
+  .szu-how .szu-dh {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 0 0 8px;
+    font-size: 15px;
+    font-weight: 700;
+    color: #0f1b2d;
+  }
+  .szu-how .szu-dh i {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 11px;
+    background: #eaf1ff;
+    color: #2a73ff;
+    flex: none;
+  }
+  .szu-how .szu-dh i svg {
+    width: 19px;
+    height: 19px;
+  }
+  .szu-how .szu-dh span {
+    min-width: 0;
+  }
+  .szu-how .szu-dh small {
+    display: block;
+    font-size: 12.5px;
+    font-weight: 500;
+    color: #5b6475;
+  }
+  .szu-how .szu-rows {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .szu-how .szu-rows li {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 0;
+    padding: 11px 0;
+    border-bottom: 1px solid #f1f4f9;
+    font-size: 15px;
+    font-weight: 500;
+    color: #0f1b2d;
+  }
+  .szu-how .szu-rows li.off {
+    color: #6b7488;
+  }
+  .szu-how .szu-rows .ck {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    border-radius: 6px;
+    border: 1.5px solid #c3cde0;
+    color: #fff;
+    flex: none;
+  }
+  .szu-how .szu-rows .on .ck {
+    background: #2a73ff;
+    border-color: #2a73ff;
+  }
+  .szu-how .szu-rows .ck svg {
+    width: 12px;
+    height: 12px;
+    stroke-width: 3;
+  }
+  .szu-how .szu-rows .fo {
+    width: 20px;
+    height: 20px;
+    color: #2a73ff;
+    flex: none;
+  }
+  .szu-how .szu-rows .off .fo {
+    color: #9aa6bc;
+  }
+  .szu-how .szu-rows .nm {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .szu-how .szu-rows .ct {
+    margin-left: auto;
+    font-size: 13px;
+    color: #5b6475;
+    white-space: nowrap;
+  }
+  .szu-how .szu-rows .done {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #1a9b4b;
+    color: #fff;
+    flex: none;
+  }
+  .szu-how .szu-rows .done svg {
+    width: 12px;
+    height: 12px;
+    stroke-width: 3;
+  }
+  .szu-how .szu-foot {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px 14px;
+    margin-top: 16px;
+  }
+  .szu-how .szu-opt {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13.5px;
+    font-weight: 500;
+    color: #4a5568;
+  }
+  .szu-how .szu-opt i {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    border-radius: 5px;
+    background: #2a73ff;
+    color: #fff;
+  }
+  .szu-how .szu-opt i svg {
+    width: 11px;
+    height: 11px;
+    stroke-width: 3;
+  }
+  .szu-how .szu-go {
+    margin-left: auto;
+    padding: 10px 20px;
+    border-radius: 12px;
+    background: #2a73ff;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 600;
+  }
+  .szu-how .szu-ok {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 14px 8px 10px;
+    border-radius: 999px;
+    background: #e6f6ec;
+    color: #137a3a;
+    font-size: 13.5px;
+    font-weight: 700;
+  }
+  .szu-how .szu-ok svg {
+    width: 16px;
+    height: 16px;
+    stroke-width: 3;
+  }
+  .szu-how .szu-note {
+    font-size: 13px;
+    font-weight: 500;
+    color: #5b6475;
+  }
+  .szu-how .f1 {
+    left: -44px;
+    top: -26px;
+    --s: 50px;
+    --c: #ffbb00;
+    --r: -12deg;
+    --d: 6.4s;
+    z-index: 2;
+  }
+  .szu-how .f2 {
+    right: -22px;
+    bottom: 54px;
+    --s: 44px;
+    --c: #00bfff;
+    --r: 12deg;
+    --d: 5.6s;
+    z-index: 2;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .szu-how .szu-pn.is-on .szu-a,
+    .szu-how .szu-pn.is-on .szu-up i {
+      animation: none;
+    }
+    .szu-how .szu-pn {
+      transition: none;
+    }
+  }
+  @media (max-width: 1340px) {
+    .szu-how .f1 {
+      left: -14px;
+    }
+    .szu-how .f2 {
+      right: -8px;
+    }
+  }
+  @media (max-width: 1024px) {
+    .szu-how {
+      padding: 104px 24px;
+    }
+    .szu-how .szu-split {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 36px;
+      margin-top: 48px;
+    }
+    .szu-how .szu-steps {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+    .szu-how .szu-step {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 10px;
+      align-content: start;
+      padding: 18px 16px 24px;
+    }
+    .szu-how .szu-step .no {
+      grid-row: auto;
+    }
+    .szu-how .szu-stage {
+      max-width: 640px;
+      width: 100%;
+      margin: 0 auto;
+    }
+  }
+  @media (max-width: 767px) {
+    .szu-how {
+      padding: 84px 18px;
+    }
+    .szu-how .szu-split {
+      gap: 24px;
+      margin-top: 36px;
+    }
+    .szu-how .szu-steps {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 6px;
+    }
+    .szu-how .szu-step {
+      grid-template-columns: 36px minmax(0, 1fr);
+      align-items: center;
+      gap: 0 12px;
+      padding: 10px 12px 14px;
+      border-radius: 16px;
+    }
+    .szu-how .szu-step .no {
+      grid-row: 1;
+      width: 36px;
+      height: 36px;
+      border-radius: 11px;
+      font-size: 16px;
+    }
+    .szu-how .szu-step .ti {
+      margin: 0;
+      font-size: 16.5px;
+    }
+    .szu-how .szu-step .tx {
+      display: none;
+    }
+    .szu-how .szu-step .bar {
+      left: 12px;
+      right: 12px;
+      bottom: 6px;
+    }
+    .szu-how .szu-cap {
+      display: grid;
+      margin-top: 20px;
+    }
+    .szu-how .szu-cap p {
+      grid-area: 1 / 1;
+      margin: 0;
+      font-size: 15.5px;
+      line-height: 1.55;
+      color: #4a5568;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease;
+    }
+    .szu-how .szu-cap p.is-on {
+      opacity: 1;
+      visibility: visible;
+    }
+    .szu-how .szu-win {
+      height: 410px;
+      border-radius: 20px;
+    }
+    .szu-how .szu-pn {
+      padding: 16px 16px;
+    }
+    .szu-how .szu-wbar {
+      padding: 0 14px;
+    }
+    .szu-how .szu-wbar em {
+      display: none;
+    }
+    .szu-how .szu-drop {
+      height: 220px;
+    }
+    .szu-how .szu-rows li {
+      padding: 9px 0;
+      font-size: 14px;
+    }
+    .szu-how .f1 {
+      left: -6px;
+      top: -22px;
+      --s: 38px;
+    }
+    .szu-how .f2 {
+      right: -4px;
+      bottom: 90px;
+      --s: 34px;
+    }
+  }
+</style>
+<section class="sxf szu-how" id="so-gehts" aria-labelledby="szu-h-how">
+  <div class="sxf-wrap">
+    <div class="sxf-head" data-rv>
+      <p class="sxf-eyebrow">{t.steps_eyebrow}</p>
+      <h2 class="sxf-h" id="szu-h-how">{t.steps_title}</h2>
+      <p class="sxf-lead">{t.steps_lead}</p>
+    </div>
+    <div class="szu-split">
+      <div class="szu-steps" role="group" aria-label={t.steps_nav_label} data-rv>
+        {
+          steps.map((s, i) => (
+            <button
+              type="button"
+              class={`sxf-b szu-step${i === 0 ? ' is-on' : ''}`}
+              aria-pressed={i === 0 ? 'true' : 'false'}
+              aria-controls={`szu-pn-${s.n}`}
+            >
+              <span class="no" aria-hidden="true">
+                {s.n}
+              </span>
+              <span class="ti">{s.title}</span>
+              <span class="tx">{s.text}</span>
+              <span class="bar" aria-hidden="true">
+                <i />
+              </span>
+            </button>
+          ))
+        }
+      </div>
+      <div class="szu-stage" data-rv style="--dl:.12s">
+        <span class="sxf-fold f1" aria-hidden="true"></span>
+        <div class="szu-win" role="img" aria-label={t.steps_stage_label}>
+          <div class="szu-wbar" aria-hidden="true">
+            <i></i><i></i><i></i><span>{t.steps_s1_path}</span><em>{t.add_example_label}</em>
+          </div>
+          <div class="szu-pn is-on" id="szu-pn-1" aria-hidden="true">
+            <p class="szu-path szu-a" style="--n:0">
+              <svg class="i" viewbox="0 0 24 24"><path d={fold}></path></svg>{t.steps_s1_path}
+            </p>
+            <div class="szu-drop szu-a" style="--n:1">
+              <div class="szu-file">
+                <i
+                  ><svg class="i" viewbox="0 0 24 24"
+                    ><path d={zipIc}></path><path d="M14 3v6h6M10 11v1M10 14v1M10 17v1"></path></svg
+                  ></i
+                >{t.hero_dialog_file}
+              </div>
+              <div class="szu-up">
+                {t.steps_s1_uploading}
+                <div><i></i></div>
+              </div>
+              <span>{t.steps_s1_drop}</span>
+            </div>
+          </div>
+          <div class="szu-pn" id="szu-pn-2" aria-hidden="true">
+            <p class="szu-dh szu-a" style="--n:0">
+              <i
+                ><svg class="i" viewbox="0 0 24 24"
+                  ><path d={zipIc}></path><path d="M14 3v6h6M10 11v1M10 14v1M10 17v1"></path></svg
+                ></i
+              ><span>{t.hero_dialog_title}: {t.hero_dialog_file}<small>{t.hero_dialog_target}</small></span>
+            </p>
+            <ul class="szu-rows">
+              {
+                rows.map((r, i) => (
+                  <li class={`szu-a ${r.on ? 'on' : 'off'}`} style={`--n:${i + 1}`}>
+                    <span class="ck">
+                      {r.on && (
+                        <svg class="i" viewbox="0 0 24 24">
+                          <path d="m5 12 5 5L20 7" />
+                        </svg>
+                      )}
+                    </span>
+                    <svg class="i fo" viewbox="0 0 24 24">
+                      <path d={fold} />
+                    </svg>
+                    <span class="nm">{r.name}</span>
+                    <span class="ct">
+                      {r.k} {t.hero_dialog_files}
+                    </span>
+                  </li>
+                ))
+              }
+            </ul>
+            <div class="szu-foot szu-a" style="--n:5">
+              <span class="szu-opt"
+                ><i><svg class="i" viewbox="0 0 24 24"><path d="m5 12 5 5L20 7"></path></svg></i>{
+                  t.hero_dialog_keep_empty
+                }</span
+              >
+              <span class="szu-go">{t.hero_dialog_import}</span>
+            </div>
+          </div>
+          <div class="szu-pn" id="szu-pn-3" aria-hidden="true">
+            <p class="szu-path szu-a" style="--n:0">
+              <svg class="i" viewbox="0 0 24 24"><path d={fold}></path></svg>{t.steps_s1_path}
+            </p>
+            <ul class="szu-rows">
+              {
+                rows.slice(0, 3).map((r, i) => (
+                  <li class="szu-a on" style={`--n:${i + 1}`}>
+                    <svg class="i fo" viewbox="0 0 24 24">
+                      <path d={fold} />
+                    </svg>
+                    <span class="nm">{r.name}</span>
+                    <span class="ct">
+                      {r.k} {t.hero_dialog_files}
+                    </span>
+                    <span class="done">
+                      <svg class="i" viewbox="0 0 24 24">
+                        <path d="m5 12 5 5L20 7" />
+                      </svg>
+                    </span>
+                  </li>
+                ))
+              }
+            </ul>
+            <div class="szu-foot szu-a" style="--n:4">
+              <span class="szu-ok"
+                ><svg class="i" viewbox="0 0 24 24"><path d="m5 12 5 5L20 7"></path></svg>{t.steps_s3_done}</span
+              >
+              <span class="szu-note">{t.steps_s3_kept}</span>
+            </div>
+          </div>
+        </div>
+        <span class="sxf-fold f2" aria-hidden="true"></span>
+        <div class="szu-cap" aria-live="polite">
+          {steps.map((s, i) => <p class={i === 0 ? 'is-on' : ''}>{s.text}</p>)}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<script is:inline>
+  (function () {
+    function init(s) {
+      if (s.__szu) return;
+      s.__szu = 1;
+      var bt = [].slice.call(s.querySelectorAll('.szu-step')),
+        pn = [].slice.call(s.querySelectorAll('.szu-pn')),
+        cp = [].slice.call(s.querySelectorAll('.szu-cap p')),
+        cur = 0;
+      var rm = window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+      function show(i) {
+        cur = i;
+        bt.forEach(function (b, k) {
+          var on = k === i;
+          b.classList.toggle('is-on', on);
+          b.setAttribute('aria-pressed', on ? 'true' : 'false');
+          var bar = b.querySelector('.bar i');
+          if (bar) {
+            bar.style.animation = 'none';
+            bar.offsetWidth;
+            bar.style.animation = '';
+          }
+        });
+        pn.forEach(function (p, k) {
+          p.classList.toggle('is-on', k === i);
+        });
+        cp.forEach(function (p, k) {
+          p.classList.toggle('is-on', k === i);
+        });
+      }
+      bt.forEach(function (b, k) {
+        b.addEventListener('click', function () {
+          s.classList.remove('is-auto');
+          show(k);
+        });
+        var bar = b.querySelector('.bar i');
+        if (bar)
+          bar.addEventListener('animationend', function () {
+            if (s.classList.contains('is-auto') && k === cur) show((cur + 1) % bt.length);
+          });
+      });
+      var st = s.querySelector('.szu-stage'),
+        x0 = null;
+      st.addEventListener('mouseenter', function () {
+        s.classList.add('is-hold');
+      });
+      st.addEventListener('mouseleave', function () {
+        s.classList.remove('is-hold');
+      });
+      st.addEventListener(
+        'touchstart',
+        function (e) {
+          x0 = e.touches[0].clientX;
+        },
+        { passive: true },
+      );
+      st.addEventListener('touchend', function (e) {
+        if (x0 === null) return;
+        var dx = e.changedTouches[0].clientX - x0;
+        x0 = null;
+        if (Math.abs(dx) > 40) {
+          s.classList.remove('is-auto');
+          show((cur + (dx < 0 ? 1 : bt.length - 1)) % bt.length);
+        }
+      });
+      if (!rm) {
+        s.classList.add('is-auto');
+        if ('IntersectionObserver' in window) {
+          new IntersectionObserver(
+            function (es) {
+              s.classList.toggle('is-run', es[0].isIntersecting && !document.hidden);
+            },
+            { threshold: 0.4 },
+          ).observe(s.querySelector('.szu-split'));
+          document.addEventListener('visibilitychange', function () {
+            if (document.hidden) s.classList.remove('is-run');
+          });
+        } else s.classList.add('is-run');
+      }
+      show(0);
+    }
+    function boot() {
+      document.querySelectorAll('.szu-how').forEach(init);
+    }
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
+    else boot();
+  })();
+</script>
