@@ -1,6 +1,6 @@
 ---
 /**
- * Community hub (/community/, /en/community/): hero with search, learning path, filterable article grid, CTA.
+ * Community hub (/community/, /en/community/): hero, filter bar (categories, search, levels), article grid, CTA.
  * Articles: src/content/community/<lang>/*.md. Texts: src/i18n/community.json.
  * Filtering runs in the browser on the cards' data-* attributes; state is kept in the URL (?cat=&level=&q=).
  */
@@ -12,12 +12,11 @@ import Card from '../components/community/Card.astro';
 import { dict, type Lang } from '../i18n';
 import data from '../i18n/community.json';
 import { CATEGORIES, LEVELS } from '../content.config';
-import { articles, CATEGORY_COLOR, HUB, readingTime, urlOf, type CommunityLang } from '../lib/community';
+import { articles, CATEGORY_COLOR, HUB, type CommunityLang } from '../lib/community';
 
 const { lang } = Astro.props as { lang: CommunityLang };
 const t = dict(data, lang as Lang);
 const list = await articles(lang);
-const path = [...list].sort((a, b) => a.data.order - b.data.order).slice(0, 4);
 const countCat = (c: string) => list.filter((a) => a.data.category === c).length;
 const countLvl = (l: string) => list.filter((a) => a.data.level === l).length;
 ---
@@ -48,14 +47,7 @@ const countLvl = (l: string) => list.filter((a) => a.data.level === l).length;
           <span class="sxf-blue">{t.hero_h_2}</span>
         </h1>
         <p class="sxf-lead" data-rv style="--dl:.12s">{t.hero_lead}</p>
-        <div class="scx-search" data-rv style="--dl:.18s">
-          <label class="sxf-sr" for="scx-q">{t.search_label}</label>
-          <svg class="i" viewBox="0 0 24 24" aria-hidden="true"
-            ><circle cx="11" cy="11" r="7"></circle><path d="m20 20-4-4"></path></svg
-          >
-          <input id="scx-q" type="search" placeholder={t.search_placeholder} autocomplete="off" data-q />
-        </div>
-        <ul class="scx-hero-pills" data-rv style="--dl:.24s">
+        <ul class="scx-hero-pills" data-rv style="--dl:.18s">
           <li>
             <b style="background:#2A73FF"
               ><svg class="i" viewBox="0 0 24 24" aria-hidden="true"
@@ -79,36 +71,6 @@ const countLvl = (l: string) => list.filter((a) => a.data.level === l).length;
       </div>
     </div>
   </section>
-
-  {
-    path.length > 1 && (
-      <section class="sxf scx scx-path" aria-labelledby="scx-path-h">
-        <div class="sxf-wrap">
-          <div class="scx-path-box" data-rv>
-            <div class="scx-path-head">
-              <div>
-                <p class="sxf-eyebrow">{t.start_kicker}</p>
-                <h2 id="scx-path-h">{t.start_h}</h2>
-              </div>
-              <p>{t.start_lead}</p>
-            </div>
-            <ol class="scx-path-list">
-              {path.map((a) => (
-                <li>
-                  <a href={urlOf(a)}>
-                    <strong>{a.data.title.split(':')[0]}</strong>
-                    <small>
-                      {t[`cat1_${a.data.category}`]} · {readingTime(a)} {t.min}
-                    </small>
-                  </a>
-                </li>
-              ))}
-            </ol>
-          </div>
-        </div>
-      </section>
-    )
-  }
 
   <section class="sxf scx scx-list" aria-label={t.kicker} data-hub>
     <div class="sxf-wrap">
@@ -134,6 +96,13 @@ const countLvl = (l: string) => list.filter((a) => a.data.level === l).length;
             ))
           }
         </fieldset>
+        <div class="scx-search">
+          <label class="sxf-sr" for="scx-q">{t.search_label}</label>
+          <svg class="i" viewBox="0 0 24 24" aria-hidden="true"
+            ><circle cx="11" cy="11" r="7"></circle><path d="m20 20-4-4"></path></svg
+          >
+          <input id="scx-q" type="search" placeholder={t.search_placeholder} autocomplete="off" data-q />
+        </div>
         <fieldset class="scx-chips scx-levels">
           <legend class="sxf-sr">{t.level_label}</legend>
           <button type="button" class="scx-fchip" data-level="" aria-pressed="true">{t.all_levels}</button>
@@ -187,7 +156,7 @@ const countLvl = (l: string) => list.filter((a) => a.data.level === l).length;
       return b.tagName === 'BUTTON';
     });
     var lvlBtns = [].slice.call(hub.querySelectorAll('button[data-level]'));
-    var q = document.querySelector('[data-q]');
+    var q = hub.querySelector('[data-q]');
     var count = hub.querySelector('[data-count]');
     var empty = hub.querySelector('[data-empty]');
     var state = { cat: '', level: '', q: '' };
@@ -248,10 +217,6 @@ const countLvl = (l: string) => list.filter((a) => a.data.level === l).length;
         tm = setTimeout(function () {
           state.q = q.value;
           apply(true);
-          if (state.q && hub.getBoundingClientRect().top > innerHeight * 0.6)
-            hub.scrollIntoView({
-              behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
-            });
         }, 180);
       });
     hub.querySelector('[data-reset]').addEventListener('click', function () {
