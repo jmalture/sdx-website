@@ -37,10 +37,10 @@ site on this stack moves to the profile.
   body arrive in sequence (tagged in the article's inline script); reduced motion shows everything.
 - Content column is the full 1180 px. The sticky TOC ("Inhalt") hangs in the left margin from 1740 px wide
   (rail 200 + gap 56 needs a 280 px margin); the active TOC entry follows the scroll.
-- From 768 to 1739 px the margin shows a slim outline instead: one bar per TOC entry (steps shorter), the
+- From 1260 to 1739 px the margin shows a slim outline instead: one bar per TOC entry (steps shorter), the
   current one blue. Hover fades the full TOC in as a panel (closed: `visibility: hidden`); keyboard users
-  reach it through a visually hidden "Inhalt" button that opens it on focus. It stays on screen at 1024.
-  Below 768 there is no outline.
+  reach it through a visually hidden "Inhalt" button that opens it on focus. The panel stays on screen at 1260.
+  Below 1260 there is no outline: the 40 px margin is the least that fits a 16 px bar with 12 px to the edge and to the text.
 - "Weiterlesen" and the CTA line up with the article above.
 - Reading time = words (intro + steps + body) / 50 per minute (`src/lib/community.ts`); card, byline and
   JSON-LD show the same number.

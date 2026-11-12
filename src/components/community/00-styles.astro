@@ -691,16 +691,17 @@
     }
   }
 
-  /* Medium widths: no room for the full TOC, so the margin keeps a slim outline (one bar per entry, the
-     current one blue). Hover or keyboard focus fades the full TOC in as a panel over it. */
-  @media (min-width: 768px) and (max-width: 1739.98px) {
+  /* Medium widths (1260-1739): no room for the full TOC, so the margin keeps a slim outline (one bar per entry, the
+     current one blue). Hover or keyboard focus fades the full TOC in as a panel over it. From 1260 the 40px margin
+     fits a 16px bar with 12px to the edge and to the text; below that there is no outline (C8). */
+  @media (min-width: 1260px) and (max-width: 1739.98px) {
     .scx-rail {
       display: block;
       position: absolute;
       z-index: 5;
       top: 70px;
       bottom: 100px;
-      left: max(6px, calc(50% - 590px - 40px));
+      left: max(12px, calc(50% - 590px - 40px));
       width: 22px;
     }
     /* keyboard: focusing this hidden button opens the panel, Tab then continues into its links */
