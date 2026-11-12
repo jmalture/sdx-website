@@ -22,7 +22,8 @@ export default defineConfig({
   integrations: [
     sitemap({
       i18n: { defaultLocale: 'de', locales: { de: 'de-DE', en: 'en-US', cs: 'cs-CZ' } },
-      filter: (page) => !page.includes('/api/'),
+      // /community/ is unlisted for now (no menu link, noindex): remove the second check to publish it
+      filter: (page) => !page.includes('/api/') && !page.includes('/community/'),
     }),
   ],
 });

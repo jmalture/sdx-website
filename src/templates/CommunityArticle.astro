@@ -102,6 +102,7 @@ const jsonLd = JSON.stringify([
   bodyClass="page elementor-template-full-width elementor-page"
 >
   <script type="application/ld+json" slot="head" set:html={jsonLd} />
+  <meta name="robots" content="noindex, follow" slot="head" />
   <SxfBase />
   <Styles />
   <div class="scx-progress" aria-hidden="true" data-progress><i></i></div>
