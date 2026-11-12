@@ -431,7 +431,7 @@
     transform: scaleX(var(--p, 0));
   }
   .scx-ahero {
-    padding: 140px 32px 56px;
+    padding: 70px 32px 56px;
     background: linear-gradient(180deg, #ffffff 0%, var(--tint) 100%);
   }
   /* every Community section shares the header's content width (1180px), so edges line up down the page */
@@ -455,9 +455,29 @@
     margin-right: 8px;
     color: #c2cad6;
   }
+  /* small links get a 32px+ tap area without changing the layout (padding taken back by the negative margin) */
   .scx .scx-crumbs a {
+    display: inline-block;
+    padding: 8px 0;
+    margin: -8px 0;
     color: var(--blue);
     text-decoration: none;
+  }
+  /* linked tag: 34px box, the pill drawn 3px inside it, so it looks like the plain tags */
+  .scx a.scx-tag {
+    position: relative;
+    z-index: 0;
+    padding: 7px 10px;
+    margin: -3px 0;
+    background: none;
+  }
+  .scx a.scx-tag::before {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    inset: 3px 0;
+    border-radius: 999px;
+    background: #eaf1ff;
   }
   .scx .scx-crumbs a:hover {
     text-decoration: underline;
@@ -528,8 +548,9 @@
     height: 16px;
     color: var(--blue);
   }
-  .scx-cover {
-    margin-top: 64px;
+  /* .scx prefix: .scx .scx-frame resets margin to 0 and would otherwise glue the cover to the byline */
+  .scx .scx-cover {
+    margin-top: 48px;
   }
 
   .scx-glance {
@@ -601,28 +622,28 @@
     padding: 64px 32px 100px;
     background: linear-gradient(180deg, var(--tint) 0%, #ffffff 240px);
   }
-  /* content takes the full 1180px; the TOC hangs in the left margin when the screen has room for it */
-  .scx-layout {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr);
-    align-items: start;
+  /* The TOC rail hangs in the left margin, from the breadcrumbs to the end of the body; the TOC sticks inside it.
+     Content keeps the full 1180px header column. Shown only where the margin fits rail + gap (200 + 56px). */
+  .scx-article {
+    position: relative;
+  }
+  .scx-rail {
+    display: none;
+  }
+  @media (min-width: 1740px) {
+    .scx-rail {
+      display: block;
+      position: absolute;
+      z-index: 2;
+      top: 70px;
+      bottom: 100px;
+      left: calc(50% - 590px - 56px - 200px);
+      width: 200px;
+    }
   }
   .scx-toc {
-    display: none;
     position: sticky;
     top: 110px;
-  }
-  @media (min-width: 1640px) {
-    /* box widened by 240px on both sides (padding keeps the right side empty): main stays on the 1180px header column */
-    .sxf .sxf-wrap.scx-layout {
-      max-width: 1660px;
-      padding-right: 240px;
-      grid-template-columns: 200px minmax(0, 1fr);
-      gap: 40px;
-    }
-    .scx-toc {
-      display: block;
-    }
   }
   .scx .scx-toc h2 {
     margin: 0 0 12px;
@@ -970,7 +991,7 @@
       grid-template-columns: minmax(0, 1fr);
     }
     .scx-ahero {
-      padding: 112px 20px 40px;
+      padding: 48px 20px 40px;
     }
     .scx-alead {
       font-size: 18px;

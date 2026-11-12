@@ -216,43 +216,7 @@ const jsonLd = JSON.stringify([
     }
 
     <div class="sxf scx scx-body">
-      <div class="sxf-wrap scx-layout">
-        <nav class="scx-toc" aria-labelledby="scx-toc-h" data-toc>
-          <h2 id="scx-toc-h">{t.toc}</h2>
-          <ol>
-            {
-              d.intro.length > 0 && (
-                <li>
-                  <a href="#intro">{t.toc_intro}</a>
-                </li>
-              )
-            }
-            {
-              d.steps.length > 0 && (
-                <li>
-                  <a href="#steps">{t.toc_steps}</a>
-                  <ol>
-                    {d.steps.map((s, i) => (
-                      <li>
-                        <a class="is-sub" href={`#${stepId(i)}`}>
-                          {i + 1}. {s.title}
-                        </a>
-                      </li>
-                    ))}
-                  </ol>
-                </li>
-              )
-            }
-            {
-              h2s.map((h) => (
-                <li>
-                  <a href={`#${h.slug}`}>{h.text}</a>
-                </li>
-              ))
-            }
-          </ol>
-        </nav>
-
+      <div class="sxf-wrap">
         <div class="scx-main">
           {
             d.intro.length > 0 && (
@@ -346,6 +310,43 @@ const jsonLd = JSON.stringify([
           </div>
         </div>
       </div>
+    </div>
+    <div class="scx scx-rail">
+      <nav class="scx-toc" aria-labelledby="scx-toc-h" data-toc>
+        <h2 id="scx-toc-h">{t.toc}</h2>
+        <ol>
+          {
+            d.intro.length > 0 && (
+              <li>
+                <a href="#intro">{t.toc_intro}</a>
+              </li>
+            )
+          }
+          {
+            d.steps.length > 0 && (
+              <li>
+                <a href="#steps">{t.toc_steps}</a>
+                <ol>
+                  {d.steps.map((s, i) => (
+                    <li>
+                      <a class="is-sub" href={`#${stepId(i)}`}>
+                        {i + 1}. {s.title}
+                      </a>
+                    </li>
+                  ))}
+                </ol>
+              </li>
+            )
+          }
+          {
+            h2s.map((h) => (
+              <li>
+                <a href={`#${h.slug}`}>{h.text}</a>
+              </li>
+            ))
+          }
+        </ol>
+      </nav>
     </div>
   </article>
 

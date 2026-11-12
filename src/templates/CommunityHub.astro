@@ -123,13 +123,15 @@ const countLvl = (l: string) => list.filter((a) => a.data.level === l).length;
       <p class="scx-count" aria-live="polite" data-count data-one={t.count_one} data-many={t.count_many}>
         {list.length === 1 ? t.count_one : t.count_many.replace('{n}', String(list.length))}
       </p>
-      <div class="scx-grid">
-        {list.map((a) => <Card a={a} lang={lang} h="h2" />)}
+      <div class="scx-results" data-results>
+        <div class="scx-grid">
+          {list.map((a) => <Card a={a} lang={lang} h="h2" />)}
+        </div>
+        <p class="scx-empty" data-empty hidden>
+          {t.empty}
+          <button type="button" data-reset>{t.empty_reset}</button>
+        </p>
       </div>
-      <p class="scx-empty" data-empty hidden>
-        {t.empty}
-        <button type="button" data-reset>{t.empty_reset}</button>
-      </p>
     </div>
   </section>
 
@@ -159,7 +161,25 @@ const countLvl = (l: string) => list.filter((a) => a.data.level === l).length;
     var q = hub.querySelector('[data-q]');
     var count = hub.querySelector('[data-count]');
     var empty = hub.querySelector('[data-empty]');
+    var results = hub.querySelector('[data-results]');
     var state = { cat: '', level: '', q: '' };
+    var calm = matchMedia('(prefers-reduced-motion: reduce)');
+
+    // The results area keeps the height of the full list, so filtering never shortens the page
+    // and the browser never has to pull the scroll position up (that pull was the "jump").
+    function reserve() {
+      results.style.minHeight = '';
+      var hidden = cards.filter(function (c) {
+        return c.hidden;
+      });
+      hidden.forEach(function (c) {
+        c.hidden = false;
+      });
+      results.style.minHeight = results.offsetHeight + 'px';
+      hidden.forEach(function (c) {
+        c.hidden = true;
+      });
+    }
 
     var p = new URLSearchParams(location.search);
     state.cat = p.get('cat') || '';
@@ -175,6 +195,7 @@ const countLvl = (l: string) => list.filter((a) => a.data.level === l).length;
     function apply(push) {
       var words = state.q.toLowerCase().trim().split(/\s+/).filter(Boolean);
       var n = 0;
+      var shown = [];
       cards.forEach(function (c) {
         var ok =
           (!state.cat || c.dataset.cat === state.cat) &&
@@ -182,9 +203,21 @@ const countLvl = (l: string) => list.filter((a) => a.data.level === l).length;
           words.every(function (w) {
             return c.dataset.search.indexOf(w) !== -1;
           });
+        if (ok && c.hidden) shown.push(c);
         c.hidden = !ok;
         if (ok) n++;
       });
+      // Leaving cards go at once (the click answers immediately); arriving ones ease in, staggered and capped.
+      if (push && !calm.matches)
+        shown.forEach(function (c, i) {
+          c.animate(
+            [
+              { opacity: 0, transform: 'translateY(14px)' },
+              { opacity: 1, transform: 'none' },
+            ],
+            { duration: 380, delay: Math.min(i, 4) * 50, easing: 'cubic-bezier(0.22, 1, 0.36, 1)', fill: 'backwards' },
+          );
+        });
       press(catBtns, 'data-cat', state.cat);
       press(lvlBtns, 'data-level', state.level);
       count.textContent = n === 1 ? count.dataset.one : count.dataset.many.replace('{n}', n);
@@ -225,5 +258,12 @@ const countLvl = (l: string) => list.filter((a) => a.data.level === l).length;
       apply(true);
     });
     apply(false);
+    reserve();
+    addEventListener('load', reserve);
+    var rt;
+    addEventListener('resize', function () {
+      clearTimeout(rt);
+      rt = setTimeout(reserve, 150);
+    });
   })();
 </script>

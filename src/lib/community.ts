@@ -43,9 +43,9 @@ export const FEATURE_NAME: Record<string, string> = {
   platform: 'SDX',
 };
 
-/** Plain words of an article: Markdown body plus the step texts (they are read too). */
+/** Plain words of an article: intro, Markdown body and the step texts (all of it is read). */
 export function wordsOf(a: Article): number {
-  const text = [a.body ?? '', ...a.data.steps.map((s) => `${s.title} ${s.text} ${s.tip ?? ''}`)]
+  const text = [...a.data.intro, a.body ?? '', ...a.data.steps.map((s) => `${s.title} ${s.text} ${s.tip ?? ''}`)]
     .join(' ')
     .replace(/```[\s\S]*?```/g, ' ')
     .replace(/!\[[^\]]*\]\([^)]*\)/g, ' ')
@@ -53,20 +53,17 @@ export function wordsOf(a: Article): number {
   return text.split(/\s+/).filter(Boolean).length;
 }
 
-/** Number of screenshots a reader has to look at (step images + images in the body). */
-export function imagesOf(a: Article): number {
-  return a.data.steps.filter((s) => s.image).length + ((a.body ?? '').match(/!\[/g) ?? []).length;
-}
-
 /**
- * Reading time in whole minutes, shown on cards and in the article byline.
+ * Reading time in whole minutes, shown on cards, in the byline and in the JSON-LD.
+ * 50 words per minute: this is learning material, read while clicking along in SDX, not skimmed.
+ * Screenshots are not counted separately; the slow pace already covers looking at them.
  */
-export function readingMinutes(words: number, images: number): number {
-  // TODO(human): turn words and screenshots into minutes (screenshots slow tutorial readers down).
-  return Math.max(1, Math.round(words / 200));
+export const WORDS_PER_MINUTE = 50;
+export function readingMinutes(words: number): number {
+  return Math.max(1, Math.round(words / WORDS_PER_MINUTE));
 }
 
-export const readingTime = (a: Article) => readingMinutes(wordsOf(a), imagesOf(a));
+export const readingTime = (a: Article) => readingMinutes(wordsOf(a));
 
 /** Up to `n` related articles: the ones named in `related` first, then same category, then newest. */
 export function relatedTo(a: Article, pool: Article[], n = 3): Article[] {

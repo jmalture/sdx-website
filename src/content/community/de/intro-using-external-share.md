@@ -20,8 +20,8 @@ requirements:
 cover: '/media/sxf-hero-share-page.webp'
 coverAlt: 'Freigabeseite mit Titel, Nachricht, QR-Code, Download- und Upload-Button vor einem eigenen Hintergrundbild'
 intro:
-  - "Ich schreibe heute über eine Funktion, die in fast jedem Projekt gebraucht wird: **Dateien mit Menschen teilen, die kein SDX-Konto haben.** Kunden, Gutachter, Investoren, die Druckerei. Bisher heißt das oft: Mailanhang, der zu groß ist, oder ein Transfer-Link, den man nicht mehr zurückholen kann."
-  - "Mit External Share bleibt die Datei in SDX. Ihr Empfänger bekommt eine eigene Freigabeseite, Sie entscheiden, was er darf und wie lange. In fünf Schritten zeige ich Ihnen, wie das geht, danach ein paar Situationen aus der Praxis."
+  - 'Ich schreibe heute über eine Funktion, die in fast jedem Projekt gebraucht wird: **Dateien mit Menschen teilen, die kein SDX-Konto haben.** Kunden, Gutachter, Investoren, die Druckerei. Bisher heißt das oft: Mailanhang, der zu groß ist, oder ein Transfer-Link, den man nicht mehr zurückholen kann.'
+  - 'Mit External Share bleibt die Datei in SDX. Ihr Empfänger bekommt eine eigene Freigabeseite, Sie entscheiden, was er darf und wie lange. In fünf Schritten zeige ich Ihnen, wie das geht, danach ein paar Situationen aus der Praxis.'
 steps:
   - title: 'Space oder Ordner öffnen und auf „Teilen“ klicken'
     text: 'Öffnen Sie den Space oder Ordner, den Sie freigeben möchten. In der Werkzeugleiste finden Sie das Teilen-Symbol. Sie können auch einzelne Dateien markieren und nur diese teilen. Geteilte Ordner bleiben synchron: was Sie später hinzufügen, sieht Ihr Empfänger automatisch.'

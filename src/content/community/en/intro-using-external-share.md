@@ -20,8 +20,8 @@ requirements:
 cover: '/media/sxf-hero-share-page.webp'
 coverAlt: 'Share page with title, message, QR code, download and upload buttons in front of a custom background image'
 intro:
-  - "Today I am writing about a feature almost every project needs: **sharing files with people who have no SDX account.** Clients, surveyors, investors, the print shop. Usually that means an attachment that is too large, or a transfer link you can never take back."
-  - "With External Share the file stays in SDX. Your recipient gets their own share page, and you decide what they may do and for how long. Five steps show you how, followed by a few situations from practice."
+  - 'Today I am writing about a feature almost every project needs: **sharing files with people who have no SDX account.** Clients, surveyors, investors, the print shop. Usually that means an attachment that is too large, or a transfer link you can never take back.'
+  - 'With External Share the file stays in SDX. Your recipient gets their own share page, and you decide what they may do and for how long. Five steps show you how, followed by a few situations from practice.'
 steps:
   - title: 'Open the space or folder and click "Share"'
     text: 'Open the space or folder you want to share. The share icon sits in the toolbar. You can also select single files and share only those. Shared folders stay in sync: whatever you add later, your recipient sees automatically.'

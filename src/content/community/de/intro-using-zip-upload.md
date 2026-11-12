@@ -20,8 +20,8 @@ requirements:
 cover: '/media/community/zip-dialog-preview.webp'
 coverAlt: 'Dialog „ZIP importieren“ mit Vorschau der Ordnerstruktur einer ZIP-Datei'
 intro:
-  - "Ich schreibe heute über eine kleine Funktion, die viel Klickarbeit spart: den **ZIP Upload.** Sie bekommen von einem Partner ein ZIP mit hundert Dateien in zwanzig Ordnern? Statt alles zu entpacken und Ordner für Ordner hochzuladen, importieren Sie die ZIP-Datei direkt. SDX legt die Ordner an und lädt die Dateien hinein."
-  - "Vier Schritte, danach ein paar Situationen, in denen das besonders hilft."
+  - 'Ich schreibe heute über eine kleine Funktion, die viel Klickarbeit spart: den **ZIP Upload.** Sie bekommen von einem Partner ein ZIP mit hundert Dateien in zwanzig Ordnern? Statt alles zu entpacken und Ordner für Ordner hochzuladen, importieren Sie die ZIP-Datei direkt. SDX legt die Ordner an und lädt die Dateien hinein.'
+  - 'Vier Schritte, danach ein paar Situationen, in denen das besonders hilft.'
 steps:
   - title: 'Ziel öffnen und „ZIP importieren“ wählen'
     text: 'Öffnen Sie den Space oder Ordner, in den der Inhalt soll. In der Werkzeugleiste finden Sie das Symbol „ZIP importieren“, direkt neben „Ordner anlegen“.'

@@ -20,8 +20,8 @@ requirements:
 cover: '/media/community/zip-dialog-preview.webp'
 coverAlt: 'Import ZIP dialog with a preview of the folder structure inside a ZIP file'
 intro:
-  - "Today I am writing about a small feature that saves a lot of clicking: **ZIP Upload.** A partner sends you a ZIP with a hundred files in twenty folders? Instead of unpacking it and uploading folder by folder, you import the ZIP file directly. SDX creates the folders and fills them."
-  - "Four steps, then a few situations where this helps most."
+  - 'Today I am writing about a small feature that saves a lot of clicking: **ZIP Upload.** A partner sends you a ZIP with a hundred files in twenty folders? Instead of unpacking it and uploading folder by folder, you import the ZIP file directly. SDX creates the folders and fills them.'
+  - 'Four steps, then a few situations where this helps most.'
 steps:
   - title: 'Open the target and choose "Import ZIP"'
     text: 'Open the space or folder the contents should go into. The "Import ZIP" icon sits in the toolbar, right next to "Create folder".'
