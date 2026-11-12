@@ -1,0 +1,263 @@
+---
+/**
+ * Community hub (/community/, /en/community/): hero with search, learning path, filterable article grid, CTA.
+ * Articles: src/content/community/<lang>/*.md. Texts: src/i18n/community.json.
+ * Filtering runs in the browser on the cards' data-* attributes; state is kept in the URL (?cat=&level=&q=).
+ */
+import '../styles/legacy-features.css';
+import Base from '../layouts/Base.astro';
+import SxfBase from '../components/preview/00-base.astro';
+import Styles from '../components/community/00-styles.astro';
+import Card from '../components/community/Card.astro';
+import { dict, type Lang } from '../i18n';
+import data from '../i18n/community.json';
+import { CATEGORIES, LEVELS } from '../content.config';
+import { articles, CATEGORY_COLOR, HUB, readingTime, urlOf, type CommunityLang } from '../lib/community';
+
+const { lang } = Astro.props as { lang: CommunityLang };
+const t = dict(data, lang as Lang);
+const list = await articles(lang);
+const path = [...list].sort((a, b) => a.data.order - b.data.order).slice(0, 4);
+const countCat = (c: string) => list.filter((a) => a.data.category === c).length;
+const countLvl = (l: string) => list.filter((a) => a.data.level === l).length;
+---
+
+<Base
+  lang={lang}
+  title={t.meta_title}
+  description={t.meta_description}
+  alternates={HUB}
+  bodyClass="page elementor-template-full-width elementor-page"
+>
+  <SxfBase />
+  <Styles />
+
+  <section class="sxf scx scx-hero" aria-labelledby="scx-h">
+    <div class="sxf-float" aria-hidden="true">
+      <span class="sxf-fold" style="--s:58px;--c:#FFA600;--r:-10deg;--d:7s;left:7%;top:30%"></span>
+      <span class="sxf-fold" style="--s:40px;--c:#C800FF;--r:12deg;--d:6s;left:14%;top:66%;opacity:.8"></span>
+      <span class="sxf-fold" style="--s:64px;--c:#00BFFF;--r:8deg;--d:8s;right:8%;top:26%"></span>
+      <span class="sxf-fold" style="--s:38px;--c:#22C55E;--r:-14deg;--d:6.5s;right:15%;top:68%;opacity:.8"></span>
+    </div>
+    <div class="sxf-wrap">
+      <div class="sxf-head">
+        <p class="sxf-eyebrow" data-rv>{t.kicker}</p>
+        <h1 class="sxf-h" id="scx-h" data-rv style="--dl:.06s">
+          {t.hero_h_1}
+          <span class="sxf-blue">{t.hero_h_2}</span>
+        </h1>
+        <p class="sxf-lead" data-rv style="--dl:.12s">{t.hero_lead}</p>
+        <div class="scx-search" data-rv style="--dl:.18s">
+          <label class="sxf-sr" for="scx-q">{t.search_label}</label>
+          <svg class="i" viewBox="0 0 24 24" aria-hidden="true"
+            ><circle cx="11" cy="11" r="7"></circle><path d="m20 20-4-4"></path></svg
+          >
+          <input id="scx-q" type="search" placeholder={t.search_placeholder} autocomplete="off" data-q />
+        </div>
+        <ul class="scx-hero-pills" data-rv style="--dl:.24s">
+          <li>
+            <b style="background:#2A73FF"
+              ><svg class="i" viewBox="0 0 24 24" aria-hidden="true"
+                ><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="m3 15 5-5 4 4 3-3 6 6"></path></svg
+              ></b
+            >{t.hero_pill_steps}
+          </li>
+          <li>
+            <b style="background:#22C55E"
+              ><svg class="i" viewBox="0 0 24 24" aria-hidden="true"
+                ><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg
+              ></b
+            >{t.hero_pill_time}
+          </li>
+          <li>
+            <b style="background:#FFA600"
+              ><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19V5l8 4 8-4v14l-8-4z"></path></svg></b
+            >{list.length === 1 ? t.count_one : t.count_many.replace('{n}', String(list.length))}
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  {
+    path.length > 1 && (
+      <section class="sxf scx scx-path" aria-labelledby="scx-path-h">
+        <div class="sxf-wrap">
+          <div class="scx-path-box" data-rv>
+            <div class="scx-path-head">
+              <div>
+                <p class="sxf-eyebrow">{t.start_kicker}</p>
+                <h2 id="scx-path-h">{t.start_h}</h2>
+              </div>
+              <p>{t.start_lead}</p>
+            </div>
+            <ol class="scx-path-list">
+              {path.map((a) => (
+                <li>
+                  <a href={urlOf(a)}>
+                    <strong>{a.data.title.split(':')[0]}</strong>
+                    <small>
+                      {t[`cat1_${a.data.category}`]} · {readingTime(a)} {t.min}
+                    </small>
+                  </a>
+                </li>
+              ))}
+            </ol>
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  <section class="sxf scx scx-list" aria-label={t.kicker} data-hub>
+    <div class="sxf-wrap">
+      <div class="scx-filters">
+        <fieldset class="scx-chips">
+          <legend class="sxf-sr">{t.filter_label}</legend>
+          <button type="button" class="scx-fchip" data-cat="" aria-pressed="true"
+            >{t.all}<span>{list.length}</span></button
+          >
+          {
+            CATEGORIES.map((c) => (
+              <button
+                type="button"
+                class:list={['scx-fchip', { 'is-empty': countCat(c) === 0 }]}
+                data-cat={c}
+                aria-pressed="false"
+                style={`--cat:${CATEGORY_COLOR[c]}`}
+              >
+                <i aria-hidden="true" />
+                {t[`cat_${c}`]}
+                <span>{countCat(c)}</span>
+              </button>
+            ))
+          }
+        </fieldset>
+        <fieldset class="scx-chips scx-levels">
+          <legend class="sxf-sr">{t.level_label}</legend>
+          <button type="button" class="scx-fchip" data-level="" aria-pressed="true">{t.all_levels}</button>
+          {
+            LEVELS.map((l) => (
+              <button
+                type="button"
+                class:list={['scx-fchip', { 'is-empty': countLvl(l) === 0 }]}
+                data-level={l}
+                aria-pressed="false"
+              >
+                {t[`lvl_${l}`]}
+              </button>
+            ))
+          }
+        </fieldset>
+      </div>
+      <p class="scx-count" aria-live="polite" data-count data-one={t.count_one} data-many={t.count_many}>
+        {list.length === 1 ? t.count_one : t.count_many.replace('{n}', String(list.length))}
+      </p>
+      <div class="scx-grid">
+        {list.map((a) => <Card a={a} lang={lang} h="h2" />)}
+      </div>
+      <p class="scx-empty" data-empty hidden>
+        {t.empty}
+        <button type="button" data-reset>{t.empty_reset}</button>
+      </p>
+    </div>
+  </section>
+
+  <section class="sxf scx scx-cta" aria-labelledby="scx-cta-h">
+    <div class="sxf-wrap">
+      <div class="scx-cta-box" data-rv>
+        <h2 id="scx-cta-h">{t.cta_h_1} <span>{t.cta_h_2}</span></h2>
+        <p>{t.cta_text}</p>
+        <a class="sxf-btn sxf-btn-p" href={t.cta_href}>
+          {t.cta_button}
+          <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<script is:inline>
+  (function () {
+    var hub = document.querySelector('[data-hub]');
+    if (!hub) return;
+    var cards = [].slice.call(hub.querySelectorAll('[data-card]'));
+    var catBtns = [].slice.call(hub.querySelectorAll('[data-cat]')).filter(function (b) {
+      return b.tagName === 'BUTTON';
+    });
+    var lvlBtns = [].slice.call(hub.querySelectorAll('button[data-level]'));
+    var q = document.querySelector('[data-q]');
+    var count = hub.querySelector('[data-count]');
+    var empty = hub.querySelector('[data-empty]');
+    var state = { cat: '', level: '', q: '' };
+
+    var p = new URLSearchParams(location.search);
+    state.cat = p.get('cat') || '';
+    state.level = p.get('level') || '';
+    state.q = p.get('q') || '';
+    if (q) q.value = state.q;
+
+    function press(btns, attr, val) {
+      btns.forEach(function (b) {
+        b.setAttribute('aria-pressed', String(b.getAttribute(attr) === val));
+      });
+    }
+    function apply(push) {
+      var words = state.q.toLowerCase().trim().split(/\s+/).filter(Boolean);
+      var n = 0;
+      cards.forEach(function (c) {
+        var ok =
+          (!state.cat || c.dataset.cat === state.cat) &&
+          (!state.level || c.dataset.level === state.level) &&
+          words.every(function (w) {
+            return c.dataset.search.indexOf(w) !== -1;
+          });
+        c.hidden = !ok;
+        if (ok) n++;
+      });
+      press(catBtns, 'data-cat', state.cat);
+      press(lvlBtns, 'data-level', state.level);
+      count.textContent = n === 1 ? count.dataset.one : count.dataset.many.replace('{n}', n);
+      empty.hidden = n !== 0;
+      if (push) {
+        var u = new URLSearchParams();
+        if (state.cat) u.set('cat', state.cat);
+        if (state.level) u.set('level', state.level);
+        if (state.q.trim()) u.set('q', state.q.trim());
+        var s = u.toString();
+        history.replaceState(null, '', location.pathname + (s ? '?' + s : '') + location.hash);
+      }
+    }
+    catBtns.forEach(function (b) {
+      b.addEventListener('click', function () {
+        state.cat = b.dataset.cat;
+        apply(true);
+      });
+    });
+    lvlBtns.forEach(function (b) {
+      b.addEventListener('click', function () {
+        state.level = b.dataset.level;
+        apply(true);
+      });
+    });
+    var tm;
+    if (q)
+      q.addEventListener('input', function () {
+        clearTimeout(tm);
+        tm = setTimeout(function () {
+          state.q = q.value;
+          apply(true);
+          if (state.q && hub.getBoundingClientRect().top > innerHeight * 0.6)
+            hub.scrollIntoView({
+              behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
+            });
+        }, 180);
+      });
+    hub.querySelector('[data-reset]').addEventListener('click', function () {
+      state = { cat: '', level: '', q: '' };
+      if (q) q.value = '';
+      apply(true);
+    });
+    apply(false);
+  })();
+</script>

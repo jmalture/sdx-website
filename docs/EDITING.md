@@ -63,6 +63,29 @@ a line is a line break inside a paragraph, an empty line starts a new paragraph,
 **Add a section.** Copy a section file, rename it (`05-new-thing.astro`), add it to the page's
 `index.astro`, and add its texts to the page JSON with a new prefix.
 
+## Community articles (/community/, /en/community/)
+
+One Markdown file per article and language: `src/content/community/de/<slug>.md` and
+`src/content/community/en/<slug>.md`. The same slug in both folders = translations of each other (hreflang).
+The URL is `/community/<slug>/` (DE) and `/en/community/<slug>/` (EN).
+
+**Write a new article:** copy an existing file, change the frontmatter, write the body.
+
+- `category`: `tutorial` | `knowledge` | `news` | `use-case`; `level`: `beginner` | `advanced` | `expert`.
+  A typo fails the build (schema in `src/content.config.ts`).
+- `audience`, `outcomes`, `requirements`: the three columns of the "Auf einen Blick" box.
+- `intro`: the opening paragraphs in your own voice ("Heute zeige ich Ihnen …"); `**bold**` works.
+- `steps`: title, text, optional `image` (`/media/community/<file>.webp`), `alt` and `tip`. Rendered as
+  numbered steps with zoomable screenshots, and as HowTo JSON-LD for Google.
+- Body (Markdown below the frontmatter): use cases, tips, FAQ. Every `## ` heading goes into the table of contents.
+- `related`: slugs shown under "Weiterlesen"; empty = same category first. `order`: position in "Hier starten".
+- `draft: true` hides an article.
+
+Reading time is calculated from the text and the number of screenshots (`src/lib/community.ts`).
+Screenshots come from sdx-dev1 (Sales Demo space, sidebar cropped, no client names), saved as WebP, max 1600 px wide.
+UI texts of the hub: `src/i18n/community.json`; layout: `src/templates/CommunityHub.astro`, `CommunityArticle.astro`,
+styles in `src/components/community/00-styles.astro`.
+
 ## Generated files (do not edit by hand)
 
 - `src/styles/legacy.css`, `legacy-share.css`, `legacy-features.css`, `legacy-audits.css`,

@@ -138,6 +138,7 @@ const langs = LANGS.filter((l) => alternates[l.code] && SWITCH_LANGS.includes(l.
                 </div>
               </div>
             </div>
+            <a class="sdxm-t sdxm-link" href={t.h_community_href}>Community</a>
           </nav>
           <style is:global>
             /* header: Features mega menu (2026-10-09). To add a feature: add an <li> card here and on /features/, bump .sdxm-n */
@@ -145,6 +146,9 @@ const langs = LANGS.filter((l) => alternates[l.code] && SWITCH_LANGS.includes(l.
               width: auto;
             }
             .sdxm {
+              display: flex;
+              align-items: center;
+              gap: 14px;
               font-family: Inter, sans-serif;
               -webkit-font-smoothing: antialiased;
             }
@@ -169,6 +173,10 @@ const langs = LANGS.filter((l) => alternates[l.code] && SWITCH_LANGS.includes(l.
               color: #787878;
               text-decoration: none;
               transition: color 0.2s ease;
+            }
+            .sdxm a.sdxm-link:hover,
+            .sdxm a.sdxm-link:focus-visible {
+              color: #2a73ff;
             }
             .sdxm-n {
               display: inline-flex;
@@ -598,6 +606,7 @@ const langs = LANGS.filter((l) => alternates[l.code] && SWITCH_LANGS.includes(l.
     <ul class="sx-side-main">
       <li style="--i:0"><a href={t.h_home_href}>{t.h_home}<i aria-hidden="true">→</i></a></li>
       <li style="--i:1"><a href={t.h_features_href}>Features<i aria-hidden="true">→</i></a></li>
+      <li style="--i:2"><a href={t.h_community_href}>Community<i aria-hidden="true">→</i></a></li>
     </ul>
     <ul class="sx-side-cards">
       <li style="--i:2">

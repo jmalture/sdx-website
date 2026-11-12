@@ -1,0 +1,458 @@
+---
+/**
+ * One Community article (/community/<slug>/, /en/community/<slug>/).
+ * Order: hero (crumbs, tags, title, lead, byline, cover) → at a glance → intro → steps → Markdown body → related → CTA.
+ * Content: src/content/community/<lang>/<slug>.md (schema in src/content.config.ts).
+ */
+import '../styles/legacy-features.css';
+import { render } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import SxfBase from '../components/preview/00-base.astro';
+import Styles from '../components/community/00-styles.astro';
+import Card from '../components/community/Card.astro';
+import { dict, type Lang } from '../i18n';
+import data from '../i18n/community.json';
+import {
+  articles,
+  CATEGORY_COLOR,
+  FEATURE_NAME,
+  FEATURE_URL,
+  fmtDate,
+  HUB,
+  readingTime,
+  relatedTo,
+  slugOf,
+  type Article,
+  type CommunityLang,
+} from '../lib/community';
+import { getEntry } from 'astro:content';
+
+const { entry } = Astro.props as { entry: Article };
+const lang = entry.id.split('/')[0] as CommunityLang;
+const t = dict(data, lang as Lang);
+const d = entry.data;
+const slug = slugOf(entry);
+const { Content, headings } = await render(entry);
+const pool = await articles(lang);
+const related = relatedTo(entry, pool);
+const minutes = readingTime(entry);
+
+/** Alternates: only languages where the same slug exists. */
+const alternates: Partial<Record<Lang, string>> = {};
+for (const l of ['de', 'en'] as CommunityLang[]) {
+  const other = await getEntry('community', `${l}/${slug}`);
+  if (other && !other.data.draft) alternates[l] = `${HUB[l]}${slug}/`;
+}
+
+const initials = d.author
+  .split(/\s+/)
+  .map((w) => w[0])
+  .join('')
+  .slice(0, 2)
+  .toUpperCase();
+/** **bold** in intro paragraphs; everything else is escaped by Astro. */
+const parts = (p: string) =>
+  p.split(/(\*\*[^*]+\*\*)/g).map((s) => ({ b: s.startsWith('**'), s: s.replace(/\*\*/g, '') }));
+const h2s = headings.filter((h) => h.depth === 2);
+const stepId = (i: number) => `step-${i + 1}`;
+const url = new URL(`${HUB[lang]}${slug}/`, Astro.site).href;
+
+const jsonLd = JSON.stringify([
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: d.title,
+    description: d.description,
+    datePublished: d.date.toISOString(),
+    dateModified: (d.updated ?? d.date).toISOString(),
+    author: { '@type': 'Organization', name: d.author },
+    publisher: { '@type': 'Organization', name: 'SDX · Jenomics GmbH' },
+    image: new URL(d.cover, Astro.site).href,
+    inLanguage: lang,
+    mainEntityOfPage: url,
+  },
+  ...(d.steps.length
+    ? [
+        {
+          '@context': 'https://schema.org',
+          '@type': 'HowTo',
+          name: d.title,
+          description: d.description,
+          totalTime: `PT${minutes}M`,
+          step: d.steps.map((s, i) => ({
+            '@type': 'HowToStep',
+            position: i + 1,
+            name: s.title,
+            text: s.text,
+            url: `${url}#${stepId(i)}`,
+            ...(s.image ? { image: new URL(s.image, Astro.site).href } : {}),
+          })),
+        },
+      ]
+    : []),
+]);
+---
+
+<Base
+  lang={lang}
+  title={`${d.title} | SDX Community`}
+  description={d.description}
+  alternates={alternates}
+  ogImage={d.cover}
+  bodyClass="page elementor-template-full-width elementor-page"
+>
+  <script type="application/ld+json" slot="head" set:html={jsonLd} />
+  <SxfBase />
+  <Styles />
+  <div class="scx-progress" aria-hidden="true" data-progress><i></i></div>
+
+  <article class="scx-article" style={`--cat:${CATEGORY_COLOR[d.category]}`}>
+    <header class="sxf scx scx-ahero">
+      <div class="sxf-float" aria-hidden="true">
+        <span class="sxf-fold" style="--s:46px;--c:#00BFFF;--r:10deg;--d:7s;right:6%;top:24%"></span>
+        <span class="sxf-fold" style="--s:30px;--c:#FFA600;--r:-12deg;--d:6s;right:12%;top:46%;opacity:.8"></span>
+      </div>
+      <div class="sxf-wrap">
+        <nav aria-label={t.breadcrumb}>
+          <ol class="scx-crumbs">
+            <li><a href={HUB[lang]}>Community</a></li>
+            <li><a href={`${HUB[lang]}?cat=${d.category}`}>{t[`cat_${d.category}`]}</a></li>
+          </ol>
+        </nav>
+        <p class="scx-atags">
+          <span class="scx-chip"><i aria-hidden="true"></i>{t[`cat1_${d.category}`]}</span>
+          {
+            d.feature && (
+              <a class="scx-tag" href={FEATURE_URL[d.feature][lang]}>
+                {FEATURE_NAME[d.feature]}
+              </a>
+            )
+          }
+          <span class="scx-chip">{t[`lvl_${d.level}`]}</span>
+        </p>
+        <h1 class="scx-atitle">{d.title}</h1>
+        <p class="scx-alead">{d.description}</p>
+        <div class="scx-byline">
+          <span class="scx-author"
+            ><b aria-hidden="true">{initials}</b><span
+              ><span class="sxf-sr">{t.by} </span>{d.author}{d.authorRole && <small>{d.authorRole}</small>}</span
+            ></span
+          >
+          <span
+            ><svg class="i" viewBox="0 0 24 24" aria-hidden="true"
+              ><rect x="3" y="5" width="18" height="16" rx="2"></rect><path d="M16 3v4M8 3v4M3 10h18"></path></svg
+            ><time datetime={d.date.toISOString().slice(0, 10)}>{fmtDate(d.date, lang as Lang)}</time></span
+          >
+          {
+            d.updated && (
+              <span>
+                {t.updated}{' '}
+                <time datetime={d.updated.toISOString().slice(0, 10)}>{fmtDate(d.updated, lang as Lang)}</time>
+              </span>
+            )
+          }
+          <span
+            ><svg class="i" viewBox="0 0 24 24" aria-hidden="true"
+              ><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg
+            >{minutes}
+            {t.min_read}</span
+          >
+          {
+            d.steps.length > 0 && (
+              <span>
+                <svg class="i" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M9 6h11M9 12h11M9 18h11M4 6h.01M4 12h.01M4 18h.01" />
+                </svg>
+                {d.steps.length} {t.steps}
+              </span>
+            )
+          }
+        </div>
+        <figure class="scx-frame scx-cover">
+          <img src={d.cover} alt={d.coverAlt} width="1600" height="1000" fetchpriority="high" decoding="async" />
+        </figure>
+      </div>
+    </header>
+
+    {
+      (d.audience.length > 0 || d.outcomes.length > 0 || d.requirements.length > 0) && (
+        <section class="sxf scx scx-glance" aria-label={t.glance_h}>
+          <div class="sxf-wrap">
+            <div class="scx-glance-box">
+              {[
+                [
+                  'audience',
+                  d.audience,
+                  'M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75',
+                ],
+                ['outcomes', d.outcomes, 'M22 10 12 5 2 10l10 5 10-5zM6 12v5c3 2 9 2 12 0v-5'],
+                [
+                  'requirements',
+                  d.requirements,
+                  'M9 11l3 3L22 4M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11',
+                ],
+              ]
+                .filter(([, items]) => (items as string[]).length > 0)
+                .map(([key, items, icon]) => (
+                  <div>
+                    <h2>
+                      <svg class="i" viewBox="0 0 24 24" aria-hidden="true">
+                        <path d={icon as string} />
+                      </svg>
+                      {t[`glance_${key}`]}
+                    </h2>
+                    <ul>
+                      {(items as string[]).map((x) => (
+                        <li>{x}</li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
+            </div>
+          </div>
+        </section>
+      )
+    }
+
+    <div class="sxf scx scx-body">
+      <div class="sxf-wrap scx-layout">
+        <nav class="scx-toc" aria-labelledby="scx-toc-h" data-toc>
+          <h2 id="scx-toc-h">{t.toc}</h2>
+          <ol>
+            {
+              d.intro.length > 0 && (
+                <li>
+                  <a href="#intro">{t.toc_intro}</a>
+                </li>
+              )
+            }
+            {
+              d.steps.length > 0 && (
+                <li>
+                  <a href="#steps">{t.toc_steps}</a>
+                  <ol>
+                    {d.steps.map((s, i) => (
+                      <li>
+                        <a class="is-sub" href={`#${stepId(i)}`}>
+                          {i + 1}. {s.title}
+                        </a>
+                      </li>
+                    ))}
+                  </ol>
+                </li>
+              )
+            }
+            {
+              h2s.map((h) => (
+                <li>
+                  <a href={`#${h.slug}`}>{h.text}</a>
+                </li>
+              ))
+            }
+          </ol>
+        </nav>
+
+        <div class="scx-main">
+          {
+            d.intro.length > 0 && (
+              <div class="scx-intro scx-sec" id="intro">
+                {d.intro.map((p) => (
+                  <p>{parts(p).map((x) => (x.b ? <strong>{x.s}</strong> : x.s))}</p>
+                ))}
+              </div>
+            )
+          }
+
+          {
+            d.steps.length > 0 && (
+              <section class="scx-sec" id="steps" aria-labelledby="steps-h">
+                <h2 class="scx-sec-h" id="steps-h">
+                  {t.steps_kicker}
+                </h2>
+                <ol class="scx-steps">
+                  {d.steps.map((s, i) => (
+                    <li class="scx-step" id={stepId(i)}>
+                      <span class="scx-step-n" aria-hidden="true">
+                        {i + 1}
+                      </span>
+                      <div>
+                        <p class="scx-step-of">
+                          {t.step} {i + 1} {t.of} {d.steps.length}
+                        </p>
+                        <h3>{s.title}</h3>
+                        <p class="scx-step-t">{s.text}</p>
+                        {s.image && (
+                          <button type="button" class="scx-zoom" data-zoom={s.image} data-alt={s.alt ?? ''}>
+                            <span class="sxf-sr">{t.zoom}: </span>
+                            <span class="scx-frame" style="display:block">
+                              <img
+                                src={s.image}
+                                alt={s.alt ?? ''}
+                                loading="lazy"
+                                decoding="async"
+                                width="1600"
+                                height="1100"
+                              />
+                            </span>
+                            <em aria-hidden="true">
+                              <svg class="i" viewBox="0 0 24 24" width="14" height="14">
+                                <circle cx="11" cy="11" r="7" />
+                                <path d="m20 20-4-4M11 8v6M8 11h6" />
+                              </svg>
+                              {t.zoom}
+                            </em>
+                          </button>
+                        )}
+                        {s.tip && (
+                          <p class="scx-tip">
+                            <b aria-hidden="true">
+                              <svg class="i" viewBox="0 0 24 24">
+                                <path d="M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12.7V17h8v-2.3A7 7 0 0 0 12 2z" />
+                              </svg>
+                            </b>
+                            <span>
+                              <strong>{t.tip}:</strong> {s.tip}
+                            </span>
+                          </p>
+                        )}
+                      </div>
+                    </li>
+                  ))}
+                </ol>
+              </section>
+            )
+          }
+
+          <div class="scx-prose">
+            <Content />
+          </div>
+
+          <div class="scx-afoot">
+            <a class="sxf-btn sxf-btn-s" href={HUB[lang]}>
+              <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 18l-6-6 6-6"></path></svg>
+              {t.back}
+            </a>
+            {
+              d.feature && (
+                <a class="sxf-btn sxf-btn-p" href={FEATURE_URL[d.feature][lang]}>
+                  {t.feature_link}: {FEATURE_NAME[d.feature]}
+                  <svg class="i" viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M5 12h14M13 6l6 6-6 6" />
+                  </svg>
+                </a>
+              )
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  {
+    related.length > 0 && (
+      <section class="sxf scx scx-related" aria-labelledby="scx-rel-h">
+        <div class="sxf-wrap">
+          <h2 id="scx-rel-h">{t.related_h}</h2>
+          <div class="scx-grid">
+            {related.map((a) => (
+              <Card a={a} lang={lang as Lang} />
+            ))}
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  <section class="sxf scx scx-cta" aria-labelledby="scx-cta-h">
+    <div class="sxf-wrap">
+      <div class="scx-cta-box">
+        <h2 id="scx-cta-h">{t.cta_h_1} <span>{t.cta_h_2}</span></h2>
+        <p>{t.cta_text}</p>
+        <a class="sxf-btn sxf-btn-p" href={t.cta_href}>{t.cta_button}</a>
+      </div>
+    </div>
+  </section>
+
+  <dialog class="scx-lb" aria-label={t.zoom} data-lb>
+    <img alt="" />
+    <button type="button" aria-label={t.close} data-lb-close>
+      <svg class="i" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"
+        ><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path></svg
+      >
+    </button>
+  </dialog>
+</Base>
+
+<script is:inline>
+  (function () {
+    // reading progress: scaleX of the bar, rAF-throttled, composite-only
+    var bar = document.querySelector('[data-progress]');
+    var art = document.querySelector('.scx-article');
+    var ticking = false;
+    function prog() {
+      ticking = false;
+      var r = art.getBoundingClientRect();
+      var total = r.height - innerHeight;
+      var p = total > 0 ? Math.min(1, Math.max(0, -r.top / total)) : 1;
+      bar.style.setProperty('--p', p.toFixed(4));
+    }
+    addEventListener(
+      'scroll',
+      function () {
+        if (!ticking) {
+          ticking = true;
+          requestAnimationFrame(prog);
+        }
+      },
+      { passive: true },
+    );
+    prog();
+
+    // table of contents: highlight the section in view
+    var links = [].slice.call(document.querySelectorAll('[data-toc] a'));
+    var targets = links
+      .map(function (a) {
+        return document.getElementById(decodeURIComponent(a.hash.slice(1)));
+      })
+      .filter(Boolean);
+    if ('IntersectionObserver' in window && targets.length) {
+      var current = null;
+      var io = new IntersectionObserver(
+        function (es) {
+          es.forEach(function (e) {
+            if (e.isIntersecting) current = e.target.id;
+          });
+          links.forEach(function (a) {
+            a.setAttribute('aria-current', String(a.hash.slice(1) === current));
+          });
+        },
+        { rootMargin: '-110px 0px -65% 0px' },
+      );
+      targets.forEach(function (t) {
+        io.observe(t);
+      });
+    }
+
+    // lightbox for step screenshots (native <dialog>: Esc, focus trap and return focus for free)
+    var lb = document.querySelector('[data-lb]');
+    var img = lb.querySelector('img');
+    var opener = null;
+    document.querySelectorAll('[data-zoom]').forEach(function (b) {
+      b.addEventListener('click', function () {
+        opener = b;
+        img.src = b.dataset.zoom;
+        img.alt = b.dataset.alt;
+        lb.showModal();
+      });
+    });
+    lb.querySelector('[data-lb-close]').addEventListener('click', function () {
+      lb.close();
+    });
+    lb.addEventListener('click', function (e) {
+      if (e.target === lb) lb.close();
+    });
+    lb.addEventListener('close', function () {
+      if (opener) opener.focus({ preventScroll: true });
+    });
+  })();
+</script>

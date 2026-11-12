@@ -1,0 +1,11 @@
+---
+/** /community/<slug>/ : one German article per file in src/content/community/de/. */
+import CommunityArticle from '../../templates/CommunityArticle.astro';
+import { articles, slugOf } from '../../lib/community';
+
+export async function getStaticPaths() {
+  return (await articles('de')).map((entry) => ({ params: { slug: slugOf(entry) }, props: { entry } }));
+}
+---
+
+<CommunityArticle entry={Astro.props.entry} />

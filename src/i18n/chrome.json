@@ -54,7 +54,10 @@
     "h_preview_href": "/preview/",
     "h_preview_desc": "Dateien ansehen, ohne sie herunterzuladen.",
     "footer_link_preview": "/preview/",
-    "footer_preview": "Preview"
+    "footer_preview": "Preview",
+    "h_community_href": "/community/",
+    "footer_link_community": "/community/",
+    "footer_community": "Community"
   },
   "en": {
     "h_menu_open": "Open features menu",
@@ -111,7 +114,10 @@
     "h_preview_href": "/en/preview/",
     "h_preview_desc": "View files without downloading them.",
     "footer_link_preview": "/en/preview/",
-    "footer_preview": "Preview"
+    "footer_preview": "Preview",
+    "h_community_href": "/en/community/",
+    "footer_link_community": "/en/community/",
+    "footer_community": "Community"
   },
   "cs": {
     "h_menu_open": "Otevřít menu funkcí",
@@ -168,6 +174,9 @@
     "h_preview_href": "/preview/",
     "h_preview_desc": "Zobrazte soubory bez stahování.",
     "footer_link_preview": "/preview/",
-    "footer_preview": "Preview"
+    "footer_preview": "Preview",
+    "h_community_href": "/en/community/",
+    "footer_link_community": "/en/community/",
+    "footer_community": "Community"
   }
 }

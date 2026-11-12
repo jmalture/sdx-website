@@ -1,0 +1,68 @@
+---
+/**
+ * Article card for the Community hub and "Weiterlesen". data-* attributes feed the client-side filter
+ * in templates/CommunityHub.astro. Styles: components/community/00-styles.astro (.scx-card).
+ */
+import { dict, type Lang } from '../../i18n';
+import data from '../../i18n/community.json';
+import { CATEGORY_COLOR, FEATURE_NAME, fmtDate, readingTime, slugOf, urlOf, type Article } from '../../lib/community';
+
+interface Props {
+  a: Article;
+  lang: Lang;
+  /** Heading level of the card title inside its section. */
+  h?: 'h2' | 'h3';
+}
+const { a, lang, h = 'h3' } = Astro.props;
+const t = dict(data, lang);
+const d = a.data;
+const H = h;
+const search = [
+  d.title,
+  d.description,
+  ...d.audience,
+  ...d.steps.map((s) => s.title),
+  FEATURE_NAME[d.feature ?? ''] ?? '',
+]
+  .join(' ')
+  .toLowerCase();
+---
+
+<article
+  class="scx-card"
+  data-card
+  data-cat={d.category}
+  data-level={d.level}
+  data-search={search}
+  data-slug={slugOf(a)}
+  style={`--cat:${CATEGORY_COLOR[d.category]}`}
+>
+  <a class="scx-card-img" href={urlOf(a)} tabindex="-1" aria-hidden="true">
+    <img src={d.cover} alt="" loading="lazy" decoding="async" width="800" height="500" />
+  </a>
+  <div class="scx-card-body">
+    <p class="scx-card-tags">
+      <span class="scx-chip"><i aria-hidden="true"></i>{t[`cat1_${d.category}`]}</span>
+      {d.feature && <span class="scx-tag">{FEATURE_NAME[d.feature]}</span>}
+    </p>
+    <H class="scx-card-h"><a href={urlOf(a)}>{d.title}</a></H>
+    <p class="scx-card-d">{d.description}</p>
+    <p class="scx-card-meta">
+      <span
+        ><svg class="i" viewBox="0 0 24 24" aria-hidden="true"
+          ><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg
+        >{readingTime(a)}
+        {t.min}</span
+      >
+      <span>{t[`lvl_${d.level}`]}</span>
+      {
+        d.steps.length > 0 && (
+          <span>
+            {d.steps.length} {t.steps}
+          </span>
+        )
+      }
+      <time datetime={d.date.toISOString().slice(0, 10)}>{fmtDate(d.date, lang)}</time>
+    </p>
+  </div>
+</article>
