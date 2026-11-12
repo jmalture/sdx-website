@@ -312,41 +312,45 @@ const jsonLd = JSON.stringify([
       </div>
     </div>
     <div class="scx scx-rail">
-      <nav class="scx-toc" aria-labelledby="scx-toc-h" data-toc>
-        <h2 id="scx-toc-h">{t.toc}</h2>
-        <ol>
-          {
-            d.intro.length > 0 && (
-              <li>
-                <a href="#intro">{t.toc_intro}</a>
-              </li>
-            )
-          }
-          {
-            d.steps.length > 0 && (
-              <li>
-                <a href="#steps">{t.toc_steps}</a>
-                <ol>
-                  {d.steps.map((s, i) => (
-                    <li>
-                      <a class="is-sub" href={`#${stepId(i)}`}>
-                        {i + 1}. {s.title}
-                      </a>
-                    </li>
-                  ))}
-                </ol>
-              </li>
-            )
-          }
-          {
-            h2s.map((h) => (
-              <li>
-                <a href={`#${h.slug}`}>{h.text}</a>
-              </li>
-            ))
-          }
-        </ol>
-      </nav>
+      <div class="scx-rail-stick">
+        <button type="button" class="scx-toc-open visually-hidden">{t.toc}</button>
+        <div class="scx-toc-mini" aria-hidden="true" data-toc-mini></div>
+        <nav class="scx-toc" aria-labelledby="scx-toc-h" data-toc>
+          <h2 id="scx-toc-h">{t.toc}</h2>
+          <ol>
+            {
+              d.intro.length > 0 && (
+                <li>
+                  <a href="#intro">{t.toc_intro}</a>
+                </li>
+              )
+            }
+            {
+              d.steps.length > 0 && (
+                <li>
+                  <a href="#steps">{t.toc_steps}</a>
+                  <ol>
+                    {d.steps.map((s, i) => (
+                      <li>
+                        <a class="is-sub" href={`#${stepId(i)}`}>
+                          {i + 1}. {s.title}
+                        </a>
+                      </li>
+                    ))}
+                  </ol>
+                </li>
+              )
+            }
+            {
+              h2s.map((h) => (
+                <li>
+                  <a href={`#${h.slug}`}>{h.text}</a>
+                </li>
+              ))
+            }
+          </ol>
+        </nav>
+      </div>
     </div>
   </article>
 
@@ -387,6 +391,37 @@ const jsonLd = JSON.stringify([
 
 <script is:inline>
   (function () {
+    // Staged reveals. Runs while the page parses, before the base observer (preview/00-base.astro) collects
+    // .sxf [data-rv] at DOMContentLoaded; tagging here also reaches the Markdown body, which has no attributes.
+    function rv(el, dl) {
+      if (!el) return;
+      el.setAttribute('data-rv', '');
+      el.style.setProperty('--dl', dl.toFixed(2) + 's');
+    }
+    function each(list, step, cap) {
+      [].forEach.call(list, function (el, i) {
+        rv(el, Math.min(i, cap) * step);
+      });
+    }
+    var hero = document.querySelector('.scx-ahero .sxf-wrap');
+    if (hero)
+      ['nav', '.scx-atags', '.scx-atitle', '.scx-alead', '.scx-byline', '.scx-cover'].forEach(function (sel, i) {
+        rv(hero.querySelector(sel), i * 0.06);
+      });
+    each(document.querySelectorAll('.scx-glance-box > div'), 0.08, 2);
+    rv(document.querySelector('.scx-intro'), 0);
+    rv(document.querySelector('#steps-h'), 0);
+    [].forEach.call(document.querySelectorAll('.scx-step'), function (st) {
+      ['.scx-step-n', '.scx-step-of', 'h3', '.scx-step-t', '.scx-zoom', '.scx-tip'].forEach(function (sel, i) {
+        rv(st.querySelector(sel), i * 0.05);
+      });
+    });
+    each(document.querySelectorAll('.scx-prose > *'), 0, 0);
+    each(document.querySelectorAll('.scx-afoot > *'), 0.06, 2);
+    rv(document.querySelector('#scx-rel-h'), 0);
+    each(document.querySelectorAll('.scx-related .scx-card'), 0.08, 2);
+    each(document.querySelectorAll('.scx-cta-box > *'), 0.08, 2);
+
     // reading progress: scaleX of the bar, rAF-throttled, composite-only
     var bar = document.querySelector('[data-progress]');
     var art = document.querySelector('.scx-article');
@@ -412,6 +447,16 @@ const jsonLd = JSON.stringify([
 
     // table of contents: highlight the section in view
     var links = [].slice.call(document.querySelectorAll('[data-toc] a'));
+    // slim outline for medium widths: one bar per TOC entry (hidden from assistive tech; the real TOC opens on hover/focus)
+    var mini = document.querySelector('[data-toc-mini]');
+    var minis = links.map(function (a) {
+      var m = document.createElement('a');
+      m.href = a.hash;
+      m.tabIndex = -1;
+      if (a.classList.contains('is-sub')) m.className = 'is-sub';
+      if (mini) mini.appendChild(m);
+      return m;
+    });
     var targets = links
       .map(function (a) {
         return document.getElementById(decodeURIComponent(a.hash.slice(1)));
@@ -424,7 +469,7 @@ const jsonLd = JSON.stringify([
           es.forEach(function (e) {
             if (e.isIntersecting) current = e.target.id;
           });
-          links.forEach(function (a) {
+          links.concat(minis).forEach(function (a) {
             a.setAttribute('aria-current', String(a.hash.slice(1) === current));
           });
         },

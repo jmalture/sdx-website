@@ -63,6 +63,47 @@
     height: auto;
   }
 
+  /* headings never end on a lone word: balance on the element that holds the text */
+  .scx h1,
+  .scx h2,
+  .scx h3 {
+    text-wrap: balance;
+  }
+
+  /* reading page: shorter, calmer reveals than the marketing pages (base: 26px, 0.8-0.9s) */
+  .sxf-js .scx-article [data-rv] {
+    translate: 0 16px;
+    transition:
+      opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1) var(--dl, 0s),
+      translate 0.7s cubic-bezier(0.22, 1, 0.36, 1) var(--dl, 0s);
+  }
+  .sxf-js .scx-article [data-rv].is-in {
+    translate: 0 0;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .sxf-js .scx-article [data-rv] {
+      translate: none;
+    }
+  }
+  /* revealed cards and buttons keep their hover transitions: the reveal's shorthand would otherwise replace them */
+  .sxf-js .sxf .scx-card[data-rv] {
+    transition:
+      opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1) var(--dl, 0s),
+      translate 0.7s cubic-bezier(0.22, 1, 0.36, 1) var(--dl, 0s),
+      transform 0.25s cubic-bezier(0.22, 1, 0.36, 1),
+      box-shadow 0.25s ease;
+  }
+  .sxf-js .sxf a.sxf-btn[data-rv] {
+    transition:
+      opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1) var(--dl, 0s),
+      translate 0.7s cubic-bezier(0.22, 1, 0.36, 1) var(--dl, 0s),
+      transform 0.2s ease,
+      box-shadow 0.2s ease,
+      background-color 0.2s ease,
+      border-color 0.2s ease,
+      color 0.2s ease;
+  }
+
   /* ---------- hub: hero ---------- */
   .scx-hero {
     padding: 150px 32px 72px;
@@ -554,7 +595,7 @@
   }
 
   .scx-glance {
-    padding: 24px 32px 0;
+    padding: 24px 32px;
     background: var(--tint);
   }
   .scx-glance-box {
@@ -630,6 +671,14 @@
   .scx-rail {
     display: none;
   }
+  .scx-rail-stick {
+    position: sticky;
+    top: 110px;
+  }
+  .scx-toc-mini,
+  .scx-toc-open {
+    display: none;
+  }
   @media (min-width: 1740px) {
     .scx-rail {
       display: block;
@@ -641,9 +690,83 @@
       width: 200px;
     }
   }
-  .scx-toc {
-    position: sticky;
-    top: 110px;
+
+  /* Medium widths: no room for the full TOC, so the margin keeps a slim outline (one bar per entry, the
+     current one blue). Hover or keyboard focus fades the full TOC in as a panel over it. */
+  @media (min-width: 768px) and (max-width: 1739.98px) {
+    .scx-rail {
+      display: block;
+      position: absolute;
+      z-index: 5;
+      top: 70px;
+      bottom: 100px;
+      left: max(6px, calc(50% - 590px - 40px));
+      width: 22px;
+    }
+    /* keyboard: focusing this hidden button opens the panel, Tab then continues into its links */
+    .scx .scx-toc-open {
+      display: block;
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip-path: inset(50%);
+      white-space: nowrap;
+    }
+    .scx-toc-mini {
+      display: grid;
+      gap: 2px;
+      padding: 6px 0;
+    }
+    .scx .scx-toc-mini a {
+      display: block;
+      padding: 5px 0;
+    }
+    .scx .scx-toc-mini a::before {
+      content: '';
+      display: block;
+      width: 16px;
+      height: 3px;
+      border-radius: 3px;
+      background: #c9d3e3;
+      transition:
+        background-color 0.2s ease,
+        width 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .scx .scx-toc-mini a.is-sub::before {
+      width: 10px;
+      margin-left: 6px;
+    }
+    .scx .scx-toc-mini a[aria-current='true']::before {
+      background: var(--blue);
+    }
+    .scx .scx-toc {
+      position: absolute;
+      top: -14px;
+      left: 0;
+      width: 280px;
+      max-height: calc(100vh - 140px);
+      overflow: auto;
+      padding: 16px 18px;
+      border-radius: 16px;
+      border: 1px solid var(--line);
+      background: #fff;
+      box-shadow: 0 24px 48px -20px rgba(18, 37, 92, 0.3);
+      opacity: 0;
+      translate: -6px 0;
+      visibility: hidden;
+      transition:
+        opacity 0.2s ease,
+        translate 0.25s cubic-bezier(0.22, 1, 0.36, 1),
+        visibility 0s linear 0.25s;
+    }
+    .scx-rail-stick:hover .scx-toc,
+    .scx-rail-stick:focus-within .scx-toc {
+      opacity: 1;
+      translate: 0 0;
+      visibility: visible;
+      transition-delay: 0s;
+    }
   }
   .scx .scx-toc h2 {
     margin: 0 0 12px;
@@ -1021,6 +1144,12 @@
     }
     .scx-cta-box {
       padding: 48px 24px;
+    }
+  }
+  /* very narrow phones: long German words ("importieren") otherwise end a card title alone */
+  @media (max-width: 360px) {
+    .scx .scx-card-h {
+      font-size: 18px;
     }
   }
   @media (prefers-reduced-motion: reduce) {
