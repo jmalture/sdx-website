@@ -434,8 +434,9 @@
     padding: 140px 32px 56px;
     background: linear-gradient(180deg, #ffffff 0%, var(--tint) 100%);
   }
-  .scx-ahero .sxf-wrap {
-    max-width: 1040px;
+  /* every Community section shares the header's content width (1180px), so edges line up down the page */
+  .sxf.scx .sxf-wrap {
+    max-width: 1180px;
   }
   .scx-crumbs {
     display: flex;
@@ -528,16 +529,12 @@
     color: var(--blue);
   }
   .scx-cover {
-    margin-top: 44px;
+    margin-top: 64px;
   }
 
   .scx-glance {
     padding: 24px 32px 0;
     background: var(--tint);
-  }
-  .scx-glance .sxf-wrap,
-  .scx-body .sxf-wrap {
-    max-width: 1040px;
   }
   .scx-glance-box {
     display: grid;
@@ -604,15 +601,28 @@
     padding: 64px 32px 100px;
     background: linear-gradient(180deg, var(--tint) 0%, #ffffff 240px);
   }
+  /* content takes the full 1180px; the TOC hangs in the left margin when the screen has room for it */
   .scx-layout {
     display: grid;
-    grid-template-columns: 220px minmax(0, 1fr);
-    gap: 56px;
+    grid-template-columns: minmax(0, 1fr);
     align-items: start;
   }
   .scx-toc {
+    display: none;
     position: sticky;
     top: 110px;
+  }
+  @media (min-width: 1640px) {
+    /* box widened by 240px on both sides (padding keeps the right side empty): main stays on the 1180px header column */
+    .sxf .sxf-wrap.scx-layout {
+      max-width: 1660px;
+      padding-right: 240px;
+      grid-template-columns: 200px minmax(0, 1fr);
+      gap: 40px;
+    }
+    .scx-toc {
+      display: block;
+    }
   }
   .scx .scx-toc h2 {
     margin: 0 0 12px;
@@ -655,7 +665,6 @@
   }
   .scx-main {
     min-width: 0;
-    max-width: 740px;
   }
   .scx-intro {
     padding-left: 22px;
@@ -932,15 +941,6 @@
   @media (max-width: 1024px) {
     .scx-grid {
       grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-    .scx-layout {
-      grid-template-columns: minmax(0, 1fr);
-    }
-    .scx-toc {
-      display: none;
-    }
-    .scx-main {
-      max-width: none;
     }
   }
   @media (max-width: 767px) {
